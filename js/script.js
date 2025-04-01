@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load saved wallpaper if exists
     loadSavedWallpaper();
+    
+    // Setup context menu for creating files
+    setupContextMenu();
 });
 
 // Update the taskbar clock
@@ -230,75 +233,17 @@ function positionIcons(icons) {
     }
 }
 
-// Set default icon position in a natural layout
+// Set default icon position in a clean layout
 function setDefaultIconPosition(icon, index = 0) {
     const margin = 20;
     const iconWidth = 80;
-    const iconSpacingX = 120; // More horizontal space between icons
-    const iconSpacingY = 100; // Vertical spacing between icons
+    const iconHeight = 100;
     
-    // Determine number of icons per column based on window height
-    const iconsPerColumn = Math.floor((window.innerHeight - 40 - margin) / iconSpacingY);
+    // Position icons vertically along the left side
+    const left = margin;
+    const top = margin + (index * (iconHeight + 10));
     
-    // Calculate base position
-    const column = Math.floor(index / iconsPerColumn);
-    const row = index % iconsPerColumn;
-    
-    // Try positions until we find a non-overlapping one
-    let found = false;
-    let left = 0;
-    let top = 0;
-    let attempts = 0;
-    const maxAttempts = 10;
-    const minDistance = 60; // Minimum distance between icon centers
-    
-    const allIcons = document.querySelectorAll('.icon');
-    
-    while (!found && attempts < maxAttempts) {
-        // Generate a position with randomness
-        const randomOffsetX = Math.floor(Math.random() * 30) - 15; // -15 to +15 pixels
-        const randomOffsetY = Math.floor(Math.random() * 30) - 15; // -15 to +15 pixels
-        
-        left = margin + (column * iconSpacingX) + randomOffsetX;
-        top = margin + (row * iconSpacingY) + randomOffsetY;
-        
-        // Check if this position overlaps with any existing icon
-        let overlapping = false;
-        
-        for (let i = 0; i < allIcons.length; i++) {
-            const otherIcon = allIcons[i];
-            if (otherIcon !== icon && otherIcon.style.left && otherIcon.style.top) {
-                const otherLeft = parseInt(otherIcon.style.left);
-                const otherTop = parseInt(otherIcon.style.top);
-                
-                // Calculate distance between icon centers
-                const distance = Math.sqrt(
-                    Math.pow(left - otherLeft, 2) + 
-                    Math.pow(top - otherTop, 2)
-                );
-                
-                if (distance < minDistance) {
-                    overlapping = true;
-                    break;
-                }
-            }
-        }
-        
-        if (!overlapping) {
-            found = true;
-        }
-        
-        attempts++;
-    }
-    
-    // Keep within bounds
-    const maxLeft = window.innerWidth - iconWidth - margin;
-    const maxTop = window.innerHeight - 40 - iconWidth - margin;
-    
-    left = Math.max(margin, Math.min(left, maxLeft));
-    top = Math.max(margin, Math.min(top, maxTop));
-    
-    // Apply position
+    // Apply position directly
     icon.style.left = `${left}px`;
     icon.style.top = `${top}px`;
     
@@ -429,6 +374,9 @@ function initDesktopIcons() {
             lastTap = currentTime;
         });
     });
+    
+    // Load user-created files from localStorage
+    loadUserFiles();
 }
 
 // Open a window
@@ -436,6 +384,14 @@ function openWindow(windowType) {
     const window = document.getElementById(`${windowType}-window`);
     
     if (window) {
+        // Get the title from the calling icon if clicked from an icon
+        const callingIcon = document.querySelector('.icon.selected');
+        let customTitle = '';
+        
+        if (callingIcon && callingIcon.getAttribute('data-window') === windowType) {
+            customTitle = callingIcon.querySelector('.icon-text').textContent;
+        }
+        
         // Reset all windows first
         document.querySelectorAll('.window').forEach(w => {
             w.classList.remove('active');
@@ -452,6 +408,18 @@ function openWindow(windowType) {
         window.style.left = '0';
         window.classList.add('fullscreen', 'active');
         
+        // Update window title if we have a custom title
+        if (customTitle) {
+            window.querySelector('.window-title span').textContent = customTitle;
+        } else {
+            // Reset to default title
+            if (windowType === 'notepad') {
+                window.querySelector('.window-title span').textContent = 'Notepad';
+            } else if (windowType === 'folder') {
+                window.querySelector('.window-title span').textContent = 'Folder';
+            }
+        }
+        
         // Add to taskbar if not already there
         addToTaskbar(windowType);
         
@@ -459,11 +427,131 @@ function openWindow(windowType) {
         if (windowType === 'blockchain') {
             // Initialize blockchain if this is the blockchain window
             initBlockchain();
+        } else if (windowType === 'notepad') {
+            // Clear notepad content or load from storage
+            const textarea = window.querySelector('.notepad-textarea');
+            
+            // If we're opening a specific file, load its content
+            if (customTitle) {
+                const fileContent = localStorage.getItem(`file_${customTitle}`);
+                textarea.value = fileContent || '';
+                
+                // Set up auto-save
+                textarea.oninput = function() {
+                    localStorage.setItem(`file_${customTitle}`, textarea.value);
+                };
+            } else {
+                textarea.value = '';
+                textarea.oninput = null;
+            }
+        } else if (windowType === 'folder') {
+            // Clear folder content
+            const folderContent = window.querySelector('.folder-content');
+            folderContent.innerHTML = '';
+            
+            // Add folder items as demo
+            if (customTitle) {
+                const folderItems = localStorage.getItem(`folder_${customTitle}`);
+                
+                if (folderItems) {
+                    const items = JSON.parse(folderItems);
+                    
+                    items.forEach(item => {
+                        addFolderItem(folderContent, item.name, item.type);
+                    });
+                } else {
+                    // First time opening this folder, add some demo items
+                    const demoItems = [
+                        { name: 'Document.txt', type: 'file' },
+                        { name: 'Images', type: 'folder' },
+                        { name: 'Data.csv', type: 'file' }
+                    ];
+                    
+                    demoItems.forEach(item => {
+                        addFolderItem(folderContent, item.name, item.type);
+                    });
+                    
+                    // Save demo items
+                    localStorage.setItem(`folder_${customTitle}`, JSON.stringify(demoItems));
+                }
+            }
         }
         
         // Play sound effect (optional)
         playSound('open');
     }
+}
+
+// Add an item to a folder
+function addFolderItem(folderContent, name, type) {
+    const item = document.createElement('div');
+    item.className = 'folder-item';
+    
+    let iconClass = type === 'folder' ? 'fas fa-folder' : 'fas fa-file-alt';
+    
+    item.innerHTML = `
+        <i class="${iconClass}"></i>
+        <div class="folder-item-name">${name}</div>
+    `;
+    
+    // Double click to open
+    item.addEventListener('dblclick', function() {
+        if (type === 'folder') {
+            // Create or open subfolder
+            const folderIcon = document.createElement('div');
+            folderIcon.className = 'icon';
+            folderIcon.setAttribute('data-window', 'folder');
+            
+            folderIcon.innerHTML = `
+                <div class="icon-img">
+                    <i class="fas fa-folder"></i>
+                </div>
+                <div class="icon-text">${name}</div>
+            `;
+            
+            // Add to desktop (temporarily, will be removed when closed)
+            document.querySelector('.desktop').appendChild(folderIcon);
+            
+            // Open the folder
+            openWindow('folder');
+            
+            // Set the folder title to match this folder
+            document.querySelector('#folder-window .window-title span').textContent = name;
+            
+            // Remove the temporary icon
+            setTimeout(() => {
+                folderIcon.remove();
+            }, 100);
+        } else if (type === 'file') {
+            // Create or open file
+            const fileIcon = document.createElement('div');
+            fileIcon.className = 'icon';
+            fileIcon.setAttribute('data-window', 'notepad');
+            
+            fileIcon.innerHTML = `
+                <div class="icon-img">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="icon-text">${name}</div>
+            `;
+            
+            // Add to desktop (temporarily, will be removed when closed)
+            document.querySelector('.desktop').appendChild(fileIcon);
+            
+            // Open the file
+            openWindow('notepad');
+            
+            // Set the file title
+            document.querySelector('#notepad-window .window-title span').textContent = name;
+            
+            // Remove the temporary icon
+            setTimeout(() => {
+                fileIcon.remove();
+            }, 100);
+        }
+    });
+    
+    folderContent.appendChild(item);
 }
 
 // Toggle fullscreen mode
@@ -493,8 +581,9 @@ function toggleFullscreen(window) {
 
 // Close a window
 function closeWindow(window) {
+    // Hide the window
     window.style.display = 'none';
-    window.classList.remove('fullscreen');
+    window.classList.remove('active', 'fullscreen');
     
     // Remove from taskbar
     const windowId = window.id;
@@ -505,9 +594,10 @@ function closeWindow(window) {
         resetBlockchain();
     }
     
+    // Remove from taskbar
     removeFromTaskbar(windowType);
     
-    // Add sound effect (optional)
+    // Play sound effect
     playSound('close');
 }
 
@@ -573,18 +663,18 @@ function addToTaskbar(windowType) {
     
     taskbarItem.innerHTML = `<i class="${iconClass}"></i> ${title}`;
     
-    // Add click event to toggle window
+    // Add click event to toggle window visibility
     taskbarItem.addEventListener('click', function() {
         const window = document.getElementById(`${windowType}-window`);
         
         if (window.style.display === 'none') {
-            // Use openWindow to show the window
+            // Show window if it's hidden
             openWindow(windowType);
         } else if (window.classList.contains('active')) {
             // Minimize window if it's active
             minimizeWindow(window);
         } else {
-            // Activate window if it's not active
+            // Activate window if it's not active but visible
             openWindow(windowType);
         }
     });
@@ -850,37 +940,44 @@ function setupStartButton() {
         
         // Reset icon positions to default
         resetIconPositions();
+        
+        // Play startup sound
+        playSound('startup');
     });
 }
 
-// Reset all icon positions with an organic, natural arrangement
+// Reset icon positions to a clean grid layout
 function resetIconPositions() {
-    const icons = document.querySelectorAll('.icon');
-    
     // Clear saved positions
     localStorage.removeItem('iconPositions');
     
-    // Set new positions with staggered animation
+    // Get all icons
+    const icons = document.querySelectorAll('.icon');
+    
+    // Disable transitions temporarily
+    icons.forEach(icon => icon.style.transition = 'none');
+    
+    // Force a reflow
+    document.body.offsetHeight;
+    
+    // Position each icon with a slight delay
     icons.forEach((icon, index) => {
-        // Add a small animation effect
-        icon.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        // Reset any scaling/opacity
+        icon.style.transform = 'scale(0)';
         icon.style.opacity = '0';
-        icon.style.transform = 'scale(0.8) translateY(20px)';
         
-        // Stagger the animations
         setTimeout(() => {
-            setDefaultIconPosition(icon, index);
+            // Reset transform and opacity with transition
+            icon.style.transition = 'all 0.3s ease-out';
+            icon.style.transform = 'scale(1)';
             icon.style.opacity = '1';
-            icon.style.transform = '';
-        }, 100 + (index * 80)); // Staggered with longer delays
-        
-        // Remove transition after animation completes
-        setTimeout(() => {
-            icon.style.transition = '';
-        }, 600 + (index * 80));
+            
+            // Set to default position
+            setDefaultIconPosition(icon, index);
+        }, index * 100); // Stagger the animations
     });
     
-    // Play sound effect (optional)
+    // Play reset sound
     playSound('reset');
 }
 
@@ -1177,4 +1274,330 @@ function setupWindowResizing(window) {
             }
         }
     });
+}
+
+// Setup right-click context menu
+function setupContextMenu() {
+    const desktop = document.querySelector('.desktop');
+    
+    // Create context menu element
+    const contextMenu = document.createElement('div');
+    contextMenu.className = 'context-menu';
+    contextMenu.innerHTML = `
+        <div class="context-menu-item" data-action="newfile">
+            <i class="fas fa-file"></i> New Text File
+        </div>
+        <div class="context-menu-item" data-action="newfolder">
+            <i class="fas fa-folder"></i> New Folder
+        </div>
+        <div class="context-menu-item" data-action="refresh">
+            <i class="fas fa-sync"></i> Refresh
+        </div>
+    `;
+    
+    document.body.appendChild(contextMenu);
+    
+    // Show context menu on right click
+    desktop.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        
+        // Position the menu at the mouse position
+        contextMenu.style.left = `${e.clientX}px`;
+        contextMenu.style.top = `${e.clientY}px`;
+        contextMenu.style.display = 'block';
+    });
+    
+    // Hide context menu when clicking elsewhere
+    document.addEventListener('click', function() {
+        contextMenu.style.display = 'none';
+    });
+    
+    // Handle context menu actions
+    contextMenu.addEventListener('click', function(e) {
+        const action = e.target.closest('.context-menu-item').dataset.action;
+        
+        switch(action) {
+            case 'newfile':
+                createNewFile();
+                break;
+            case 'newfolder':
+                createNewFolder();
+                break;
+            case 'refresh':
+                resetIconPositions();
+                break;
+        }
+        
+        // Hide menu after action
+        contextMenu.style.display = 'none';
+    });
+}
+
+// Create a new text file
+function createNewFile() {
+    const fileName = prompt('Enter file name:', 'New File.txt');
+    if (!fileName) return;
+    
+    // Create a new icon
+    createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
+}
+
+// Create a new folder
+function createNewFolder() {
+    const folderName = prompt('Enter folder name:', 'New Folder');
+    if (!folderName) return;
+    
+    // Create a new icon
+    createNewIcon(folderName, 'fas fa-folder', 'folder');
+}
+
+// Create a new icon on the desktop
+function createNewIcon(name, iconClass, windowType) {
+    const desktop = document.querySelector('.desktop');
+    
+    // Create the icon element
+    const newIcon = document.createElement('div');
+    newIcon.className = 'icon';
+    newIcon.setAttribute('data-window', windowType);
+    
+    newIcon.innerHTML = `
+        <div class="icon-img">
+            <i class="${iconClass}"></i>
+        </div>
+        <div class="icon-text">${name}</div>
+    `;
+    
+    // Add to desktop
+    desktop.appendChild(newIcon);
+    
+    // Position the new icon
+    const icons = document.querySelectorAll('.icon');
+    setDefaultIconPosition(newIcon, icons.length - 1);
+    
+    // Make the new icon draggable
+    setupIconDraggable(newIcon);
+    
+    // Add double-click functionality
+    newIcon.addEventListener('dblclick', function() {
+        const windowType = this.getAttribute('data-window');
+        openWindow(windowType);
+    });
+    
+    // Save user files to localStorage
+    saveUserFiles();
+    
+    // Play sound effect
+    playSound('create');
+}
+
+// Setup a single icon to be draggable
+function setupIconDraggable(icon) {
+    let isDragging = false;
+    let startX, startY, startLeft, startTop;
+    let hasMoved = false;
+    
+    // Touch events for mobile
+    icon.addEventListener('touchstart', handleStart, { passive: false });
+    icon.addEventListener('touchmove', handleMove, { passive: false });
+    icon.addEventListener('touchend', handleEnd);
+    
+    // Mouse events for desktop
+    icon.addEventListener('mousedown', handleStart);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleEnd);
+    
+    function handleStart(e) {
+        // Prevent event conflicts
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+        } else {
+            startX = e.clientX;
+            startY = e.clientY;
+        }
+        
+        // Get current position
+        const rect = icon.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+        
+        isDragging = true;
+        hasMoved = false;
+        icon.style.zIndex = 10; // Bring to front while dragging
+        
+        // Remove active class from all icons
+        document.querySelectorAll('.icon').forEach(i => {
+            i.classList.remove('active', 'selected', 'dragging');
+        });
+        
+        // Add active class for dragging and selected class for visual
+        icon.classList.add('active', 'selected');
+    }
+    
+    function handleMove(e) {
+        if (!isDragging) return;
+        
+        let clientX, clientY;
+        
+        if (e.type === 'touchmove') {
+            e.preventDefault();
+            const touch = e.touches[0];
+            clientX = touch.clientX;
+            clientY = touch.clientY;
+        } else if (e.type === 'mousemove') {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        } else {
+            return;
+        }
+        
+        // Check if actually moved (more than 5px to account for small movements)
+        const deltaX = Math.abs(clientX - startX);
+        const deltaY = Math.abs(clientY - startY);
+        
+        if (deltaX > 5 || deltaY > 5) {
+            hasMoved = true;
+            
+            // Add dragging class once we're sure the user is dragging
+            if (!icon.classList.contains('dragging')) {
+                icon.classList.add('dragging');
+            }
+            
+            // Calculate new position
+            const moveX = clientX - startX;
+            const moveY = clientY - startY;
+            
+            const newLeft = startLeft + moveX;
+            const newTop = startTop + moveY;
+            
+            // Keep within desktop bounds
+            const desktop = document.querySelector('.desktop');
+            const desktopRect = desktop.getBoundingClientRect();
+            const iconRect = icon.getBoundingClientRect();
+            
+            const maxLeft = desktopRect.width - iconRect.width;
+            const maxTop = desktopRect.height - iconRect.height - 40; // 40px for taskbar
+            
+            // Apply bounds
+            const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
+            const boundedTop = Math.max(0, Math.min(newTop, maxTop));
+            
+            // Check if position would overlap with another icon
+            let isOverlapping = false;
+            const minDistance = 60; // Minimum distance between icon centers
+            
+            document.querySelectorAll('.icon').forEach(otherIcon => {
+                if (otherIcon !== icon) {
+                    const otherLeft = parseInt(otherIcon.style.left || 0);
+                    const otherTop = parseInt(otherIcon.style.top || 0);
+                    
+                    // Calculate distance between icon centers
+                    const distance = Math.sqrt(
+                        Math.pow(boundedLeft - otherLeft, 2) + 
+                        Math.pow(boundedTop - otherTop, 2)
+                    );
+                    
+                    if (distance < minDistance) {
+                        isOverlapping = true;
+                    }
+                }
+            });
+            
+            // Only apply new position if not overlapping
+            if (!isOverlapping) {
+                // Apply bounded position
+                icon.style.left = `${boundedLeft}px`;
+                icon.style.top = `${boundedTop}px`;
+            }
+        }
+    }
+    
+    function handleEnd() {
+        if (isDragging) {
+            isDragging = false;
+            icon.style.zIndex = 1;
+            
+            // Remove dragging class
+            icon.classList.remove('dragging');
+            
+            // Only save position if actually moved
+            if (hasMoved) {
+                saveIconPosition(icon);
+                // If moved, remove the selected class
+                icon.classList.remove('selected');
+            }
+            // If not moved, keep the selected class
+        }
+    }
+}
+
+// Save user created files to localStorage
+function saveUserFiles() {
+    const userFiles = [];
+    
+    // Collect all user-created icons (excluding default ones)
+    document.querySelectorAll('.icon').forEach(icon => {
+        // Get file data
+        const windowType = icon.getAttribute('data-window');
+        const name = icon.querySelector('.icon-text').textContent;
+        const iconClass = icon.querySelector('.icon-img i').className;
+        const left = icon.style.left;
+        const top = icon.style.top;
+        
+        // Only save user-created files
+        if (windowType === 'notepad' || windowType === 'folder') {
+            userFiles.push({
+                name,
+                iconClass,
+                windowType,
+                position: { left, top }
+            });
+        }
+    });
+    
+    // Save to localStorage
+    localStorage.setItem('userFiles', JSON.stringify(userFiles));
+}
+
+// Load user files from localStorage
+function loadUserFiles() {
+    const savedFiles = localStorage.getItem('userFiles');
+    
+    if (savedFiles) {
+        const files = JSON.parse(savedFiles);
+        
+        files.forEach(file => {
+            // Create the icon element
+            const newIcon = document.createElement('div');
+            newIcon.className = 'icon';
+            newIcon.setAttribute('data-window', file.windowType);
+            
+            newIcon.innerHTML = `
+                <div class="icon-img">
+                    <i class="${file.iconClass}"></i>
+                </div>
+                <div class="icon-text">${file.name}</div>
+            `;
+            
+            // Position the icon
+            if (file.position) {
+                newIcon.style.left = file.position.left;
+                newIcon.style.top = file.position.top;
+            }
+            
+            // Add to desktop
+            document.querySelector('.desktop').appendChild(newIcon);
+            
+            // Make the icon draggable
+            setupIconDraggable(newIcon);
+            
+            // Add double-click functionality
+            newIcon.addEventListener('dblclick', function() {
+                const windowType = this.getAttribute('data-window');
+                openWindow(windowType);
+            });
+        });
+    }
 } 

@@ -1205,4 +1205,79 @@ body {
 @keyframes icon-pulse {
     from { transform: scale(1.08); }
     to { transform: scale(1.12); }
+}
+
+/* Context Menu Styles */
+.context-menu {
+    position: absolute;
+    z-index: 1000;
+    background-color: #f0f0f0;
+    border: 1px solid #c0c0c0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    padding: 4px 0;
+    min-width: 150px;
+    display: none;
+}
+
+.context-menu-item {
+    padding: 6px 12px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.context-menu-item:hover {
+    background-color: #0078d7;
+    color: white;
+}
+
+.context-menu-item i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+/* Styles for text editor window */
+.notepad-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.notepad-textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    padding: 8px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    outline: none;
+}
+
+.folder-content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 15px;
+}
+
+.folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    cursor: pointer;
+}
+
+.folder-item i {
+    font-size: 32px;
+    margin-bottom: 5px;
+    color: #0078d7;
+}
+
+.folder-item-name {
+    text-align: center;
+    font-size: 12px;
+    word-break: break-word;
 } 

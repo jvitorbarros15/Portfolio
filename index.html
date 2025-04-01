@@ -339,6 +339,37 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Template windows for notepad and folder -->
+            <div id="notepad-window" class="window" style="display: none;">
+                <div class="window-header">
+                    <div class="window-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="window-title"><span>Notepad</span></div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content notepad-content">
+                    <textarea class="notepad-textarea" placeholder="Type your text here..."></textarea>
+                </div>
+            </div>
+            
+            <div id="folder-window" class="window" style="display: none;">
+                <div class="window-header">
+                    <div class="window-icon"><i class="fas fa-folder"></i></div>
+                    <div class="window-title"><span>Folder</span></div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content folder-content">
+                    <!-- Folder items will be added dynamically -->
+                </div>
+            </div>
         </div>
         
         <!-- Taskbar -->
