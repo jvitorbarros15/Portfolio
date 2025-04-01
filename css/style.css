@@ -440,13 +440,28 @@ body {
 
 /* Resume Window */
 .resume-actions {
+    display: flex;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-.download-btn {
+.resume-actions .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    background-color: #0078d7;
+    color: white;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.resume-actions .btn:hover {
+    background-color: #0056a3;
+}
+
+.resume-actions .btn i {
+    margin-right: 8px;
 }
 
 .resume-section {
