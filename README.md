@@ -46,4 +46,4 @@ This project is available for personal and educational use.
 
 ## Author
 
-[Your Name] 
+Joao Vitor Barros da Silva
