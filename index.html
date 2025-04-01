@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Portfolio</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="desktop">
+        <!-- Desktop icons -->
+        <div class="desktop-icons">
+            <div class="icon" data-window="projects">
+                <div class="icon-img folder-icon">
+                    <i class="fas fa-folder"></i>
+                </div>
+                <div class="icon-text">My Projects</div>
+            </div>
+            
+            <div class="icon" data-window="contact">
+                <div class="icon-img contact-icon">
+                    <i class="fas fa-address-book"></i>
+                </div>
+                <div class="icon-text">Contact Me</div>
+            </div>
+            
+            <div class="icon" data-window="resume">
+                <div class="icon-img resume-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="icon-text">My Resume</div>
+            </div>
+            
+            <div class="icon" data-window="about">
+                <div class="icon-img about-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="icon-text">About Me</div>
+            </div>
+            
+            <div class="icon" data-window="blockchain">
+                <div class="icon-img blockchain-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <div class="icon-text">Blockchain Projects</div>
+            </div>
+            
+            <div class="icon" data-window="trash">
+                <div class="icon-img trash-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <div class="icon-text">Recycle Bin</div>
+            </div>
+        </div>
+        
+        <!-- Windows -->
+        <div class="windows-container">
+            <!-- Projects Window -->
+            <div id="projects-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-folder window-icon"></i>
+                        <span>My Projects</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="project-item">
+                        <h3>Project 1</h3>
+                        <p>Description of project 1</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">View Demo</a>
+                            <a href="#" class="btn">GitHub</a>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <h3>Project 2</h3>
+                        <p>Description of project 2</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">View Demo</a>
+                            <a href="#" class="btn">GitHub</a>
+                        </div>
+                    </div>
+                    <div class="project-item">
+                        <h3>Project 3</h3>
+                        <p>Description of project 3</p>
+                        <div class="project-links">
+                            <a href="#" class="btn">View Demo</a>
+                            <a href="#" class="btn">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Window -->
+            <div id="contact-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-address-book window-icon"></i>
+                        <span>Contact Me</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        <a href="mailto:example@email.com" class="social-link"><i class="fas fa-envelope"></i> Email</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resume Window -->
+            <div id="resume-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-file-alt window-icon"></i>
+                        <span>My Resume</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="resume-content">
+                        <div class="resume-actions">
+                            <a href="#" class="btn download-btn"><i class="fas fa-download"></i> Download PDF</a>
+                        </div>
+                        <div class="resume-preview">
+                            <h2>Resume Preview</h2>
+                            <div class="resume-section">
+                                <h3>Education</h3>
+                                <div class="resume-item">
+                                    <h4>Computer Science Degree</h4>
+                                    <p>University Name, 2019-2023</p>
+                                </div>
+                            </div>
+                            <div class="resume-section">
+                                <h3>Skills</h3>
+                                <ul class="skills-list">
+                                    <li>HTML/CSS/JavaScript</li>
+                                    <li>React</li>
+                                    <li>Node.js</li>
+                                    <li>Git</li>
+                                    <li>UI/UX Design</li>
+                                </ul>
+                            </div>
+                            <div class="resume-section">
+                                <h3>Work Experience</h3>
+                                <div class="resume-item">
+                                    <h4>Web Developer</h4>
+                                    <p>Company Name, 2022-Present</p>
+                                    <p>Description of responsibilities and achievements</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Window -->
+            <div id="about-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-user window-icon"></i>
+                        <span>About Me</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="about-content">
+                        <div class="profile-picture">
+                            <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                        </div>
+                        <div class="about-details">
+                            <h2>John Doe</h2>
+                            <h3>Computer Science Student</h3>
+                            <p>Hello! I'm a passionate Computer Science student with a love for web development and software engineering. I enjoy creating interactive and user-friendly applications.</p>
+                            <p>When I'm not coding, you can find me exploring new technologies, playing video games, or reading tech blogs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Blockchain Window -->
+            <div id="blockchain-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-cube window-icon"></i>
+                        <span>Blockchain Projects</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="blockchain-container">
+                        <h2>My Blockchain Journey</h2>
+                        <p>Click "Add Next Block" to discover more about my blockchain projects and skills.</p>
+                        <div class="blockchain" id="blockchain">
+                            <!-- Genesis block will be added by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trash Window -->
+            <div id="trash-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-trash-alt window-icon"></i>
+                        <span>Recycle Bin</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="trash-content">
+                        <div class="trash-icon-large">
+                            <i class="fas fa-trash-alt"></i>
+                        </div>
+                        <p class="easter-egg">You found me! This trash bin is empty, just like my coffee cup on Monday mornings.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <div class="start-button">
+                <i class="fab fa-windows"></i>
+                <span>Start</span>
+            </div>
+            <div class="taskbar-items">
+                <!-- Will be populated with JavaScript -->
+            </div>
+            <div class="taskbar-right">
+                <div class="clock" id="taskbar-clock">10:00 AM</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./js/script.js"></script>
+</body>
+</html> 

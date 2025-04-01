@@ -1,0 +1,680 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-color: #0078d7; /* Windows 10 default background color */
+}
+
+.desktop {
+    width: 100%;
+    height: 100%;
+    /* Commented out wallpaper requirement for now */
+    /* background-image: url('../img/windows-wallpaper.jpg'); */
+    background-size: cover;
+    background-position: center;
+    background-color: #0078d7; /* Windows 10 default background color */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop Icons */
+.desktop-icons {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-gap: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    position: absolute;
+    user-select: none;
+    touch-action: none;
+}
+
+.icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon-img {
+    font-size: 32px;
+    margin-bottom: 5px;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.icon-text {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+/* Windows */
+.windows-container {
+    flex: 1;
+    position: relative;
+}
+
+.window {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    width: 700px;
+    height: 500px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    display: none; /* Hidden by default */
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.window.fullscreen {
+    width: 100% !important;
+    height: calc(100% - 40px) !important; /* Subtract taskbar height */
+    top: 0 !important;
+    left: 0 !important;
+    border-radius: 0;
+}
+
+.window.active {
+    z-index: 2;
+}
+
+.window-header {
+    background: linear-gradient(to right, #0078d7, #00adef);
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    cursor: move;
+    user-select: none;
+}
+
+.window-title {
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.window-icon {
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.window-controls {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.window-controls button {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.window-controls button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.close-btn:hover {
+    background-color: #e81123 !important;
+}
+
+.window-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: white;
+}
+
+/* Taskbar */
+.taskbar {
+    height: 40px;
+    background-color: #202020;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 10;
+}
+
+.start-button {
+    background-color: #0078d7;
+    color: white;
+    height: 100%;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.start-button:hover {
+    background-color: #1a8fe3;
+}
+
+.taskbar-items {
+    flex: 1;
+    display: flex;
+    margin-left: 10px;
+    height: 100%;
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.taskbar-items::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari/Edge */
+}
+
+.taskbar-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: white;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    min-width: 40px;
+}
+
+.taskbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-item.active {
+    border-bottom-color: #0078d7;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.clock {
+    color: white;
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+/* Project Window */
+.project-item {
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+}
+
+.project-item h3 {
+    margin-bottom: 10px;
+    color: #0078d7;
+}
+
+.project-links {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 8px 15px;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #1a8fe3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .window {
+        width: 90%;
+        height: 80%;
+        top: 10%;
+        left: 5%;
+    }
+    
+    .desktop-icons {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        grid-gap: 10px;
+        padding: 10px;
+    }
+    
+    .window-content {
+        padding: 15px;
+    }
+    
+    .project-links {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .desktop-icons {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        grid-gap: 5px;
+    }
+    
+    .icon {
+        width: 60px;
+    }
+    
+    .icon-img {
+        font-size: 24px;
+    }
+    
+    .icon-text {
+        font-size: 10px;
+    }
+    
+    .window-title {
+        font-size: 12px;
+    }
+    
+    .window-content {
+        padding: 10px;
+    }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+    .icon:hover {
+        background-color: transparent;
+    }
+    
+    .icon.active {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Make sure fullscreen mode works across all screen sizes */
+.window.fullscreen {
+    max-width: 100%;
+    max-height: calc(100% - 40px);
+    width: 100% !important;
+    height: calc(100% - 40px) !important;
+}
+
+/* Contact Window */
+.contact-form {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    text-decoration: none;
+    color: #0078d7;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.social-link:hover {
+    color: #1a8fe3;
+}
+
+/* Resume Window */
+.resume-actions {
+    margin-bottom: 20px;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.resume-section {
+    margin-bottom: 20px;
+}
+
+.resume-section h3 {
+    margin-bottom: 10px;
+    color: #0078d7;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.resume-item {
+    margin-bottom: 15px;
+}
+
+.resume-item h4 {
+    margin-bottom: 5px;
+}
+
+.skills-list {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skills-list li {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+/* About Window */
+.about-content {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #0078d7;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-details {
+    flex: 1;
+}
+
+.about-details h2 {
+    margin-bottom: 5px;
+    color: #0078d7;
+}
+
+.about-details h3 {
+    margin-bottom: 15px;
+    color: #555;
+    font-weight: 400;
+}
+
+.about-details p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* Trash Window */
+.trash-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.trash-icon-large {
+    font-size: 60px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.easter-egg {
+    font-style: italic;
+    color: #888;
+    max-width: 300px;
+}
+
+/* Blockchain styling */
+.blockchain-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.blockchain {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 30px;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.block {
+    width: 280px;
+    min-height: 200px;
+    background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
+    border-radius: 8px;
+    color: white;
+    padding: 15px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    animation: block-appear 0.5s ease-out;
+    z-index: 2;
+}
+
+.block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.block .block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.block .block-number {
+    font-size: 14px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.block .timestamp {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.block .block-content {
+    flex: 1;
+}
+
+.block .block-hash {
+    font-size: 10px;
+    font-family: monospace;
+    word-break: break-all;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 10px;
+    color: #00adef;
+}
+
+.block .project-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #00adef;
+}
+
+.block .project-description {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.block .technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.block .technology {
+    background: rgba(0, 120, 215, 0.3);
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+
+.add-block-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 200px;
+    background: rgba(0, 120, 215, 0.1);
+    border: 2px dashed rgba(0, 120, 215, 0.3);
+    border-radius: 8px;
+    color: #0078d7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.add-block-btn:hover {
+    background: rgba(0, 120, 215, 0.2);
+    transform: scale(1.02);
+}
+
+.add-block-btn i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.chain-link {
+    margin: 0 -15px;
+    width: 30px;
+    height: 2px;
+    background-color: #0078d7;
+    position: relative;
+    align-self: center;
+    z-index: 1;
+}
+
+.chain-link::after {
+    content: '\f0c1';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #0078d7;
+    background-color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes block-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Responsive adjustments for blockchain */
+@media (max-width: 768px) {
+    .blockchain {
+        justify-content: center;
+    }
+    
+    .block, .add-block-btn {
+        width: 250px;
+    }
+} 
