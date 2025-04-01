@@ -15,6 +15,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize blockchain
     initBlockchain();
+    
+    // Setup start button functionality
+    setupStartButton();
+    
+    // Setup wallpaper settings
+    setupWallpaperSettings();
+    
+    // Load saved wallpaper if exists
+    loadSavedWallpaper();
 });
 
 // Update the taskbar clock
@@ -50,6 +59,14 @@ function makeIconsDraggable() {
     
     // Position icons initially
     positionIcons(icons);
+    
+    // Add click handler to desktop to deselect icons when clicking elsewhere
+    desktop.addEventListener('click', function(e) {
+        // Only deselect if the click is directly on the desktop, not on an icon or its children
+        if (e.target === desktop) {
+            icons.forEach(icon => icon.classList.remove('selected'));
+        }
+    });
     
     icons.forEach((icon, index) => {
         let isDragging = false;
@@ -87,9 +104,11 @@ function makeIconsDraggable() {
             hasMoved = false;
             icon.style.zIndex = 10; // Bring to front while dragging
             
-            // Add active class
-            icons.forEach(i => i.classList.remove('active'));
-            icon.classList.add('active');
+            // Remove active class from all icons
+            icons.forEach(i => i.classList.remove('active', 'selected'));
+            
+            // Add active class for dragging and selected class for visual
+            icon.classList.add('active', 'selected');
         }
         
         function handleMove(e) {
@@ -147,7 +166,10 @@ function makeIconsDraggable() {
                 // Only save position if actually moved
                 if (hasMoved) {
                     saveIconPosition(icon);
+                    // If moved, remove the selected class
+                    icon.classList.remove('selected');
                 }
+                // If not moved, keep the selected class
             }
         }
     });
@@ -310,6 +332,12 @@ function openWindow(windowType) {
     const window = document.getElementById(`${windowType}-window`);
     
     if (window) {
+        // Reset any previous styles (position/size)
+        window.style.width = '';
+        window.style.height = '';
+        window.style.top = '';
+        window.style.left = '';
+        
         // Display the window
         window.style.display = 'flex';
         
@@ -322,6 +350,12 @@ function openWindow(windowType) {
         // Add to taskbar if not already there
         addToTaskbar(windowType);
         
+        // Special handling for specific windows
+        if (windowType === 'blockchain') {
+            // Initialize blockchain if this is the blockchain window
+            initBlockchain();
+        }
+        
         // Add sound effect (optional)
         playSound('open');
     }
@@ -330,6 +364,20 @@ function openWindow(windowType) {
 // Toggle fullscreen mode
 function toggleFullscreen(window) {
     window.classList.toggle('fullscreen');
+    
+    // Reset position and size when toggling out of fullscreen
+    if (!window.classList.contains('fullscreen')) {
+        window.style.width = '700px';
+        window.style.height = '500px';
+        window.style.top = '50px';
+        window.style.left = '100px';
+    } else {
+        // Make sure all size and position attributes are reset for fullscreen
+        window.style.width = '';
+        window.style.height = '';
+        window.style.top = '';
+        window.style.left = '';
+    }
     
     // Add sound effect (optional)
     playSound('maximize');
@@ -343,10 +391,32 @@ function closeWindow(window) {
     // Remove from taskbar
     const windowId = window.id;
     const windowType = windowId.replace('-window', '');
+    
+    // Reset blockchain if blockchain window is closed
+    if (windowType === 'blockchain') {
+        resetBlockchain();
+    }
+    
     removeFromTaskbar(windowType);
     
     // Add sound effect (optional)
     playSound('close');
+}
+
+// Reset blockchain to genesis block
+function resetBlockchain() {
+    // Create a new blockchain with just the genesis block
+    const genesisBlock = createGenesisBlock();
+    const blockchain = [genesisBlock];
+    
+    // Save to localStorage
+    localStorage.setItem('blockchainData', JSON.stringify(blockchain));
+    
+    // Re-render if blockchain window is visible
+    const blockchainElement = document.getElementById('blockchain');
+    if (blockchainElement && blockchainElement.offsetParent !== null) {
+        renderBlockchain(blockchain);
+    }
 }
 
 // Minimize a window
@@ -400,7 +470,17 @@ function addToTaskbar(windowType) {
         const window = document.getElementById(`${windowType}-window`);
         
         if (window.style.display === 'none') {
+            // Reset any previous styles (position/size)
+            window.style.width = '';
+            window.style.height = '';
+            window.style.top = '';
+            window.style.left = '';
+            
+            // Display the window
             window.style.display = 'flex';
+            
+            // Ensure it's in fullscreen when reopened
+            window.classList.add('fullscreen');
             activateWindow(window);
         } else if (window.classList.contains('active')) {
             minimizeWindow(window);
@@ -468,17 +548,19 @@ function initBlockchain() {
     const savedBlockchain = localStorage.getItem('blockchainData');
     
     if (savedBlockchain) {
+        // Use the saved blockchain data (this will be reset on window close)
         blockchain = JSON.parse(savedBlockchain);
-        renderBlockchain(blockchain);
     } else {
-        // Create genesis block
+        // Create genesis block for first time initialization
         const genesisBlock = createGenesisBlock();
-        blockchain.push(genesisBlock);
-        renderBlockchain(blockchain);
+        blockchain = [genesisBlock];
         
         // Save to localStorage
         localStorage.setItem('blockchainData', JSON.stringify(blockchain));
     }
+    
+    // Render the blockchain
+    renderBlockchain(blockchain);
 }
 
 // Create the genesis block
@@ -488,8 +570,8 @@ function createGenesisBlock() {
         timestamp: new Date().toISOString(),
         data: {
             title: "Genesis Block",
-            description: "Welcome to my blockchain projects showcase. I'm passionate about blockchain technology and have been working on various projects in this space.",
-            technologies: ["Blockchain", "Web3", "Smart Contracts"]
+            description: "Welcome to my blockchain journey! As a Computer Science graduate from Penn State, I've been working on blockchain projects ranging from DeFi applications to quantum computing research. Explore my projects by adding blocks to this chain.",
+            technologies: ["Blockchain", "Ethereum", "Solidity", "Web3"]
         },
         previousHash: "0000000000000000",
         hash: calculateHash(0, new Date().toISOString(), { title: "Genesis Block" }, "0000000000000000")
@@ -535,39 +617,39 @@ function createBlock(index, previousBlock) {
 function getBlockData(index) {
     const projectsData = [
         {
-            title: "Decentralized Exchange",
-            description: "Developed a decentralized exchange (DEX) using Ethereum smart contracts with automated market maker functionality.",
-            technologies: ["Solidity", "React", "Web3.js", "Ethereum"]
+            title: "Decentralized Exchange (DEX)",
+            description: "Developed a decentralized exchange using Ethereum smart contracts with automated market maker functionality, allowing users to swap tokens without intermediaries.",
+            technologies: ["Solidity", "React", "Web3.js", "Ethereum", "Smart Contracts"]
         },
         {
             title: "NFT Marketplace",
-            description: "Created a marketplace for digital art NFTs with features like minting, listing, bidding, and royalty payments to original creators.",
-            technologies: ["ERC-721", "IPFS", "React", "Node.js"]
+            description: "Created a marketplace for digital art NFTs with features like minting, listing, bidding, and royalty payments to original creators. Integrated IPFS for decentralized storage.",
+            technologies: ["ERC-721", "IPFS", "React", "Node.js", "Solidity"]
         },
         {
             title: "DeFi Lending Platform",
-            description: "Built a decentralized lending platform that allows users to lend and borrow crypto assets with dynamic interest rates.",
-            technologies: ["Solidity", "Smart Contracts", "DeFi", "Chainlink"]
+            description: "Built a decentralized lending platform that allows users to lend and borrow crypto assets with dynamic interest rates based on supply and demand.",
+            technologies: ["Solidity", "Smart Contracts", "DeFi", "Chainlink", "React"]
+        },
+        {
+            title: "Secure Decentralized Quantum Computing",
+            description: "Research project exploring the integration of quantum computing with blockchain for enhanced security, scalability, and computational power in decentralized applications.",
+            technologies: ["Quantum Algorithms", "Blockchain", "Security", "Research"]
+        },
+        {
+            title: "Interoperable Blockchain Solutions",
+            description: "Collaborating with Cosmos Network to develop cross-chain communication protocols enabling secure data exchange between different blockchain networks.",
+            technologies: ["Cosmos SDK", "IBC Protocol", "Tendermint", "Cross-Chain"]
         },
         {
             title: "Blockchain Voting System",
-            description: "Implemented a secure and transparent voting system using blockchain to ensure vote integrity and public verification.",
-            technologies: ["Ethereum", "Zero-Knowledge Proofs", "React"]
+            description: "Implemented a secure and transparent voting system using blockchain to ensure vote integrity and public verification while maintaining privacy.",
+            technologies: ["Ethereum", "Zero-Knowledge Proofs", "Smart Contracts", "React"]
         },
         {
-            title: "Supply Chain Tracking",
-            description: "Developed a supply chain tracking solution using blockchain to provide traceability and transparency across the entire supply chain.",
-            technologies: ["Hyperledger", "IoT", "React", "Node.js"]
-        },
-        {
-            title: "Cross-Chain Bridge",
-            description: "Built a bridge enabling asset transfers between different blockchain networks while maintaining security and efficiency.",
-            technologies: ["Solidity", "Cosmos SDK", "Interoperability"]
-        },
-        {
-            title: "DAO Governance Platform",
-            description: "Created a decentralized autonomous organization platform with proposal submission, voting, and treasury management.",
-            technologies: ["Aragon", "The Graph", "Ethereum", "React"]
+            title: "Web3 Personal Portfolio",
+            description: "Created this interactive Windows-style portfolio showcasing blockchain and AI projects with features like draggable icons, theme customization, and blockchain simulation.",
+            technologies: ["JavaScript", "HTML/CSS", "Web Design", "Interactive UI"]
         }
     ];
     
@@ -591,7 +673,10 @@ function renderBlockchain(blockchain) {
         
         // Format date for display
         const date = new Date(block.timestamp);
-        const dateFormatted = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        const dateFormatted = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+        
+        // Ensure description doesn't exceed a certain length
+        let description = block.data.description;
         
         blockElement.innerHTML = `
             <div class="block-header">
@@ -600,13 +685,13 @@ function renderBlockchain(blockchain) {
             </div>
             <div class="block-content">
                 <h3 class="project-title">${block.data.title}</h3>
-                <p class="project-description">${block.data.description}</p>
+                <p class="project-description">${description}</p>
                 <div class="technologies">
                     ${block.data.technologies.map(tech => `<span class="technology">${tech}</span>`).join('')}
                 </div>
             </div>
             <div class="block-hash">
-                <strong>Hash:</strong> ${block.hash}
+                <strong>Hash:</strong> ${block.hash.substring(0, 16)}...
             </div>
         `;
         
@@ -647,4 +732,259 @@ function addNextBlock(blockchain) {
     
     // Re-render
     renderBlockchain(blockchain);
+}
+
+// Setup start button functionality
+function setupStartButton() {
+    const startButton = document.querySelector('.start-button');
+    if (!startButton) return;
+    
+    startButton.addEventListener('click', function() {
+        // Add clicked class for animation
+        startButton.classList.add('clicked');
+        
+        // Remove clicked class after animation completes
+        setTimeout(() => {
+            startButton.classList.remove('clicked');
+        }, 500);
+        
+        // Reset icon positions to default
+        resetIconPositions();
+    });
+}
+
+// Reset all icon positions to their defaults
+function resetIconPositions() {
+    const icons = document.querySelectorAll('.icon');
+    
+    // Clear saved positions
+    localStorage.removeItem('iconPositions');
+    
+    // Set default positions
+    icons.forEach((icon, index) => {
+        setDefaultIconPosition(icon, index);
+        
+        // Add a small animation effect
+        icon.style.transition = 'all 0.3s ease-in-out';
+        icon.style.opacity = '0';
+        
+        setTimeout(() => {
+            icon.style.opacity = '1';
+        }, 100 + (index * 50)); // Staggered fade-in
+        
+        // Remove transition after animation completes
+        setTimeout(() => {
+            icon.style.transition = '';
+        }, 500 + (index * 50));
+    });
+    
+    // Play sound effect (optional)
+    playSound('reset');
+}
+
+// Setup wallpaper settings functionality
+function setupWallpaperSettings() {
+    const wallpaperBtn = document.querySelector('.wallpaper-settings');
+    const wallpaperPopup = document.querySelector('.wallpaper-popup');
+    const wallpaperClose = document.querySelector('.wallpaper-close');
+    const wallpaperOptions = document.querySelectorAll('.wallpaper-option');
+    const applyCustomBtn = document.querySelector('.apply-custom-wallpaper');
+    const fileInput = document.getElementById('wallpaper-file-input');
+    const fileNameDisplay = document.getElementById('selected-file-name');
+    
+    let selectedFile = null;
+    
+    // Show/hide wallpaper popup
+    wallpaperBtn.addEventListener('click', function() {
+        wallpaperPopup.style.display = wallpaperPopup.style.display === 'block' ? 'none' : 'block';
+        
+        // Mark current wallpaper as active
+        const currentWallpaper = localStorage.getItem('wallpaper') || 'default';
+        wallpaperOptions.forEach(option => {
+            if (option.getAttribute('data-wallpaper') === currentWallpaper) {
+                option.classList.add('active');
+            } else {
+                option.classList.remove('active');
+            }
+        });
+    });
+    
+    // Close popup when clicking close button
+    wallpaperClose.addEventListener('click', function() {
+        wallpaperPopup.style.display = 'none';
+    });
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!wallpaperPopup.contains(e.target) && !wallpaperBtn.contains(e.target)) {
+            wallpaperPopup.style.display = 'none';
+        }
+    });
+    
+    // Handle wallpaper option selection
+    wallpaperOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const wallpaperType = this.getAttribute('data-wallpaper');
+            changeWallpaper(wallpaperType);
+            
+            // Update active state
+            wallpaperOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Close popup after selection
+            setTimeout(() => {
+                wallpaperPopup.style.display = 'none';
+            }, 300);
+        });
+    });
+    
+    // Handle file input change
+    fileInput.addEventListener('change', function(e) {
+        selectedFile = e.target.files[0];
+        
+        if (selectedFile) {
+            // Display the file name
+            fileNameDisplay.textContent = selectedFile.name;
+            
+            // Enable the apply button
+            applyCustomBtn.disabled = false;
+        } else {
+            fileNameDisplay.textContent = 'No file selected';
+            applyCustomBtn.disabled = true;
+        }
+    });
+    
+    // Handle custom wallpaper upload
+    applyCustomBtn.addEventListener('click', function() {
+        if (selectedFile) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Apply the wallpaper using the data URL
+                changeWallpaper('custom', e.target.result);
+                
+                // Close the popup
+                wallpaperPopup.style.display = 'none';
+                
+                // Reset the file input
+                fileNameDisplay.textContent = 'No file selected';
+                fileInput.value = '';
+                selectedFile = null;
+                applyCustomBtn.disabled = true;
+                
+                // Remove active state from preset options
+                wallpaperOptions.forEach(opt => opt.classList.remove('active'));
+            };
+            
+            // Read the file as a data URL
+            reader.readAsDataURL(selectedFile);
+        }
+    });
+}
+
+// Change the desktop wallpaper
+function changeWallpaper(type, customWallpaper = null) {
+    const desktop = document.querySelector('.desktop');
+    
+    // Remove any previous background
+    desktop.style.backgroundImage = '';
+    desktop.style.backgroundColor = '';
+    
+    // Remove any existing personalization overlay
+    const existingOverlay = document.querySelector('.wallpaper-personalization');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+    
+    // Apply new background based on type
+    switch (type) {
+        case 'default':
+            desktop.style.backgroundColor = '#0078d7';
+            
+            // Add personalization overlay with name, major and profile picture in center
+            const personalizationOverlay = document.createElement('div');
+            personalizationOverlay.className = 'wallpaper-personalization centered';
+            personalizationOverlay.innerHTML = `
+                <div class="personal-info-centered">
+                    <div class="wallpaper-profile-picture">
+                        <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
+                    </div>
+                    <h1>Joao Vitor Barros da Silva</h1>
+                    <h2>Computer Science</h2>
+                    <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                </div>
+            `;
+            desktop.appendChild(personalizationOverlay);
+            break;
+        case 'mountains':
+            desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
+            break;
+        case 'ocean':
+            desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
+            break;
+        case 'forest':
+            desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
+            break;
+        case 'cityscape':
+            desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
+            break;
+        case 'space':
+            desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
+            break;
+        case 'custom':
+            if (customWallpaper) {
+                desktop.style.backgroundImage = `url("${customWallpaper}")`;
+                // Save custom wallpaper data
+                localStorage.setItem('customWallpaperData', customWallpaper);
+            }
+            break;
+    }
+    
+    // Update icon text color for readability based on background
+    if (type !== 'default') {
+        enhanceIconTextReadability(true);
+    } else {
+        enhanceIconTextReadability(false);
+    }
+    
+    // Save selection to localStorage
+    localStorage.setItem('wallpaper', type);
+    
+    // Play sound effect (optional)
+    playSound('wallpaper');
+}
+
+// Load saved wallpaper preference
+function loadSavedWallpaper() {
+    const savedWallpaper = localStorage.getItem('wallpaper');
+    
+    if (savedWallpaper) {
+        if (savedWallpaper === 'custom') {
+            const customWallpaperData = localStorage.getItem('customWallpaperData');
+            if (customWallpaperData) {
+                changeWallpaper('custom', customWallpaperData);
+            } else {
+                changeWallpaper('default');
+            }
+        } else {
+            changeWallpaper(savedWallpaper);
+        }
+    }
+}
+
+// Enhance icon text readability on darker backgrounds
+function enhanceIconTextReadability(isDarkBackground) {
+    const iconTexts = document.querySelectorAll('.icon-text');
+    
+    iconTexts.forEach(text => {
+        if (isDarkBackground) {
+            text.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            text.style.padding = '2px 4px';
+            text.style.borderRadius = '3px';
+        } else {
+            text.style.backgroundColor = '';
+            text.style.padding = '';
+            text.style.borderRadius = '';
+        }
+    });
 } 

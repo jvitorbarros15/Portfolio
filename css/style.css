@@ -16,14 +16,13 @@ body {
 .desktop {
     width: 100%;
     height: 100%;
-    /* Commented out wallpaper requirement for now */
-    /* background-image: url('../img/windows-wallpaper.jpg'); */
     background-size: cover;
     background-position: center;
     background-color: #0078d7; /* Windows 10 default background color */
     position: relative;
     display: flex;
     flex-direction: column;
+    transition: background 0.3s ease;
 }
 
 /* Desktop Icons */
@@ -34,7 +33,7 @@ body {
     grid-gap: 20px;
     width: 100%;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 .icon {
@@ -55,6 +54,17 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.icon.selected {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 4px rgba(0, 120, 215, 0.5);
+}
+
+.icon.selected .icon-text {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
 .icon-img {
     font-size: 32px;
     margin-bottom: 5px;
@@ -69,6 +79,7 @@ body {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
     word-wrap: break-word;
     max-width: 100%;
+ 
 }
 
 /* Windows */
@@ -99,7 +110,9 @@ body {
     height: calc(100% - 40px) !important; /* Subtract taskbar height */
     top: 0 !important;
     left: 0 !important;
-    border-radius: 0;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    max-height: calc(100% - 40px) !important;
 }
 
 .window.active {
@@ -184,11 +197,46 @@ body {
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
 }
 
 .start-button:hover {
     background-color: #1a8fe3;
+}
+
+.start-button:active {
+    transform: scale(0.95);
+    background-color: #006cc1;
+}
+
+.start-button.clicked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple 0.5s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
 }
 
 .taskbar-items {
@@ -342,14 +390,6 @@ body {
     }
 }
 
-/* Make sure fullscreen mode works across all screen sizes */
-.window.fullscreen {
-    max-width: 100%;
-    max-height: calc(100% - 40px);
-    width: 100% !important;
-    height: calc(100% - 40px) !important;
-}
-
 /* Contact Window */
 .contact-form {
     margin-bottom: 30px;
@@ -484,19 +524,25 @@ body {
     align-items: center;
     justify-content: center;
     height: 100%;
-    text-align: center;
+    padding: 20px;
+}
+
+.trash-icon i {
+    color: white;
+    font-size: 32px;
 }
 
 .trash-icon-large {
-    font-size: 60px;
-    color: #666;
+    font-size: 64px;
+    color: #777;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .easter-egg {
+    text-align: center;
     font-style: italic;
-    color: #888;
-    max-width: 300px;
+    color: #555;
 }
 
 /* Blockchain styling */
@@ -511,7 +557,8 @@ body {
     flex-wrap: wrap;
     gap: 30px;
     margin-top: 30px;
-    align-items: flex-start;
+    align-items: stretch;
+    justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 20px;
     position: relative;
@@ -519,7 +566,7 @@ body {
 
 .block {
     width: 280px;
-    min-height: 200px;
+    height: 280px;
     background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
     border-radius: 8px;
     color: white;
@@ -531,6 +578,9 @@ body {
     flex-direction: column;
     animation: block-appear 0.5s ease-out;
     z-index: 2;
+    overflow: hidden;
+    box-sizing: border-box;
+    flex: 0 0 280px;
 }
 
 .block:hover {
@@ -562,6 +612,23 @@ body {
 
 .block .block-content {
     flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Custom scrollbar for blocks */
+.block .block-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.block .block-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.block .block-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 120, 215, 0.5);
+    border-radius: 3px;
 }
 
 .block .block-hash {
@@ -586,6 +653,8 @@ body {
     font-size: 14px;
     margin-bottom: 10px;
     line-height: 1.4;
+    max-height: 100px;
+    overflow-y: auto;
 }
 
 .block .technologies {
@@ -607,7 +676,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 280px;
-    height: 200px;
+    height: 280px;
     background: rgba(0, 120, 215, 0.1);
     border: 2px dashed rgba(0, 120, 215, 0.3);
     border-radius: 8px;
@@ -615,6 +684,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 2;
+    flex: 0 0 280px;
 }
 
 .add-block-btn:hover {
@@ -676,5 +746,370 @@ body {
     
     .block, .add-block-btn {
         width: 250px;
+    }
+}
+
+/* Taskbar Icons */
+.taskbar-icon {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.taskbar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.taskbar-icon i {
+    font-size: 16px;
+}
+
+/* Wallpaper Settings */
+.wallpaper-popup {
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+    width: 350px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: none;
+    overflow: hidden;
+    animation: popup-appear 0.2s ease-out;
+}
+
+@keyframes popup-appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wallpaper-popup-header {
+    background: linear-gradient(to right, #0078d7, #00adef);
+    padding: 10px 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wallpaper-popup-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.wallpaper-close {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.wallpaper-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 15px;
+}
+
+.wallpaper-option {
+    height: 80px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+    border: 2px solid transparent;
+}
+
+.wallpaper-option:hover {
+    transform: scale(1.05);
+}
+
+.wallpaper-option.active {
+    border-color: #0078d7;
+}
+
+.wallpaper-option span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 12px;
+    padding: 3px 0;
+    text-align: center;
+}
+
+.wallpaper-custom {
+    padding: 15px;
+    border-top: 1px solid #ddd;
+}
+
+.wallpaper-custom p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.wallpaper-file-input {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.file-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-upload-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.file-upload-btn i {
+    font-size: 16px;
+}
+
+#selected-file-name {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.wallpaper-custom .btn {
+    padding: 8px 15px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.wallpaper-custom .btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments for wallpaper settings */
+@media (max-width: 480px) {
+    .wallpaper-popup {
+        width: 90%;
+        right: 5%;
+    }
+    
+    .wallpaper-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tech-tag {
+    background: rgba(0, 120, 215, 0.1);
+    color: #0078d7;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 120, 215, 0.3);
+}
+
+.contact-info {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.contact-info p {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.contact-info i {
+    width: 20px;
+    color: #0078d7;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Personalized Wallpaper Overlay */
+.wallpaper-personalization {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+    text-align: right;
+    pointer-events: none; /* Allow clicking through the overlay */
+    z-index: 1;
+}
+
+.wallpaper-personalization .personal-info {
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.wallpaper-personalization h1 {
+    font-size: 2rem;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+}
+
+.wallpaper-personalization h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .wallpaper-personalization {
+        bottom: 80px;
+    }
+    
+    .wallpaper-personalization h1 {
+        font-size: 1.5rem;
+    }
+    
+    .wallpaper-personalization h2 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Centered Wallpaper Personalization */
+.wallpaper-personalization.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none; /* Allow clicking through the overlay */
+    z-index: 0; /* Lower z-index to place behind desktop icons */
+}
+
+.personal-info-centered {
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 25px 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(2px);
+}
+
+.wallpaper-profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid white;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.wallpaper-profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.personal-info-centered h1 {
+    font-size: 2.2rem;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+}
+
+.personal-info-centered h2 {
+    font-size: 1.7rem;
+    margin: 0;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.welcome-message {
+    font-size: 1.1rem;
+    margin-top: 15px;
+    font-weight: 300;
+    opacity: 0.9;
+    max-width: 400px;
+    line-height: 1.4;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .personal-info-centered {
+        padding: 20px 30px;
+    }
+    
+    .wallpaper-profile-picture {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .personal-info-centered h1 {
+        font-size: 1.7rem;
+    }
+    
+    .personal-info-centered h2 {
+        font-size: 1.4rem;
+    }
+    
+    .welcome-message {
+        font-size: 0.9rem;
+        margin-top: 12px;
+        padding: 8px 12px;
+        max-width: 300px;
     }
 } 
