@@ -1,5 +1,8 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
+    // Clear all user-created files and data
+    clearUserData();
+    
     // Reset wallpaper first thing to ensure personalization shows
     resetWallpaper();
     
@@ -31,6 +34,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup wallpaper settings
     setupWallpaperSettings();
 });
+
+// Clear all user-created data
+function clearUserData() {
+    // Clear user files from localStorage
+    localStorage.removeItem('userFiles');
+    
+    // Clear all file contents
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('file_') || key.startsWith('folder_')) {
+            localStorage.removeItem(key);
+        }
+    }
+    
+    // Clear icon positions
+    localStorage.removeItem('iconPositions');
+    
+    // Remove all user-created icons from desktop
+    const desktop = document.querySelector('.desktop');
+    const icons = document.querySelectorAll('.icon');
+    icons.forEach(icon => {
+        const windowType = icon.getAttribute('data-window');
+        if (windowType === 'notepad' || windowType === 'folder') {
+            icon.remove();
+        }
+    });
+}
 
 // Update the taskbar clock
 function updateClock() {
@@ -239,7 +269,6 @@ function positionIcons(icons) {
 // Set default icon position in a clean layout
 function setDefaultIconPosition(icon, index = 0) {
     const margin = 20;
-    const iconWidth = 80;
     const iconHeight = 100;
     
     // Position icons vertically along the left side
@@ -1139,7 +1168,8 @@ function changeWallpaper(type, customWallpaper = null) {
                     </div>
                     <h1>Joao Vitor Barros da Silva</h1>
                     <h2>Computer Science</h2>
-                    <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                    <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
+                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
                 </div>
             `;
             desktop.prepend(personalizationOverlay);
@@ -1178,7 +1208,8 @@ function changeWallpaper(type, customWallpaper = null) {
                         </div>
                         <h1>Joao Vitor Barros da Silva</h1>
                         <h2>Computer Science</h2>
-                        <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                        <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
+                        <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
                     </div>
                 `;
                 desktop.prepend(fallbackOverlay);
@@ -1198,7 +1229,8 @@ function changeWallpaper(type, customWallpaper = null) {
                     </div>
                     <h1>Joao Vitor Barros da Silva</h1>
                     <h2>Computer Science</h2>
-                    <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                    <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
+                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
                 </div>
             `;
             desktop.prepend(defaultOverlay);
@@ -1353,6 +1385,7 @@ function setupContextMenu() {
     const desktopMenu = document.createElement('div');
     desktopMenu.className = 'context-menu';
     desktopMenu.id = 'desktop-menu';
+    desktopMenu.style.zIndex = '10000'; // Ensure menu is on top
     desktopMenu.innerHTML = `
         <div class="context-menu-item" data-action="newfile">
             <i class="fas fa-file"></i> New Text File
@@ -1369,6 +1402,7 @@ function setupContextMenu() {
     const fileMenu = document.createElement('div');
     fileMenu.className = 'context-menu';
     fileMenu.id = 'file-menu-user';
+    fileMenu.style.zIndex = '10000'; // Ensure menu is on top
     fileMenu.innerHTML = `
         <div class="context-menu-item" data-action="open">
             <i class="fas fa-folder-open"></i> Open
@@ -1385,6 +1419,7 @@ function setupContextMenu() {
     const sysFileMenu = document.createElement('div');
     sysFileMenu.className = 'context-menu';
     sysFileMenu.id = 'file-menu-system';
+    sysFileMenu.style.zIndex = '10000'; // Ensure menu is on top
     sysFileMenu.innerHTML = `
         <div class="context-menu-item" data-action="open">
             <i class="fas fa-folder-open"></i> Open
@@ -1404,6 +1439,7 @@ function setupContextMenu() {
     // Handle right-click on desktop
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
+        e.stopPropagation(); // Prevent event from bubbling up
         
         // First, hide all menus
         desktopMenu.style.display = 'none';
@@ -1444,7 +1480,11 @@ function setupContextMenu() {
     });
     
     // Hide all context menus when clicking elsewhere
-    document.addEventListener('click', function() {
+    document.addEventListener('click', function(e) {
+        // Don't hide if clicking inside a context menu
+        if (e.target.closest('.context-menu')) {
+            return;
+        }
         desktopMenu.style.display = 'none';
         fileMenu.style.display = 'none';
         sysFileMenu.style.display = 'none';
@@ -1528,10 +1568,23 @@ function createNewFile() {
     if (!fileName) return;
     
     // Create a new icon
-    createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
+    const newIcon = createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
     
     // Initialize empty file content
     localStorage.setItem(`file_${fileName}`, '');
+    
+    // Position the icon at the right-click location
+    const desktopMenu = document.querySelector('.context-menu');
+    if (desktopMenu) {
+        const rect = desktopMenu.getBoundingClientRect();
+        newIcon.style.left = `${rect.left}px`;
+        newIcon.style.top = `${rect.top}px`;
+    }
+    
+    // Hide the context menu
+    document.querySelectorAll('.context-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
     
     // Play sound effect
     playSound('create');
@@ -1543,11 +1596,24 @@ function createNewFolder() {
     if (!folderName) return;
     
     // Create a new icon
-    createNewIcon(folderName, 'fas fa-folder', 'folder');
+    const newIcon = createNewIcon(folderName, 'fas fa-folder', 'folder');
     
     // Initialize empty folder content
     const emptyFolder = [];
     localStorage.setItem(`folder_${folderName}`, JSON.stringify(emptyFolder));
+    
+    // Position the icon at the right-click location
+    const desktopMenu = document.querySelector('.context-menu');
+    if (desktopMenu) {
+        const rect = desktopMenu.getBoundingClientRect();
+        newIcon.style.left = `${rect.left}px`;
+        newIcon.style.top = `${rect.top}px`;
+    }
+    
+    // Hide the context menu
+    document.querySelectorAll('.context-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
     
     // Play sound effect
     playSound('create');
@@ -1584,7 +1650,7 @@ function createNewIcon(name, iconClass, windowType) {
         const windowType = this.getAttribute('data-window');
         const fileName = this.querySelector('.icon-text').textContent;
         
-        // Select this icon
+        // Select the icon
         document.querySelectorAll('.icon').forEach(icon => {
             icon.classList.remove('selected');
         });
@@ -1592,10 +1658,18 @@ function createNewIcon(name, iconClass, windowType) {
         
         // Open the window
         openWindow(windowType);
+        
+        // Set the window title
+        const windowTitle = document.querySelector(`#${windowType}-window .window-title span`);
+        if (windowTitle) {
+            windowTitle.textContent = fileName;
+        }
     });
     
     // Save user files to localStorage
     saveUserFiles();
+    
+    return newIcon;
 }
 
 // Setup a single icon to be draggable
