@@ -10,14 +10,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize windows
     initWindows();
     
+    // Setup context menu for creating files first
+    setupContextMenu();
+    
     // Initialize desktop icons
     initDesktopIcons();
     
-    // Make icons draggable
-    makeIconsDraggable();
-    
     // Load user-created files
     loadUserFiles();
+    
+    // Make icons draggable
+    makeIconsDraggable();
     
     // Initialize blockchain
     initBlockchain();
@@ -27,9 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup wallpaper settings
     setupWallpaperSettings();
-    
-    // Setup context menu for creating files
-    setupContextMenu();
 });
 
 // Update the taskbar clock
@@ -1142,7 +1142,7 @@ function changeWallpaper(type, customWallpaper = null) {
                     <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
                 </div>
             `;
-            desktop.appendChild(personalizationOverlay);
+            desktop.prepend(personalizationOverlay);
             break;
         case 'mountains':
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
@@ -1181,7 +1181,7 @@ function changeWallpaper(type, customWallpaper = null) {
                         <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
                     </div>
                 `;
-                desktop.appendChild(fallbackOverlay);
+                desktop.prepend(fallbackOverlay);
             }
             break;
         default:
@@ -1201,7 +1201,7 @@ function changeWallpaper(type, customWallpaper = null) {
                     <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
                 </div>
             `;
-            desktop.appendChild(defaultOverlay);
+            desktop.prepend(defaultOverlay);
             break;
     }
     
@@ -1348,13 +1348,12 @@ function setupWindowResizing(window) {
 // Setup right-click context menu
 function setupContextMenu() {
     const desktop = document.querySelector('.desktop');
-    const icons = document.querySelectorAll('.icon');
-    let rightClickedIcon = null;
     
-    // Create context menu element
-    const contextMenu = document.createElement('div');
-    contextMenu.className = 'context-menu';
-    contextMenu.innerHTML = `
+    // Create desktop context menu
+    const desktopMenu = document.createElement('div');
+    desktopMenu.className = 'context-menu';
+    desktopMenu.id = 'desktop-menu';
+    desktopMenu.innerHTML = `
         <div class="context-menu-item" data-action="newfile">
             <i class="fas fa-file"></i> New Text File
         </div>
@@ -1364,15 +1363,13 @@ function setupContextMenu() {
         <div class="context-menu-item" data-action="refresh">
             <i class="fas fa-sync"></i> Refresh
         </div>
-        <div class="context-menu-item" data-action="resetwallpaper">
-            <i class="fas fa-image"></i> Reset Wallpaper
-        </div>
     `;
     
-    // Create file-specific context menu
-    const fileContextMenu = document.createElement('div');
-    fileContextMenu.className = 'context-menu';
-    fileContextMenu.innerHTML = `
+    // Create file-specific context menu for user-created files
+    const fileMenu = document.createElement('div');
+    fileMenu.className = 'context-menu';
+    fileMenu.id = 'file-menu-user';
+    fileMenu.innerHTML = `
         <div class="context-menu-item" data-action="open">
             <i class="fas fa-folder-open"></i> Open
         </div>
@@ -1384,57 +1381,81 @@ function setupContextMenu() {
         </div>
     `;
     
-    document.body.appendChild(contextMenu);
-    document.body.appendChild(fileContextMenu);
+    // Create file-specific context menu for system files (no delete option)
+    const sysFileMenu = document.createElement('div');
+    sysFileMenu.className = 'context-menu';
+    sysFileMenu.id = 'file-menu-system';
+    sysFileMenu.innerHTML = `
+        <div class="context-menu-item" data-action="open">
+            <i class="fas fa-folder-open"></i> Open
+        </div>
+        <div class="context-menu-item" data-action="rename">
+            <i class="fas fa-edit"></i> Rename
+        </div>
+    `;
     
-    // Show desktop context menu on right click (only on empty desktop areas)
-    desktop.addEventListener('contextmenu', function(e) {
-        // Check if clicking on an icon or the desktop
-        if (e.target === desktop || e.target.classList.contains('desktop')) {
-            e.preventDefault();
-            
-            // Hide all context menus
-            contextMenu.style.display = 'none';
-            fileContextMenu.style.display = 'none';
-            
-            // Position and show desktop context menu
-            contextMenu.style.left = `${e.clientX}px`;
-            contextMenu.style.top = `${e.clientY}px`;
-            contextMenu.style.display = 'block';
-        }
-    });
+    document.body.appendChild(desktopMenu);
+    document.body.appendChild(fileMenu);
+    document.body.appendChild(sysFileMenu);
     
-    // Show file-specific context menu on right-clicking an icon
+    // Variable to store the currently right-clicked icon
+    let currentIcon = null;
+    
+    // Handle right-click on desktop
     document.addEventListener('contextmenu', function(e) {
-        // Find if the click was on an icon or its children
-        const iconElement = e.target.closest('.icon');
+        e.preventDefault();
         
-        if (iconElement) {
-            e.preventDefault();
+        // First, hide all menus
+        desktopMenu.style.display = 'none';
+        fileMenu.style.display = 'none';
+        sysFileMenu.style.display = 'none';
+        
+        // Check if we're clicking on an icon
+        const icon = e.target.closest('.icon');
+        
+        if (icon) {
+            // We're right-clicking on an icon
+            currentIcon = icon;
+            const windowType = icon.getAttribute('data-window');
             
-            // Store the icon that was right-clicked
-            rightClickedIcon = iconElement;
+            // Check if this is a system icon
+            const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+            const isSystemIcon = systemIcons.includes(windowType);
             
-            // Hide desktop context menu
-            contextMenu.style.display = 'none';
+            // Position and show appropriate menu
+            if (isSystemIcon) {
+                sysFileMenu.style.left = e.clientX + 'px';
+                sysFileMenu.style.top = e.clientY + 'px';
+                sysFileMenu.style.display = 'block';
+            } else {
+                fileMenu.style.left = e.clientX + 'px';
+                fileMenu.style.top = e.clientY + 'px';
+                fileMenu.style.display = 'block';
+            }
+        } else {
+            // We're right-clicking on empty desktop space
+            currentIcon = null;
             
-            // Position and show file context menu
-            fileContextMenu.style.left = `${e.clientX}px`;
-            fileContextMenu.style.top = `${e.clientY}px`;
-            fileContextMenu.style.display = 'block';
+            // Position and show desktop menu
+            desktopMenu.style.left = e.clientX + 'px';
+            desktopMenu.style.top = e.clientY + 'px';
+            desktopMenu.style.display = 'block';
         }
     });
     
-    // Hide context menus when clicking elsewhere
+    // Hide all context menus when clicking elsewhere
     document.addEventListener('click', function() {
-        contextMenu.style.display = 'none';
-        fileContextMenu.style.display = 'none';
+        desktopMenu.style.display = 'none';
+        fileMenu.style.display = 'none';
+        sysFileMenu.style.display = 'none';
     });
     
-    // Handle desktop context menu actions
-    contextMenu.addEventListener('click', function(e) {
-        const action = e.target.closest('.context-menu-item')?.dataset.action;
-        if (!action) return;
+    // Handle desktop menu actions
+    desktopMenu.addEventListener('click', function(e) {
+        const item = e.target.closest('.context-menu-item');
+        if (!item) return;
+        
+        const action = item.getAttribute('data-action');
         
         switch(action) {
             case 'newfile':
@@ -1446,37 +1467,58 @@ function setupContextMenu() {
             case 'refresh':
                 resetIconPositions();
                 break;
-            case 'resetwallpaper':
-                resetWallpaper();
-                break;
         }
-        
-        // Hide menu after action
-        contextMenu.style.display = 'none';
     });
     
-    // Handle file context menu actions
-    fileContextMenu.addEventListener('click', function(e) {
-        const action = e.target.closest('.context-menu-item')?.dataset.action;
-        if (!action || !rightClickedIcon) return;
+    // Handle user file menu actions
+    fileMenu.addEventListener('click', function(e) {
+        const item = e.target.closest('.context-menu-item');
+        if (!item || !currentIcon) return;
         
-        const windowType = rightClickedIcon.getAttribute('data-window');
-        const fileName = rightClickedIcon.querySelector('.icon-text').textContent;
+        const action = item.getAttribute('data-action');
+        const windowType = currentIcon.getAttribute('data-window');
         
         switch(action) {
             case 'open':
+                // Select the icon
+                document.querySelectorAll('.icon').forEach(icon => {
+                    icon.classList.remove('selected');
+                });
+                currentIcon.classList.add('selected');
+                
                 openWindow(windowType);
                 break;
             case 'rename':
-                renameFile(rightClickedIcon);
+                renameFile(currentIcon);
                 break;
             case 'delete':
-                deleteFile(rightClickedIcon);
+                deleteFile(currentIcon);
                 break;
         }
+    });
+    
+    // Handle system file menu actions
+    sysFileMenu.addEventListener('click', function(e) {
+        const item = e.target.closest('.context-menu-item');
+        if (!item || !currentIcon) return;
         
-        // Hide menu after action
-        fileContextMenu.style.display = 'none';
+        const action = item.getAttribute('data-action');
+        const windowType = currentIcon.getAttribute('data-window');
+        
+        switch(action) {
+            case 'open':
+                // Select the icon
+                document.querySelectorAll('.icon').forEach(icon => {
+                    icon.classList.remove('selected');
+                });
+                currentIcon.classList.add('selected');
+                
+                openWindow(windowType);
+                break;
+            case 'rename':
+                renameFile(currentIcon);
+                break;
+        }
     });
 }
 
@@ -1487,6 +1529,12 @@ function createNewFile() {
     
     // Create a new icon
     createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
+    
+    // Initialize empty file content
+    localStorage.setItem(`file_${fileName}`, '');
+    
+    // Play sound effect
+    playSound('create');
 }
 
 // Create a new folder
@@ -1496,6 +1544,13 @@ function createNewFolder() {
     
     // Create a new icon
     createNewIcon(folderName, 'fas fa-folder', 'folder');
+    
+    // Initialize empty folder content
+    const emptyFolder = [];
+    localStorage.setItem(`folder_${folderName}`, JSON.stringify(emptyFolder));
+    
+    // Play sound effect
+    playSound('create');
 }
 
 // Create a new icon on the desktop
@@ -1527,14 +1582,20 @@ function createNewIcon(name, iconClass, windowType) {
     // Add double-click functionality
     newIcon.addEventListener('dblclick', function() {
         const windowType = this.getAttribute('data-window');
+        const fileName = this.querySelector('.icon-text').textContent;
+        
+        // Select this icon
+        document.querySelectorAll('.icon').forEach(icon => {
+            icon.classList.remove('selected');
+        });
+        this.classList.add('selected');
+        
+        // Open the window
         openWindow(windowType);
     });
     
     // Save user files to localStorage
     saveUserFiles();
-    
-    // Play sound effect
-    playSound('create');
 }
 
 // Setup a single icon to be draggable
@@ -1753,6 +1814,16 @@ function loadUserFiles() {
 function renameFile(icon) {
     const iconText = icon.querySelector('.icon-text');
     const currentName = iconText.textContent;
+    const windowType = icon.getAttribute('data-window');
+    
+    // Check if this is a system icon that should not be renamed
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+    if (systemIcons.includes(windowType)) {
+        // For system files, just show the current name instead of allowing a rename
+        alert(`This is a system file: "${currentName}"`);
+        return;
+    }
+    
     const newName = prompt('Enter new name:', currentName);
     
     if (newName && newName !== currentName) {
@@ -1760,7 +1831,6 @@ function renameFile(icon) {
         iconText.textContent = newName;
         
         // If this is a user-created file, update storage
-        const windowType = icon.getAttribute('data-window');
         if (windowType === 'notepad' || windowType === 'folder') {
             // If it's a text file, rename its content in localStorage
             if (windowType === 'notepad') {
@@ -1790,6 +1860,13 @@ function renameFile(icon) {
 function deleteFile(icon) {
     const fileName = icon.querySelector('.icon-text').textContent;
     const windowType = icon.getAttribute('data-window');
+    
+    // Check if this is a system icon that should not be deleted
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+    if (systemIcons.includes(windowType)) {
+        alert("This is a system file and cannot be deleted.");
+        return;
+    }
     
     // Confirm deletion
     if (confirm(`Are you sure you want to delete "${fileName}"?`)) {
