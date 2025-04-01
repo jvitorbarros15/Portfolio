@@ -986,31 +986,49 @@ body {
     gap: 10px;
 }
 
-/* Personalized Wallpaper Overlay */
+/* Wallpaper personalization styles */
 .wallpaper-personalization {
     position: absolute;
-    bottom: 60px;
-    right: 20px;
-    text-align: right;
-    pointer-events: none; /* Allow clicking through the overlay */
-    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 40px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+    pointer-events: none;
 }
 
-.wallpaper-personalization .personal-info {
+.personal-info-centered {
+    text-align: center;
     color: white;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
 }
 
-.wallpaper-personalization h1 {
-    font-size: 2rem;
-    margin: 0 0 5px 0;
-    font-weight: 500;
+.wallpaper-profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.wallpaper-personalization h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    font-weight: 400;
+.wallpaper-profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.welcome-message {
+    margin-top: 20px;
+    font-size: 16px;
     opacity: 0.9;
 }
 

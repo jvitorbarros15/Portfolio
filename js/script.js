@@ -1,5 +1,8 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
+    // Reset wallpaper first thing to ensure personalization shows
+    resetWallpaper();
+    
     // Initialize the clock
     updateClock();
     setInterval(updateClock, 60000); // Update every minute
@@ -24,9 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup wallpaper settings
     setupWallpaperSettings();
-    
-    // Load saved wallpaper if exists
-    loadSavedWallpaper();
     
     // Setup context menu for creating files
     setupContextMenu();
@@ -965,6 +965,11 @@ function setupStartButton() {
         // Reset icon positions to default
         resetIconPositions();
         
+        // Check if personalization overlay exists, if not, reset wallpaper
+        if (!document.querySelector('.wallpaper-personalization')) {
+            resetWallpaper();
+        }
+        
         // Play startup sound
         playSound('startup');
     });
@@ -1159,7 +1164,44 @@ function changeWallpaper(type, customWallpaper = null) {
                 desktop.style.backgroundImage = `url("${customWallpaper}")`;
                 // Save custom wallpaper data
                 localStorage.setItem('customWallpaperData', customWallpaper);
+            } else {
+                // Fallback to default if custom wallpaper data is missing
+                desktop.style.backgroundColor = '#0078d7';
+                
+                // Add personalization overlay 
+                const fallbackOverlay = document.createElement('div');
+                fallbackOverlay.className = 'wallpaper-personalization centered';
+                fallbackOverlay.innerHTML = `
+                    <div class="personal-info-centered">
+                        <div class="wallpaper-profile-picture">
+                            <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
+                        </div>
+                        <h1>Joao Vitor Barros da Silva</h1>
+                        <h2>Computer Science</h2>
+                        <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                    </div>
+                `;
+                desktop.appendChild(fallbackOverlay);
             }
+            break;
+        default:
+            // Default fallback
+            desktop.style.backgroundColor = '#0078d7';
+            
+            // Add personalization overlay
+            const defaultOverlay = document.createElement('div');
+            defaultOverlay.className = 'wallpaper-personalization centered';
+            defaultOverlay.innerHTML = `
+                <div class="personal-info-centered">
+                    <div class="wallpaper-profile-picture">
+                        <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
+                    </div>
+                    <h1>Joao Vitor Barros da Silva</h1>
+                    <h2>Computer Science</h2>
+                    <p class="welcome-message">Welcome to my portfolio, click any icon to begin the search</p>
+                </div>
+            `;
+            desktop.appendChild(defaultOverlay);
             break;
     }
     
@@ -1192,6 +1234,9 @@ function loadSavedWallpaper() {
         } else {
             changeWallpaper(savedWallpaper);
         }
+    } else {
+        // If no wallpaper is saved, use the default one
+        changeWallpaper('default');
     }
 }
 
@@ -1319,6 +1364,9 @@ function setupContextMenu() {
         <div class="context-menu-item" data-action="refresh">
             <i class="fas fa-sync"></i> Refresh
         </div>
+        <div class="context-menu-item" data-action="resetwallpaper">
+            <i class="fas fa-image"></i> Reset Wallpaper
+        </div>
     `;
     
     // Create file-specific context menu
@@ -1397,6 +1445,9 @@ function setupContextMenu() {
                 break;
             case 'refresh':
                 resetIconPositions();
+                break;
+            case 'resetwallpaper':
+                resetWallpaper();
                 break;
         }
         
@@ -1765,4 +1816,14 @@ function deleteFile(icon) {
             playSound('delete');
         }, 300);
     }
+}
+
+// Reset wallpaper to default
+function resetWallpaper() {
+    // Remove any saved wallpaper settings
+    localStorage.removeItem('wallpaper');
+    localStorage.removeItem('customWallpaperData');
+    
+    // Apply default wallpaper
+    changeWallpaper('default');
 } 
