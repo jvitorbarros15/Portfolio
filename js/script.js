@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make icons draggable
     makeIconsDraggable();
     
+    // Load user-created files
+    loadUserFiles();
+    
     // Initialize blockchain
     initBlockchain();
     
@@ -705,10 +708,31 @@ function updateTaskbarActiveItem(windowType) {
     }
 }
 
-// Play sound effect (for future implementation)
+// Play sound effect
 function playSound(action) {
-    // This function is a placeholder for sound effects
+    // Define sound effects (you could replace with actual sounds)
+    const sounds = {
+        open: 'open',
+        close: 'close',
+        minimize: 'minimize',
+        maximize: 'maximize',
+        reset: 'reset',
+        startup: 'startup',
+        wallpaper: 'wallpaper',
+        create: 'create',
+        delete: 'delete'
+    };
+    
+    // Log the sound effect (for development)
     console.log(`Sound played: ${action}`);
+    
+    // Here you could implement actual sounds
+    // For example:
+    /*
+    const sound = new Audio(`./sounds/${sounds[action]}.mp3`);
+    sound.volume = 0.5;
+    sound.play().catch(e => console.log('Error playing sound:', e));
+    */
 }
 
 // Handle window resize events for responsiveness
@@ -1279,6 +1303,8 @@ function setupWindowResizing(window) {
 // Setup right-click context menu
 function setupContextMenu() {
     const desktop = document.querySelector('.desktop');
+    const icons = document.querySelectorAll('.icon');
+    let rightClickedIcon = null;
     
     // Create context menu element
     const contextMenu = document.createElement('div');
@@ -1295,26 +1321,72 @@ function setupContextMenu() {
         </div>
     `;
     
-    document.body.appendChild(contextMenu);
+    // Create file-specific context menu
+    const fileContextMenu = document.createElement('div');
+    fileContextMenu.className = 'context-menu';
+    fileContextMenu.innerHTML = `
+        <div class="context-menu-item" data-action="open">
+            <i class="fas fa-folder-open"></i> Open
+        </div>
+        <div class="context-menu-item" data-action="rename">
+            <i class="fas fa-edit"></i> Rename
+        </div>
+        <div class="context-menu-item" data-action="delete">
+            <i class="fas fa-trash"></i> Delete
+        </div>
+    `;
     
-    // Show context menu on right click
+    document.body.appendChild(contextMenu);
+    document.body.appendChild(fileContextMenu);
+    
+    // Show desktop context menu on right click (only on empty desktop areas)
     desktop.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        
-        // Position the menu at the mouse position
-        contextMenu.style.left = `${e.clientX}px`;
-        contextMenu.style.top = `${e.clientY}px`;
-        contextMenu.style.display = 'block';
+        // Check if clicking on an icon or the desktop
+        if (e.target === desktop || e.target.classList.contains('desktop')) {
+            e.preventDefault();
+            
+            // Hide all context menus
+            contextMenu.style.display = 'none';
+            fileContextMenu.style.display = 'none';
+            
+            // Position and show desktop context menu
+            contextMenu.style.left = `${e.clientX}px`;
+            contextMenu.style.top = `${e.clientY}px`;
+            contextMenu.style.display = 'block';
+        }
     });
     
-    // Hide context menu when clicking elsewhere
+    // Show file-specific context menu on right-clicking an icon
+    document.addEventListener('contextmenu', function(e) {
+        // Find if the click was on an icon or its children
+        const iconElement = e.target.closest('.icon');
+        
+        if (iconElement) {
+            e.preventDefault();
+            
+            // Store the icon that was right-clicked
+            rightClickedIcon = iconElement;
+            
+            // Hide desktop context menu
+            contextMenu.style.display = 'none';
+            
+            // Position and show file context menu
+            fileContextMenu.style.left = `${e.clientX}px`;
+            fileContextMenu.style.top = `${e.clientY}px`;
+            fileContextMenu.style.display = 'block';
+        }
+    });
+    
+    // Hide context menus when clicking elsewhere
     document.addEventListener('click', function() {
         contextMenu.style.display = 'none';
+        fileContextMenu.style.display = 'none';
     });
     
-    // Handle context menu actions
+    // Handle desktop context menu actions
     contextMenu.addEventListener('click', function(e) {
-        const action = e.target.closest('.context-menu-item').dataset.action;
+        const action = e.target.closest('.context-menu-item')?.dataset.action;
+        if (!action) return;
         
         switch(action) {
             case 'newfile':
@@ -1330,6 +1402,30 @@ function setupContextMenu() {
         
         // Hide menu after action
         contextMenu.style.display = 'none';
+    });
+    
+    // Handle file context menu actions
+    fileContextMenu.addEventListener('click', function(e) {
+        const action = e.target.closest('.context-menu-item')?.dataset.action;
+        if (!action || !rightClickedIcon) return;
+        
+        const windowType = rightClickedIcon.getAttribute('data-window');
+        const fileName = rightClickedIcon.querySelector('.icon-text').textContent;
+        
+        switch(action) {
+            case 'open':
+                openWindow(windowType);
+                break;
+            case 'rename':
+                renameFile(rightClickedIcon);
+                break;
+            case 'delete':
+                deleteFile(rightClickedIcon);
+                break;
+        }
+        
+        // Hide menu after action
+        fileContextMenu.style.display = 'none';
     });
 }
 
@@ -1599,5 +1695,74 @@ function loadUserFiles() {
                 openWindow(windowType);
             });
         });
+    }
+}
+
+// Rename a file
+function renameFile(icon) {
+    const iconText = icon.querySelector('.icon-text');
+    const currentName = iconText.textContent;
+    const newName = prompt('Enter new name:', currentName);
+    
+    if (newName && newName !== currentName) {
+        // Update the icon text
+        iconText.textContent = newName;
+        
+        // If this is a user-created file, update storage
+        const windowType = icon.getAttribute('data-window');
+        if (windowType === 'notepad' || windowType === 'folder') {
+            // If it's a text file, rename its content in localStorage
+            if (windowType === 'notepad') {
+                const content = localStorage.getItem(`file_${currentName}`);
+                if (content !== null) {
+                    localStorage.setItem(`file_${newName}`, content);
+                    localStorage.removeItem(`file_${currentName}`);
+                }
+            }
+            
+            // If it's a folder, rename its content in localStorage
+            if (windowType === 'folder') {
+                const items = localStorage.getItem(`folder_${currentName}`);
+                if (items !== null) {
+                    localStorage.setItem(`folder_${newName}`, items);
+                    localStorage.removeItem(`folder_${currentName}`);
+                }
+            }
+            
+            // Save updated user files
+            saveUserFiles();
+        }
+    }
+}
+
+// Delete a file
+function deleteFile(icon) {
+    const fileName = icon.querySelector('.icon-text').textContent;
+    const windowType = icon.getAttribute('data-window');
+    
+    // Confirm deletion
+    if (confirm(`Are you sure you want to delete "${fileName}"?`)) {
+        // Remove file content from localStorage
+        if (windowType === 'notepad') {
+            localStorage.removeItem(`file_${fileName}`);
+        } else if (windowType === 'folder') {
+            localStorage.removeItem(`folder_${fileName}`);
+        }
+        
+        // Add delete animation
+        icon.style.transition = 'transform 0.3s, opacity 0.3s';
+        icon.style.transform = 'scale(0.5)';
+        icon.style.opacity = '0';
+        
+        // Remove the icon after animation
+        setTimeout(() => {
+            icon.remove();
+            
+            // Update user files
+            saveUserFiles();
+            
+            // Play delete sound
+            playSound('delete');
+        }, 300);
     }
 } 
