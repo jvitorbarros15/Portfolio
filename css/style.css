@@ -44,19 +44,23 @@ body {
     cursor: pointer;
     padding: 5px;
     border-radius: 5px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s, opacity 0.3s;
     position: absolute;
     user-select: none;
     touch-action: none;
+    z-index: 1;
 }
 
 .icon:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .icon.selected {
     background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 4px rgba(0, 120, 215, 0.5);
+    box-shadow: 0 0 8px rgba(0, 120, 215, 0.6);
+    transform: scale(1.05);
 }
 
 .icon.selected .icon-text {
@@ -101,22 +105,24 @@ body {
     flex-direction: column;
     overflow: hidden;
     display: none; /* Hidden by default */
-    z-index: 1;
+    z-index: 10;
     transition: all 0.3s ease;
 }
 
 .window.fullscreen {
-    width: 100% !important;
-    height: calc(100% - 40px) !important; /* Subtract taskbar height */
+    position: absolute !important;
     top: 0 !important;
     left: 0 !important;
+    width: 100% !important;
+    height: calc(100% - 40px) !important; /* Subtract taskbar height */
+    max-width: none !important;
+    max-height: none !important;
     border-radius: 0 !important;
-    max-width: 100% !important;
-    max-height: calc(100% - 40px) !important;
+    z-index: 100 !important;
 }
 
 .window.active {
-    z-index: 2;
+    z-index: 100;
 }
 
 .window-header {
@@ -1112,4 +1118,91 @@ body {
         padding: 8px 12px;
         max-width: 300px;
     }
+}
+
+/* Resize handles */
+.window:not(.fullscreen) .resize-handle {
+    position: absolute;
+    z-index: 3;
+}
+
+.window:not(.fullscreen) .resize-handle.top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: n-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.right {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: e-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    cursor: s-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.left {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: w-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.top-left {
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: nw-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.top-right {
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: ne-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: se-resize;
+}
+
+.window:not(.fullscreen) .resize-handle.bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    cursor: sw-resize;
+}
+
+.icon.active {
+    z-index: 3;
+}
+
+.icon.dragging {
+    opacity: 0.8;
+    transform: scale(1.08);
+    z-index: 3;
+    transition: transform 0.1s, opacity 0.2s;
+    animation: icon-pulse 1s infinite alternate ease-in-out;
+}
+
+@keyframes icon-pulse {
+    from { transform: scale(1.08); }
+    to { transform: scale(1.12); }
 } 

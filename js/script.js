@@ -44,11 +44,9 @@ function initWindows() {
     const windows = document.querySelectorAll('.window');
     
     windows.forEach(window => {
-        // Make windows draggable
-        makeWindowDraggable(window);
-        
-        // Window controls
+        setupWindowDrag(window);
         setupWindowControls(window);
+        setupWindowResizing(window);
     });
 }
 
@@ -105,7 +103,7 @@ function makeIconsDraggable() {
             icon.style.zIndex = 10; // Bring to front while dragging
             
             // Remove active class from all icons
-            icons.forEach(i => i.classList.remove('active', 'selected'));
+            icons.forEach(i => i.classList.remove('active', 'selected', 'dragging'));
             
             // Add active class for dragging and selected class for visual
             icon.classList.add('active', 'selected');
@@ -135,6 +133,11 @@ function makeIconsDraggable() {
             if (deltaX > 5 || deltaY > 5) {
                 hasMoved = true;
                 
+                // Add dragging class once we're sure the user is dragging
+                if (!icon.classList.contains('dragging')) {
+                    icon.classList.add('dragging');
+                }
+                
                 // Calculate new position
                 const moveX = clientX - startX;
                 const moveY = clientY - startY;
@@ -149,12 +152,37 @@ function makeIconsDraggable() {
                 const maxLeft = desktopRect.width - iconRect.width;
                 const maxTop = desktopRect.height - iconRect.height - 40; // 40px for taskbar
                 
+                // Apply bounds
                 const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
                 const boundedTop = Math.max(0, Math.min(newTop, maxTop));
                 
-                // Apply new position
-                icon.style.left = `${boundedLeft}px`;
-                icon.style.top = `${boundedTop}px`;
+                // Check if position would overlap with another icon
+                let isOverlapping = false;
+                const minDistance = 60; // Minimum distance between icon centers
+                
+                icons.forEach(otherIcon => {
+                    if (otherIcon !== icon) {
+                        const otherLeft = parseInt(otherIcon.style.left || 0);
+                        const otherTop = parseInt(otherIcon.style.top || 0);
+                        
+                        // Calculate distance between icon centers
+                        const distance = Math.sqrt(
+                            Math.pow(boundedLeft - otherLeft, 2) + 
+                            Math.pow(boundedTop - otherTop, 2)
+                        );
+                        
+                        if (distance < minDistance) {
+                            isOverlapping = true;
+                        }
+                    }
+                });
+                
+                // Only apply new position if not overlapping
+                if (!isOverlapping) {
+                    // Apply bounded position
+                    icon.style.left = `${boundedLeft}px`;
+                    icon.style.top = `${boundedTop}px`;
+                }
             }
         }
         
@@ -162,6 +190,9 @@ function makeIconsDraggable() {
             if (isDragging) {
                 isDragging = false;
                 icon.style.zIndex = 1;
+                
+                // Remove dragging class
+                icon.classList.remove('dragging');
                 
                 // Only save position if actually moved
                 if (hasMoved) {
@@ -199,18 +230,77 @@ function positionIcons(icons) {
     }
 }
 
-// Set default icon position in a grid layout
+// Set default icon position in a natural layout
 function setDefaultIconPosition(icon, index = 0) {
     const margin = 20;
     const iconWidth = 80;
-    const iconHeight = 100;
-    const iconsPerColumn = Math.floor((window.innerHeight - 40) / iconHeight); // 40px for taskbar
+    const iconSpacingX = 120; // More horizontal space between icons
+    const iconSpacingY = 100; // Vertical spacing between icons
     
+    // Determine number of icons per column based on window height
+    const iconsPerColumn = Math.floor((window.innerHeight - 40 - margin) / iconSpacingY);
+    
+    // Calculate base position
     const column = Math.floor(index / iconsPerColumn);
     const row = index % iconsPerColumn;
     
-    icon.style.left = `${margin + (column * (iconWidth + margin))}px`;
-    icon.style.top = `${margin + (row * iconHeight)}px`;
+    // Try positions until we find a non-overlapping one
+    let found = false;
+    let left = 0;
+    let top = 0;
+    let attempts = 0;
+    const maxAttempts = 10;
+    const minDistance = 60; // Minimum distance between icon centers
+    
+    const allIcons = document.querySelectorAll('.icon');
+    
+    while (!found && attempts < maxAttempts) {
+        // Generate a position with randomness
+        const randomOffsetX = Math.floor(Math.random() * 30) - 15; // -15 to +15 pixels
+        const randomOffsetY = Math.floor(Math.random() * 30) - 15; // -15 to +15 pixels
+        
+        left = margin + (column * iconSpacingX) + randomOffsetX;
+        top = margin + (row * iconSpacingY) + randomOffsetY;
+        
+        // Check if this position overlaps with any existing icon
+        let overlapping = false;
+        
+        for (let i = 0; i < allIcons.length; i++) {
+            const otherIcon = allIcons[i];
+            if (otherIcon !== icon && otherIcon.style.left && otherIcon.style.top) {
+                const otherLeft = parseInt(otherIcon.style.left);
+                const otherTop = parseInt(otherIcon.style.top);
+                
+                // Calculate distance between icon centers
+                const distance = Math.sqrt(
+                    Math.pow(left - otherLeft, 2) + 
+                    Math.pow(top - otherTop, 2)
+                );
+                
+                if (distance < minDistance) {
+                    overlapping = true;
+                    break;
+                }
+            }
+        }
+        
+        if (!overlapping) {
+            found = true;
+        }
+        
+        attempts++;
+    }
+    
+    // Keep within bounds
+    const maxLeft = window.innerWidth - iconWidth - margin;
+    const maxTop = window.innerHeight - 40 - iconWidth - margin;
+    
+    left = Math.max(margin, Math.min(left, maxLeft));
+    top = Math.max(margin, Math.min(top, maxTop));
+    
+    // Apply position
+    icon.style.left = `${left}px`;
+    icon.style.top = `${top}px`;
     
     // Save this position
     saveIconPosition(icon);
@@ -236,32 +326,46 @@ function saveIconPosition(icon) {
     localStorage.setItem('iconPositions', JSON.stringify(positions));
 }
 
-// Make a window draggable
-function makeWindowDraggable(window) {
-    const header = window.querySelector('.window-header');
+// Make windows draggable
+function setupWindowDrag(window) {
+    const windowHeader = window.querySelector('.window-header');
     let isDragging = false;
     let offsetX, offsetY;
     
-    header.addEventListener('mousedown', function(e) {
-        // Don't drag if clicked on window controls or if window is in fullscreen
-        if (e.target.closest('.window-controls') || window.classList.contains('fullscreen')) return;
+    windowHeader.addEventListener('mousedown', function(e) {
+        // Only allow dragging from the header itself, not its children (buttons)
+        if (e.target !== windowHeader && !e.target.classList.contains('window-title') && !windowHeader.contains(e.target)) {
+            return;
+        }
         
         isDragging = true;
         
         // Make window active
         activateWindow(window);
         
-        // Calculate the offset from the mouse to the window corner
+        // Calculate the offset of the mouse relative to the window
         const rect = window.getBoundingClientRect();
         offsetX = e.clientX - rect.left;
         offsetY = e.clientY - rect.top;
         
-        // Change cursor
+        // Change cursor during drag
         window.style.cursor = 'move';
     });
     
     document.addEventListener('mousemove', function(e) {
         if (!isDragging) return;
+        
+        // Exit fullscreen when trying to drag
+        if (window.classList.contains('fullscreen')) {
+            toggleFullscreen(window);
+            
+            // Recalculate offsets after exiting fullscreen
+            const rect = window.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            
+            return; // Skip this frame to avoid jumping
+        }
         
         // Calculate new position
         const x = e.clientX - offsetX;
@@ -332,20 +436,21 @@ function openWindow(windowType) {
     const window = document.getElementById(`${windowType}-window`);
     
     if (window) {
-        // Reset any previous styles (position/size)
-        window.style.width = '';
-        window.style.height = '';
-        window.style.top = '';
-        window.style.left = '';
+        // Reset all windows first
+        document.querySelectorAll('.window').forEach(w => {
+            w.classList.remove('active');
+            if (w !== window) {
+                w.style.display = 'none';
+            }
+        });
         
-        // Display the window
+        // Set fullscreen
         window.style.display = 'flex';
-        
-        // Open in fullscreen by default
-        window.classList.add('fullscreen');
-        
-        // Add active class
-        activateWindow(window);
+        window.style.width = '100%';
+        window.style.height = 'calc(100% - 40px)';
+        window.style.top = '0';
+        window.style.left = '0';
+        window.classList.add('fullscreen', 'active');
         
         // Add to taskbar if not already there
         addToTaskbar(windowType);
@@ -356,30 +461,33 @@ function openWindow(windowType) {
             initBlockchain();
         }
         
-        // Add sound effect (optional)
+        // Play sound effect (optional)
         playSound('open');
     }
 }
 
 // Toggle fullscreen mode
 function toggleFullscreen(window) {
-    window.classList.toggle('fullscreen');
-    
-    // Reset position and size when toggling out of fullscreen
-    if (!window.classList.contains('fullscreen')) {
+    if (window.classList.contains('fullscreen')) {
+        // Exit fullscreen
+        window.classList.remove('fullscreen');
         window.style.width = '700px';
         window.style.height = '500px';
         window.style.top = '50px';
         window.style.left = '100px';
     } else {
-        // Make sure all size and position attributes are reset for fullscreen
-        window.style.width = '';
-        window.style.height = '';
-        window.style.top = '';
-        window.style.left = '';
+        // Enter fullscreen
+        window.style.width = '100%';
+        window.style.height = 'calc(100% - 40px)';
+        window.style.top = '0';
+        window.style.left = '0';
+        window.classList.add('fullscreen');
     }
     
-    // Add sound effect (optional)
+    // Make sure this window is active
+    activateWindow(window);
+    
+    // Add sound effect
     playSound('maximize');
 }
 
@@ -470,22 +578,14 @@ function addToTaskbar(windowType) {
         const window = document.getElementById(`${windowType}-window`);
         
         if (window.style.display === 'none') {
-            // Reset any previous styles (position/size)
-            window.style.width = '';
-            window.style.height = '';
-            window.style.top = '';
-            window.style.left = '';
-            
-            // Display the window
-            window.style.display = 'flex';
-            
-            // Ensure it's in fullscreen when reopened
-            window.classList.add('fullscreen');
-            activateWindow(window);
+            // Use openWindow to show the window
+            openWindow(windowType);
         } else if (window.classList.contains('active')) {
+            // Minimize window if it's active
             minimizeWindow(window);
         } else {
-            activateWindow(window);
+            // Activate window if it's not active
+            openWindow(windowType);
         }
     });
     
@@ -753,29 +853,31 @@ function setupStartButton() {
     });
 }
 
-// Reset all icon positions to their defaults
+// Reset all icon positions with an organic, natural arrangement
 function resetIconPositions() {
     const icons = document.querySelectorAll('.icon');
     
     // Clear saved positions
     localStorage.removeItem('iconPositions');
     
-    // Set default positions
+    // Set new positions with staggered animation
     icons.forEach((icon, index) => {
-        setDefaultIconPosition(icon, index);
-        
         // Add a small animation effect
-        icon.style.transition = 'all 0.3s ease-in-out';
+        icon.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
         icon.style.opacity = '0';
+        icon.style.transform = 'scale(0.8) translateY(20px)';
         
+        // Stagger the animations
         setTimeout(() => {
+            setDefaultIconPosition(icon, index);
             icon.style.opacity = '1';
-        }, 100 + (index * 50)); // Staggered fade-in
+            icon.style.transform = '';
+        }, 100 + (index * 80)); // Staggered with longer delays
         
         // Remove transition after animation completes
         setTimeout(() => {
             icon.style.transition = '';
-        }, 500 + (index * 50));
+        }, 600 + (index * 80));
     });
     
     // Play sound effect (optional)
@@ -985,6 +1087,94 @@ function enhanceIconTextReadability(isDarkBackground) {
             text.style.backgroundColor = '';
             text.style.padding = '';
             text.style.borderRadius = '';
+        }
+    });
+}
+
+// Setup window resizing functionality
+function setupWindowResizing(window) {
+    if (window.querySelector('.resize-handle')) return; // Already setup
+    
+    // Add resize handles
+    const directions = ['top', 'right', 'bottom', 'left', 'top-left', 'top-right', 'bottom-right', 'bottom-left'];
+    
+    directions.forEach(direction => {
+        const handle = document.createElement('div');
+        handle.className = `resize-handle ${direction}`;
+        window.appendChild(handle);
+        
+        // Setup resize events
+        handle.addEventListener('mousedown', initResize);
+        
+        function initResize(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // If window is fullscreen, exit fullscreen first
+            if (window.classList.contains('fullscreen')) {
+                toggleFullscreen(window);
+            }
+            
+            // Get initial cursor position
+            const startX = e.clientX;
+            const startY = e.clientY;
+            
+            // Get initial window dimensions
+            const startWidth = parseInt(window.offsetWidth);
+            const startHeight = parseInt(window.offsetHeight);
+            const startLeft = parseInt(window.offsetLeft);
+            const startTop = parseInt(window.offsetTop);
+            
+            // Minimum size constraints
+            const minWidth = 300;
+            const minHeight = 200;
+            
+            // Make window active
+            activateWindow(window);
+            
+            // Setup resize tracking
+            document.addEventListener('mousemove', resize);
+            document.addEventListener('mouseup', stopResize);
+            
+            function resize(e) {
+                e.preventDefault();
+                
+                // Calculate delta movement
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                
+                // Apply resize based on direction
+                if (direction.includes('right')) {
+                    const newWidth = Math.max(minWidth, startWidth + dx);
+                    window.style.width = `${newWidth}px`;
+                }
+                
+                if (direction.includes('bottom')) {
+                    const newHeight = Math.max(minHeight, startHeight + dy);
+                    window.style.height = `${newHeight}px`;
+                }
+                
+                if (direction.includes('left')) {
+                    const newWidth = Math.max(minWidth, startWidth - dx);
+                    if (newWidth !== minWidth) {
+                        window.style.width = `${newWidth}px`;
+                        window.style.left = `${startLeft + dx}px`;
+                    }
+                }
+                
+                if (direction.includes('top')) {
+                    const newHeight = Math.max(minHeight, startHeight - dy);
+                    if (newHeight !== minHeight) {
+                        window.style.height = `${newHeight}px`;
+                        window.style.top = `${startTop + dy}px`;
+                    }
+                }
+            }
+            
+            function stopResize() {
+                document.removeEventListener('mousemove', resize);
+                document.removeEventListener('mouseup', stopResize);
+            }
         }
     });
 } 
