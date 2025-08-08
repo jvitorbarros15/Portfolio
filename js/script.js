@@ -1221,7 +1221,7 @@ function changeWallpaper(type, customWallpaper = null) {
     // Apply new background based on type
     switch (type) {
         case 'default':
-            desktop.style.backgroundColor = '#0078d7';
+            desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
             
             // Add personalization overlay with name, major and profile picture in center
             const personalizationOverlay = document.createElement('div');
@@ -1261,7 +1261,7 @@ function changeWallpaper(type, customWallpaper = null) {
                 localStorage.setItem('customWallpaperData', customWallpaper);
             } else {
                 // Fallback to default if custom wallpaper data is missing
-                desktop.style.backgroundColor = '#0078d7';
+                desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
                 
                 // Add personalization overlay 
                 const fallbackOverlay = document.createElement('div');
@@ -1282,7 +1282,7 @@ function changeWallpaper(type, customWallpaper = null) {
             break;
         default:
             // Default fallback
-            desktop.style.backgroundColor = '#0078d7';
+            desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
             
             // Add personalization overlay
             const defaultOverlay = document.createElement('div');

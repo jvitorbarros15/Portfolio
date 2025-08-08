@@ -10,7 +10,7 @@ body {
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    background-color: #0078d7; /* Windows 10 default background color */
+    background: linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%); /* Techy dark blue gradient */
 }
 
 .desktop {
@@ -18,7 +18,7 @@ body {
     height: 100%;
     background-size: cover;
     background-position: center;
-    background-color: #0078d7; /* Windows 10 default background color */
+    background: linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%); /* Techy dark blue gradient */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -55,15 +55,19 @@ body {
 }
 
 .icon:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, rgba(0, 255, 255, 0.15) 0%, rgba(255, 0, 255, 0.15) 100%);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4), 0 0 20px rgba(255, 0, 255, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    border-radius: 8px;
 }
 
 .icon.selected {
-    background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 8px rgba(0, 120, 215, 0.6);
-    transform: scale(1.05);
+    background: linear-gradient(145deg, rgba(0, 255, 255, 0.25) 0%, rgba(255, 0, 255, 0.25) 100%);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 25px rgba(255, 0, 255, 0.6);
+    transform: scale(1.08);
+    border: 2px solid #00ffff;
+    border-radius: 8px;
 }
 
 .icon.selected .icon-text {
@@ -74,19 +78,31 @@ body {
 
 .icon-img {
     font-size: 32px;
-    margin-bottom: 5px;
-    color: white;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 8px;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.icon:hover .icon-img {
+    color: #ff00ff;
+    text-shadow: 0 0 15px rgba(255, 0, 255, 0.9), 0 0 30px rgba(255, 0, 255, 0.6);
 }
 
 .icon-text {
-    color: white;
+    color: #ffffff;
     text-align: center;
     font-size: 12px;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.7), 1px 1px 3px rgba(0, 0, 0, 0.8);
     word-wrap: break-word;
     max-width: 100%;
- 
+    transition: all 0.3s ease;
+}
+
+.icon:hover .icon-text {
+    color: #00ffff;
+    text-shadow: 0 0 12px rgba(0, 255, 255, 0.9), 0 0 20px rgba(255, 0, 255, 0.5);
 }
 
 /* Windows */
@@ -101,9 +117,10 @@ body {
     left: 100px;
     width: 700px;
     height: 500px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(145deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%);
+    border-radius: 8px;
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -129,19 +146,23 @@ body {
 }
 
 .window-header {
-    background: linear-gradient(to right, #0078d7, #00adef);
-    height: 30px;
+    background: linear-gradient(90deg, #001122 0%, #003366 50%, #001122 100%);
+    border-bottom: 2px solid #00ffff;
+    height: 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
+    padding: 0 15px;
     cursor: move;
     user-select: none;
+    box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
 }
 
 .window-title {
-    color: white;
+    color: #00ffff;
     font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -184,13 +205,17 @@ body {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: white;
+    background: linear-gradient(135deg, #0a0f1c 0%, #1a1f2e 25%, #0a0f1c 50%, #1a1f2e 75%, #0a0f1c 100%);
+    color: #ffffff;
+    border-top: 1px solid rgba(0, 255, 255, 0.3);
 }
 
 /* Taskbar */
 .taskbar {
     height: 40px;
-    background-color: #202020;
+    background: linear-gradient(90deg, #0a0f1c 0%, #1a1f2e 50%, #0a0f1c 100%);
+    border-top: 1px solid #00ffff;
+    box-shadow: 0 -2px 10px rgba(0, 255, 255, 0.3);
     display: flex;
     align-items: center;
     padding: 0 10px;
@@ -198,26 +223,32 @@ body {
 }
 
 .start-button {
-    background-color: #0078d7;
-    color: white;
+    background: linear-gradient(45deg, #00ffff 0%, #0099cc 50%, #00ffff 100%);
+    color: #000;
+    font-weight: bold;
     height: 100%;
     padding: 0 15px;
     display: flex;
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 }
 
 .start-button:hover {
-    background-color: #1a8fe3;
+    background: linear-gradient(45deg, #ff00ff 0%, #00ffff 50%, #ff00ff 100%);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.6);
+    transform: scale(1.05);
 }
 
 .start-button:active {
     transform: scale(0.95);
-    background-color: #006cc1;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 1);
 }
 
 .start-button.clicked::after {
@@ -298,15 +329,26 @@ body {
 /* Project Window */
 .project-item {
     margin-bottom: 30px;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #0f1920 0%, #1a2530 50%, #0f1920 100%);
+    border: 1px solid #00ffff;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(0, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.project-item:hover {
+    border-color: #ff00ff;
+    box-shadow: 0 6px 20px rgba(255, 0, 255, 0.3), inset 0 1px 0 rgba(255, 0, 255, 0.1);
+    transform: translateY(-2px);
 }
 
 .project-item h3 {
-    margin-bottom: 10px;
-    color: #0078d7;
+    margin-bottom: 15px;
+    color: #00ffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
 }
 
 .project-links {
@@ -317,19 +359,25 @@ body {
 }
 
 .btn {
-    padding: 8px 15px;
-    background-color: #0078d7;
-    color: white;
-    border: none;
-    border-radius: 3px;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #00ffff 0%, #0099cc 50%, #00ffff 100%);
+    color: #000;
+    font-weight: bold;
+    border: 1px solid #00ffff;
+    border-radius: 6px;
     cursor: pointer;
     text-decoration: none;
     font-size: 14px;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
 .btn:hover {
-    background-color: #1a8fe3;
+    background: linear-gradient(45deg, #ff00ff 0%, #00ffff 50%, #ff00ff 100%);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(0, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.05);
+    border-color: #ff00ff;
 }
 
 /* Responsive adjustments */
@@ -970,12 +1018,23 @@ body {
 }
 
 .tech-tag {
-    background: rgba(0, 120, 215, 0.1);
-    color: #0078d7;
+    background: linear-gradient(45deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%);
+    color: #00ffff;
     font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 120, 215, 0.3);
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+    background: linear-gradient(45deg, rgba(255, 0, 255, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
+    border-color: #ff00ff;
+    box-shadow: 0 0 12px rgba(255, 0, 255, 0.5);
+    transform: scale(1.1);
 }
 
 .contact-info {
@@ -1009,32 +1068,44 @@ body {
     margin-bottom: 25px;
     padding: 20px;
     border-radius: 8px;
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-left: 4px solid #0078d7;
+    background: linear-gradient(145deg, #0f1920 0%, #1a2530 50%, #0f1920 100%);
+    border: 1px solid #00ffff;
+    border-left: 4px solid #ff00ff;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2), inset 0 1px 0 rgba(0, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.certification-item:hover {
+    border-color: #ff00ff;
+    box-shadow: 0 6px 20px rgba(255, 0, 255, 0.3), inset 0 1px 0 rgba(255, 0, 255, 0.1);
+    transform: translateY(-2px);
 }
 
 .certification-item h3 {
-    margin-bottom: 8px;
-    color: #0078d7;
+    margin-bottom: 12px;
+    color: #00ffff;
     font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
 }
 
 .cert-issuer {
     font-weight: 600;
-    color: #495057;
-    margin-bottom: 4px;
+    color: #ff00ff;
+    margin-bottom: 6px;
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
 }
 
 .cert-date {
-    color: #6c757d;
+    color: #00ffff;
     font-size: 14px;
     margin-bottom: 12px;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
 }
 
 .cert-description {
     line-height: 1.6;
-    color: #495057;
+    color: #e0e0e0;
     margin-bottom: 15px;
 }
 
@@ -1045,13 +1116,23 @@ body {
 }
 
 .skill-tag {
-    background: rgba(0, 120, 215, 0.1);
-    color: #0078d7;
+    background: linear-gradient(45deg, rgba(255, 0, 255, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
+    color: #ff00ff;
     font-size: 12px;
-    padding: 4px 8px;
+    font-weight: bold;
+    padding: 6px 12px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 120, 215, 0.3);
-    font-weight: 500;
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: linear-gradient(45deg, rgba(0, 255, 255, 0.2) 0%, rgba(255, 0, 255, 0.2) 100%);
+    border-color: #00ffff;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+    transform: scale(1.1);
 }
 
 /* Wallpaper personalization styles */
