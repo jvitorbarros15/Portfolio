@@ -94,14 +94,85 @@ function makeIconsDraggable() {
     // Position icons initially
     positionIcons(icons);
     
-    // Add click handler to desktop to deselect icons when clicking elsewhere
+    // Create selection box
+    const selectionBox = document.createElement('div');
+    selectionBox.className = 'selection-box';
+    document.body.appendChild(selectionBox);
+    
+    let isSelecting = false;
+    let startX, startY;
+    
+    // Handle selection start
+    desktop.addEventListener('mousedown', function(e) {
+        // Only start selection if clicking directly on desktop
+        if (e.target === desktop) {
+            isSelecting = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            
+            // Position selection box at click point
+            selectionBox.style.left = startX + 'px';
+            selectionBox.style.top = startY + 'px';
+            selectionBox.style.width = '0';
+            selectionBox.style.height = '0';
+            selectionBox.style.display = 'block';
+            
+            // Deselect all icons initially
+            icons.forEach(icon => icon.classList.remove('selected'));
+        }
+    });
+    
+    // Handle selection move
+    document.addEventListener('mousemove', function(e) {
+        if (!isSelecting) return;
+        
+        const currentX = e.clientX;
+        const currentY = e.clientY;
+        
+        // Calculate selection box dimensions
+        const width = Math.abs(currentX - startX);
+        const height = Math.abs(currentY - startY);
+        
+        // Update selection box position and size
+        selectionBox.style.left = (currentX < startX ? currentX : startX) + 'px';
+        selectionBox.style.top = (currentY < startY ? currentY : startY) + 'px';
+        selectionBox.style.width = width + 'px';
+        selectionBox.style.height = height + 'px';
+        
+        // Check which icons are within the selection box
+        icons.forEach(icon => {
+            const rect = icon.getBoundingClientRect();
+            const selectionRect = selectionBox.getBoundingClientRect();
+            
+            // Check if icon is within selection box
+            if (rect.left < selectionRect.right &&
+                rect.right > selectionRect.left &&
+                rect.top < selectionRect.bottom &&
+                rect.bottom > selectionRect.top) {
+                icon.classList.add('selected');
+            } else {
+                icon.classList.remove('selected');
+            }
+        });
+    });
+    
+    // Handle selection end
+    document.addEventListener('mouseup', function() {
+        if (isSelecting) {
+            isSelecting = false;
+            selectionBox.style.display = 'none';
+        }
+    });
+    
+    // Handle click on desktop to deselect
     desktop.addEventListener('click', function(e) {
-        // Only deselect if the click is directly on the desktop, not on an icon or its children
+        // Only deselect if clicking directly on desktop
         if (e.target === desktop) {
             icons.forEach(icon => icon.classList.remove('selected'));
         }
     });
     
+    // Handle icon dragging
     icons.forEach((icon, index) => {
         let isDragging = false;
         let startX, startY, startLeft, startTop;
@@ -139,7 +210,9 @@ function makeIconsDraggable() {
             icon.style.zIndex = 10; // Bring to front while dragging
             
             // Remove active class from all icons
-            icons.forEach(i => i.classList.remove('active', 'selected', 'dragging'));
+            document.querySelectorAll('.icon').forEach(i => {
+                i.classList.remove('active', 'selected', 'dragging');
+            });
             
             // Add active class for dragging and selected class for visual
             icon.classList.add('active', 'selected');
@@ -192,51 +265,25 @@ function makeIconsDraggable() {
                 const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
                 const boundedTop = Math.max(0, Math.min(newTop, maxTop));
                 
-                // Check if position would overlap with another icon
-                let isOverlapping = false;
-                const minDistance = 60; // Minimum distance between icon centers
+                // Apply new position
+                icon.style.left = `${boundedLeft}px`;
+                icon.style.top = `${boundedTop}px`;
                 
-                icons.forEach(otherIcon => {
-                    if (otherIcon !== icon) {
-                        const otherLeft = parseInt(otherIcon.style.left || 0);
-                        const otherTop = parseInt(otherIcon.style.top || 0);
-                        
-                        // Calculate distance between icon centers
-                        const distance = Math.sqrt(
-                            Math.pow(boundedLeft - otherLeft, 2) + 
-                            Math.pow(boundedTop - otherTop, 2)
-                        );
-                        
-                        if (distance < minDistance) {
-                            isOverlapping = true;
-                        }
-                    }
-                });
-                
-                // Only apply new position if not overlapping
-                if (!isOverlapping) {
-                    // Apply bounded position
-                    icon.style.left = `${boundedLeft}px`;
-                    icon.style.top = `${boundedTop}px`;
-                }
+                // Save position
+                saveIconPosition(icon);
             }
         }
         
         function handleEnd() {
             if (isDragging) {
                 isDragging = false;
-                icon.style.zIndex = 1;
+                icon.style.zIndex = 1; // Reset z-index
+                icon.classList.remove('active', 'dragging');
                 
-                // Remove dragging class
-                icon.classList.remove('dragging');
-                
-                // Only save position if actually moved
-                if (hasMoved) {
-                    saveIconPosition(icon);
-                    // If moved, remove the selected class
-                    icon.classList.remove('selected');
-                }
                 // If not moved, keep the selected class
+                if (!hasMoved) {
+                    icon.classList.add('selected');
+                }
             }
         }
     });
@@ -812,9 +859,9 @@ function createGenesisBlock() {
         index: 0,
         timestamp: new Date().toISOString(),
         data: {
-            title: "Genesis Block",
-            description: "Welcome to my blockchain journey! As a Computer Science graduate from Penn State, I've been working on blockchain projects ranging from DeFi applications to quantum computing research. Explore my projects by adding blocks to this chain.",
-            technologies: ["Blockchain", "Ethereum", "Solidity", "Web3"]
+            title: "Genesis Block - Blockchain Journey",
+            description: "Welcome to my blockchain journey! From AI-powered image verification on Polygon to pioneering quantum-safe Layer 3 protocols, I'm pushing the boundaries of Web3 security and interoperability. Explore my flagship blockchain projects by adding blocks to this chain.",
+            technologies: ["Blockchain", "Quantum Security", "Layer 3", "Web3", "Interoperability"]
         },
         previousHash: "0000000000000000",
         hash: calculateHash(0, new Date().toISOString(), { title: "Genesis Block" }, "0000000000000000")
@@ -860,45 +907,63 @@ function createBlock(index, previousBlock) {
 function getBlockData(index) {
     const projectsData = [
         {
-            title: "Decentralized Exchange (DEX)",
-            description: "Developed a decentralized exchange using Ethereum smart contracts with automated market maker functionality, allowing users to swap tokens without intermediaries.",
-            technologies: ["Solidity", "React", "Web3.js", "Ethereum", "Smart Contracts"]
+            title: "ZorAi – AI Image Verification Platform",
+            description: "Built full-stack decentralized platform to register and verify AI-generated images on blockchain to combat misinformation. Used OpenAI API + Pinata (IPFS) + Solidity on Polygon blockchain to link images with smart contracts.",
+            technologies: ["Next.js", "React", "TypeScript", "Solidity", "OpenAI", "IPFS", "Polygon"]
         },
         {
-            title: "NFT Marketplace",
-            description: "Created a marketplace for digital art NFTs with features like minting, listing, bidding, and royalty payments to original creators. Integrated IPFS for decentralized storage.",
-            technologies: ["ERC-721", "IPFS", "React", "Node.js", "Solidity"]
+            title: "QLink – Quantum-Safe Layer 3 Protocol",
+            description: "World's first quantum-safe Layer 3 interoperability protocol for secure cross-chain asset transfers. Combines post-quantum cryptography (PQC) and quantum key distribution (QKD) to deliver physically unbreakable security for validator communication, proof generation, and key management across any blockchain.",
+            technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
         },
         {
-            title: "DeFi Lending Platform",
-            description: "Built a decentralized lending platform that allows users to lend and borrow crypto assets with dynamic interest rates based on supply and demand.",
-            technologies: ["Solidity", "Smart Contracts", "DeFi", "Chainlink", "React"]
+            title: "🚀 Next Innovation Loading...",
+            description: "Something revolutionary is brewing in the lab! Stay tuned for the next breakthrough in blockchain technology. The future of Web3 is being built one block at a time.",
+            technologies: ["Coming Soon", "Innovation", "Blockchain", "Web3", "Future Tech"]
         },
         {
-            title: "Secure Decentralized Quantum Computing",
-            description: "Research project exploring the integration of quantum computing with blockchain for enhanced security, scalability, and computational power in decentralized applications.",
-            technologies: ["Quantum Algorithms", "Blockchain", "Security", "Research"]
+            title: "🔮 The Plot Thickens...",
+            description: "Another groundbreaking project is taking shape. The blockchain never sleeps, and neither does innovation. What could be next in this journey of technological excellence?",
+            technologies: ["Mystery Project", "Blockchain", "Innovation", "TBD", "Exciting"]
         },
         {
-            title: "Interoperable Blockchain Solutions",
-            description: "Collaborating with Cosmos Network to develop cross-chain communication protocols enabling secure data exchange between different blockchain networks.",
-            technologies: ["Cosmos SDK", "IBC Protocol", "Tendermint", "Cross-Chain"]
+            title: "🎯 Mission: Possible",
+            description: "Every great blockchain journey needs another chapter. This block represents the endless possibilities in the decentralized future. More epic projects are on the horizon!",
+            technologies: ["Future", "Blockchain", "Possibilities", "Coming Soon", "Epic"]
         },
         {
-            title: "Blockchain Voting System",
-            description: "Implemented a secure and transparent voting system using blockchain to ensure vote integrity and public verification while maintaining privacy.",
-            technologies: ["Ethereum", "Zero-Knowledge Proofs", "Smart Contracts", "React"]
-        },
-        {
-            title: "Web3 Personal Portfolio",
-            description: "Created this interactive Windows-style portfolio showcasing blockchain and AI projects with features like draggable icons, theme customization, and blockchain simulation.",
-            technologies: ["JavaScript", "HTML/CSS", "Web Design", "Interactive UI"]
+            title: "🌟 To Be Continued...",
+            description: "The blockchain story doesn't end here! More innovative projects, more groundbreaking solutions, more ways to shape the future of technology. Keep clicking to see what imagination can build!",
+            technologies: ["Infinite Potential", "Innovation", "Blockchain", "Future", "Amazing"]
         }
     ];
     
-    // Return data for the current index, or the last one if index exceeds array length
-    const dataIndex = (index - 1) % projectsData.length;
-    return projectsData[dataIndex];
+    // Return data for the current index
+    if (index <= projectsData.length) {
+        return projectsData[index - 1]; // Direct mapping: index 1 = projectsData[0], etc.
+    } else {
+        // Cycle through fun "coming soon" messages after running out of predefined ones
+        const comingSoonMessages = [
+            {
+                title: "🎲 Roll the Dice!",
+                description: "Another mystery project is in the works! The blockchain adventure continues with endless possibilities. Who knows what innovative solution will emerge next?",
+                technologies: ["Surprise", "Innovation", "Random", "Fun", "Blockchain"]
+            },
+            {
+                title: "🎪 The Show Must Go On!",
+                description: "Step right up to see the next amazing blockchain creation! Every block tells a story, and this story is far from over. More thrills and innovation await!",
+                technologies: ["Entertainment", "Blockchain", "Continuous", "Amazing", "Show"]
+            },
+            {
+                title: "🎨 Masterpiece in Progress",
+                description: "Every artist needs a canvas, and this blockchain is mine! Another stroke of genius is being painted in the world of decentralized technology.",
+                technologies: ["Art", "Creativity", "Blockchain", "Masterpiece", "Genius"]
+            }
+        ];
+        
+        const randomIndex = (index - projectsData.length - 1) % comingSoonMessages.length;
+        return comingSoonMessages[randomIndex];
+    }
 }
 
 // Render the blockchain
@@ -948,8 +1013,8 @@ function renderBlockchain(blockchain) {
         }
     });
     
-    // Add "Add Next Block" button if there are fewer than 8 blocks
-    if (blockchain.length < 8) {
+    // Always show "Add Next Block" button for endless fun
+    if (true) {
         const addBlockBtn = document.createElement('div');
         addBlockBtn.className = 'add-block-btn';
         addBlockBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add Next Block';
@@ -1638,53 +1703,29 @@ function createNewIcon(name, iconClass, windowType) {
     // Add to desktop
     desktop.appendChild(newIcon);
     
-    // Position the new icon
+    // Set initial position
     const icons = document.querySelectorAll('.icon');
-    setDefaultIconPosition(newIcon, icons.length - 1);
+    const index = icons.length - 1;
+    const margin = 20;
+    const iconHeight = 100;
+    const spacing = 10;
+    
+    // Position vertically on the left side
+    newIcon.style.left = `${margin}px`;
+    newIcon.style.top = `${margin + (index * (iconHeight + spacing))}px`;
     
     // Make the new icon draggable
-    setupIconDraggable(newIcon);
-    
-    // Add double-click functionality
-    newIcon.addEventListener('dblclick', function() {
-        const windowType = this.getAttribute('data-window');
-        const fileName = this.querySelector('.icon-text').textContent;
-        
-        // Select the icon
-        document.querySelectorAll('.icon').forEach(icon => {
-            icon.classList.remove('selected');
-        });
-        this.classList.add('selected');
-        
-        // Open the window
-        openWindow(windowType);
-        
-        // Set the window title
-        const windowTitle = document.querySelector(`#${windowType}-window .window-title span`);
-        if (windowTitle) {
-            windowTitle.textContent = fileName;
-        }
-    });
-    
-    // Save user files to localStorage
-    saveUserFiles();
-    
-    return newIcon;
-}
-
-// Setup a single icon to be draggable
-function setupIconDraggable(icon) {
     let isDragging = false;
     let startX, startY, startLeft, startTop;
     let hasMoved = false;
     
     // Touch events for mobile
-    icon.addEventListener('touchstart', handleStart, { passive: false });
-    icon.addEventListener('touchmove', handleMove, { passive: false });
-    icon.addEventListener('touchend', handleEnd);
+    newIcon.addEventListener('touchstart', handleStart, { passive: false });
+    newIcon.addEventListener('touchmove', handleMove, { passive: false });
+    newIcon.addEventListener('touchend', handleEnd);
     
     // Mouse events for desktop
-    icon.addEventListener('mousedown', handleStart);
+    newIcon.addEventListener('mousedown', handleStart);
     document.addEventListener('mousemove', handleMove);
     document.addEventListener('mouseup', handleEnd);
     
@@ -1701,13 +1742,13 @@ function setupIconDraggable(icon) {
         }
         
         // Get current position
-        const rect = icon.getBoundingClientRect();
+        const rect = newIcon.getBoundingClientRect();
         startLeft = rect.left;
         startTop = rect.top;
         
         isDragging = true;
         hasMoved = false;
-        icon.style.zIndex = 10; // Bring to front while dragging
+        newIcon.style.zIndex = 10; // Bring to front while dragging
         
         // Remove active class from all icons
         document.querySelectorAll('.icon').forEach(i => {
@@ -1715,7 +1756,7 @@ function setupIconDraggable(icon) {
         });
         
         // Add active class for dragging and selected class for visual
-        icon.classList.add('active', 'selected');
+        newIcon.classList.add('active', 'selected');
     }
     
     function handleMove(e) {
@@ -1743,8 +1784,8 @@ function setupIconDraggable(icon) {
             hasMoved = true;
             
             // Add dragging class once we're sure the user is dragging
-            if (!icon.classList.contains('dragging')) {
-                icon.classList.add('dragging');
+            if (!newIcon.classList.contains('dragging')) {
+                newIcon.classList.add('dragging');
             }
             
             // Calculate new position
@@ -1755,9 +1796,8 @@ function setupIconDraggable(icon) {
             const newTop = startTop + moveY;
             
             // Keep within desktop bounds
-            const desktop = document.querySelector('.desktop');
             const desktopRect = desktop.getBoundingClientRect();
-            const iconRect = icon.getBoundingClientRect();
+            const iconRect = newIcon.getBoundingClientRect();
             
             const maxLeft = desktopRect.width - iconRect.width;
             const maxTop = desktopRect.height - iconRect.height - 40; // 40px for taskbar
@@ -1766,53 +1806,53 @@ function setupIconDraggable(icon) {
             const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
             const boundedTop = Math.max(0, Math.min(newTop, maxTop));
             
-            // Check if position would overlap with another icon
-            let isOverlapping = false;
-            const minDistance = 60; // Minimum distance between icon centers
+            // Apply new position
+            newIcon.style.left = `${boundedLeft}px`;
+            newIcon.style.top = `${boundedTop}px`;
             
-            document.querySelectorAll('.icon').forEach(otherIcon => {
-                if (otherIcon !== icon) {
-                    const otherLeft = parseInt(otherIcon.style.left || 0);
-                    const otherTop = parseInt(otherIcon.style.top || 0);
-                    
-                    // Calculate distance between icon centers
-                    const distance = Math.sqrt(
-                        Math.pow(boundedLeft - otherLeft, 2) + 
-                        Math.pow(boundedTop - otherTop, 2)
-                    );
-                    
-                    if (distance < minDistance) {
-                        isOverlapping = true;
-                    }
-                }
-            });
-            
-            // Only apply new position if not overlapping
-            if (!isOverlapping) {
-                // Apply bounded position
-                icon.style.left = `${boundedLeft}px`;
-                icon.style.top = `${boundedTop}px`;
-            }
+            // Save position
+            saveIconPosition(newIcon);
         }
     }
     
     function handleEnd() {
         if (isDragging) {
             isDragging = false;
-            icon.style.zIndex = 1;
+            newIcon.style.zIndex = 1; // Reset z-index
+            newIcon.classList.remove('active', 'dragging');
             
-            // Remove dragging class
-            icon.classList.remove('dragging');
-            
-            // Only save position if actually moved
-            if (hasMoved) {
-                saveIconPosition(icon);
-                // If moved, remove the selected class
-                icon.classList.remove('selected');
-            }
             // If not moved, keep the selected class
+            if (!hasMoved) {
+                newIcon.classList.add('selected');
+            }
         }
     }
+    
+    // Add double-click functionality
+    newIcon.addEventListener('dblclick', function() {
+        const windowType = this.getAttribute('data-window');
+        const fileName = this.querySelector('.icon-text').textContent;
+        
+        // Select the icon
+        document.querySelectorAll('.icon').forEach(icon => {
+            icon.classList.remove('selected');
+        });
+        this.classList.add('selected');
+        
+        // Open the window
+        openWindow(windowType);
+        
+        // Set the window title
+        const windowTitle = document.querySelector(`#${windowType}-window .window-title span`);
+        if (windowTitle) {
+            windowTitle.textContent = fileName;
+        }
+    });
+    
+    // Save user files to localStorage
+    saveUserFiles();
+    
+    return newIcon;
 }
 
 // Save user created files to localStorage
