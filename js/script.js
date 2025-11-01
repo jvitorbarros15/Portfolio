@@ -1017,6 +1017,7 @@ function renderBlockchain(blockchain) {
     if (true) {
         const addBlockBtn = document.createElement('div');
         addBlockBtn.className = 'add-block-btn';
+        addBlockBtn.setAttribute('data-track', 'CTA: Add Next Block');
         addBlockBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add Next Block';
         addBlockBtn.addEventListener('click', function() {
             addNextBlock(blockchain);
