@@ -33,7 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup wallpaper settings
     setupWallpaperSettings();
+
+    // Setup custom desktop dialog
+    setupDesktopDialog();
 });
+
+let desktopDialogResolver = null;
+let desktopCreationPosition = null;
 
 // Clear all user-created data
 function clearUserData() {
@@ -1537,6 +1543,10 @@ function setupContextMenu() {
         } else {
             // We're right-clicking on empty desktop space
             currentIcon = null;
+            desktopCreationPosition = {
+                left: e.clientX,
+                top: e.clientY
+            };
             
             // Position and show desktop menu
             desktopMenu.style.left = e.clientX + 'px';
@@ -1630,59 +1640,171 @@ function setupContextMenu() {
 
 // Create a new text file
 function createNewFile() {
-    const fileName = prompt('Enter file name:', 'New File.txt');
-    if (!fileName) return;
-    
-    // Create a new icon
-    const newIcon = createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
-    
-    // Initialize empty file content
-    localStorage.setItem(`file_${fileName}`, '');
-    
-    // Position the icon at the right-click location
-    const desktopMenu = document.querySelector('.context-menu');
-    if (desktopMenu) {
-        const rect = desktopMenu.getBoundingClientRect();
-        newIcon.style.left = `${rect.left}px`;
-        newIcon.style.top = `${rect.top}px`;
-    }
-    
-    // Hide the context menu
-    document.querySelectorAll('.context-menu').forEach(menu => {
-        menu.style.display = 'none';
+    showDesktopDialog({
+        title: 'Create New File',
+        description: 'Give your new desktop file a clean, memorable name.',
+        label: 'File name',
+        defaultValue: 'New File.txt',
+        confirmText: 'Create File'
+    }, function(fileName) {
+        if (!fileName) return;
+
+        // Create a new icon
+        const newIcon = createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
+
+        // Initialize empty file content
+        localStorage.setItem(`file_${fileName}`, '');
+
+        // Position the icon at the right-click location
+        if (desktopCreationPosition) {
+            newIcon.style.left = `${desktopCreationPosition.left}px`;
+            newIcon.style.top = `${desktopCreationPosition.top}px`;
+            saveIconPosition(newIcon);
+        }
+
+        // Hide the context menu
+        document.querySelectorAll('.context-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+
+        // Play sound effect
+        playSound('create');
     });
-    
-    // Play sound effect
-    playSound('create');
 }
 
 // Create a new folder
 function createNewFolder() {
-    const folderName = prompt('Enter folder name:', 'New Folder');
-    if (!folderName) return;
-    
-    // Create a new icon
-    const newIcon = createNewIcon(folderName, 'fas fa-folder', 'folder');
-    
-    // Initialize empty folder content
-    const emptyFolder = [];
-    localStorage.setItem(`folder_${folderName}`, JSON.stringify(emptyFolder));
-    
-    // Position the icon at the right-click location
-    const desktopMenu = document.querySelector('.context-menu');
-    if (desktopMenu) {
-        const rect = desktopMenu.getBoundingClientRect();
-        newIcon.style.left = `${rect.left}px`;
-        newIcon.style.top = `${rect.top}px`;
+    showDesktopDialog({
+        title: 'Create New Folder',
+        description: 'Name your new folder and keep your desktop organized.',
+        label: 'Folder name',
+        defaultValue: 'New Folder',
+        confirmText: 'Create Folder'
+    }, function(folderName) {
+        if (!folderName) return;
+
+        // Create a new icon
+        const newIcon = createNewIcon(folderName, 'fas fa-folder', 'folder');
+
+        // Initialize empty folder content
+        const emptyFolder = [];
+        localStorage.setItem(`folder_${folderName}`, JSON.stringify(emptyFolder));
+
+        // Position the icon at the right-click location
+        if (desktopCreationPosition) {
+            newIcon.style.left = `${desktopCreationPosition.left}px`;
+            newIcon.style.top = `${desktopCreationPosition.top}px`;
+            saveIconPosition(newIcon);
+        }
+
+        // Hide the context menu
+        document.querySelectorAll('.context-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+
+        // Play sound effect
+        playSound('create');
+    });
+}
+
+function setupDesktopDialog() {
+    const overlay = document.getElementById('desktop-dialog-overlay');
+    const closeBtn = document.getElementById('desktop-dialog-close');
+    const cancelBtn = document.getElementById('desktop-dialog-cancel');
+    const confirmBtn = document.getElementById('desktop-dialog-confirm');
+    const input = document.getElementById('desktop-dialog-input');
+
+    if (!overlay || !closeBtn || !cancelBtn || !confirmBtn || !input) return;
+
+    function cancelDialog() {
+        if (desktopDialogResolver) {
+            desktopDialogResolver(null);
+        }
+        closeDesktopDialog();
     }
-    
-    // Hide the context menu
+
+    function confirmDialog() {
+        const value = input.value.trim();
+        if (!value) {
+            input.focus();
+            return;
+        }
+
+        if (desktopDialogResolver) {
+            desktopDialogResolver(value);
+        }
+        closeDesktopDialog();
+    }
+
+    closeBtn.addEventListener('click', cancelDialog);
+    cancelBtn.addEventListener('click', cancelDialog);
+    confirmBtn.addEventListener('click', confirmDialog);
+
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            cancelDialog();
+        }
+    });
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            confirmDialog();
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            cancelDialog();
+        }
+    });
+}
+
+function showDesktopDialog(options, onConfirm) {
+    const overlay = document.getElementById('desktop-dialog-overlay');
+    const title = document.getElementById('desktop-dialog-title');
+    const description = document.getElementById('desktop-dialog-description');
+    const label = document.getElementById('desktop-dialog-label');
+    const input = document.getElementById('desktop-dialog-input');
+    const confirmBtn = document.getElementById('desktop-dialog-confirm');
+
+    if (!overlay || !title || !description || !label || !input || !confirmBtn) {
+        const fallbackValue = prompt(options.label + ':', options.defaultValue || '');
+        if (fallbackValue && onConfirm) {
+            onConfirm(fallbackValue.trim());
+        }
+        return;
+    }
+
+    title.textContent = options.title || 'Create New Item';
+    description.textContent = options.description || '';
+    label.textContent = options.label || 'Name';
+    input.value = options.defaultValue || '';
+    confirmBtn.textContent = options.confirmText || 'Create';
+    desktopDialogResolver = onConfirm;
+
     document.querySelectorAll('.context-menu').forEach(menu => {
         menu.style.display = 'none';
     });
-    
-    // Play sound effect
-    playSound('create');
+
+    overlay.classList.add('visible');
+
+    setTimeout(function() {
+        input.focus();
+        input.select();
+    }, 10);
+}
+
+function closeDesktopDialog() {
+    const overlay = document.getElementById('desktop-dialog-overlay');
+    const input = document.getElementById('desktop-dialog-input');
+
+    if (overlay) {
+        overlay.classList.remove('visible');
+    }
+
+    if (input) {
+        input.value = '';
+    }
+
+    desktopDialogResolver = null;
 }
 
 // Create a new icon on the desktop

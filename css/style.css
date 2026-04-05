@@ -589,6 +589,31 @@ body {
     line-height: 1.5;
 }
 
+.seeking-card {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(15, 25, 32, 0.96) 0%, rgba(24, 38, 52, 0.98) 100%);
+    border: 1px solid rgba(0, 255, 255, 0.45);
+    border-left: 4px solid #00ffff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), 0 0 16px rgba(0, 255, 255, 0.08);
+}
+
+.seeking-card h4 {
+    margin-bottom: 10px;
+    color: #00ffff;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.seeking-card p {
+    margin-bottom: 8px;
+    color: #eafcff;
+}
+
+.seeking-card p:last-child {
+    margin-bottom: 0;
+}
+
 .github-activity-section {
     margin-top: 28px;
     padding: 22px 0;
@@ -689,6 +714,95 @@ body {
 .recommendation-body p:last-child,
 .recommendation-card:last-child {
     margin-bottom: 0;
+}
+
+/* Current Window */
+.current-section-header {
+    margin-bottom: 24px;
+}
+
+.current-section-header h2 {
+    margin-bottom: 8px;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.45);
+}
+
+.current-section-header p {
+    max-width: 760px;
+    line-height: 1.6;
+    color: #d6f8ff;
+}
+
+.current-project-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(15, 25, 32, 0.96) 0%, rgba(24, 38, 52, 0.98) 100%);
+    border: 1px solid rgba(0, 255, 255, 0.45);
+    border-left: 4px solid #00ffff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28), 0 0 18px rgba(0, 255, 255, 0.08);
+}
+
+.current-project-card:last-child {
+    margin-bottom: 0;
+}
+
+.current-project-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.current-project-card h3 {
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.current-project-subtitle {
+    color: #9fd8ea;
+    font-size: 0.95rem;
+}
+
+.current-project-card p {
+    line-height: 1.7;
+    color: #eafcff;
+}
+
+.current-tech {
+    margin-top: 14px;
+}
+
+.current-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-live {
+    background: rgba(0, 255, 255, 0.12);
+    color: #00ffff;
+    border: 1px solid rgba(0, 255, 255, 0.5);
+}
+
+.status-research {
+    background: rgba(255, 0, 255, 0.12);
+    color: #ff8cff;
+    border: 1px solid rgba(255, 0, 255, 0.45);
+}
+
+.status-ship {
+    background: rgba(99, 255, 160, 0.12);
+    color: #7cffb2;
+    border: 1px solid rgba(124, 255, 178, 0.45);
 }
 
 /* Trash Window */
@@ -956,6 +1070,135 @@ body {
     display: none;
     overflow: hidden;
     animation: popup-appear 0.2s ease-out;
+}
+
+.desktop-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(5, 10, 18, 0.62);
+    backdrop-filter: blur(8px);
+    z-index: 20000;
+}
+
+.desktop-dialog-overlay.visible {
+    display: flex;
+    animation: popup-appear 0.2s ease-out;
+}
+
+.desktop-dialog {
+    width: min(100%, 460px);
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #0f1419 0%, #17212d 55%, #0f1419 100%);
+    border: 1px solid rgba(0, 255, 255, 0.45);
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 255, 255, 0.16);
+}
+
+.desktop-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, #001122 0%, #003366 50%, #001122 100%);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.4);
+}
+
+.desktop-dialog-header h3 {
+    margin: 0;
+    color: #00ffff;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.55);
+}
+
+.desktop-dialog-close {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #ffffff;
+    background: transparent;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.desktop-dialog-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: scale(1.05);
+}
+
+.desktop-dialog-body {
+    padding: 20px 18px 18px;
+    color: #eafcff;
+}
+
+.desktop-dialog-description {
+    margin-bottom: 14px;
+    line-height: 1.6;
+    color: #d6f8ff;
+}
+
+.desktop-dialog-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #9fd8ea;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.desktop-dialog-input {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.45);
+    background: rgba(7, 14, 24, 0.92);
+    color: #ffffff;
+    font-size: 15px;
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgba(0, 255, 255, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.desktop-dialog-input:focus {
+    border-color: #00ffff;
+    box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.14);
+}
+
+.desktop-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.desktop-dialog-btn {
+    min-width: 104px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.desktop-dialog-btn:hover {
+    transform: translateY(-1px);
+}
+
+.desktop-dialog-btn.secondary {
+    color: #d6f8ff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.desktop-dialog-btn.primary {
+    color: #031017;
+    background: linear-gradient(45deg, #00ffff 0%, #7cffb2 100%);
+    box-shadow: 0 0 14px rgba(0, 255, 255, 0.2);
 }
 
 @keyframes popup-appear {
@@ -1297,6 +1540,14 @@ body {
 
     .github-activity-header {
         flex-direction: column;
+    }
+
+    .current-project-top {
+        flex-direction: column;
+    }
+
+    .current-status {
+        white-space: normal;
     }
 
     .recommendation-header {
