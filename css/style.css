@@ -719,6 +719,37 @@ body {
     margin-bottom: 0;
 }
 
+.why-hire-card {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(15, 25, 32, 0.96) 0%, rgba(24, 38, 52, 0.98) 100%);
+    border: 1px solid rgba(255, 0, 255, 0.32);
+    border-left: 4px solid #ff00ff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22), 0 0 16px rgba(255, 0, 255, 0.08);
+}
+
+.why-hire-card h4 {
+    margin-bottom: 10px;
+    color: #ffb4ff;
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.28);
+}
+
+.why-hire-card ul {
+    margin: 0;
+    padding-left: 18px;
+    color: #f6ecff;
+}
+
+.why-hire-card li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.why-hire-card li:last-child {
+    margin-bottom: 0;
+}
+
 .github-activity-section {
     margin-top: 28px;
     padding: 22px 0;
