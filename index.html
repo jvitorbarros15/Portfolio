@@ -92,6 +92,13 @@
                 </div>
                 <div class="icon-text">Current.exe</div>
             </div>
+
+            <div class="icon" data-window="terminal">
+                <div class="icon-img terminal-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="icon-text">Command Prompt</div>
+            </div>
         </div>
         
         <!-- Windows -->
@@ -768,6 +775,43 @@
                             <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://cognitra.vercel.app/" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Window -->
+            <div id="terminal-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-laptop-code window-icon"></i>
+                        <span>Command Prompt</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content terminal-window-content">
+                    <div class="terminal-shell" id="portfolio-terminal-shell">
+                        <div class="terminal-output" id="portfolio-terminal-output">
+                            <div class="terminal-line">Microsoft Windows [Version 11.0.22631]</div>
+                            <div class="terminal-line">(c) Joao Vitor Barros da Silva. All rights reserved.</div>
+                            <div class="terminal-line terminal-line-spacer"></div>
+                            <div class="terminal-line">Portfolio Terminal ready.</div>
+                            <div class="terminal-line">Type <span class="terminal-accent">help</span> to see available commands.</div>
+                        </div>
+                        <form class="terminal-input-row" id="portfolio-terminal-form">
+                            <span class="terminal-prompt">C:\portfolio&gt;</span>
+                            <input
+                                type="text"
+                                id="portfolio-terminal-input"
+                                class="terminal-input"
+                                autocomplete="off"
+                                spellcheck="false"
+                                placeholder="try: about, projects, resume, github"
+                            >
+                        </form>
                     </div>
                 </div>
             </div>

@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Setup custom desktop dialog
     setupDesktopDialog();
+
+    // Setup command prompt style terminal
+    setupPortfolioTerminal();
 });
 
 let desktopDialogResolver = null;
@@ -118,6 +121,7 @@ function getPinnedSystemIconPosition(icon) {
         'blockchain',
         'certifications',
         'current',
+        'terminal',
         'trash'
     ];
 
@@ -644,6 +648,8 @@ function openWindow(windowType) {
                     localStorage.setItem(`folder_${customTitle}`, JSON.stringify(demoItems));
                 }
             }
+        } else if (windowType === 'terminal') {
+            focusTerminalInput();
         }
         
         // Play sound effect (optional)
@@ -1623,7 +1629,7 @@ function setupContextMenu() {
             const windowType = icon.getAttribute('data-window');
             
             // Check if this is a system icon
-            const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+            const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
             const isSystemIcon = systemIcons.includes(windowType);
             
             // Position and show appropriate menu
@@ -1768,6 +1774,467 @@ function createNewFile() {
         // Play sound effect
         playSound('create');
     });
+}
+
+function setupPortfolioTerminal() {
+    const form = document.getElementById('portfolio-terminal-form');
+    const input = document.getElementById('portfolio-terminal-input');
+    const output = document.getElementById('portfolio-terminal-output');
+    const prompt = document.querySelector('.terminal-prompt');
+
+    if (!form || !input || !output || !prompt) return;
+
+    let currentDirectory = [];
+
+    const shortcutCommands = {
+        about: () => launchSystemTarget('about', 'Opening About Me...'),
+        resume: () => launchSystemTarget('resume', 'Opening Resume...'),
+        projects: () => launchSystemTarget('projects', 'Opening Projects...'),
+        contact: () => launchSystemTarget('contact', 'Opening Contact...'),
+        blockchain: () => launchSystemTarget('blockchain', 'Opening Blockchain Projects...'),
+        certifications: () => launchSystemTarget('certifications', 'Opening Certifications...'),
+        current: () => launchSystemTarget('current', 'Opening Current.exe...'),
+        github: () => launchSystemTarget('github', 'Launching GitHub profile...'),
+        linkedin: () => launchSystemTarget('linkedin', 'Launching LinkedIn...')
+    };
+
+    updatePrompt();
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const rawCommand = input.value.trim();
+        if (!rawCommand) return;
+
+        printTerminalLine(`${getPromptText()} ${rawCommand}`);
+        input.value = '';
+        handleTerminalCommand(rawCommand);
+
+        output.scrollTop = output.scrollHeight;
+    });
+
+    function handleTerminalCommand(rawCommand) {
+        const parts = tokenizeTerminalCommand(rawCommand);
+        if (!parts.length) return;
+
+        const command = parts[0].toLowerCase();
+        const args = parts.slice(1);
+
+        if (shortcutCommands[command]) {
+            shortcutCommands[command]();
+            return;
+        }
+
+        switch (command) {
+            case 'help':
+                printTerminalLine('Commands: ls, dir, cd, pwd, open, cat, mkdir, touch, rm, del, cls, clear, help');
+                printTerminalLine('Shortcuts: about, resume, projects, contact, github, linkedin, blockchain, certifications, current');
+                break;
+            case 'ls':
+            case 'dir':
+                listCurrentDirectory();
+                break;
+            case 'pwd':
+                printTerminalLine(getPromptPath());
+                break;
+            case 'cd':
+                changeDirectory(args);
+                break;
+            case 'open':
+            case 'start':
+                openTerminalTarget(args);
+                break;
+            case 'cat':
+            case 'type':
+                printFileContents(args);
+                break;
+            case 'mkdir':
+                createTerminalFolder(args);
+                break;
+            case 'touch':
+                createTerminalFile(args);
+                break;
+            case 'rm':
+            case 'del':
+                removeTerminalEntry(args);
+                break;
+            case 'cls':
+            case 'clear':
+                output.innerHTML = '';
+                break;
+            default:
+                printTerminalLine(`Unknown command: ${command}. Type help to see available commands.`, 'terminal-error');
+        }
+    }
+
+    function getPromptPath() {
+        return `C:\\portfolio\\desktop${currentDirectory.length ? `\\${currentDirectory.join('\\')}` : ''}`;
+    }
+
+    function getPromptText() {
+        return `${getPromptPath()}>`;
+    }
+
+    function updatePrompt() {
+        prompt.textContent = getPromptText();
+    }
+
+    function listCurrentDirectory() {
+        const entries = getCurrentEntries();
+        if (!entries.length) {
+            printTerminalLine('Directory is empty.');
+            return;
+        }
+
+        entries.forEach(entry => {
+            printTerminalLine(`${entry.label.padEnd(7)} ${entry.name}`);
+        });
+    }
+
+    function changeDirectory(args) {
+        if (!args.length) {
+            printTerminalLine(getPromptPath());
+            return;
+        }
+
+        const target = args.join(' ').trim();
+        if (target === '\\' || target === '/' || target.toLowerCase() === 'desktop') {
+            currentDirectory = [];
+            updatePrompt();
+            return;
+        }
+
+        if (target === '..') {
+            if (currentDirectory.length) {
+                currentDirectory.pop();
+            }
+            updatePrompt();
+            return;
+        }
+
+        const folderEntry = findEntryByName(getCurrentEntries(), target, ['folder']);
+        if (!folderEntry) {
+            printTerminalLine(`The system cannot find the path specified: ${target}`, 'terminal-error');
+            return;
+        }
+
+        currentDirectory.push(folderEntry.name);
+        updatePrompt();
+    }
+
+    function openTerminalTarget(args) {
+        if (!args.length) {
+            printTerminalLine('Usage: open <target>', 'terminal-error');
+            return;
+        }
+
+        const targetName = args.join(' ').trim();
+        const entry = findEntryByName(getCurrentEntries(), targetName);
+
+        if (!entry) {
+            printTerminalLine(`Cannot open "${targetName}".`, 'terminal-error');
+            return;
+        }
+
+        if (entry.kind === 'system') {
+            launchSystemTarget(entry.id);
+            printTerminalLine(`Opened ${entry.name}.`, 'terminal-success');
+            return;
+        }
+
+        if (entry.kind === 'folder') {
+            if (currentDirectory.length === 0) {
+                openDesktopItem(entry.name, 'folder');
+                printTerminalLine(`Opened folder ${entry.name}.`, 'terminal-success');
+            } else {
+                currentDirectory.push(entry.name);
+                updatePrompt();
+            }
+            return;
+        }
+
+        if (entry.kind === 'file') {
+            if (currentDirectory.length === 0) {
+                openDesktopItem(entry.name, 'notepad');
+            } else {
+                openVirtualItem(entry.name, 'file');
+            }
+            printTerminalLine(`Opened file ${entry.name}.`, 'terminal-success');
+        }
+    }
+
+    function printFileContents(args) {
+        if (!args.length) {
+            printTerminalLine('Usage: cat <file>', 'terminal-error');
+            return;
+        }
+
+        const targetName = args.join(' ').trim();
+        const entry = findEntryByName(getCurrentEntries(), targetName, ['file']);
+        if (!entry) {
+            printTerminalLine(`File not found: ${targetName}`, 'terminal-error');
+            return;
+        }
+
+        const content = localStorage.getItem(`file_${entry.name}`) || '[empty file]';
+        content.split('\n').forEach(line => printTerminalLine(line || ' '));
+    }
+
+    function createTerminalFolder(args) {
+        if (!args.length) {
+            printTerminalLine('Usage: mkdir <folder-name>', 'terminal-error');
+            return;
+        }
+
+        const folderName = args.join(' ').trim();
+        if (findEntryByName(getCurrentEntries(), folderName)) {
+            printTerminalLine(`An item named "${folderName}" already exists.`, 'terminal-error');
+            return;
+        }
+
+        if (currentDirectory.length === 0) {
+            const newIcon = createNewIcon(folderName, 'fas fa-folder', 'folder');
+            localStorage.setItem(`folder_${folderName}`, JSON.stringify([]));
+            setDefaultIconPosition(newIcon, document.querySelectorAll('.icon').length - 1);
+            saveUserFiles();
+        } else {
+            const items = getFolderItems(currentDirectory[currentDirectory.length - 1]);
+            items.push({ name: folderName, type: 'folder' });
+            setFolderItems(currentDirectory[currentDirectory.length - 1], items);
+            localStorage.setItem(`folder_${folderName}`, JSON.stringify([]));
+        }
+
+        printTerminalLine(`Folder created: ${folderName}`, 'terminal-success');
+    }
+
+    function createTerminalFile(args) {
+        if (!args.length) {
+            printTerminalLine('Usage: touch <file-name>', 'terminal-error');
+            return;
+        }
+
+        const fileName = args.join(' ').trim();
+        if (findEntryByName(getCurrentEntries(), fileName)) {
+            printTerminalLine(`An item named "${fileName}" already exists.`, 'terminal-error');
+            return;
+        }
+
+        if (currentDirectory.length === 0) {
+            const newIcon = createNewIcon(fileName, 'fas fa-file-alt', 'notepad');
+            localStorage.setItem(`file_${fileName}`, '');
+            setDefaultIconPosition(newIcon, document.querySelectorAll('.icon').length - 1);
+            saveUserFiles();
+        } else {
+            const items = getFolderItems(currentDirectory[currentDirectory.length - 1]);
+            items.push({ name: fileName, type: 'file' });
+            setFolderItems(currentDirectory[currentDirectory.length - 1], items);
+            localStorage.setItem(`file_${fileName}`, '');
+        }
+
+        printTerminalLine(`File created: ${fileName}`, 'terminal-success');
+    }
+
+    function removeTerminalEntry(args) {
+        if (!args.length) {
+            printTerminalLine('Usage: rm <file-or-folder>', 'terminal-error');
+            return;
+        }
+
+        const targetName = args.join(' ').trim();
+        const entry = findEntryByName(getCurrentEntries(), targetName);
+        if (!entry) {
+            printTerminalLine(`Cannot remove "${targetName}".`, 'terminal-error');
+            return;
+        }
+
+        if (entry.kind === 'system') {
+            printTerminalLine('System items are read-only in this terminal.', 'terminal-error');
+            return;
+        }
+
+        if (currentDirectory.length === 0) {
+            removeDesktopItem(entry.name, entry.kind === 'folder' ? 'folder' : 'notepad');
+        } else {
+            const folderName = currentDirectory[currentDirectory.length - 1];
+            const items = getFolderItems(folderName).filter(item => normalizeTerminalName(item.name) !== normalizeTerminalName(entry.name));
+            setFolderItems(folderName, items);
+
+            if (entry.kind === 'folder') {
+                localStorage.removeItem(`folder_${entry.name}`);
+            } else {
+                localStorage.removeItem(`file_${entry.name}`);
+            }
+        }
+
+        printTerminalLine(`Removed ${entry.name}.`, 'terminal-success');
+    }
+
+    function getCurrentEntries() {
+        if (currentDirectory.length === 0) {
+            return [
+                { name: 'about', kind: 'system', label: '<APP>', id: 'about' },
+                { name: 'resume', kind: 'system', label: '<APP>', id: 'resume' },
+                { name: 'projects', kind: 'system', label: '<APP>', id: 'projects' },
+                { name: 'contact', kind: 'system', label: '<APP>', id: 'contact' },
+                { name: 'blockchain', kind: 'system', label: '<APP>', id: 'blockchain' },
+                { name: 'certifications', kind: 'system', label: '<APP>', id: 'certifications' },
+                { name: 'current', kind: 'system', label: '<APP>', id: 'current' },
+                { name: 'github', kind: 'system', label: '<LINK>', id: 'github' },
+                { name: 'linkedin', kind: 'system', label: '<LINK>', id: 'linkedin' },
+                ...getDesktopUserEntries()
+            ];
+        }
+
+        return getFolderItems(currentDirectory[currentDirectory.length - 1]).map(item => ({
+            name: item.name,
+            kind: item.type === 'folder' ? 'folder' : 'file',
+            label: item.type === 'folder' ? '<DIR>' : '<FILE>'
+        }));
+    }
+
+    function launchSystemTarget(targetId, successMessage) {
+        const links = {
+            github: 'https://github.com/jvitorbarros15',
+            linkedin: 'https://www.linkedin.com/in/joaovi/'
+        };
+
+        if (links[targetId]) {
+            window.open(links[targetId], '_blank', 'noopener,noreferrer');
+        } else {
+            openPortfolioWindow(targetId);
+        }
+
+        if (successMessage) {
+            printTerminalLine(successMessage, 'terminal-success');
+        }
+    }
+}
+
+function tokenizeTerminalCommand(rawCommand) {
+    const matches = rawCommand.match(/(?:[^\s"]+|"[^"]*")+/g) || [];
+    return matches.map(part => part.replace(/^"(.*)"$/, '$1'));
+}
+
+function normalizeTerminalName(name) {
+    return (name || '').trim().toLowerCase();
+}
+
+function findEntryByName(entries, targetName, allowedKinds = null) {
+    const normalizedTarget = normalizeTerminalName(targetName);
+    return entries.find(entry => {
+        const kindMatches = !allowedKinds || allowedKinds.includes(entry.kind);
+        return kindMatches && normalizeTerminalName(entry.name) === normalizedTarget;
+    });
+}
+
+function getDesktopUserEntries() {
+    return Array.from(document.querySelectorAll('.icon'))
+        .filter(icon => {
+            const type = icon.getAttribute('data-window');
+            return type === 'notepad' || type === 'folder';
+        })
+        .map(icon => {
+            const name = icon.querySelector('.icon-text').textContent.trim();
+            const type = icon.getAttribute('data-window');
+            return {
+                name,
+                kind: type === 'folder' ? 'folder' : 'file',
+                label: type === 'folder' ? '<DIR>' : '<FILE>'
+            };
+        });
+}
+
+function getFolderItems(folderName) {
+    try {
+        return JSON.parse(localStorage.getItem(`folder_${folderName}`)) || [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function setFolderItems(folderName, items) {
+    localStorage.setItem(`folder_${folderName}`, JSON.stringify(items));
+}
+
+function openDesktopItem(name, windowType) {
+    const icon = Array.from(document.querySelectorAll('.icon')).find(item => {
+        return item.getAttribute('data-window') === windowType &&
+            normalizeTerminalName(item.querySelector('.icon-text').textContent) === normalizeTerminalName(name);
+    });
+
+    if (!icon) return;
+
+    document.querySelectorAll('.icon').forEach(item => item.classList.remove('selected'));
+    icon.classList.add('selected');
+    openWindow(windowType);
+}
+
+function openVirtualItem(name, type) {
+    const tempIcon = document.createElement('div');
+    tempIcon.className = 'icon selected';
+    tempIcon.setAttribute('data-window', type === 'folder' ? 'folder' : 'notepad');
+    tempIcon.innerHTML = `
+        <div class="icon-img">
+            <i class="fas ${type === 'folder' ? 'fa-folder' : 'fa-file-alt'}"></i>
+        </div>
+        <div class="icon-text">${name}</div>
+    `;
+
+    document.querySelector('.desktop').appendChild(tempIcon);
+    openWindow(type === 'folder' ? 'folder' : 'notepad');
+
+    setTimeout(function() {
+        tempIcon.remove();
+    }, 100);
+}
+
+function removeDesktopItem(name, windowType) {
+    const icon = Array.from(document.querySelectorAll('.icon')).find(item => {
+        return item.getAttribute('data-window') === windowType &&
+            normalizeTerminalName(item.querySelector('.icon-text').textContent) === normalizeTerminalName(name);
+    });
+
+    if (!icon) return;
+
+    if (windowType === 'folder') {
+        localStorage.removeItem(`folder_${name}`);
+    } else {
+        localStorage.removeItem(`file_${name}`);
+    }
+
+    icon.remove();
+    saveUserFiles();
+}
+
+function printTerminalLine(text, className = '') {
+    const output = document.getElementById('portfolio-terminal-output');
+    if (!output) return;
+
+    const line = document.createElement('div');
+    line.className = `terminal-line${className ? ` ${className}` : ''}`;
+    line.textContent = text;
+    output.appendChild(line);
+}
+
+function focusTerminalInput() {
+    const input = document.getElementById('portfolio-terminal-input');
+    if (!input) return;
+
+    setTimeout(function() {
+        input.focus();
+    }, 30);
+}
+
+function openPortfolioWindow(windowType) {
+    document.querySelectorAll('.icon').forEach(icon => {
+        icon.classList.remove('selected');
+    });
+
+    const icon = document.querySelector(`.icon[data-window="${windowType}"]`);
+    if (icon) {
+        icon.classList.add('selected');
+    }
+
+    openWindow(windowType);
 }
 
 // Create a new folder
@@ -2279,7 +2746,7 @@ function renameFile(icon) {
     const windowType = icon.getAttribute('data-window');
     
     // Check if this is a system icon that should not be renamed
-    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
     if (systemIcons.includes(windowType)) {
         // For system files, just show the current name instead of allowing a rename
         alert(`This is a system file: "${currentName}"`);
@@ -2324,7 +2791,7 @@ function deleteFile(icon) {
     const windowType = icon.getAttribute('data-window');
     
     // Check if this is a system icon that should not be deleted
-    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'trash'];
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
     if (systemIcons.includes(windowType)) {
         alert("This is a system file and cannot be deleted.");
         return;

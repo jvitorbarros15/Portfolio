@@ -910,6 +910,80 @@ body {
     border: 1px solid rgba(124, 255, 178, 0.45);
 }
 
+/* Terminal Window */
+.terminal-window-content {
+    padding: 0;
+    background: #02070d;
+}
+
+.terminal-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 18px;
+    color: #d8ffe5;
+    background:
+        radial-gradient(circle at top right, rgba(0, 255, 255, 0.08), transparent 26%),
+        linear-gradient(180deg, #02070d 0%, #07111a 100%);
+    font-family: "Consolas", "Courier New", monospace;
+}
+
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.terminal-line {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.terminal-line-spacer {
+    height: 8px;
+    margin-bottom: 0;
+}
+
+.terminal-accent {
+    color: #00ffff;
+}
+
+.terminal-success {
+    color: #7cffb2;
+}
+
+.terminal-error {
+    color: #ff9dbd;
+}
+
+.terminal-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 255, 255, 0.15);
+}
+
+.terminal-prompt {
+    color: #00ffff;
+    white-space: nowrap;
+}
+
+.terminal-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    font: inherit;
+}
+
+.terminal-input::placeholder {
+    color: rgba(216, 255, 229, 0.42);
+}
+
 /* Trash Window */
 .trash-content {
     display: flex;
