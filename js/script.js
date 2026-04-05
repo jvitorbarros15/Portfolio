@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Show boot splash briefly before full desktop interaction
     setupStartupSplash();
+    setupSoundDesign();
 
     // Reset wallpaper first thing to ensure personalization shows
     resetWallpaper();
@@ -49,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let desktopDialogResolver = null;
 let desktopCreationPosition = null;
+let portfolioAudioContext = null;
+let portfolioAudioUnlocked = false;
 
 function setupStartupSplash() {
     const splash = document.getElementById('startup-splash');
@@ -57,6 +60,53 @@ function setupStartupSplash() {
     setTimeout(function() {
         splash.classList.add('hidden');
     }, 2400);
+}
+
+function setupSoundDesign() {
+    const unlockAudio = function() {
+        if (!portfolioAudioContext) {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) return;
+            portfolioAudioContext = new AudioContextClass();
+        }
+
+        if (portfolioAudioContext.state === 'suspended') {
+            portfolioAudioContext.resume();
+        }
+
+        if (!portfolioAudioUnlocked) {
+            portfolioAudioUnlocked = true;
+            playSound('startup');
+        }
+    };
+
+    document.addEventListener('pointerdown', unlockAudio, { once: true });
+    document.addEventListener('keydown', unlockAudio, { once: true });
+
+    document.addEventListener('click', function(e) {
+        const clickable = e.target.closest('.btn, .social-link, .icon, .taskbar-item, .taskbar-icon, .context-menu-item, .start-button, .desktop-dialog-btn, .desktop-dialog-close, .wallpaper-option, .file-upload-btn');
+        if (!clickable) return;
+        if (e.target.closest('.window-controls')) return;
+
+        playSound('click');
+    });
+}
+
+function playTone(ctx, frequency, startTime, duration, volume, type = 'sine') {
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, startTime);
+    gainNode.gain.setValueAtTime(0.0001, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(volume, startTime + 0.01);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration + 0.02);
 }
 
 function getDesktopIconBounds(icon) {
@@ -122,6 +172,7 @@ function getPinnedSystemIconPosition(icon) {
         'certifications',
         'current',
         'terminal',
+        'playlist',
         'trash'
     ];
 
@@ -882,29 +933,55 @@ function updateTaskbarActiveItem(windowType) {
 
 // Play sound effect
 function playSound(action) {
-    // Define sound effects (you could replace with actual sounds)
-    const sounds = {
-        open: 'open',
-        close: 'close',
-        minimize: 'minimize',
-        maximize: 'maximize',
-        reset: 'reset',
-        startup: 'startup',
-        wallpaper: 'wallpaper',
-        create: 'create',
-        delete: 'delete'
-    };
-    
-    // Log the sound effect (for development)
-    console.log(`Sound played: ${action}`);
-    
-    // Here you could implement actual sounds
-    // For example:
-    /*
-    const sound = new Audio(`./sounds/${sounds[action]}.mp3`);
-    sound.volume = 0.5;
-    sound.play().catch(e => console.log('Error playing sound:', e));
-    */
+    if (!portfolioAudioContext || !portfolioAudioUnlocked) return;
+
+    const now = portfolioAudioContext.currentTime;
+
+    switch (action) {
+        case 'startup':
+            playTone(portfolioAudioContext, 392, now, 0.14, 0.018, 'sine');
+            playTone(portfolioAudioContext, 523.25, now + 0.09, 0.18, 0.016, 'sine');
+            playTone(portfolioAudioContext, 659.25, now + 0.2, 0.2, 0.014, 'triangle');
+            break;
+        case 'open':
+            playTone(portfolioAudioContext, 620, now, 0.08, 0.012, 'triangle');
+            playTone(portfolioAudioContext, 820, now + 0.05, 0.11, 0.01, 'sine');
+            break;
+        case 'minimize':
+            playTone(portfolioAudioContext, 540, now, 0.08, 0.01, 'triangle');
+            playTone(portfolioAudioContext, 360, now + 0.05, 0.12, 0.009, 'sine');
+            break;
+        case 'close':
+            playTone(portfolioAudioContext, 460, now, 0.08, 0.01, 'triangle');
+            playTone(portfolioAudioContext, 290, now + 0.04, 0.1, 0.008, 'sine');
+            break;
+        case 'maximize':
+            playTone(portfolioAudioContext, 520, now, 0.08, 0.01, 'triangle');
+            playTone(portfolioAudioContext, 700, now + 0.04, 0.12, 0.01, 'triangle');
+            break;
+        case 'create':
+            playTone(portfolioAudioContext, 720, now, 0.06, 0.009, 'square');
+            playTone(portfolioAudioContext, 920, now + 0.03, 0.08, 0.007, 'triangle');
+            break;
+        case 'delete':
+            playTone(portfolioAudioContext, 330, now, 0.08, 0.009, 'sawtooth');
+            playTone(portfolioAudioContext, 210, now + 0.04, 0.1, 0.007, 'triangle');
+            break;
+        case 'wallpaper':
+            playTone(portfolioAudioContext, 480, now, 0.07, 0.008, 'sine');
+            playTone(portfolioAudioContext, 640, now + 0.04, 0.1, 0.007, 'triangle');
+            break;
+        case 'reset':
+            playTone(portfolioAudioContext, 390, now, 0.07, 0.008, 'triangle');
+            playTone(portfolioAudioContext, 520, now + 0.03, 0.09, 0.008, 'triangle');
+            playTone(portfolioAudioContext, 660, now + 0.07, 0.11, 0.007, 'sine');
+            break;
+        case 'click':
+            playTone(portfolioAudioContext, 680, now, 0.045, 0.004, 'triangle');
+            break;
+        default:
+            break;
+    }
 }
 
 // Handle window resize events for responsiveness
@@ -1629,7 +1706,7 @@ function setupContextMenu() {
             const windowType = icon.getAttribute('data-window');
             
             // Check if this is a system icon
-            const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
+            const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'playlist', 'trash'];
             const isSystemIcon = systemIcons.includes(windowType);
             
             // Position and show appropriate menu
@@ -2746,7 +2823,7 @@ function renameFile(icon) {
     const windowType = icon.getAttribute('data-window');
     
     // Check if this is a system icon that should not be renamed
-    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'playlist', 'trash'];
     if (systemIcons.includes(windowType)) {
         // For system files, just show the current name instead of allowing a rename
         alert(`This is a system file: "${currentName}"`);
@@ -2791,7 +2868,7 @@ function deleteFile(icon) {
     const windowType = icon.getAttribute('data-window');
     
     // Check if this is a system icon that should not be deleted
-    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'trash'];
+    const systemIcons = ['projects', 'contact', 'resume', 'about', 'blockchain', 'certifications', 'current', 'terminal', 'playlist', 'trash'];
     if (systemIcons.includes(windowType)) {
         alert("This is a system file and cannot be deleted.");
         return;

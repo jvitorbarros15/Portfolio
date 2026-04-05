@@ -99,6 +99,13 @@
                 </div>
                 <div class="icon-text">Command Prompt</div>
             </div>
+
+            <div class="icon" data-window="playlist">
+                <div class="icon-img playlist-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="icon-text">My Playlist</div>
+            </div>
         </div>
         
         <!-- Windows -->
@@ -821,6 +828,56 @@
                                 placeholder="try: about, projects, resume, github"
                             >
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playlist Window -->
+            <div id="playlist-window" class="window">
+                <div class="window-header">
+                    <div class="window-title">
+                        <i class="fas fa-music window-icon"></i>
+                        <span>My Playlist</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
+                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
+                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="window-content playlist-window-content">
+                    <div class="playlist-hero">
+                        <div class="playlist-badge" id="playlist-badge">Personal Soundtrack</div>
+                        <h2 id="playlist-title">What I'm Listening To</h2>
+                        <p id="playlist-summary">Music is a big part of how I think, work, relax, and reset. This playlist is a small window into my mood, my rhythm, and the kind of sound that stays with me while I study, build, and slow down.</p>
+                    </div>
+
+                    <div class="playlist-card">
+                        <div class="playlist-cover" id="playlist-cover">
+                            <i class="fab fa-spotify"></i>
+                        </div>
+                        <div class="playlist-meta">
+                            <h3 id="playlist-name">A Playlist That Feels Like Me</h3>
+                            <p class="playlist-subtitle" id="playlist-subtitle">The songs I come back to when I want to focus, breathe, and feel grounded</p>
+                            <p class="playlist-description" id="playlist-description">More than background music, this is part of my personality. It reflects what I listen to when I want to relax, study, sleep, or just sit with a feeling for a while. It is a small showcase of who I am outside the resume.</p>
+                            <div class="project-links">
+                                <a href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2" class="btn" target="_blank" rel="noopener noreferrer" data-track="Playlist: Open Spotify" id="playlist-primary-link"><i class="fab fa-spotify"></i> Open in Spotify</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spotify-embed-wrapper">
+                        <iframe
+                            style="border-radius:12px"
+                            src="https://open.spotify.com/embed/playlist/37i9dQZEVXd0oRUtzDucvP?utm_source=generator&theme=0"
+                            width="100%"
+                            height="520"
+                            frameBorder="0"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy"
+                            title="Spotify playlist embed"
+                        ></iframe>
                     </div>
                 </div>
             </div>
