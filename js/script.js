@@ -46,12 +46,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Setup command prompt style terminal
     setupPortfolioTerminal();
+    setupPlaylistMiniPlayer();
+    initializeSpotifyPlaylistEmbed();
 });
 
 let desktopDialogResolver = null;
 let desktopCreationPosition = null;
 let portfolioAudioContext = null;
 let portfolioAudioUnlocked = false;
+let spotifyEmbedController = null;
+let spotifyPlayerReady = false;
+let spotifyPlayerPaused = true;
+let spotifyCurrentUri = '';
+let spotifyCurrentTrack = {
+    title: 'My Playlist',
+    subtitle: 'Open the playlist to start playback',
+    url: 'https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2'
+};
 
 function setupStartupSplash() {
     const splash = document.getElementById('startup-splash');
@@ -60,6 +71,146 @@ function setupStartupSplash() {
     setTimeout(function() {
         splash.classList.add('hidden');
     }, 2400);
+}
+
+function setupPlaylistMiniPlayer() {
+    const restartBtn = document.getElementById('playlist-mini-restart');
+    const toggleBtn = document.getElementById('playlist-mini-toggle');
+
+    if (restartBtn) {
+        restartBtn.addEventListener('click', function() {
+            if (spotifyEmbedController && typeof spotifyEmbedController.restart === 'function') {
+                spotifyEmbedController.restart();
+                spotifyPlayerPaused = false;
+                updatePlaylistMiniPlayer();
+            }
+        });
+    }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            if (!spotifyEmbedController) return;
+
+            if (spotifyPlayerPaused) {
+                if (typeof spotifyEmbedController.resume === 'function') {
+                    spotifyEmbedController.resume();
+                } else if (typeof spotifyEmbedController.play === 'function') {
+                    spotifyEmbedController.play();
+                }
+                spotifyPlayerPaused = false;
+            } else if (typeof spotifyEmbedController.pause === 'function') {
+                spotifyEmbedController.pause();
+                spotifyPlayerPaused = true;
+            }
+
+            updatePlaylistMiniPlayer();
+        });
+    }
+}
+
+function initializeSpotifyPlaylistEmbed() {
+    if (window.SpotifyIframeApi) {
+        createSpotifyPlaylistEmbed(window.SpotifyIframeApi);
+    } else {
+        window.onSpotifyIframeApiReady = function(IFrameAPI) {
+            createSpotifyPlaylistEmbed(IFrameAPI);
+        };
+    }
+}
+
+function createSpotifyPlaylistEmbed(IFrameAPI) {
+    const target = document.getElementById('spotify-playlist-embed');
+    if (!target || spotifyEmbedController) return;
+
+    IFrameAPI.createController(target, {
+        uri: 'spotify:playlist:37i9dQZEVXd0oRUtzDucvP',
+        width: '100%',
+        height: 520,
+        theme: 'dark'
+    }, function(controller) {
+        spotifyEmbedController = controller;
+        spotifyPlayerReady = true;
+        updatePlaylistMiniPlayer();
+
+        controller.addListener('playback_started', function(event) {
+            spotifyPlayerPaused = false;
+            handleSpotifyPlaybackEvent(event);
+        });
+
+        controller.addListener('playback_update', function(event) {
+            const data = event?.data || {};
+            spotifyPlayerPaused = !!data.isPaused;
+
+            if (data.playingURI && data.playingURI !== spotifyCurrentUri) {
+                handleSpotifyPlaybackEvent(event);
+            } else {
+                updatePlaylistMiniPlayer();
+            }
+        });
+    });
+}
+
+function handleSpotifyPlaybackEvent(event) {
+    const data = event?.data || {};
+    const playingUri = data.playingURI;
+    spotifyPlayerPaused = !!data.isPaused;
+
+    if (!playingUri) {
+        updatePlaylistMiniPlayer();
+        return;
+    }
+
+    spotifyCurrentUri = playingUri;
+    spotifyCurrentTrack.url = convertSpotifyUriToOpenUrl(playingUri);
+
+    fetchSpotifyOEmbed(spotifyCurrentTrack.url)
+        .then(function(meta) {
+            spotifyCurrentTrack.title = meta.title || 'Now playing on Spotify';
+            spotifyCurrentTrack.subtitle = meta.author_name || 'Spotify';
+            updatePlaylistMiniPlayer();
+        })
+        .catch(function() {
+            spotifyCurrentTrack.title = 'Now playing on Spotify';
+            spotifyCurrentTrack.subtitle = 'Spotify';
+            updatePlaylistMiniPlayer();
+        });
+}
+
+function updatePlaylistMiniPlayer() {
+    const miniPlayer = document.getElementById('playlist-mini-player');
+    const title = document.getElementById('playlist-mini-player-title');
+    const subtitle = document.getElementById('playlist-mini-player-subtitle');
+    const toggleIcon = document.getElementById('playlist-mini-toggle-icon');
+    const openLink = document.getElementById('playlist-mini-open');
+    const playlistWindow = document.getElementById('playlist-window');
+
+    if (!miniPlayer || !title || !subtitle || !toggleIcon || !openLink || !playlistWindow) return;
+
+    title.textContent = spotifyCurrentTrack.title;
+    subtitle.textContent = spotifyCurrentTrack.subtitle;
+    toggleIcon.className = spotifyPlayerPaused ? 'fas fa-play' : 'fas fa-pause';
+    openLink.href = spotifyCurrentTrack.url || 'https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2';
+
+    const shouldShow = spotifyPlayerReady && playlistWindow.style.display === 'none';
+    miniPlayer.classList.toggle('visible', shouldShow);
+}
+
+function convertSpotifyUriToOpenUrl(uri) {
+    const parts = String(uri).split(':');
+    if (parts.length < 3) {
+        return 'https://open.spotify.com/';
+    }
+
+    return `https://open.spotify.com/${parts[1]}/${parts[2]}`;
+}
+
+async function fetchSpotifyOEmbed(url) {
+    const response = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`);
+    if (!response.ok) {
+        throw new Error('Unable to fetch Spotify metadata');
+    }
+
+    return response.json();
 }
 
 function setupSoundDesign() {
@@ -599,8 +750,6 @@ function initDesktopIcons() {
         });
     });
     
-    // Load user-created files from localStorage
-    loadUserFiles();
 }
 
 // Open a window
@@ -702,6 +851,8 @@ function openWindow(windowType) {
         } else if (windowType === 'terminal') {
             focusTerminalInput();
         }
+
+        updatePlaylistMiniPlayer();
         
         // Play sound effect (optional)
         playSound('open');
@@ -822,6 +973,8 @@ function closeWindow(window) {
     
     // Remove from taskbar
     removeFromTaskbar(windowType);
+
+    updatePlaylistMiniPlayer();
     
     // Play sound effect
     playSound('close');
@@ -849,6 +1002,7 @@ function minimizeWindow(window) {
     
     // Keep in taskbar
     // Play sound effect (optional)
+    updatePlaylistMiniPlayer();
     playSound('minimize');
 }
 
@@ -2776,6 +2930,23 @@ function loadUserFiles() {
         const files = JSON.parse(savedFiles);
         
         files.forEach(file => {
+            const duplicateIcon = Array.from(document.querySelectorAll('.icon')).find(icon => {
+                const iconName = icon.querySelector('.icon-text')?.textContent?.trim();
+                return icon.getAttribute('data-window') === file.windowType &&
+                    iconName === file.name;
+            });
+
+            if (duplicateIcon) {
+                if (file.position) {
+                    const savedLeft = parseFloat(file.position.left);
+                    const savedTop = parseFloat(file.position.top);
+                    const boundedPosition = clampIconPosition(duplicateIcon, savedLeft, savedTop);
+                    duplicateIcon.style.left = `${boundedPosition.left}px`;
+                    duplicateIcon.style.top = `${boundedPosition.top}px`;
+                }
+                return;
+            }
+
             // Create the icon element
             const newIcon = document.createElement('div');
             newIcon.className = 'icon';

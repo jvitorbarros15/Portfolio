@@ -1105,6 +1105,95 @@ body {
     margin-bottom: 18px;
 }
 
+.spotify-playlist-embed {
+    min-height: 520px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.playlist-mini-player {
+    position: fixed;
+    right: 18px;
+    bottom: 52px;
+    display: none;
+    align-items: center;
+    gap: 16px;
+    width: min(420px, calc(100vw - 28px));
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(8, 18, 14, 0.96) 0%, rgba(14, 28, 22, 0.98) 100%);
+    border: 1px solid rgba(30, 215, 96, 0.26);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.36), 0 0 22px rgba(30, 215, 96, 0.12);
+    z-index: 1000;
+}
+
+.playlist-mini-player.visible {
+    display: flex;
+}
+
+.playlist-mini-player-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.playlist-mini-player-label {
+    margin-bottom: 4px;
+    color: #7effb1;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.playlist-mini-player-title {
+    color: #ffffff;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlist-mini-player-subtitle {
+    margin-top: 4px;
+    color: #cbead5;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.playlist-mini-player-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.playlist-mini-btn {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.playlist-mini-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(30, 215, 96, 0.35);
+    background: rgba(30, 215, 96, 0.12);
+}
+
+.playlist-mini-btn-primary {
+    background: linear-gradient(135deg, #1ed760 0%, #18ab4c 100%);
+    color: #03130a;
+    border-color: transparent;
+}
+
 /* Trash Window */
 .trash-content {
     display: flex;

@@ -867,17 +867,7 @@
                     </div>
 
                     <div class="spotify-embed-wrapper">
-                        <iframe
-                            style="border-radius:12px"
-                            src="https://open.spotify.com/embed/playlist/37i9dQZEVXd0oRUtzDucvP?utm_source=generator&theme=0"
-                            width="100%"
-                            height="520"
-                            frameBorder="0"
-                            allowfullscreen=""
-                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                            loading="lazy"
-                            title="Spotify playlist embed"
-                        ></iframe>
+                        <div id="spotify-playlist-embed" class="spotify-playlist-embed"></div>
                     </div>
                 </div>
             </div>
@@ -1019,7 +1009,34 @@
             </div>
         </div>
     </div>
-    
+
+    <div class="playlist-mini-player" id="playlist-mini-player">
+        <div class="playlist-mini-player-meta">
+            <div class="playlist-mini-player-label">Now Playing</div>
+            <div class="playlist-mini-player-title" id="playlist-mini-player-title">My Playlist</div>
+            <div class="playlist-mini-player-subtitle" id="playlist-mini-player-subtitle">Open the playlist to start playback</div>
+        </div>
+        <div class="playlist-mini-player-actions">
+            <button class="playlist-mini-btn" id="playlist-mini-restart" title="Restart current track">
+                <i class="fas fa-backward-step"></i>
+            </button>
+            <button class="playlist-mini-btn playlist-mini-btn-primary" id="playlist-mini-toggle" title="Play or pause">
+                <i class="fas fa-play" id="playlist-mini-toggle-icon"></i>
+            </button>
+            <a
+                href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2"
+                class="playlist-mini-btn"
+                id="playlist-mini-open"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open in Spotify"
+            >
+                <i class="fab fa-spotify"></i>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script src="./js/script.js"></script>
     
     <!-- Analytics Tracking Scripts -->
