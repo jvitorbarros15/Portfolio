@@ -13,6 +13,111 @@ body {
     background: linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%); /* Techy dark blue gradient */
 }
 
+.startup-splash {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at top, rgba(0, 255, 255, 0.14), transparent 34%),
+        radial-gradient(circle at bottom, rgba(255, 0, 255, 0.14), transparent 30%),
+        linear-gradient(135deg, #050913 0%, #0b1422 45%, #101b2a 100%);
+    z-index: 30000;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.startup-splash.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.startup-splash-inner {
+    width: min(100%, 760px);
+    text-align: center;
+    padding: 42px 28px;
+    border-radius: 24px;
+    background: rgba(8, 14, 25, 0.74);
+    border: 1px solid rgba(0, 255, 255, 0.28);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 42px rgba(0, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.startup-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(0, 255, 255, 0.08);
+    border: 1px solid rgba(0, 255, 255, 0.32);
+    color: #9fd8ea;
+    font-size: 0.92rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.startup-splash-inner h1 {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    text-shadow: 0 0 24px rgba(0, 255, 255, 0.12);
+}
+
+.startup-splash-inner h2 {
+    margin-bottom: 14px;
+    color: #cfeef6;
+    font-size: clamp(1rem, 2vw, 1.45rem);
+    font-weight: 400;
+}
+
+.startup-specialties {
+    margin-bottom: 26px;
+    color: #00ffff;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    letter-spacing: 0.04em;
+}
+
+.startup-progress {
+    width: min(100%, 420px);
+    height: 10px;
+    margin: 0 auto 14px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.startup-progress-bar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #00ffff 0%, #6fffd2 45%, #ff00ff 100%);
+    transform-origin: left center;
+    animation: startup-load 2.25s ease forwards;
+}
+
+.startup-caption {
+    color: #9fb8c6;
+    font-size: 0.95rem;
+}
+
+@keyframes startup-load {
+    from {
+        transform: scaleX(0.08);
+        opacity: 0.8;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
 .desktop {
     width: 100%;
     height: 100%;

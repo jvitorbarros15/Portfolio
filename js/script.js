@@ -1,8 +1,8 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Clear all user-created files and data
-    clearUserData();
-    
+    // Show boot splash briefly before full desktop interaction
+    setupStartupSplash();
+
     // Reset wallpaper first thing to ensure personalization shows
     resetWallpaper();
     
@@ -18,9 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize desktop icons
     initDesktopIcons();
+
+    // Remove temporary duplicate New File entries
+    cleanupDefaultNewFiles();
     
     // Load user-created files
     loadUserFiles();
+
+    // Remove any lingering duplicate New File entries from the live desktop
+    cleanupDefaultNewFiles();
     
     // Make icons draggable
     makeIconsDraggable();
@@ -40,6 +46,88 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let desktopDialogResolver = null;
 let desktopCreationPosition = null;
+
+function setupStartupSplash() {
+    const splash = document.getElementById('startup-splash');
+    if (!splash) return;
+
+    setTimeout(function() {
+        splash.classList.add('hidden');
+    }, 2400);
+}
+
+function getDesktopIconBounds(icon) {
+    const desktop = document.querySelector('.desktop');
+    const taskbar = document.querySelector('.taskbar');
+
+    if (!desktop || !icon) {
+        return { maxLeft: 0, maxTop: 0 };
+    }
+
+    const desktopRect = desktop.getBoundingClientRect();
+    const iconRect = icon.getBoundingClientRect();
+    const iconWidth = Math.max(iconRect.width, icon.offsetWidth || 80, 80);
+    const iconHeight = Math.max(iconRect.height, icon.offsetHeight || 100, 100);
+    const taskbarHeight = taskbar ? taskbar.offsetHeight : 40;
+    const bottomPadding = 2;
+
+    return {
+        maxLeft: Math.max(0, desktopRect.width - iconWidth),
+        maxTop: Math.max(0, desktopRect.height - iconHeight - taskbarHeight - bottomPadding)
+    };
+}
+
+function clampIconPosition(icon, left, top) {
+    const bounds = getDesktopIconBounds(icon);
+
+    return {
+        left: Math.max(0, Math.min(left, bounds.maxLeft)),
+        top: Math.max(0, Math.min(top, bounds.maxTop))
+    };
+}
+
+function getDesktopIconGridPosition(icon, index) {
+    const desktop = document.querySelector('.desktop');
+    const taskbar = document.querySelector('.taskbar');
+    const margin = 20;
+    const iconHeight = 92;
+    const rowSpacing = 6;
+    const columnWidth = 96;
+    const taskbarHeight = taskbar ? taskbar.offsetHeight : 40;
+    const usableHeight = desktop
+        ? desktop.getBoundingClientRect().height - taskbarHeight - (margin * 2) - 2
+        : 600;
+    const rowsPerColumn = Math.max(1, Math.floor(usableHeight / (iconHeight + rowSpacing)));
+    const column = Math.floor(index / rowsPerColumn);
+    const row = index % rowsPerColumn;
+
+    return clampIconPosition(
+        icon,
+        margin + (column * columnWidth),
+        margin + (row * (iconHeight + rowSpacing))
+    );
+}
+
+function getPinnedSystemIconPosition(icon) {
+    const windowType = icon.getAttribute('data-window');
+    const systemIconOrder = [
+        'projects',
+        'contact',
+        'resume',
+        'about',
+        'blockchain',
+        'certifications',
+        'current',
+        'trash'
+    ];
+
+    const systemIndex = systemIconOrder.indexOf(windowType);
+    if (systemIndex === -1) {
+        return null;
+    }
+
+    return getDesktopIconGridPosition(icon, systemIndex);
+}
 
 // Clear all user-created data
 function clearUserData() {
@@ -261,19 +349,11 @@ function makeIconsDraggable() {
                 const newTop = startTop + moveY;
                 
                 // Keep within desktop bounds
-                const desktopRect = desktop.getBoundingClientRect();
-                const iconRect = icon.getBoundingClientRect();
-                
-                const maxLeft = desktopRect.width - iconRect.width;
-                const maxTop = desktopRect.height - iconRect.height - 40; // 40px for taskbar
-                
-                // Apply bounds
-                const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
-                const boundedTop = Math.max(0, Math.min(newTop, maxTop));
+                const boundedPosition = clampIconPosition(icon, newLeft, newTop);
                 
                 // Apply new position
-                icon.style.left = `${boundedLeft}px`;
-                icon.style.top = `${boundedTop}px`;
+                icon.style.left = `${boundedPosition.left}px`;
+                icon.style.top = `${boundedPosition.top}px`;
                 
                 // Save position
                 saveIconPosition(icon);
@@ -301,14 +381,23 @@ function positionIcons(icons) {
     const savedPositions = localStorage.getItem('iconPositions');
     if (savedPositions) {
         const positions = JSON.parse(savedPositions);
-        icons.forEach(icon => {
+        icons.forEach((icon, index) => {
             const id = icon.getAttribute('data-window');
-            if (positions[id]) {
-                icon.style.left = positions[id].left;
-                icon.style.top = positions[id].top;
+            const pinnedPosition = getPinnedSystemIconPosition(icon);
+
+            if (pinnedPosition) {
+                icon.style.left = `${pinnedPosition.left}px`;
+                icon.style.top = `${pinnedPosition.top}px`;
+            } else if (positions[id]) {
+                const savedLeft = parseFloat(positions[id].left);
+                const savedTop = parseFloat(positions[id].top);
+                const boundedPosition = clampIconPosition(icon, savedLeft, savedTop);
+
+                icon.style.left = `${boundedPosition.left}px`;
+                icon.style.top = `${boundedPosition.top}px`;
             } else {
                 // Default position for new icons
-                setDefaultIconPosition(icon);
+                setDefaultIconPosition(icon, index);
             }
         });
     } else {
@@ -321,16 +410,11 @@ function positionIcons(icons) {
 
 // Set default icon position in a clean layout
 function setDefaultIconPosition(icon, index = 0) {
-    const margin = 20;
-    const iconHeight = 100;
-    
-    // Position icons vertically along the left side
-    const left = margin;
-    const top = margin + (index * (iconHeight + 10));
+    const boundedPosition = getPinnedSystemIconPosition(icon) || getDesktopIconGridPosition(icon, index);
     
     // Apply position directly
-    icon.style.left = `${left}px`;
-    icon.style.top = `${top}px`;
+    icon.style.left = `${boundedPosition.left}px`;
+    icon.style.top = `${boundedPosition.top}px`;
     
     // Save this position
     saveIconPosition(icon);
@@ -826,11 +910,23 @@ window.addEventListener('resize', function() {
     
     icons.forEach(icon => {
         const iconRect = icon.getBoundingClientRect();
+        const pinnedPosition = getPinnedSystemIconPosition(icon);
+
+        if (pinnedPosition) {
+            icon.style.left = `${pinnedPosition.left}px`;
+            icon.style.top = `${pinnedPosition.top}px`;
+            saveIconPosition(icon);
+            return;
+        }
         
         // Check if icon is outside bounds
-        if (iconRect.right > desktopRect.width || iconRect.bottom > desktopRect.height - 40) {
-            setDefaultIconPosition(icon);
-        }
+        const currentLeft = parseFloat(icon.style.left) || iconRect.left;
+        const currentTop = parseFloat(icon.style.top) || iconRect.top;
+        const boundedPosition = clampIconPosition(icon, currentLeft, currentTop);
+
+        icon.style.left = `${boundedPosition.left}px`;
+        icon.style.top = `${boundedPosition.top}px`;
+        saveIconPosition(icon);
     });
 });
 
@@ -1657,9 +1753,11 @@ function createNewFile() {
 
         // Position the icon at the right-click location
         if (desktopCreationPosition) {
-            newIcon.style.left = `${desktopCreationPosition.left}px`;
-            newIcon.style.top = `${desktopCreationPosition.top}px`;
+            const boundedPosition = clampIconPosition(newIcon, desktopCreationPosition.left, desktopCreationPosition.top);
+            newIcon.style.left = `${boundedPosition.left}px`;
+            newIcon.style.top = `${boundedPosition.top}px`;
             saveIconPosition(newIcon);
+            saveUserFiles();
         }
 
         // Hide the context menu
@@ -1692,9 +1790,11 @@ function createNewFolder() {
 
         // Position the icon at the right-click location
         if (desktopCreationPosition) {
-            newIcon.style.left = `${desktopCreationPosition.left}px`;
-            newIcon.style.top = `${desktopCreationPosition.top}px`;
+            const boundedPosition = clampIconPosition(newIcon, desktopCreationPosition.left, desktopCreationPosition.top);
+            newIcon.style.left = `${boundedPosition.left}px`;
+            newIcon.style.top = `${boundedPosition.top}px`;
             saveIconPosition(newIcon);
+            saveUserFiles();
         }
 
         // Hide the context menu
@@ -1919,19 +2019,11 @@ function createNewIcon(name, iconClass, windowType) {
             const newTop = startTop + moveY;
             
             // Keep within desktop bounds
-            const desktopRect = desktop.getBoundingClientRect();
-            const iconRect = newIcon.getBoundingClientRect();
-            
-            const maxLeft = desktopRect.width - iconRect.width;
-            const maxTop = desktopRect.height - iconRect.height - 40; // 40px for taskbar
-            
-            // Apply bounds
-            const boundedLeft = Math.max(0, Math.min(newLeft, maxLeft));
-            const boundedTop = Math.max(0, Math.min(newTop, maxTop));
+            const boundedPosition = clampIconPosition(newIcon, newLeft, newTop);
             
             // Apply new position
-            newIcon.style.left = `${boundedLeft}px`;
-            newIcon.style.top = `${boundedTop}px`;
+            newIcon.style.left = `${boundedPosition.left}px`;
+            newIcon.style.top = `${boundedPosition.top}px`;
             
             // Save position
             saveIconPosition(newIcon);
@@ -1947,6 +2039,10 @@ function createNewIcon(name, iconClass, windowType) {
             // If not moved, keep the selected class
             if (!hasMoved) {
                 newIcon.classList.add('selected');
+            }
+
+            if (hasMoved) {
+                saveUserFiles();
             }
         }
     }
@@ -1976,6 +2072,128 @@ function createNewIcon(name, iconClass, windowType) {
     saveUserFiles();
     
     return newIcon;
+}
+
+function setupIconDraggable(icon) {
+    const desktop = document.querySelector('.desktop');
+    let isDragging = false;
+    let startX, startY, startLeft, startTop;
+    let hasMoved = false;
+
+    icon.addEventListener('touchstart', handleStart, { passive: false });
+    icon.addEventListener('touchmove', handleMove, { passive: false });
+    icon.addEventListener('touchend', handleEnd);
+
+    icon.addEventListener('mousedown', handleStart);
+    document.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseup', handleEnd);
+
+    function handleStart(e) {
+        if (e.type === 'touchstart') {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+        } else {
+            startX = e.clientX;
+            startY = e.clientY;
+        }
+
+        const rect = icon.getBoundingClientRect();
+        startLeft = rect.left;
+        startTop = rect.top;
+
+        isDragging = true;
+        hasMoved = false;
+        icon.style.zIndex = 10;
+
+        document.querySelectorAll('.icon').forEach(i => {
+            i.classList.remove('active', 'selected', 'dragging');
+        });
+
+        icon.classList.add('active', 'selected');
+    }
+
+    function handleMove(e) {
+        if (!isDragging) return;
+
+        let clientX, clientY;
+
+        if (e.type === 'touchmove') {
+            e.preventDefault();
+            const touch = e.touches[0];
+            clientX = touch.clientX;
+            clientY = touch.clientY;
+        } else if (e.type === 'mousemove') {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        } else {
+            return;
+        }
+
+        const deltaX = Math.abs(clientX - startX);
+        const deltaY = Math.abs(clientY - startY);
+
+        if (deltaX > 5 || deltaY > 5) {
+            hasMoved = true;
+
+            if (!icon.classList.contains('dragging')) {
+                icon.classList.add('dragging');
+            }
+
+            const moveX = clientX - startX;
+            const moveY = clientY - startY;
+            const boundedPosition = clampIconPosition(icon, startLeft + moveX, startTop + moveY);
+
+            icon.style.left = `${boundedPosition.left}px`;
+            icon.style.top = `${boundedPosition.top}px`;
+            saveUserFiles();
+        }
+    }
+
+    function handleEnd() {
+        if (isDragging) {
+            isDragging = false;
+            icon.style.zIndex = 1;
+            icon.classList.remove('active', 'dragging');
+
+            if (!hasMoved) {
+                icon.classList.add('selected');
+            }
+        }
+    }
+}
+
+function cleanupDefaultNewFiles() {
+    const savedFiles = localStorage.getItem('userFiles');
+    if (savedFiles) {
+        let files = [];
+        try {
+            files = JSON.parse(savedFiles);
+        } catch (error) {
+            files = [];
+        }
+
+        const filteredFiles = files.filter(file => {
+            return !(file.windowType === 'notepad' && file.name === 'New File.txt');
+        });
+
+        if (filteredFiles.length !== files.length) {
+            localStorage.setItem('userFiles', JSON.stringify(filteredFiles));
+        }
+    }
+
+    document.querySelectorAll('.icon').forEach(icon => {
+        const windowType = icon.getAttribute('data-window');
+        const name = icon.querySelector('.icon-text')?.textContent?.trim();
+
+        if (windowType === 'notepad' && name === 'New File.txt') {
+            icon.remove();
+        }
+    });
+
+    localStorage.removeItem('file_New File.txt');
+    saveUserFiles();
 }
 
 // Save user created files to localStorage
@@ -2027,13 +2245,18 @@ function loadUserFiles() {
             `;
             
             // Position the icon
-            if (file.position) {
-                newIcon.style.left = file.position.left;
-                newIcon.style.top = file.position.top;
-            }
-            
             // Add to desktop
             document.querySelector('.desktop').appendChild(newIcon);
+
+            if (file.position) {
+                const savedLeft = parseFloat(file.position.left);
+                const savedTop = parseFloat(file.position.top);
+                const boundedPosition = clampIconPosition(newIcon, savedLeft, savedTop);
+                newIcon.style.left = `${boundedPosition.left}px`;
+                newIcon.style.top = `${boundedPosition.top}px`;
+            } else {
+                setDefaultIconPosition(newIcon, document.querySelectorAll('.icon').length - 1);
+            }
             
             // Make the icon draggable
             setupIconDraggable(newIcon);
@@ -2044,6 +2267,8 @@ function loadUserFiles() {
                 openWindow(windowType);
             });
         });
+
+        saveUserFiles();
     }
 }
 
