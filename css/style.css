@@ -1590,6 +1590,12 @@ body {
     box-shadow: 0 0 14px rgba(0, 255, 255, 0.2);
 }
 
+.desktop-dialog-btn.primary.danger {
+    color: #19060a;
+    background: linear-gradient(45deg, #ff7b93 0%, #ffb36b 100%);
+    box-shadow: 0 0 14px rgba(255, 123, 147, 0.24);
+}
+
 @keyframes popup-appear {
     from {
         opacity: 0;

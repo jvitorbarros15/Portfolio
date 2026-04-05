@@ -2025,8 +2025,13 @@ function setupPortfolioTerminal() {
         blockchain: () => launchSystemTarget('blockchain', 'Opening Blockchain Projects...'),
         certifications: () => launchSystemTarget('certifications', 'Opening Certifications...'),
         current: () => launchSystemTarget('current', 'Opening Current.exe...'),
+        playlist: () => launchSystemTarget('playlist', 'Opening My Playlist...'),
         github: () => launchSystemTarget('github', 'Launching GitHub profile...'),
-        linkedin: () => launchSystemTarget('linkedin', 'Launching LinkedIn...')
+        linkedin: () => launchSystemTarget('linkedin', 'Launching LinkedIn...'),
+        research: () => printResearchSummary(),
+        hireme: () => printHireMeSummary(),
+        skills: () => printSkillsSummary(),
+        whoami: () => printWhoAmI()
     };
 
     updatePrompt();
@@ -2057,12 +2062,16 @@ function setupPortfolioTerminal() {
 
         switch (command) {
             case 'help':
-                printTerminalLine('Commands: ls, dir, cd, pwd, open, cat, mkdir, touch, rm, del, cls, clear, help');
-                printTerminalLine('Shortcuts: about, resume, projects, contact, github, linkedin, blockchain, certifications, current');
+                printTerminalLine('Commands: ls, dir, tree, cd, pwd, open, cat, mkdir, touch, rm, del, cls, clear, help');
+                printTerminalLine('Portfolio: whoami, skills, research, hireme');
+                printTerminalLine('Shortcuts: about, resume, projects, contact, blockchain, certifications, current, playlist, github, linkedin');
                 break;
             case 'ls':
             case 'dir':
                 listCurrentDirectory();
+                break;
+            case 'tree':
+                printDirectoryTree();
                 break;
             case 'pwd':
                 printTerminalLine(getPromptPath());
@@ -2118,6 +2127,43 @@ function setupPortfolioTerminal() {
 
         entries.forEach(entry => {
             printTerminalLine(`${entry.label.padEnd(7)} ${entry.name}`);
+        });
+    }
+
+    function printDirectoryTree() {
+        if (currentDirectory.length > 0) {
+            const folderName = currentDirectory[currentDirectory.length - 1];
+            printTerminalLine(`${folderName}`);
+            const items = getFolderItems(folderName);
+            if (!items.length) {
+                printTerminalLine('└── [empty]');
+                return;
+            }
+
+            items.forEach((item, index) => {
+                const branch = index === items.length - 1 ? '└──' : '├──';
+                printTerminalLine(`${branch} ${item.name}`);
+            });
+            return;
+        }
+
+        printTerminalLine('desktop');
+        const systemEntries = [
+            'about.exe',
+            'resume.pdf',
+            'projects.exe',
+            'contact.exe',
+            'blockchain.exe',
+            'certifications.exe',
+            'current.exe',
+            'playlist.exe'
+        ];
+        const userEntries = getDesktopUserEntries().map(entry => entry.name);
+        const allEntries = [...systemEntries, ...userEntries];
+
+        allEntries.forEach((entry, index) => {
+            const branch = index === allEntries.length - 1 ? '└──' : '├──';
+            printTerminalLine(`${branch} ${entry}`);
         });
     }
 
@@ -2309,6 +2355,7 @@ function setupPortfolioTerminal() {
                 { name: 'blockchain', kind: 'system', label: '<APP>', id: 'blockchain' },
                 { name: 'certifications', kind: 'system', label: '<APP>', id: 'certifications' },
                 { name: 'current', kind: 'system', label: '<APP>', id: 'current' },
+                { name: 'playlist', kind: 'system', label: '<APP>', id: 'playlist' },
                 { name: 'github', kind: 'system', label: '<LINK>', id: 'github' },
                 { name: 'linkedin', kind: 'system', label: '<LINK>', id: 'linkedin' },
                 ...getDesktopUserEntries()
@@ -2337,6 +2384,33 @@ function setupPortfolioTerminal() {
         if (successMessage) {
             printTerminalLine(successMessage, 'terminal-success');
         }
+    }
+
+    function printWhoAmI() {
+        printTerminalLine('Joao Vitor Barros da Silva');
+        printTerminalLine('Computer Science student at Penn State focused on software engineering, AI, and blockchain.');
+        printTerminalLine('Builder mindset with a strong interest in entrepreneurship and turning ideas into real systems.');
+    }
+
+    function printSkillsSummary() {
+        printTerminalLine('Production: Ruby on Rails, JavaScript, React, REST APIs, AWS, Docker');
+        printTerminalLine('AI/ML: Python, scikit-learn, XGBoost, pandas, model evaluation, applied ML');
+        printTerminalLine('Blockchain: Solidity, protocol design, decentralized apps, post-quantum research');
+        printTerminalLine('Strengths: full-stack execution, product thinking, research-heavy problem solving');
+    }
+
+    function printResearchSummary() {
+        printTerminalLine('QLink Research');
+        printTerminalLine('Quantum-safe interoperability research focused on cross-chain security, validator simulation, and key refresh design.');
+        printTerminalLine('Paper: https://arxiv.org/pdf/2512.18488');
+    }
+
+    function printHireMeSummary() {
+        printTerminalLine('Why hire me');
+        printTerminalLine('- I ship ambitious ideas into working systems.');
+        printTerminalLine('- I can move between SWE, AI/ML, and research-heavy work.');
+        printTerminalLine('- I care about real-world impact, not just prototypes.');
+        printTerminalLine('- I communicate clearly and work well in teams.');
     }
 }
 
@@ -2511,8 +2585,9 @@ function setupDesktopDialog() {
     const cancelBtn = document.getElementById('desktop-dialog-cancel');
     const confirmBtn = document.getElementById('desktop-dialog-confirm');
     const input = document.getElementById('desktop-dialog-input');
+    const label = document.getElementById('desktop-dialog-label');
 
-    if (!overlay || !closeBtn || !cancelBtn || !confirmBtn || !input) return;
+    if (!overlay || !closeBtn || !cancelBtn || !confirmBtn || !input || !label) return;
 
     function cancelDialog() {
         if (desktopDialogResolver) {
@@ -2522,14 +2597,16 @@ function setupDesktopDialog() {
     }
 
     function confirmDialog() {
+        const requiresInput = input.dataset.requiresInput !== 'false';
         const value = input.value.trim();
-        if (!value) {
+
+        if (requiresInput && !value) {
             input.focus();
             return;
         }
 
         if (desktopDialogResolver) {
-            desktopDialogResolver(value);
+            desktopDialogResolver(requiresInput ? value : true);
         }
         closeDesktopDialog();
     }
@@ -2562,8 +2639,9 @@ function showDesktopDialog(options, onConfirm) {
     const label = document.getElementById('desktop-dialog-label');
     const input = document.getElementById('desktop-dialog-input');
     const confirmBtn = document.getElementById('desktop-dialog-confirm');
+    const cancelBtn = document.getElementById('desktop-dialog-cancel');
 
-    if (!overlay || !title || !description || !label || !input || !confirmBtn) {
+    if (!overlay || !title || !description || !label || !input || !confirmBtn || !cancelBtn) {
         const fallbackValue = prompt(options.label + ':', options.defaultValue || '');
         if (fallbackValue && onConfirm) {
             onConfirm(fallbackValue.trim());
@@ -2571,11 +2649,18 @@ function showDesktopDialog(options, onConfirm) {
         return;
     }
 
+    const requiresInput = options.requiresInput !== false;
+
     title.textContent = options.title || 'Create New Item';
     description.textContent = options.description || '';
     label.textContent = options.label || 'Name';
     input.value = options.defaultValue || '';
+    input.dataset.requiresInput = requiresInput ? 'true' : 'false';
     confirmBtn.textContent = options.confirmText || 'Create';
+    cancelBtn.textContent = options.cancelText || 'Cancel';
+    confirmBtn.classList.toggle('danger', options.confirmTone === 'danger');
+    label.style.display = requiresInput ? 'block' : 'none';
+    input.style.display = requiresInput ? 'block' : 'none';
     desktopDialogResolver = onConfirm;
 
     document.querySelectorAll('.context-menu').forEach(menu => {
@@ -2585,14 +2670,21 @@ function showDesktopDialog(options, onConfirm) {
     overlay.classList.add('visible');
 
     setTimeout(function() {
-        input.focus();
-        input.select();
+        if (requiresInput) {
+            input.focus();
+            input.select();
+        } else {
+            confirmBtn.focus();
+        }
     }, 10);
 }
 
 function closeDesktopDialog() {
     const overlay = document.getElementById('desktop-dialog-overlay');
     const input = document.getElementById('desktop-dialog-input');
+    const label = document.getElementById('desktop-dialog-label');
+    const confirmBtn = document.getElementById('desktop-dialog-confirm');
+    const cancelBtn = document.getElementById('desktop-dialog-cancel');
 
     if (overlay) {
         overlay.classList.remove('visible');
@@ -2600,6 +2692,21 @@ function closeDesktopDialog() {
 
     if (input) {
         input.value = '';
+        input.dataset.requiresInput = 'true';
+        input.style.display = 'block';
+    }
+
+    if (label) {
+        label.style.display = 'block';
+    }
+
+    if (confirmBtn) {
+        confirmBtn.textContent = 'Create';
+        confirmBtn.classList.remove('danger');
+    }
+
+    if (cancelBtn) {
+        cancelBtn.textContent = 'Cancel';
     }
 
     desktopDialogResolver = null;
@@ -3044,9 +3151,18 @@ function deleteFile(icon) {
         alert("This is a system file and cannot be deleted.");
         return;
     }
-    
-    // Confirm deletion
-    if (confirm(`Are you sure you want to delete "${fileName}"?`)) {
+
+    showDesktopDialog({
+        title: `Delete ${windowType === 'folder' ? 'Folder' : 'File'}`,
+        description: `Are you sure you want to delete "${fileName}"? This action will remove it from your desktop.`,
+        label: 'Delete item',
+        confirmText: 'Delete',
+        cancelText: 'Keep',
+        confirmTone: 'danger',
+        requiresInput: false
+    }, function(confirmed) {
+        if (!confirmed) return;
+
         // Remove file content from localStorage
         if (windowType === 'notepad') {
             localStorage.removeItem(`file_${fileName}`);
@@ -3069,7 +3185,7 @@ function deleteFile(icon) {
             // Play delete sound
             playSound('delete');
         }, 300);
-    }
+    });
 }
 
 // Reset wallpaper to default
