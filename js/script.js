@@ -57,6 +57,8 @@ let portfolioAudioUnlocked = false;
 let spotifyEmbedController = null;
 let spotifyPlayerReady = false;
 let spotifyPlayerPaused = true;
+let spotifyPlaybackStarted = false;
+let miniPlayerDismissed = false;
 let spotifyCurrentUri = '';
 let spotifyCurrentTrack = {
     title: 'My Playlist',
@@ -76,6 +78,15 @@ function setupStartupSplash() {
 function setupPlaylistMiniPlayer() {
     const restartBtn = document.getElementById('playlist-mini-restart');
     const toggleBtn = document.getElementById('playlist-mini-toggle');
+    const closeBtn = document.getElementById('playlist-mini-close');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            miniPlayerDismissed = true;
+            const miniPlayer = document.getElementById('playlist-mini-player');
+            if (miniPlayer) miniPlayer.classList.remove('visible');
+        });
+    }
 
     if (restartBtn) {
         restartBtn.addEventListener('click', function() {
@@ -134,6 +145,8 @@ function createSpotifyPlaylistEmbed(IFrameAPI) {
 
         controller.addListener('playback_started', function(event) {
             spotifyPlayerPaused = false;
+            spotifyPlaybackStarted = true;
+            miniPlayerDismissed = false;
             handleSpotifyPlaybackEvent(event);
         });
 
@@ -191,7 +204,7 @@ function updatePlaylistMiniPlayer() {
     toggleIcon.className = spotifyPlayerPaused ? 'fas fa-play' : 'fas fa-pause';
     openLink.href = spotifyCurrentTrack.url || 'https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2';
 
-    const shouldShow = spotifyPlayerReady && playlistWindow.style.display === 'none';
+    const shouldShow = spotifyPlaybackStarted && !miniPlayerDismissed && playlistWindow.style.display === 'none';
     miniPlayer.classList.toggle('visible', shouldShow);
 }
 
