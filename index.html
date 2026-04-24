@@ -8,10 +8,15 @@
     'https://www.googletagmanager.com/gtm.js?id=GTM-ML997XWB'+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-ML997XWB');</script>
     <!-- End Google Tag Manager -->
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Portfolio</title>
+    <title>Joao Vitor Barros da Silva — CS @ Penn State</title>
+    <meta name="description" content="Computer Science undergraduate at Penn State. Building at the intersection of AI, blockchain, and software engineering.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,700&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,1157 +26,771 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <div class="startup-splash" id="startup-splash">
-        <div class="startup-splash-inner">
-            <div class="startup-chip">Now Loading...</div>
-            <h1>Joao Vitor Barros da Silva</h1>
-            <h2>Computer Science Undergraduate</h2>
-            <p class="startup-specialties">Software Engineering · Machine Learning · Blockchain Research</p>
-            <div class="startup-progress">
-                <span class="startup-progress-bar"></span>
-            </div>
-            <p class="startup-caption">Booting portfolio experience...</p>
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <!-- Startup splash -->
+    <div class="splash" id="splash" aria-hidden="true">
+        <div class="splash-inner">
+            <div class="splash-mono">INITIALIZING</div>
+            <div class="splash-progress"><span class="splash-bar"></span></div>
+            <p class="splash-name">Joao Vitor Barros da Silva</p>
         </div>
     </div>
-    
-    <div class="desktop">
-        <!-- Desktop icons -->
-        <div class="desktop-icons">
-            <div class="icon" data-window="projects">
-                <div class="icon-img folder-icon">
-                    <i class="fas fa-folder"></i>
-                </div>
-                <div class="icon-text">My Projects</div>
-            </div>
 
-            <div class="icon" data-window="trash">
-                <div class="icon-img trash-icon">
-                    <i class="fas fa-trash"></i>
-                </div>
-                <div class="icon-text">Recycle Bin</div>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo" aria-label="Home">JV<span class="nav-logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="#now" class="nav-link" data-track="Nav: Now">Now</a>
+                <a href="#experience" class="nav-link" data-track="Nav: Experience">Experience</a>
+                <a href="#projects" class="nav-link" data-track="Nav: Projects">Projects</a>
+                <a href="#research" class="nav-link" data-track="Nav: Research">Research</a>
+                <a href="#about" class="nav-link" data-track="Nav: About">About</a>
+                <a href="#contact" class="nav-link" data-track="Nav: Contact">Contact</a>
             </div>
-            
-            <div class="icon" data-window="contact">
-                <div class="icon-img contact-icon">
-                    <i class="fas fa-address-book"></i>
-                </div>
-                <div class="icon-text">Contact Me</div>
-            </div>
-            
-            <div class="icon" data-window="resume">
-                <div class="icon-img resume-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="icon-text">My Resume</div>
-            </div>
-            
-            <div class="icon" data-window="about">
-                <div class="icon-img about-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="icon-text">About Me</div>
-            </div>
-            
-            <div class="icon" data-window="blockchain">
-                <div class="icon-img blockchain-icon">
-                    <i class="fas fa-cube"></i>
-                </div>
-                <div class="icon-text">Blockchain Projects</div>
-            </div>
-            
-            <div class="icon" data-window="certifications">
-                <div class="icon-img certifications-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div class="icon-text">Certifications</div>
-            </div>
-
-            <div class="icon" data-window="current">
-                <div class="icon-img current-icon">
-                    <i class="fas fa-terminal"></i>
-                </div>
-                <div class="icon-text">Current.exe</div>
-            </div>
-
-            <div class="icon" data-window="terminal">
-                <div class="icon-img terminal-icon">
-                    <i class="fas fa-laptop-code"></i>
-                </div>
-                <div class="icon-text">Command Prompt</div>
-            </div>
-
-            <div class="icon" data-window="playlist">
-                <div class="icon-img playlist-icon">
-                    <i class="fas fa-music"></i>
-                </div>
-                <div class="icon-text">My Playlist</div>
-            </div>
+            <a href="./files/Joao_Vitor_Barros_da_Silva_ResumeApr.pdf" class="nav-resume" target="_blank" rel="noopener noreferrer" download data-track="Nav: Resume">
+                Resume <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-        
-        <!-- Windows -->
-        <div class="windows-container">
-            <!-- Projects Window -->
-            <div id="projects-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-folder window-icon"></i>
-                        <span>My Projects</span>
+        <div class="nav-mobile" id="navMobile">
+            <a href="#now" class="nav-mobile-link">Now</a>
+            <a href="#experience" class="nav-mobile-link">Experience</a>
+            <a href="#projects" class="nav-mobile-link">Projects</a>
+            <a href="#research" class="nav-mobile-link">Research</a>
+            <a href="#about" class="nav-mobile-link">About</a>
+            <a href="#contact" class="nav-mobile-link">Contact</a>
+            <a href="./files/Joao_Vitor_Barros_da_Silva_ResumeApr.pdf" class="nav-mobile-link nav-mobile-resume" target="_blank" rel="noopener noreferrer" download>Resume ↗</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ── HERO ─────────────────────────────────────────────── -->
+        <section class="hero" id="hero">
+            <div class="hero-bg" aria-hidden="true">
+                <div class="hero-orb hero-orb-1"></div>
+                <div class="hero-orb hero-orb-2"></div>
+            </div>
+            <div class="container hero-grid">
+                <div class="hero-content reveal">
+                    <div class="eyebrow">Computer Science · Penn State · Class of&nbsp;2026</div>
+                    <h1 class="hero-name">
+                        Joao Vitor<br>
+                        <em>Barros da Silva</em>
+                    </h1>
+                    <p class="hero-tagline">Building at the intersection of AI, blockchain, and software engineering — from quantum-safe protocols to production Rails applications.</p>
+                    <div class="hero-badges">
+                        <span class="badge">Software Engineering</span>
+                        <span class="badge">Machine Learning</span>
+                        <span class="badge">Blockchain Research</span>
                     </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn-primary" data-track="Hero: View Work">View Work</a>
+                        <a href="#contact" class="btn-ghost" data-track="Hero: Get in Touch">Get in Touch</a>
                     </div>
                 </div>
-                <div class="window-content">
-                    <div class="project-item" data-track="Project: NFL 4th Down Predictor">
-                        <h3>NFL 4th Down Conversion Predictor</h3>
-                        <p>Built a machine learning model predicting 4th down conversion probabilities using 11 years of NFL play-by-play data (480K plays). Achieved 62% accuracy, 0.66 ROC-AUC, and 0.23 Brier Score, ensuring well-calibrated probability predictions.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: NFL 4th Down Predictor - GitHub"><i class="fab fa-github"></i> View Code</a>
+
+                <div class="hero-aside reveal reveal-delay-1">
+                    <div class="hero-photo-wrap">
+                        <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva" class="hero-photo" loading="eager">
+                        <div class="hero-photo-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-num">40K<span class="stat-plus">+</span></span>
+                            <span class="stat-label">Users Served</span>
                         </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">XGBoost</span>
-                            <span class="tech-tag">Seaborn</span>
-                            <span class="tech-tag">Matplotlib</span>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-num">1</span>
+                            <span class="stat-label">Published Paper</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-num">707<span class="stat-plus">×</span></span>
+                            <span class="stat-label">Key Throughput</span>
+                        </div>
+                    </div>
+                    <div class="hero-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        State College, PA &nbsp;·&nbsp; Open to Relocation &amp; Remote
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-scroll-hint" aria-hidden="true">
+                <span class="scroll-hint-line"></span>
+                <span class="scroll-hint-text">scroll</span>
+            </div>
+        </section>
+
+        <!-- ── NOW ─────────────────────────────────────────────── -->
+        <section class="section now-section" id="now">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">01 — NOW</div>
+                    <h2 class="section-title">What I'm Building</h2>
+                    <p class="section-desc">A live snapshot of work actively in motion.</p>
+                </div>
+                <div class="now-grid">
+                    <article class="now-card reveal" data-track="Now: Libraries Rails">
+                        <div class="now-card-top">
+                            <div class="now-icon"><i class="fas fa-server"></i></div>
+                            <span class="status-badge status-progress">In Progress</span>
+                        </div>
+                        <h3>Penn State Libraries<br>Rails Platform</h3>
+                        <p>Enterprise Ruby on Rails development — data integration APIs, PDF remediation at scale, cross-system workflows serving 40,000+ users.</p>
+                        <div class="tag-row">
+                            <span class="tag">Ruby on Rails</span>
+                            <span class="tag">REST APIs</span>
+                            <span class="tag">AWS</span>
+                            <span class="tag">Docker</span>
+                        </div>
+                    </article>
+
+                    <article class="now-card reveal reveal-delay-1" data-track="Now: QLink">
+                        <div class="now-card-top">
+                            <div class="now-icon"><i class="fas fa-atom"></i></div>
+                            <span class="status-badge status-research">Research Active</span>
+                        </div>
+                        <h3>QLink — Quantum-Safe<br>Interoperability Protocol</h3>
+                        <p>Advancing the QLink Layer-3 protocol: validator simulations, quantum-safe key refresh mechanisms, and cross-chain interoperability research.</p>
+                        <div class="tag-row">
+                            <span class="tag">QKD</span>
+                            <span class="tag">PQC</span>
+                            <span class="tag">Blockchain</span>
+                            <span class="tag">Protocol Design</span>
+                        </div>
+                        <a href="https://arxiv.org/pdf/2512.18488" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Now: QLink Paper">
+                            <i class="fas fa-file-alt"></i> Read Paper
+                        </a>
+                    </article>
+
+                    <article class="now-card reveal reveal-delay-2" data-track="Now: Cognitra">
+                        <div class="now-card-top">
+                            <div class="now-icon"><i class="fas fa-rocket"></i></div>
+                            <span class="status-badge status-ship">Shipping</span>
+                        </div>
+                        <h3>Cognitra</h3>
+                        <p>AI-powered product in active development — focusing on polish, usability, and shipping publicly.</p>
+                        <div class="card-links">
+                            <a href="https://github.com/jvitorbarros15/Cognitra" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Now: Cognitra GitHub">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="https://cognitra.vercel.app/" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Now: Cognitra Demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── EXPERIENCE ─────────────────────────────────────── -->
+        <section class="section experience-section" id="experience">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">02 — EXPERIENCE</div>
+                    <h2 class="section-title">Where I've Worked</h2>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot timeline-dot-accent"></div>
+                        <div class="timeline-body">
+                            <div class="timeline-meta">
+                                <span class="timeline-date">Oct 2025 – Present</span>
+                                <span class="timeline-location"><i class="fas fa-map-marker-alt"></i> State College, PA</span>
+                            </div>
+                            <h3 class="timeline-role">Software Development Intern</h3>
+                            <p class="timeline-org">Penn State University Libraries</p>
+                            <p class="timeline-stack">Ruby on Rails · AWS · Docker · REST APIs</p>
+                            <ul class="timeline-bullets">
+                                <li>Develop and maintain enterprise full-stack <strong>Ruby on Rails</strong> applications supporting <em class="metric">40,000+ users</em>, handling production, bug fixes and database updates across multiple repositories within a Scrum workflow.</li>
+                                <li>Core team member for a large-scale <strong>PDF remediation platform</strong> with AWS and Adobe, supporting over <em class="metric">3 million uploads</em> via automated parsing and secure S3 storage.</li>
+                                <li>Built a <strong>cross-system integration API</strong> to POST JSON between websites, implemented JSON-to-XML importers and Swagger docs, reducing manual departmental processing by <em class="metric">60%</em>.</li>
+                                <li>Developed a <strong>Python Pandas data pipeline</strong> integrated into the Rails platform, cleaning faculty data from <em class="metric">17.7K → 9.8K valid entries</em> and cutting manual processing time by <em class="metric">90%</em>.</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="project-item" data-track="Project: ZorAi">
-                        <h3>ZorAi – Full Stack Decentralized App</h3>
-                        <p>Developed a platform to register and verify AI-generated images on the blockchain to combat misinformation. Deployed BNB testnet dApp integrating OpenAI API for content analysis and Pinata (IPFS) for decentralized storage, verifying 5K+ AI-generated images with 99% detection accuracy and less than 2s verification latency.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://zorai.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Solidity</span>
-                            <span class="tech-tag">OpenAI</span>
-                            <span class="tech-tag">IPFS</span>
-                            <span class="tech-tag">BNB Testnet</span>
-                            <span class="tech-tag">LLMs</span>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item" data-track="Project: Insurance Cost Prediction">
-                        <h3>Insurance Cost Prediction</h3>
-                        <p>Designed and implemented machine learning pipeline, from data loading and cleaning to feature engineering, model validation and evaluation. Benchmarked models including Linear, Ridge, Lasso, Random Forest, Polynomial, and XGBoost; tuned hyperparameters with GridSearchCV. Achieved top performance with XGBoost (R² = 0.868); reduced MAE and MSE by 35% compared to baseline models.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Regression_Analysis_Insurance_Costs" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Insurance Cost Prediction - GitHub"><i class="fab fa-github"></i> View Code</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Scikit-learn</span>
-                            <span class="tech-tag">XGBoost</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Seaborn</span>
-                            <span class="tech-tag">Matplotlib</span>
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot timeline-dot-accent"></div>
+                        <div class="timeline-body">
+                            <div class="timeline-meta">
+                                <span class="timeline-date">Feb 2025 – Present</span>
+                                <span class="timeline-location"><i class="fas fa-map-marker-alt"></i> State College, PA</span>
+                            </div>
+                            <h3 class="timeline-role">Lead Researcher</h3>
+                            <p class="timeline-org">Blockchain Data Intelligence Lab · Penn State University</p>
+                            <p class="timeline-stack">QKD · PQC · Blockchain Protocol Design</p>
+                            <ul class="timeline-bullets">
+                                <li>Developed <strong>QLink</strong>, a quantum-safe Layer-3 interoperability protocol integrating Quantum Key Distribution and Post-Quantum Cryptography (Crystals-Dilithium, Falcon) to secure cross-chain blockchain bridges.</li>
+                                <li>Simulated a 7-validator QLink network over <em class="metric">50 km QKD fiber links</em>, achieving <em class="metric">707× surplus key throughput</em> and <em class="metric">&lt;1s latency</em>, outperforming classical bridges by <em class="metric">400×</em> in cross-chain key refresh rate.</li>
+                                <li>Publication: <em>"QLink: A Quantum-Safe Layer 3 Interoperability Protocol for Blockchain Networks"</em> — arXiv:2512.18488, 2025.</li>
+                            </ul>
                         </div>
                     </div>
-                    
-                    <div class="project-item" data-track="Project: B3 Stock Clustering">
-                        <h3>B3 Stock Clustering</h3>
-                        <p>Clustered Brazilian stocks by price behavior using K-Means and GMM; validated with silhouette score. Reduced data with PCA for visualization; explained grouping of companies in business terms. Built end-to-end notebook pipeline with clear analysis and plots.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/B3-Stock-Clustering" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: B3 Stock Clustering - GitHub"><i class="fab fa-github"></i> View Code</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">PCA</span>
-                            <span class="tech-tag">K-Means</span>
-                            <span class="tech-tag">GMM</span>
-                            <span class="tech-tag">Seaborn</span>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item" data-track="Project: Banking Customer Clustering">
-                        <h3>Banking Customer Clustering</h3>
-                        <p>Performed customer segmentation analysis using unsupervised machine learning techniques. Applied K-Means clustering to identify distinct customer groups based on age, income, and spending behavior. Created detailed cluster profiles and visualizations to enable targeted marketing strategies and personalized customer experiences.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Banking-Customer-Clustering" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Banking Customer Clustering - GitHub"><i class="fab fa-github"></i> View Code</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Scikit-learn</span>
-                            <span class="tech-tag">K-Means</span>
-                            <span class="tech-tag">Matplotlib</span>
-                            <span class="tech-tag">Seaborn</span>
+
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-body">
+                            <div class="timeline-meta">
+                                <span class="timeline-date">May 2023 – Jul 2024</span>
+                                <span class="timeline-location"><i class="fas fa-map-marker-alt"></i> State College, PA</span>
+                            </div>
+                            <h3 class="timeline-role">Innovation &amp; Operations Intern</h3>
+                            <p class="timeline-org">Happy Valley LaunchBox Startup Accelerator</p>
+                            <p class="timeline-stack">AI Automation · HubSpot CRM · Power Automate</p>
+                            <ul class="timeline-bullets">
+                                <li>Spearheaded the integration of <strong>HubSpot CRM</strong> with a new internal UI, centralizing engagement data for <em class="metric">40+ active startups</em> and improving reporting visibility by <em class="metric">45%</em>.</li>
+                                <li>Automated email replies, data entry, and fetching workflows using <strong>AI in Power Automate</strong>, increasing team efficiency by <em class="metric">30%</em>.</li>
+                            </ul>
                         </div>
                     </div>
-                    
-                    <div class="project-item" data-track="Project: Blockchain Rio 2025">
-                        <h3>Blockchain Rio 2025 - Interactive Event Timeline</h3>
-                        <p>Built real-time event management system for Blockchain Rio 2025 conference to solve chaos of managing multi-stage blockchain events. Created comprehensive solution with real-time timeline across 14 stages, live status updates, organizer dashboard with cascade delay management, and mobile-first design for 40+ events and 8 conference stages.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Blockchain-Rio-2025-Schedule-" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Blockchain Rio 2025 - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://blockchain-rio-2025-schedule.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Blockchain Rio 2025 - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">React 18</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Styled Components</span>
-                            <span class="tech-tag">CSS Grid</span>
-                            <span class="tech-tag">Real-time Systems</span>
-                            <span class="tech-tag">PWA</span>
-                        </div>
-                    </div>
-                    
-                    <div class="project-item" data-track="Project: Breast Cancer Prediction">
-                        <h3>Breast Cancer Prediction</h3>
-                        <p>Developed machine learning model for breast cancer prediction using clinical diagnostic features. Implemented comprehensive data preprocessing, feature engineering, and model evaluation pipeline. Applied various classification algorithms including logistic regression, SVM, and ensemble methods to achieve high accuracy in predicting malignant vs benign tumors for early detection assistance.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Breast_Cancer_prediction" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Breast Cancer Prediction - GitHub"><i class="fab fa-github"></i> View Code</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Jupyter Notebook</span>
-                            <span class="tech-tag">Scikit-learn</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Healthcare AI</span>
-                            <span class="tech-tag">Classification</span>
+
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-body">
+                            <div class="timeline-meta">
+                                <span class="timeline-date">Jan 2024 – Present</span>
+                            </div>
+                            <h3 class="timeline-role">Web Dev &amp; Outreach</h3>
+                            <p class="timeline-org">Nittany Entrepreneur Society</p>
+                            <ul class="timeline-bullets">
+                                <li>Designed and developed the club website, managing a community of <em class="metric">700+ members</em> and coordinating recruitment efforts.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Contact Window -->
-            <div id="contact-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-address-book window-icon"></i>
-                        <span>Contact Me</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <form class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" required>
+        </section>
+
+        <!-- ── RESEARCH SPOTLIGHT ─────────────────────────────── -->
+        <section class="research-spotlight" id="research">
+            <div class="research-bg" aria-hidden="true"></div>
+            <div class="container">
+                <div class="research-inner reveal">
+                    <div class="research-eyebrow">
+                        <div class="research-badge-pill">
+                            <i class="fas fa-file-alt"></i>
+                            Published · arXiv · 2025
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message:</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn" data-track="Contact Form Submit">Send Message</button>
-                    </form>
-                    
-                    <div class="social-links">
-                        <a href="https://github.com/jvitorbarros15" class="social-link" target="_blank" rel="noopener noreferrer" data-track="Contact: GitHub"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://www.linkedin.com/in/joaovi/" class="social-link" target="_blank" rel="noopener noreferrer" data-track="Contact: LinkedIn"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                        <a href="mailto:jvitorbarros15@gmail.com" class="social-link" data-track="Contact: Email"><i class="fas fa-envelope"></i> jvitorbarros15@gmail.com</a>
-                        <a href="tel:8143083273" class="social-link" data-track="Contact: Phone"><i class="fas fa-phone"></i> 814-308-3273</a>
                     </div>
+                    <h2 class="research-title">QLink — A Quantum-Safe Layer 3 Interoperability Protocol for Blockchain Networks</h2>
+                    <p class="research-citation">arXiv preprint arXiv:<strong>2512.18488</strong> &nbsp;·&nbsp; Blockchain Data Intelligence Lab, Penn State University</p>
+                    <p class="research-abstract">Developed a novel Layer-3 protocol integrating Quantum Key Distribution (QKD) and Post-Quantum Cryptography (Crystals-Dilithium, Falcon) to secure cross-chain blockchain bridges against quantum adversaries. Simulated a 7-validator QLink network demonstrating breakthrough performance metrics:</p>
+
+                    <div class="research-metrics">
+                        <div class="research-metric">
+                            <span class="r-metric-num">707<span class="r-metric-unit">×</span></span>
+                            <span class="r-metric-label">Surplus Key Throughput</span>
+                        </div>
+                        <div class="research-metric">
+                            <span class="r-metric-num">&lt;1<span class="r-metric-unit">s</span></span>
+                            <span class="r-metric-label">Validation Latency</span>
+                        </div>
+                        <div class="research-metric">
+                            <span class="r-metric-num">400<span class="r-metric-unit">×</span></span>
+                            <span class="r-metric-label">Faster Key Refresh vs. Classical</span>
+                        </div>
+                        <div class="research-metric">
+                            <span class="r-metric-num">50<span class="r-metric-unit">km</span></span>
+                            <span class="r-metric-label">QKD Fiber Link Range</span>
+                        </div>
+                    </div>
+
+                    <a href="https://arxiv.org/pdf/2512.18488" class="btn-research" target="_blank" rel="noopener noreferrer" data-track="Research: Read Paper">
+                        Read Full Paper <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            
-            <!-- Resume Window -->
-            <div id="resume-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-file-alt window-icon"></i>
-                        <span>My Resume</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
+        </section>
+
+        <!-- ── PROJECTS ───────────────────────────────────────── -->
+        <section class="section projects-section" id="projects">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">03 — PROJECTS</div>
+                    <h2 class="section-title">Selected Work</h2>
+                    <p class="section-desc">A mix of ML research, full-stack apps, and blockchain engineering.</p>
                 </div>
-                <div class="window-content">
-                    <div class="resume-content">
-                        <div class="resume-actions">
-                            <a href="./files/Joao_Vitor_Barros_da_Silva_ResumeApr.pdf" class="btn download-btn" target="_blank" rel="noopener noreferrer" download data-track="Resume Download"><i class="fas fa-download"></i> Download PDF</a>
-                        </div>
-                        <div class="resume-preview">
-                            <h2>Resume Preview</h2>
-                            
-                            <div class="resume-section">
-                                <h3>Education</h3>
-                                <div class="resume-item">
-                                    <h4>The Pennsylvania State University, University Park</h4>
-                                    <p>B.S. in Computer Science, Minor in Entrepreneurship and Innovation</p>
-                                    <p>May 2026</p>
-                                </div>
-                            </div>
-                            
-                            <div class="resume-section">
-                                <h3>Technical Skills</h3>
-                                <div class="resume-item">
-                                    <h4>Programming & Development</h4>
-                                    <p>Python (Flask, FastAPI), JavaScript, C, Ruby on Rails, Solidity, SQL (PostgreSQL, SQLite), React.js, Next.js, Node.js, APIs, HTML/CSS</p>
 
-                                    <h4>ML & AI</h4>
-                                    <p>TensorFlow, PyTorch, LangChain, Scikit-learn, Pandas, NumPy, Large Language Models (LLMs)</p>
+                <div class="projects-grid">
 
-                                    <h4>Cloud & Tools</h4>
-                                    <p>AWS, Docker, Jira, Figma, Git/GitHub</p>
-                                </div>
+                    <article class="project-card project-card-featured reveal" data-track="Project: ZorAi">
+                        <div class="project-card-inner">
+                            <div class="project-number">01</div>
+                            <div class="project-metric-big"><span>99%</span><small>Detection Accuracy</small></div>
+                            <h3 class="project-title">ZorAi – Full Stack Decentralized App</h3>
+                            <p class="project-desc">Platform to register and verify AI-generated images on the blockchain to combat misinformation. BNB testnet dApp integrating OpenAI API and Pinata (IPFS), verifying 5K+ images with &lt;2s latency.</p>
+                            <div class="project-sub-metrics">
+                                <span class="sub-metric"><em>5K+</em> images verified</span>
+                                <span class="sub-metric"><em>&lt;2s</em> verification latency</span>
                             </div>
-                            
-                            <div class="resume-section">
-                                <h3>Certifications</h3>
-                                <div class="resume-item">
-                                    <ul>
-                                        <li><strong>AI Agents with RAG & LangChain</strong> – IBM, Jun 2025</li>
-                                        <li><strong>AI & Blockchain Certificate</strong> – Google, May 2025</li>
-                                        <li><strong>Deep Learning & Neural Networks</strong> – IBM, Jun 2025</li>
-                                        <li><strong>Fake News Detection with Machine Learning</strong> – Coursera, May 2025</li>
-                                    </ul>
-                                </div>
+                            <div class="tag-row">
+                                <span class="tag">React</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">Solidity</span>
+                                <span class="tag">OpenAI</span>
+                                <span class="tag">IPFS</span>
+                                <span class="tag">BNB Testnet</span>
                             </div>
-                            
-                            <div class="resume-section">
-                                <h3>Experience</h3>
-                                <div class="resume-item">
-                                    <h4>Penn State University Libraries</h4>
-                                    <p>Software Development Intern | Ruby on Rails, AWS, Docker, REST APIs | Oct 2025 – Present</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Develop and maintain enterprise full stack <strong>Ruby on Rails</strong> applications supporting <strong>40,000+ users</strong>, handling production, bug fixes and database updates across multiple repositories within a <strong>Scrum workflow</strong>.</li>
-                                        <li>Member of development team for a large scale <strong>PDF remediation platform</strong> with AWS and Adobe, supporting over <strong>3 million uploads</strong> and improving accessibility via automated parsing and secure storage using Adobe APIs and S3.</li>
-                                        <li>Built a <strong>cross system integration API</strong> to POST JSON between websites, implemented JSON to XML importers and Swagger documentation, reducing manual departmental processing by <strong>60%</strong> through cross team collaboration.</li>
-                                        <li>Developed a <strong>Python Pandas data pipeline</strong> integrated into the Rails platform, cleaning and standardizing faculty data from <strong>17.7K to 9.8K valid entries</strong> and reducing manual data processing time by over <strong>90%</strong>.</li>
-                                    </ul>
-                                </div>
-                                
-                                <div class="resume-item">
-                                    <h4>Blockchain Data Intelligence Lab | Penn State University</h4>
-                                    <p>Lead Researcher | QKD, PQC, Blockchain Protocol Design | Feb 2025 – Present</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Developed <strong>QLink</strong>, a quantum-safe Layer-3 interoperability protocol integrating <strong>Quantum Key Distribution</strong> and <strong>Post-Quantum Cryptography (PQC)</strong> Crystals-Dilithium and Falcon to secure cross-chain blockchain bridges.</li>
-                                        <li>Simulated a 7-validator QLink network over <strong>50 km QKD fiber links</strong>, achieving up to <strong>707× surplus key throughput</strong> and <strong>under 1s latency</strong>, outperforming classical blockchain bridges by over <strong>400×</strong> in cross-chain key refresh rate.</li>
-                                        <li>Publication: "QLink A Quantum Safe Layer 3 Interoperability Protocol for Blockchain Networks," arXiv preprint arXiv:2512.18488, 2025.</li>
-                                    </ul>
-                                </div>
-                                
-                                <div class="resume-item">
-                                    <h4>Happy Valley LaunchBox Startup Accelerator</h4>
-                                    <p>Innovation and Operations Intern | AI Automation, Data Integration | May 2023 – Jul 2024</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Spearheaded the integration of <strong>HubSpot CRM</strong> with a new internal UI, centralizing engagement data for <strong>40+ active startups</strong> and improving reporting visibility by <strong>45%</strong>.</li>
-                                        <li>Automated email replies, data entry, and data fetching workflows using <strong>AI in Power Automate</strong>, streamlining communications and data management, and increasing team efficiency by <strong>30%</strong>.</li>
-                                    </ul>
-                                </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/zorai" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi GitHub"><i class="fab fa-github"></i> Code</a>
+                                <a href="https://zorai.vercel.app" class="card-link card-link-accent" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                             </div>
-                            
-                            <div class="resume-section">
-                                <h3>Projects</h3>
-                                <div class="resume-item">
-                                    <h4>NFL 4th Down Conversion Predictor | Python, Pandas, XGBoost, Seaborn, Matplotlib — Oct 2025 – Present</h4>
-                                    <p>Built a machine learning model predicting 4th down conversion probabilities using 11 years of NFL play-by-play data (480K plays). Achieved 62% accuracy, 0.66 ROC-AUC, and 0.23 Brier Score, ensuring well-calibrated probability predictions.</p>
+                        </div>
+                    </article>
 
-                                    <h4>ZorAi – Full Stack Decentralized App | React, Node.js, Solidity, OpenAI, LLMs — Mar 2025 – Present</h4>
-                                    <p>Developed a platform to register and verify AI-generated images on the blockchain to combat misinformation. Deployed BNB testnet dApp integrating OpenAI API for content analysis and Pinata (IPFS) for decentralized storage, verifying 5K+ AI-generated images with 99% detection accuracy and less than 2s verification latency.</p>
-                                    
-                                    <h4>QLink – Quantum-Safe Layer 3 Protocol | Post-Quantum Cryptography, QKD</h4>
-                                    <p>Quantum-safe Layer-3 interoperability protocol integrating Quantum Key Distribution (QKD) and Post-Quantum Cryptography (PQC) to secure cross-chain blockchain bridges. Simulated a 7-validator QLink network over 5-50 km QKD fiber links, achieving up to 707× surplus key throughput and &lt;1 s latency, outperforming classical blockchain bridges by &gt;400x in cross-chain key refresh rate.</p>
-                                    
-                                    <h4>Insurance Cost Prediction | Python, Scikit-learn, XGBoost, Seaborn, Matplotlib</h4>
-                                    <p>Designed and implemented end-to-end ML pipeline, from data loading and cleaning to feature engineering, model validation and evaluation. Benchmarked models including Linear, Ridge, Lasso, Random Forest, Polynomial, and XGBoost; tuned hyperparameters with GridSearchCV. Achieved top performance with XGBoost (R² = 0.868); reduced MAE and MSE by 35% compared to baseline models.</p>
-                                    
-                                    <h4>B3 Stock Clustering | Python, PCA, K-Means, GMM</h4>
-                                    <p>Clustered Brazilian stocks by price behavior using K-Means and GMM; validated with silhouette score. Reduced data with PCA for visualization; explained grouping of companies in business terms. Built end-to-end notebook pipeline with clear analysis and plots.</p>
-                                    
-                                    <h4>Banking Customer Clustering | Python, Scikit-learn, K-Means</h4>
-                                    <p>Performed customer segmentation analysis using unsupervised machine learning techniques. Applied K-Means clustering to identify distinct customer groups based on age, income, and spending behavior. Created detailed cluster profiles and visualizations to enable targeted marketing strategies.</p>
-                                    
-                                    <h4>Blockchain Rio 2025 - Event Timeline | React 18, JavaScript, Styled Components</h4>
-                                    <p>Built real-time event management system for Blockchain Rio 2025 conference with timeline across 14 stages, live status updates, organizer dashboard with cascade delay management, and mobile-first design for 40+ events.</p>
-                                    
-                                    <h4>Breast Cancer Prediction | Python, Jupyter Notebook, Healthcare AI</h4>
-                                    <p>Developed machine learning model for breast cancer prediction using clinical diagnostic features. Applied various classification algorithms including logistic regression, SVM, and ensemble methods to achieve high accuracy in malignant vs benign tumor prediction.</p>
-                                </div>
+                    <article class="project-card reveal reveal-delay-1" data-track="Project: NFL Predictor">
+                        <div class="project-card-inner">
+                            <div class="project-number">02</div>
+                            <div class="project-metric-big"><span>0.66</span><small>ROC-AUC Score</small></div>
+                            <h3 class="project-title">NFL 4th Down Conversion Predictor</h3>
+                            <p class="project-desc">ML model predicting 4th down conversion probabilities using 11 years of play-by-play data (480K plays). XGBoost with 62% accuracy and 0.23 Brier Score.</p>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">XGBoost</span>
+                                <span class="tag">Pandas</span>
+                                <span class="tag">Seaborn</span>
                             </div>
-                            
-                            <div class="resume-section">
-                                <h3>Leadership / Extracurricular</h3>
-                                <div class="resume-item">
-                                    <h4>Nittany Entrepreneur Society</h4>
-                                    <p>Web Development Team and Outreach | Jan 2024 – Present</p>
-                                    <p>Designed and developed the club website, managing a community of 700+ members and coordinating recruitment efforts</p>
-                                </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: NFL GitHub"><i class="fab fa-github"></i> Code</a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- About Window -->
-            <div id="about-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-user window-icon"></i>
-                        <span>About Me</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="about-content">
-                        <div class="profile-picture">
-                            <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
-                        </div>
-                        <div class="about-details">
-                            <h2>Joao Vitor Barros da Silva</h2>
-                            <h3>Computer Science Undergraduate, Penn State University</h3>
-                            <p>Hello! I'm a passionate Computer Science undergraduate with a focus on blockchain technology, AI, and full-stack development. I've worked on projects ranging from decentralized applications to AI solutions for renewable energy.</p>
-                            <p>Beyond technical skills, I'm involved in entrepreneurship initiatives and community building. When I'm not coding, you can find me exploring new technologies and collaborating on innovative projects.</p>
-                            <div class="seeking-card">
-                                <h4>Seeking</h4>
-                                <p><strong>Role Types:</strong> Software Engineering, Machine Learning / AI, and Research Engineering roles</p>
-                                <p><strong>Location Preferences:</strong> Open to U.S.-based opportunities, relocation, and remote or hybrid roles</p>
-                                <p><strong>Graduation Date:</strong> August 2026</p>
-                            </div>
-                            <div class="why-hire-card">
-                                <h4>Why Hire Me</h4>
-                                <ul>
-                                    <li>Brings an entrepreneurial mindset shaped by growing up around a family tech business and learning early how technology can solve real problems.</li>
-                                    <li>Combines Computer Science with Entrepreneurship and Innovation at Penn State, with hands-on experience in AI, blockchain, and full-stack development.</li>
-                                    <li>Enjoys turning ambitious ideas into working systems, from quantum-safe blockchain research to AI automation and product design.</li>
-                                    <li>Builds with impact in mind, focusing on scalable solutions that solve meaningful pains instead of just shipping features.</li>
-                                </ul>
-                            </div>
-                            <div class="contact-info">
-                                <p><i class="fas fa-map-marker-alt"></i> State College, PA</p>
-                                <p><i class="fas fa-envelope"></i> jvitorbarros15@gmail.com</p>
-                                <p><i class="fas fa-phone"></i> 814-308-3273</p>
-                                <p><i class="fab fa-github"></i> github.com/jvitorbarros15</p>
-                                <p><i class="fab fa-linkedin"></i>linkedin.com/in/joaovi/</p>
-                            </div>
-                        </div>
-                    </div>
-                    <section class="github-activity-section">
-                        <div class="github-activity-header">
-                            <div>
-                                <h3>GitHub Activity</h3>
-                                <p>A snapshot of my GitHub profile with recent activity, coding trends, and overall contribution details across my projects.</p>
-                            </div>
-                            <a href="https://github.com/jvitorbarros15" class="btn" target="_blank" rel="noopener noreferrer" data-track="About: GitHub Profile"><i class="fab fa-github"></i> View Profile</a>
-                        </div>
-                        <div class="github-activity-card">
-                            <img
-                                src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jvitorbarros15&theme=github_dark"
-                                alt="GitHub profile summary card for Joao Vitor Barros da Silva"
-                                loading="lazy"
-                            >
-                        </div>
-                    </section>
-                    <div class="recommendations-section">
-                        <h3>Professional Recommendations</h3>
+                    </article>
 
-                        <article class="recommendation-card">
-                            <div class="recommendation-header">
-                                <div>
-                                    <h4>Binky Lush</h4>
-                                    <p class="recommendation-role">Manager, Discovery, Access and Web Services at Penn State University Libraries</p>
-                                </div>
-                                <p class="recommendation-date">April 3, 2026</p>
+                    <article class="project-card reveal reveal-delay-2" data-track="Project: Insurance">
+                        <div class="project-card-inner">
+                            <div class="project-number">03</div>
+                            <div class="project-metric-big"><span>R²=0.868</span><small>XGBoost Performance</small></div>
+                            <h3 class="project-title">Insurance Cost Prediction</h3>
+                            <p class="project-desc">End-to-end ML pipeline benchmarking Linear, Ridge, Lasso, Random Forest, Polynomial, and XGBoost. Tuned with GridSearchCV, reducing MAE/MSE by 35% vs. baseline.</p>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">XGBoost</span>
+                                <span class="tag">GridSearchCV</span>
                             </div>
-                            <div class="recommendation-body">
-                                <p>I have the pleasure of working with Joao as a member of our Libraries Strategic Technologies Software Development Intern Cohort, and he has consistently exceeded expectations since day one. His combination of technical aptitude, initiative, and professionalism is something you rarely see at any level.</p>
-                                <p>Joao is exceptionally sharp and a very hard worker - a combination that makes him incredibly effective. He has been working on a Ruby on Rails project involving data mapping and integration between enterprise applications, and his impact has been remarkable. He picks up new concepts quickly and translates that understanding into high-quality work with impressive speed. What truly sets him apart is his initiative. He is a genuine self-starter who has naturally taken a leadership role within the cohort, writing tickets, helping to scope work, and keeping the project moving forward. That level of ownership and project awareness is rare for any developer, let alone an intern.</p>
-                                <p>Joao also takes it upon himself to attend our Agile team meetings and sit in with the full-time developers on our team, seeking out opportunities to learn how software development comes together in a real-world professional setting. He asks thoughtful, well-considered questions that demonstrate both his curiosity and his commitment to continuous growth.</p>
-                                <p>Beyond his technical ability, Joao is polite, professional, and an absolute pleasure to work with. He brings a positive energy to every interaction and elevates the work of those around him.</p>
-                                <p>I highly recommend Joao to any organization looking for a software developer who combines sharp technical ability, a strong work ethic, leadership instincts, and genuine professionalism. He will be a tremendous asset wherever he goes.</p>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/Regression_Analysis_Insurance_Costs" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Insurance GitHub"><i class="fab fa-github"></i> Code</a>
                             </div>
-                        </article>
+                        </div>
+                    </article>
 
-                        <article class="recommendation-card">
-                            <div class="recommendation-header">
-                                <div>
-                                    <h4>Jason Huber</h4>
-                                    <p class="recommendation-role">Startup Consultant and Co-Working Manager at the Happy Valley LaunchBox at Penn State University</p>
-                                </div>
-                                <p class="recommendation-date">January 28, 2026</p>
+                    <article class="project-card reveal" data-track="Project: Blockchain Rio">
+                        <div class="project-card-inner">
+                            <div class="project-number">04</div>
+                            <div class="project-metric-big"><span>14</span><small>Live Conference Stages</small></div>
+                            <h3 class="project-title">Blockchain Rio 2025 — Event Timeline</h3>
+                            <p class="project-desc">Real-time event management system for Blockchain Rio 2025. Live status updates, cascade delay management dashboard, mobile-first design for 40+ events.</p>
+                            <div class="tag-row">
+                                <span class="tag">React 18</span>
+                                <span class="tag">Styled Components</span>
+                                <span class="tag">PWA</span>
+                                <span class="tag">Real-time</span>
                             </div>
-                            <div class="recommendation-body">
-                                <p>I've had the pleasure of knowing Joao for just about three years now. He is a consummate team player that isn't afraid to tackle any and all projects thrown at him. He is a highly capable individual that brings professionalism, passion and an upbeat demeanor with him wherever he goes. We were lucky to have had him at the Happy Valley LaunchBox as a member of our team and I am convinced that he will be an asset to any organization that hires him in the future.</p>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/Blockchain-Rio-2025-Schedule-" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Blockchain Rio GitHub"><i class="fab fa-github"></i> Code</a>
+                                <a href="https://blockchain-rio-2025-schedule.vercel.app" class="card-link card-link-accent" target="_blank" rel="noopener noreferrer" data-track="Project: Blockchain Rio Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                             </div>
-                        </article>
-                    </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal reveal-delay-1" data-track="Project: B3 Clustering">
+                        <div class="project-card-inner">
+                            <div class="project-number">05</div>
+                            <div class="project-metric-big"><span>K-Means</span><small>+ GMM Clustering</small></div>
+                            <h3 class="project-title">B3 Stock Clustering</h3>
+                            <p class="project-desc">Clustered Brazilian stocks by price behavior using K-Means and GMM, validated with silhouette score. PCA for dimensionality reduction with business-term cluster explanations.</p>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">PCA</span>
+                                <span class="tag">K-Means</span>
+                                <span class="tag">GMM</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/B3-Stock-Clustering" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: B3 GitHub"><i class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal reveal-delay-2" data-track="Project: Banking Clustering">
+                        <div class="project-card-inner">
+                            <div class="project-number">06</div>
+                            <div class="project-metric-big"><span>UML</span><small>Customer Segmentation</small></div>
+                            <h3 class="project-title">Banking Customer Clustering</h3>
+                            <p class="project-desc">Customer segmentation by age, income, and spending behavior using K-Means. Detailed cluster profiles enabling targeted marketing strategies.</p>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">K-Means</span>
+                                <span class="tag">Matplotlib</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/Banking-Customer-Clustering" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Banking GitHub"><i class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card reveal" data-track="Project: Breast Cancer">
+                        <div class="project-card-inner">
+                            <div class="project-number">07</div>
+                            <div class="project-metric-big"><span>SVM</span><small>+ Ensemble Methods</small></div>
+                            <h3 class="project-title">Breast Cancer Prediction</h3>
+                            <p class="project-desc">ML model for breast cancer prediction using clinical diagnostic features. Logistic regression, SVM, and ensemble methods for malignant vs. benign tumor classification.</p>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">Healthcare AI</span>
+                                <span class="tag">Classification</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/Breast_Cancer_prediction" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Breast Cancer GitHub"><i class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </article>
+
                 </div>
             </div>
-            
-            <!-- Blockchain Window -->
-            <div id="blockchain-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-cube window-icon"></i>
-                        <span>Blockchain Projects</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="blockchain-container">
-                        <h2>My Blockchain Journey</h2>
-                        <p>Explore my flagship blockchain projects: from AI-powered verification platforms to quantum-safe Layer 3 protocols. Keep clicking "Add Next Block" to see what's coming next - the innovation never stops!</p>
-                        <div class="blockchain" id="blockchain">
-                            <!-- Genesis block will be added by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Certifications Window -->
-            <div id="certifications-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-certificate window-icon"></i>
-                        <span>Certifications</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="certification-item">
-                        <h3>AI Agents Using RAG & LangChain</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Advanced certification covering retrieval-augmented generation, LangChain framework, and AI agent development.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">LangChain</span>
-                            <span class="skill-tag">RAG</span>
-                            <span class="skill-tag">AI Agents</span>
-                            <span class="skill-tag">LLMs</span>
-                        </div>
-                        <a href="./files/AI Agents Using RAG & LangChain Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
+        </section>
 
-                    <div class="certification-item">
-                        <h3>AI & Blockchain Certificate</h3>
-                        <p class="cert-issuer">Google</p>
-                        <p class="cert-date">May 2025</p>
-                        <p class="cert-description">Comprehensive certification covering the intersection of artificial intelligence and blockchain technologies.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Blockchain</span>
-                            <span class="skill-tag">AI</span>
-                            <span class="skill-tag">Smart Contracts</span>
-                            <span class="skill-tag">Machine Learning</span>
+        <!-- ── SKILLS ─────────────────────────────────────────── -->
+        <section class="section skills-section" id="skills">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">04 — SKILLS</div>
+                    <h2 class="section-title">Technical Stack</h2>
+                </div>
+                <div class="skills-grid reveal">
+                    <div class="skill-group">
+                        <h4 class="skill-group-title">Languages</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Ruby</span>
+                            <span class="skill-tag">C</span>
+                            <span class="skill-tag">Solidity</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">HTML/CSS</span>
                         </div>
-                        <a href="./files/AI and blockchain Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
                     </div>
-
-                    <div class="certification-item">
-                        <h3>Deep Learning & Neural Networks</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Specialized certification in deep learning architectures, neural network optimization, and advanced ML techniques.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Deep Learning</span>
-                            <span class="skill-tag">Neural Networks</span>
+                    <div class="skill-group">
+                        <h4 class="skill-group-title">Frameworks & Libraries</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Ruby on Rails</span>
+                            <span class="skill-tag">React.js</span>
+                            <span class="skill-tag">Next.js</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">FastAPI</span>
+                        </div>
+                    </div>
+                    <div class="skill-group">
+                        <h4 class="skill-group-title">AI & ML</h4>
+                        <div class="skill-tags">
                             <span class="skill-tag">TensorFlow</span>
                             <span class="skill-tag">PyTorch</span>
-                        </div>
-                        <a href="./files/Deep Learning & NNs IBM Certficate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Machine Learning with Python</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Comprehensive certification covering machine learning fundamentals, supervised and unsupervised learning, and practical Python-based ML workflows.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Machine Learning</span>
+                            <span class="skill-tag">LangChain</span>
                             <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Data Science</span>
-                        </div>
-                        <a href="./files/Machine Learning IBM Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Generative AI</h3>
-                        <p class="cert-issuer">Google</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Certification covering generative AI fundamentals, large language models, and practical applications of generative technologies.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Generative AI</span>
+                            <span class="skill-tag">Pandas</span>
+                            <span class="skill-tag">NumPy</span>
                             <span class="skill-tag">LLMs</span>
-                            <span class="skill-tag">Prompt Engineering</span>
-                            <span class="skill-tag">Google AI</span>
                         </div>
-                        <a href="./files/Gen AI Google Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
                     </div>
-
-                    <div class="certification-item">
-                        <h3>Data Visualization with Python</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Certification covering data visualization techniques using Python libraries including Matplotlib, Seaborn, and Plotly.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Matplotlib</span>
-                            <span class="skill-tag">Seaborn</span>
-                            <span class="skill-tag">Data Visualization</span>
+                    <div class="skill-group">
+                        <h4 class="skill-group-title">Cloud & Tools</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">Git/GitHub</span>
+                            <span class="skill-tag">Jira</span>
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">SQLite</span>
                         </div>
-                        <a href="./files/Data Visualization with Python Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
                     </div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="certification-item">
-                        <h3>Image Segmentation with PyTorch</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Hands-on project certification applying PyTorch for image segmentation tasks using convolutional neural network architectures.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">PyTorch</span>
-                            <span class="skill-tag">Computer Vision</span>
-                            <span class="skill-tag">Image Segmentation</span>
-                            <span class="skill-tag">Deep Learning</span>
-                        </div>
-                        <a href="./files/Image Segmentation Pytorch Certificate - Copia.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
+        <!-- ── CERTIFICATIONS ─────────────────────────────────── -->
+        <section class="section certs-section" id="certifications">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">05 — CERTIFICATIONS</div>
+                    <h2 class="section-title">Credentials</h2>
+                </div>
+                <div class="certs-grid">
 
-                    <div class="certification-item">
-                        <h3>Machine Learning Web App with Streamlit</h3>
-                        <p class="cert-issuer">Coursera</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project-based certification building and deploying machine learning web applications using the Streamlit framework.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Streamlit</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Web Deployment</span>
-                        </div>
-                        <a href="./files/Machine Learning Webapp with Streamlit.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
+                    <a href="./files/AI Agents Using RAG & LangChain Certificate.pdf" class="cert-card reveal" target="_blank" rel="noopener noreferrer" data-track="Cert: AI Agents RAG">
+                        <div class="cert-issuer-badge">IBM</div>
+                        <h4 class="cert-name">AI Agents Using RAG &amp; LangChain</h4>
+                        <p class="cert-date">June 2025</p>
+                        <div class="cert-tags"><span>LangChain</span><span>RAG</span><span>AI Agents</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
 
-                    <div class="certification-item">
-                        <h3>Fake News Detection with Machine Learning</h3>
-                        <p class="cert-issuer">Coursera</p>
+                    <a href="./files/AI and blockchain Certificate.pdf" class="cert-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer" data-track="Cert: AI Blockchain">
+                        <div class="cert-issuer-badge cert-issuer-google">Google</div>
+                        <h4 class="cert-name">AI &amp; Blockchain Certificate</h4>
                         <p class="cert-date">May 2025</p>
-                        <p class="cert-description">Practical certification focusing on NLP techniques and machine learning approaches for detecting misinformation and fake news.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">NLP</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Text Analysis</span>
-                            <span class="skill-tag">Classification</span>
+                        <div class="cert-tags"><span>Blockchain</span><span>AI</span><span>Smart Contracts</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Deep Learning & NNs IBM Certficate.pdf" class="cert-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer" data-track="Cert: Deep Learning">
+                        <div class="cert-issuer-badge">IBM</div>
+                        <h4 class="cert-name">Deep Learning &amp; Neural Networks</h4>
+                        <p class="cert-date">June 2025</p>
+                        <div class="cert-tags"><span>TensorFlow</span><span>PyTorch</span><span>Deep Learning</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Fake News ML Project Certificate.pdf" class="cert-card reveal" target="_blank" rel="noopener noreferrer" data-track="Cert: Fake News">
+                        <div class="cert-issuer-badge cert-issuer-coursera">Coursera</div>
+                        <h4 class="cert-name">Fake News Detection with ML</h4>
+                        <p class="cert-date">May 2025</p>
+                        <div class="cert-tags"><span>NLP</span><span>Text Analysis</span><span>Classification</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Machine Learning IBM Certificate.pdf" class="cert-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer" data-track="Cert: ML Python">
+                        <div class="cert-issuer-badge">IBM</div>
+                        <h4 class="cert-name">Machine Learning with Python</h4>
+                        <p class="cert-date">June 2025</p>
+                        <div class="cert-tags"><span>Scikit-learn</span><span>Python</span><span>Data Science</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Gen AI Google Certificate.pdf" class="cert-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer" data-track="Cert: Gen AI">
+                        <div class="cert-issuer-badge cert-issuer-google">Google</div>
+                        <h4 class="cert-name">Generative AI</h4>
+                        <p class="cert-date">2025</p>
+                        <div class="cert-tags"><span>LLMs</span><span>Prompt Engineering</span><span>Gen AI</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Image Segmentation Pytorch Certificate - Copia.pdf" class="cert-card reveal" target="_blank" rel="noopener noreferrer" data-track="Cert: Image Segmentation">
+                        <div class="cert-issuer-badge">IBM</div>
+                        <h4 class="cert-name">Image Segmentation with PyTorch</h4>
+                        <p class="cert-date">2025</p>
+                        <div class="cert-tags"><span>PyTorch</span><span>Computer Vision</span><span>CNNs</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Machine Learning Webapp with Streamlit.pdf" class="cert-card reveal reveal-delay-1" target="_blank" rel="noopener noreferrer" data-track="Cert: Streamlit">
+                        <div class="cert-issuer-badge cert-issuer-coursera">Coursera</div>
+                        <h4 class="cert-name">ML Web App with Streamlit</h4>
+                        <p class="cert-date">2025</p>
+                        <div class="cert-tags"><span>Streamlit</span><span>Python</span><span>Deployment</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                    <a href="./files/Data Visualization with Python Certificate.pdf" class="cert-card reveal reveal-delay-2" target="_blank" rel="noopener noreferrer" data-track="Cert: Data Viz">
+                        <div class="cert-issuer-badge">IBM</div>
+                        <h4 class="cert-name">Data Visualization with Python</h4>
+                        <p class="cert-date">2025</p>
+                        <div class="cert-tags"><span>Matplotlib</span><span>Seaborn</span><span>Plotly</span></div>
+                        <span class="cert-view">View <i class="fas fa-arrow-right"></i></span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ── ABOUT ───────────────────────────────────────────── -->
+        <section class="section about-section" id="about">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="section-label">06 — ABOUT</div>
+                    <h2 class="section-title">A Bit About Me</h2>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-text reveal">
+                        <p class="about-lead">I'm a CS undergraduate at Penn State studying Computer Science with a Minor in Entrepreneurship and Innovation, graduating August 2026.</p>
+                        <p>I'm drawn to problems that sit at the edge of what's technically possible — building quantum-safe blockchain protocols, shipping real products, and finding ways technology can solve meaningful pains at scale.</p>
+                        <p>Beyond code, I grew up around a family tech business which gave me an early appreciation for how technology translates to real-world impact. That entrepreneurial lens shapes everything I build.</p>
+
+                        <div class="about-seeking">
+                            <h4>Open To</h4>
+                            <p><strong>Roles:</strong> Software Engineering · ML/AI · Research Engineering</p>
+                            <p><strong>Location:</strong> Open to U.S.-based, relocation, remote/hybrid</p>
+                            <p><strong>Graduation:</strong> August 2026</p>
                         </div>
-                        <a href="./files/Fake News ML Project Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+
+                        <div class="about-why">
+                            <h4>Why Hire Me</h4>
+                            <ul>
+                                <li>Entrepreneurial mindset shaped by family tech business — early understanding of technology solving real problems.</li>
+                                <li>Combines CS with Entrepreneurship at Penn State, with hands-on experience across AI, blockchain, and full-stack.</li>
+                                <li>Turns ambitious ideas into working systems — from published quantum research to production Rails applications.</li>
+                                <li>Builds for impact: scalable solutions that solve meaningful pains, not just shipped features.</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Breast Cancer Prediction</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project certification applying Scikit-learn classification algorithms to breast cancer diagnostic data for malignant vs benign tumor prediction.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Classification</span>
-                            <span class="skill-tag">Healthcare AI</span>
-                            <span class="skill-tag">Python</span>
+                    <div class="about-sidebar reveal reveal-delay-1">
+                        <div class="about-education">
+                            <h4>Education</h4>
+                            <p class="edu-school">The Pennsylvania State University</p>
+                            <p class="edu-degree">B.S. Computer Science</p>
+                            <p class="edu-minor">Minor in Entrepreneurship &amp; Innovation</p>
+                            <p class="edu-date">Expected August 2026</p>
                         </div>
-                        <a href="./files/Scikit-learn Project Certicate Breast Cancer.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
 
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Machine Learning Project</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Hands-on project certification demonstrating proficiency with Scikit-learn for building and evaluating machine learning pipelines.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Model Evaluation</span>
+                        <div class="github-card">
+                            <div class="github-card-header">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub Activity</span>
+                                <a href="https://github.com/jvitorbarros15" class="github-profile-link" target="_blank" rel="noopener noreferrer" data-track="About: GitHub">View Profile ↗</a>
+                            </div>
+                            <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jvitorbarros15&theme=github_dark" alt="GitHub activity" loading="lazy" class="github-img">
                         </div>
-                        <a href="./files/Scikit-learn Project Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
 
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Regression Analysis</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project certification applying regression techniques with Scikit-learn, including linear, ridge, lasso, and ensemble regression models.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Regression</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Predictive Modeling</span>
+                        <div class="music-card">
+                            <div class="music-icon"><i class="fab fa-spotify"></i></div>
+                            <div class="music-text">
+                                <p class="music-label">Listening To</p>
+                                <p class="music-name">My Playlist</p>
+                            </div>
+                            <a href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2" class="music-open" target="_blank" rel="noopener noreferrer" data-track="About: Spotify">
+                                Open <i class="fas fa-external-link-alt"></i>
+                            </a>
                         </div>
-                        <a href="./files/Scikit-learn Project Regression Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="recommendations reveal">
+                    <h3 class="rec-title">What People Say</h3>
+                    <div class="rec-grid">
+                        <blockquote class="rec-card">
+                            <p class="rec-quote">"His combination of technical aptitude, initiative, and professionalism is something you rarely see at any level. He picks up new concepts quickly and translates that understanding into high-quality work with impressive speed. What truly sets him apart is his initiative — a genuine self-starter who naturally takes a leadership role."</p>
+                            <footer class="rec-footer">
+                                <div>
+                                    <strong>Binky Lush</strong>
+                                    <p>Manager, Discovery, Access &amp; Web Services · Penn State University Libraries</p>
+                                </div>
+                                <span class="rec-date">April 2026</span>
+                            </footer>
+                        </blockquote>
+
+                        <blockquote class="rec-card">
+                            <p class="rec-quote">"A consummate team player that isn't afraid to tackle any and all projects thrown at him. A highly capable individual that brings professionalism, passion and an upbeat demeanor with him wherever he goes. I am convinced that he will be an asset to any organization that hires him."</p>
+                            <footer class="rec-footer">
+                                <div>
+                                    <strong>Jason Huber</strong>
+                                    <p>Startup Consultant &amp; Co-Working Manager · Happy Valley LaunchBox at Penn State</p>
+                                </div>
+                                <span class="rec-date">January 2026</span>
+                            </footer>
+                        </blockquote>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Current Window -->
-            <div id="current-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-terminal window-icon"></i>
-                        <span>Current.exe</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="current-section-header">
-                        <h2>What I'm Building Now</h2>
-                        <p>A live snapshot of the work I am actively pushing forward right now, from research to production-ready applications.</p>
+        <!-- ── CONTACT ─────────────────────────────────────────── -->
+        <section class="section contact-section" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info-col reveal">
+                        <div class="section-label">07 — CONTACT</div>
+                        <h2 class="contact-heading">Let's work<br><em>together.</em></h2>
+                        <p class="contact-subtext">Open to SWE, ML/AI, and research roles. Available from August 2026.</p>
+
+                        <div class="contact-links">
+                            <a href="mailto:jvitorbarros15@gmail.com" class="contact-item" data-track="Contact: Email">
+                                <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                                <span>jvitorbarros15@gmail.com</span>
+                            </a>
+                            <a href="tel:8143083273" class="contact-item" data-track="Contact: Phone">
+                                <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                                <span>814-308-3273</span>
+                            </a>
+                            <a href="https://github.com/jvitorbarros15" class="contact-item" target="_blank" rel="noopener noreferrer" data-track="Contact: GitHub">
+                                <span class="contact-icon"><i class="fab fa-github"></i></span>
+                                <span>github.com/jvitorbarros15</span>
+                            </a>
+                            <a href="https://www.linkedin.com/in/joaovi/" class="contact-item" target="_blank" rel="noopener noreferrer" data-track="Contact: LinkedIn">
+                                <span class="contact-icon"><i class="fab fa-linkedin"></i></span>
+                                <span>linkedin.com/in/joaovi</span>
+                            </a>
+                        </div>
+
+                        <a href="./files/Joao_Vitor_Barros_da_Silva_ResumeApr.pdf" class="btn-primary btn-download" target="_blank" rel="noopener noreferrer" download data-track="Contact: Resume Download">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: Libraries Rails Platform">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>Penn State Libraries Rails Platform</h3>
-                                <p class="current-project-subtitle">Enterprise Rails development, data integration, and workflow improvements</p>
+                    <div class="contact-form-col reveal reveal-delay-1">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="c-name">Name</label>
+                                <input type="text" id="c-name" name="name" placeholder="Your name" required>
                             </div>
-                            <span class="current-status status-live">In Progress</span>
-                        </div>
-                        <p>Building and improving Ruby on Rails tooling for Penn State University Libraries, including cross-system data mapping, API integrations, ticket scoping, and internal workflow automation.</p>
-                        <div class="technologies current-tech">
-                            <span class="tech-tag">Ruby on Rails</span>
-                            <span class="tech-tag">REST APIs</span>
-                            <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Agile</span>
-                        </div>
-                    </div>
-
-                    <div class="current-project-card" data-track="Current: QLink Research">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>QLink Quantum-Safe Interoperability Research</h3>
-                                <p class="current-project-subtitle">Layer-3 blockchain protocol research with QKD and post-quantum cryptography</p>
+                            <div class="form-group">
+                                <label for="c-email">Email</label>
+                                <input type="email" id="c-email" name="email" placeholder="your@email.com" required>
                             </div>
-                            <span class="current-status status-research">Research Active</span>
-                        </div>
-                        <p>Advancing the QLink protocol by exploring secure cross-chain interoperability, validator simulations, and quantum-safe key refresh mechanisms for blockchain networks.</p>
-                        <div class="technologies current-tech">
-                            <span class="tech-tag">Blockchain</span>
-                            <span class="tech-tag">PQC</span>
-                            <span class="tech-tag">QKD</span>
-                            <span class="tech-tag">Protocol Design</span>
-                            <span class="tech-tag">Research</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://arxiv.org/pdf/2512.18488" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: QLink - Research Paper"><i class="fas fa-file-alt"></i> Read Research</a>
-                        </div>
-                    </div>
-
-                    <div class="current-project-card" data-track="Current: Cognitra">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>Cognitra</h3>
-                                <p class="current-project-subtitle">AI-powered project currently being built and refined for real users</p>
+                            <div class="form-group">
+                                <label for="c-message">Message</label>
+                                <textarea id="c-message" name="message" rows="5" placeholder="Tell me what you're working on..." required></textarea>
                             </div>
-                            <span class="current-status status-ship">Shipping</span>
-                        </div>
-                        <p>Actively developing Cognitra as a live product, focusing on product polish, usability, and end-to-end implementation. This is one of the projects I am currently pushing forward and shipping publicly.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://cognitra.vercel.app/" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Terminal Window -->
-            <div id="terminal-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-laptop-code window-icon"></i>
-                        <span>Command Prompt</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content terminal-window-content">
-                    <div class="terminal-shell" id="portfolio-terminal-shell">
-                        <div class="terminal-output" id="portfolio-terminal-output">
-                            <div class="terminal-line">Microsoft Windows [Version 11.0.22631]</div>
-                            <div class="terminal-line">(c) Joao Vitor Barros da Silva. All rights reserved.</div>
-                            <div class="terminal-line terminal-line-spacer"></div>
-                            <div class="terminal-line">Portfolio Terminal ready.</div>
-                            <div class="terminal-line">Type <span class="terminal-accent">help</span> to see available commands.</div>
-                        </div>
-                        <form class="terminal-input-row" id="portfolio-terminal-form">
-                            <span class="terminal-prompt">C:\portfolio&gt;</span>
-                            <input
-                                type="text"
-                                id="portfolio-terminal-input"
-                                class="terminal-input"
-                                autocomplete="off"
-                                spellcheck="false"
-                                placeholder="try: about, projects, resume, github"
-                            >
+                            <button type="submit" class="btn-primary btn-submit" data-track="Contact Form Submit">
+                                Send Message <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <p class="form-success" id="formSuccess" aria-live="polite">Message sent! I'll get back to you soon.</p>
                         </form>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Playlist Window -->
-            <div id="playlist-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-music window-icon"></i>
-                        <span>My Playlist</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content playlist-window-content">
-                    <div class="playlist-hero">
-                        <div class="playlist-badge" id="playlist-badge">Personal Soundtrack</div>
-                        <h2 id="playlist-title">What I'm Listening To</h2>
-                        <p id="playlist-summary">Music is a big part of how I think, work, relax, and reset. This playlist is a small window into my mood, my rhythm, and the kind of sound that stays with me while I study, build, and slow down.</p>
-                    </div>
+    </main>
 
-                    <div class="playlist-card">
-                        <div class="playlist-cover" id="playlist-cover">
-                            <i class="fab fa-spotify"></i>
-                        </div>
-                        <div class="playlist-meta">
-                            <h3 id="playlist-name">A Playlist That Feels Like Me</h3>
-                            <p class="playlist-subtitle" id="playlist-subtitle">The songs I come back to when I want to focus, breathe, and feel grounded</p>
-                            <p class="playlist-description" id="playlist-description">More than background music, this is part of my personality. It reflects what I listen to when I want to relax, study, sleep, or just sit with a feeling for a while. It is a small showcase of who I am outside the resume.</p>
-                            <div class="project-links">
-                                <a href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2" class="btn" target="_blank" rel="noopener noreferrer" data-track="Playlist: Open Spotify" id="playlist-primary-link"><i class="fab fa-spotify"></i> Open in Spotify</a>
-                            </div>
-                        </div>
-                    </div>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <p class="footer-name">Joao Vitor Barros da Silva</p>
+            <p class="footer-copy">© 2026 · Built with intent.</p>
+            <div class="footer-links">
+                <a href="https://github.com/jvitorbarros15" target="_blank" rel="noopener noreferrer" data-track="Footer: GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/joaovi/" target="_blank" rel="noopener noreferrer" data-track="Footer: LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:jvitorbarros15@gmail.com" data-track="Footer: Email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
 
-                    <div class="spotify-embed-wrapper">
-                        <div id="spotify-playlist-embed" class="spotify-playlist-embed"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Trash Window -->
-            <div id="trash-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-trash window-icon"></i>
-                        <span>Recycle Bin</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="trash-content">
-                        <div class="trash-icon-large">
-                            <i class="fas fa-trash"></i>
-                        </div>
-                        <p class="easter-egg">You found me! This trash bin is empty, just like my coffee cup on Monday mornings.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Notepad Window -->
-            <div id="notepad-window" class="window" style="display: none;">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-file-alt window-icon"></i>
-                        <span>Notepad</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content notepad-content">
-                    <textarea class="notepad-textarea" placeholder="Type your text here..."></textarea>
-                </div>
-            </div>
-            
-            <!-- Folder Window -->
-            <div id="folder-window" class="window" style="display: none;">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-folder window-icon"></i>
-                        <span>Folder</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content folder-content">
-                    <!-- Folder items will be added dynamically -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Taskbar -->
-        <div class="taskbar">
-            <div class="start-button" data-track="CTA: Start Button">
-                <i class="fab fa-windows"></i>
-                <span>Start</span>
-            </div>
-            <div class="taskbar-items">
-                <!-- Will be populated with JavaScript -->
-            </div>
-            <div class="taskbar-right">
-                <div class="taskbar-icon wallpaper-settings" title="Change Wallpaper">
-                    <i class="fas fa-image"></i>
-                </div>
-                <div class="clock" id="taskbar-clock">10:00 AM</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Wallpaper Settings Popup -->
-    <div class="wallpaper-popup">
-        <div class="wallpaper-popup-header">
-            <h3>Change Wallpaper</h3>
-            <button class="wallpaper-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="wallpaper-options">
-            <div class="wallpaper-option" data-wallpaper="default" style="background: linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%);">
-                <span>Default</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="mountains" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Mountains</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="ocean" style="background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Ocean</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="forest" style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Forest</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="cityscape" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Cityscape</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="space" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                <span>Space</span>
-            </div>
-        </div>
-        
-        <div class="wallpaper-custom">
-            <p>Or upload your own image:</p>
-            <div class="file-upload-container">
-                <input type="file" id="wallpaper-file-input" accept="image/*" class="wallpaper-file-input">
-                <label for="wallpaper-file-input" class="file-upload-btn">
-                    <i class="fas fa-upload"></i> Choose File
-                </label>
-                <span id="selected-file-name">No file selected</span>
-            </div>
-            <button class="btn apply-custom-wallpaper" disabled>Apply</button>
-        </div>
-    </div>
-
-    <div class="desktop-dialog-overlay" id="desktop-dialog-overlay">
-        <div class="desktop-dialog" role="dialog" aria-modal="true" aria-labelledby="desktop-dialog-title">
-            <div class="desktop-dialog-header">
-                <h3 id="desktop-dialog-title">Create New Item</h3>
-                <button class="desktop-dialog-close" id="desktop-dialog-close" aria-label="Close dialog">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="desktop-dialog-body">
-                <p class="desktop-dialog-description" id="desktop-dialog-description">Choose a name for your new file.</p>
-                <label class="desktop-dialog-label" for="desktop-dialog-input" id="desktop-dialog-label">File name</label>
-                <input type="text" id="desktop-dialog-input" class="desktop-dialog-input" />
-                <div class="desktop-dialog-actions">
-                    <button class="desktop-dialog-btn secondary" id="desktop-dialog-cancel">Cancel</button>
-                    <button class="desktop-dialog-btn primary" id="desktop-dialog-confirm">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="playlist-mini-player" id="playlist-mini-player">
-        <button class="playlist-mini-close" id="playlist-mini-close" title="Dismiss">&times;</button>
-        <div class="playlist-mini-player-meta">
-            <div class="playlist-mini-player-label">Now Playing</div>
-            <div class="playlist-mini-player-title" id="playlist-mini-player-title">My Playlist</div>
-            <div class="playlist-mini-player-subtitle" id="playlist-mini-player-subtitle">Open the playlist to start playback</div>
-        </div>
-        <div class="playlist-mini-player-actions">
-            <button class="playlist-mini-btn" id="playlist-mini-restart" title="Restart current track">
-                <i class="fas fa-backward-step"></i>
-            </button>
-            <button class="playlist-mini-btn playlist-mini-btn-primary" id="playlist-mini-toggle" title="Play or pause">
-                <i class="fas fa-play" id="playlist-mini-toggle-icon"></i>
-            </button>
-            <a
-                href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2"
-                class="playlist-mini-btn"
-                id="playlist-mini-open"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open in Spotify"
-            >
-                <i class="fab fa-spotify"></i>
-            </a>
-        </div>
-    </div>
-
-    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <script src="./js/script.js"></script>
-    
-    <!-- Analytics Tracking Scripts -->
+
+    <!-- Analytics -->
     <script>
-    // Universal click tracker - tracks elements with data-track attribute
-    document.addEventListener('click', function(e){
-      const el = e.target.closest('[data-track]');
-      if(!el) return;
-      const label = el.getAttribute('data-track') || el.textContent.trim().slice(0,60);
-
-      // GA4 via gtag:
-      if (window.gtag) {
-        gtag('event','click', {
-          event_category: 'portfolio_click',
-          event_label: label
-        });
-      }
-
-      // If using dataLayer (GTM):
-      if (window.dataLayer) {
-        dataLayer.push({
-          'event': 'portfolio_click',
-          'click_label': label,
-          'click_url': el.href || null
-        });
-      }
+    document.addEventListener('click', function(e) {
+        const el = e.target.closest('[data-track]');
+        if (!el) return;
+        const label = el.getAttribute('data-track') || el.textContent.trim().slice(0, 60);
+        if (window.gtag) gtag('event', 'click', { event_category: 'portfolio_click', event_label: label });
+        if (window.dataLayer) dataLayer.push({ 'event': 'portfolio_click', 'click_label': label, 'click_url': el.href || null });
     });
 
-    // Scroll depth tracking
-    let fired = {25:false,50:false,75:false,100:false};
-    window.addEventListener('scroll', function(){
-      const pct = Math.round( (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100 );
-      [25,50,75,100].forEach(v=>{
-        if(pct >= v && !fired[v]){
-          fired[v]=true;
-          if(window.gtag) gtag('event','scroll', {event_category:'engagement', event_label: v + '%'});
-          if(window.dataLayer) dataLayer.push({event:'scroll_depth', depth:v});
-        }
-      });
+    let fired = { 25: false, 50: false, 75: false, 100: false };
+    window.addEventListener('scroll', function() {
+        const pct = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+        [25, 50, 75, 100].forEach(v => {
+            if (pct >= v && !fired[v]) {
+                fired[v] = true;
+                if (window.gtag) gtag('event', 'scroll', { event_category: 'engagement', event_label: v + '%' });
+                if (window.dataLayer) dataLayer.push({ event: 'scroll_depth', depth: v });
+            }
+        });
     });
-
-    // Form submission and validation tracking
-    document.addEventListener('DOMContentLoaded', function() {
-      const contactForm = document.querySelector('.contact-form');
-      if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          // Get form fields
-          const name = document.getElementById('name').value.trim();
-          const email = document.getElementById('email').value.trim();
-          const message = document.getElementById('message').value.trim();
-          
-          // Track form submission attempt
-          if (window.gtag) {
-            gtag('event', 'form_submit', {
-              event_category: 'contact',
-              event_label: 'contact_form'
-            });
-          }
-          if (window.dataLayer) {
-            dataLayer.push({
-              'event': 'form_submit',
-              'form_type': 'contact'
-            });
-          }
-          
-          // Basic validation
-          let hasErrors = false;
-          if (!name) {
-            hasErrors = true;
-            trackValidationError('name_required');
-          }
-          if (!email || !email.includes('@')) {
-            hasErrors = true;
-            trackValidationError('email_invalid');
-          }
-          if (!message) {
-            hasErrors = true;
-            trackValidationError('message_required');
-          }
-          
-          if (!hasErrors) {
-            // Track successful submission (in real scenario, form would submit to server)
-            if (window.gtag) {
-              gtag('event', 'form_submit_success', {
-                event_category: 'contact',
-                event_label: 'contact_form_success'
-              });
-            }
-            if (window.dataLayer) {
-              dataLayer.push({
-                'event': 'form_submit_success',
-                'form_type': 'contact'
-              });
-            }
-            
-            // Show success message (you can customize this)
-            alert('Thank you for your message! (Note: This is a demo portfolio. Form submission is tracked but not sent.)');
-            contactForm.reset();
-          } else {
-            // Track validation errors
-            if (window.gtag) {
-              gtag('event', 'form_validation_error', {
-                event_category: 'contact',
-                event_label: 'contact_form_validation'
-              });
-            }
-            if (window.dataLayer) {
-              dataLayer.push({
-                'event': 'form_validation_error',
-                'form_type': 'contact'
-              });
-            }
-          }
-        });
-      }
-    });
-    
-    // Helper function to track validation errors
-    function trackValidationError(field) {
-      if (window.gtag) {
-        gtag('event', 'form_validation_error', {
-          event_category: 'contact',
-          event_label: field
-        });
-      }
-      if (window.dataLayer) {
-        dataLayer.push({
-          'event': 'form_validation_error',
-          'field': field
-        });
-      }
-    }
     </script>
 </body>
-</html> 
+</html>
