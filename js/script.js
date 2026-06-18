@@ -16,6 +16,7 @@
     const revealEls = document.querySelectorAll('.reveal');
     const form      = document.getElementById('contactForm');
     const successMsg = document.getElementById('formSuccess');
+    const caseToggle = document.querySelector('.case-study-toggle');
 
     /* ── Splash ── */
     if (splash) {
@@ -109,6 +110,16 @@
                 form.reset();
                 setTimeout(() => successMsg.classList.remove('show'), 5000);
             }
+        });
+    }
+
+    /* ── ZorAi case study toggle ── */
+    if (caseToggle) {
+        const panel = document.getElementById(caseToggle.getAttribute('aria-controls'));
+        caseToggle.addEventListener('click', () => {
+            const open = caseToggle.getAttribute('aria-expanded') === 'true';
+            caseToggle.setAttribute('aria-expanded', String(!open));
+            if (panel) panel.hidden = open;
         });
     }
 

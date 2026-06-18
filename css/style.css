@@ -795,6 +795,59 @@ input, textarea { font-family: inherit; }
 .project-card-compact .tag-row { margin-bottom: 12px; }
 .project-card-compact .card-links { margin-top: 0; }
 
+/* ── PROJECTS: ZorAi case study ──────────────────────────────── */
+.case-study-toggle {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 16px;
+    background: none;
+    border: 1px solid var(--accent-bdr);
+    color: var(--accent);
+    font-family: var(--font-s);
+    font-size: .83rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background .2s;
+}
+.case-study-toggle:hover { background: var(--accent-dim); }
+.case-study-toggle i { transition: transform .25s; }
+.case-study-toggle[aria-expanded="true"] i { transform: rotate(180deg); }
+.case-study {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-2);
+    display: grid;
+    gap: 18px;
+}
+.case-study-block h4 {
+    font-family: var(--font-m);
+    font-size: .72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 6px;
+}
+.case-study-block p {
+    font-size: .9rem;
+    color: var(--text-2);
+    line-height: 1.7;
+}
+.case-study-visual img {
+    width: 100%;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border-2);
+    display: block;
+}
+.case-study-visual figcaption {
+    font-size: .78rem;
+    color: var(--text-3);
+    margin-top: 8px;
+    display: none;
+}
+.case-study-visual.is-missing img { display: none; }
+.case-study-visual.is-missing figcaption { display: block; }
+
 /* ── SKILLS ──────────────────────────────────────────────────── */
 .skills-section { background: var(--bg-2); border-top: 1px solid var(--border); }
 .skills-grid {

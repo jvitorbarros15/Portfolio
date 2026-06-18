@@ -344,6 +344,32 @@
                                 <a href="https://github.com/jvitorbarros15/zorai" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi GitHub"><i class="fab fa-github"></i> Code</a>
                                 <a href="https://zorai.vercel.app" class="card-link card-link-accent" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAi Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                             </div>
+                            <button type="button" class="case-study-toggle" aria-expanded="false" aria-controls="zorai-case" data-track="Project: ZorAi Case Study">
+                                Read case study <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="case-study" id="zorai-case" hidden>
+                                <figure class="case-study-visual">
+                                    <img src="img/zorai-demo.gif" alt="ZorAi verifying an AI-generated image on-chain" loading="lazy"
+                                         onerror="this.closest('.case-study-visual').classList.add('is-missing')">
+                                    <figcaption>Add <code>img/zorai-demo.gif</code> to show the live verification flow.</figcaption>
+                                </figure>
+                                <div class="case-study-block">
+                                    <h4>Problem</h4>
+                                    <p>AI-generated images fuel misinformation, and there is no tamper-proof way to prove an image's origin. ZorAi registers and verifies AI-generated images on-chain so provenance can be checked by anyone.</p>
+                                </div>
+                                <div class="case-study-block">
+                                    <h4>Architecture</h4>
+                                    <p>React front end → OpenAI API flags AI-generated content → image hash + metadata pinned to IPFS via Pinata → hash written to a Solidity verification contract on the BNB testnet. Lookups read the contract and resolve the IPFS record.</p>
+                                </div>
+                                <div class="case-study-block">
+                                    <h4>Result</h4>
+                                    <p>5K+ images verified at &lt;2s latency with 99% detection accuracy on the test set; full register-and-verify round trip working end-to-end on a deployed dApp.</p>
+                                </div>
+                                <div class="case-study-block">
+                                    <h4>What's next</h4>
+                                    <p>Batch verification to cut per-image gas, a mainnet deployment, and a public verification badge embeddable on third-party sites.</p>
+                                </div>
+                            </div>
                         </div>
                     </article>
 
