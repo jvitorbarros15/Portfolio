@@ -155,6 +155,27 @@
                             <span class="tech-tag">BNB Testnet</span>
                             <span class="tech-tag">LLMs</span>
                         </div>
+                        <button class="case-study-toggle" aria-expanded="false" aria-controls="zorai-study">
+                            Read case study <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="project-case-study" id="zorai-study" hidden>
+                            <div class="case-study-block">
+                                <h4>Problem</h4>
+                                <p>AI-generated images fuel misinformation, and there is no tamper-proof way to prove an image's origin. ZorAi registers and verifies AI-generated images on-chain so provenance can be checked by anyone.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>Architecture</h4>
+                                <p>React front end → OpenAI API flags AI-generated content → image hash + metadata pinned to IPFS via Pinata → hash written to a Solidity verification contract on the BNB testnet. Lookups read the contract and resolve the IPFS record.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>Result</h4>
+                                <p>5K+ images verified at &lt;2s latency with 99% detection accuracy on the test set; full register-and-verify round trip working end-to-end on a deployed dApp.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>What's next</h4>
+                                <p>Batch verification to cut per-image gas, a mainnet deployment, and a public verification badge embeddable on third-party sites.</p>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="project-item" data-track="Project: Insurance Cost Prediction">
@@ -220,8 +241,29 @@
                             <span class="tech-tag">Real-time Systems</span>
                             <span class="tech-tag">PWA</span>
                         </div>
+                        <button class="case-study-toggle" aria-expanded="false" aria-controls="blockchain-rio-study">
+                            Read case study <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="project-case-study" id="blockchain-rio-study" hidden>
+                            <div class="case-study-block">
+                                <h4>Problem</h4>
+                                <p>Blockchain Rio 2025 needed a real-time event management system that could coordinate 40+ events across 14 conference stages without chaos. Multi-stage blockchain conferences have cascading delays, conflicting timeslots, and attendees need live status from anywhere.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>Architecture</h4>
+                                <p>React 18 front end with Styled Components → state management for real-time stage updates → cascade delay propagation (if Stage 1 runs late, stages 2–4 adjust automatically) → organizer dashboard with manual override controls → mobile-first PWA design so attendees check live status on their phones.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>Result</h4>
+                                <p>Deployed and live for Blockchain Rio 2025. 40+ events coordinated across 14 stages, attendees updated in real-time on stage status, organizers able to cascade delays and resolve conflicts on the fly. Mobile experience fast and responsive.</p>
+                            </div>
+                            <div class="case-study-block">
+                                <h4>What's next</h4>
+                                <p>Post-event analytics dashboard, speaker management integration, and persistence of schedule changes for future conferences.</p>
+                            </div>
+                        </div>
                     </div>
-                    
+
                     <div class="project-item" data-track="Project: Breast Cancer Prediction">
                         <h3>Breast Cancer Prediction</h3>
                         <p>Developed machine learning model for breast cancer prediction using clinical diagnostic features. Implemented comprehensive data preprocessing, feature engineering, and model evaluation pipeline. Applied various classification algorithms including logistic regression, SVM, and ensemble methods to achieve high accuracy in predicting malignant vs benign tumors for early detection assistance.</p>

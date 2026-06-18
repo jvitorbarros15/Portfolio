@@ -485,6 +485,58 @@ body {
     border-color: #ff00ff;
 }
 
+.case-study-toggle {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid #00ffff;
+    color: #00ffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.case-study-toggle:hover {
+    background: rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.case-study-toggle i {
+    margin-left: 6px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.case-study-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+.project-case-study {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 255, 255, 0.3);
+    display: grid;
+    gap: 14px;
+}
+
+.case-study-block h4 {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #00ffff;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.case-study-block p {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .window {

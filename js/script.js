@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize windows
     initWindows();
-    
+
+    // Setup case study toggles
+    setupCaseStudyToggles();
+
     // Setup context menu for creating files first
     setupContextMenu();
     
@@ -3206,7 +3209,24 @@ function resetWallpaper() {
     // Remove any saved wallpaper settings
     localStorage.removeItem('wallpaper');
     localStorage.removeItem('customWallpaperData');
-    
+
     // Apply default wallpaper
     changeWallpaper('default');
+}
+
+// Setup case study toggles for projects
+function setupCaseStudyToggles() {
+    const caseStudyToggles = document.querySelectorAll('.case-study-toggle');
+    caseStudyToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const panelId = toggle.getAttribute('aria-controls');
+            const panel = document.getElementById(panelId);
+            if (!panel) return;
+
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isExpanded));
+            panel.hidden = isExpanded;
+        });
+    });
 } 
