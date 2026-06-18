@@ -347,45 +347,9 @@
                         </div>
                     </article>
 
-                    <article class="project-card reveal reveal-delay-1" data-track="Project: NFL Predictor">
+                    <article class="project-card project-card-featured reveal reveal-delay-1" data-track="Project: Blockchain Rio">
                         <div class="project-card-inner">
                             <div class="project-number">02</div>
-                            <div class="project-metric-big"><span>0.66</span><small>ROC-AUC Score</small></div>
-                            <h3 class="project-title">NFL 4th Down Conversion Predictor</h3>
-                            <p class="project-desc">ML model predicting 4th down conversion probabilities using 11 years of play-by-play data (480K plays). XGBoost with 62% accuracy and 0.23 Brier Score.</p>
-                            <div class="tag-row">
-                                <span class="tag">Python</span>
-                                <span class="tag">XGBoost</span>
-                                <span class="tag">Pandas</span>
-                                <span class="tag">Seaborn</span>
-                            </div>
-                            <div class="card-links">
-                                <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: NFL GitHub"><i class="fab fa-github"></i> Code</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal reveal-delay-2" data-track="Project: Insurance">
-                        <div class="project-card-inner">
-                            <div class="project-number">03</div>
-                            <div class="project-metric-big"><span>R²=0.868</span><small>XGBoost Performance</small></div>
-                            <h3 class="project-title">Insurance Cost Prediction</h3>
-                            <p class="project-desc">End-to-end ML pipeline benchmarking Linear, Ridge, Lasso, Random Forest, Polynomial, and XGBoost. Tuned with GridSearchCV, reducing MAE/MSE by 35% vs. baseline.</p>
-                            <div class="tag-row">
-                                <span class="tag">Python</span>
-                                <span class="tag">Scikit-learn</span>
-                                <span class="tag">XGBoost</span>
-                                <span class="tag">GridSearchCV</span>
-                            </div>
-                            <div class="card-links">
-                                <a href="https://github.com/jvitorbarros15/Regression_Analysis_Insurance_Costs" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Insurance GitHub"><i class="fab fa-github"></i> Code</a>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card reveal" data-track="Project: Blockchain Rio">
-                        <div class="project-card-inner">
-                            <div class="project-number">04</div>
                             <div class="project-metric-big"><span>14</span><small>Live Conference Stages</small></div>
                             <h3 class="project-title">Blockchain Rio 2025 — Event Timeline</h3>
                             <p class="project-desc">Real-time event management system for Blockchain Rio 2025. Live status updates, cascade delay management dashboard, mobile-first design for 40+ events.</p>
@@ -402,17 +366,53 @@
                         </div>
                     </article>
 
-                    <article class="project-card reveal reveal-delay-1" data-track="Project: B3 Clustering">
+                </div><!-- /.projects-grid -->
+
+                <div class="projects-experiments-header reveal">
+                    <div class="section-label">ML EXPERIMENTS</div>
+                    <p class="projects-experiments-note">Model-building practice across regression, clustering, and classification.</p>
+                </div>
+
+                <div class="projects-experiments">
+
+                    <article class="project-card project-card-compact reveal" data-track="Project: NFL Predictor">
                         <div class="project-card-inner">
-                            <div class="project-number">05</div>
-                            <div class="project-metric-big"><span>K-Means</span><small>+ GMM Clustering</small></div>
+                            <h3 class="project-title">NFL 4th Down Conversion Predictor</h3>
+                            <div class="project-metric-line">0.66 ROC-AUC · 480K plays</div>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">XGBoost</span>
+                                <span class="tag">Pandas</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: NFL GitHub"><i class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card project-card-compact reveal reveal-delay-1" data-track="Project: Insurance">
+                        <div class="project-card-inner">
+                            <h3 class="project-title">Insurance Cost Prediction</h3>
+                            <div class="project-metric-line">R²=0.868 · MAE −35% vs baseline</div>
+                            <div class="tag-row">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-learn</span>
+                                <span class="tag">XGBoost</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://github.com/jvitorbarros15/Regression_Analysis_Insurance_Costs" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Insurance GitHub"><i class="fab fa-github"></i> Code</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card project-card-compact reveal reveal-delay-2" data-track="Project: B3 Clustering">
+                        <div class="project-card-inner">
                             <h3 class="project-title">B3 Stock Clustering</h3>
-                            <p class="project-desc">Clustered Brazilian stocks by price behavior using K-Means and GMM, validated with silhouette score. PCA for dimensionality reduction with business-term cluster explanations.</p>
+                            <div class="project-metric-line">K-Means + GMM · PCA</div>
                             <div class="tag-row">
                                 <span class="tag">Python</span>
                                 <span class="tag">PCA</span>
                                 <span class="tag">K-Means</span>
-                                <span class="tag">GMM</span>
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/jvitorbarros15/B3-Stock-Clustering" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: B3 GitHub"><i class="fab fa-github"></i> Code</a>
@@ -420,17 +420,14 @@
                         </div>
                     </article>
 
-                    <article class="project-card reveal reveal-delay-2" data-track="Project: Banking Clustering">
+                    <article class="project-card project-card-compact reveal" data-track="Project: Banking Clustering">
                         <div class="project-card-inner">
-                            <div class="project-number">06</div>
-                            <div class="project-metric-big"><span>UML</span><small>Customer Segmentation</small></div>
                             <h3 class="project-title">Banking Customer Clustering</h3>
-                            <p class="project-desc">Customer segmentation by age, income, and spending behavior using K-Means. Detailed cluster profiles enabling targeted marketing strategies.</p>
+                            <div class="project-metric-line">K-Means · customer segmentation</div>
                             <div class="tag-row">
                                 <span class="tag">Python</span>
                                 <span class="tag">Scikit-learn</span>
                                 <span class="tag">K-Means</span>
-                                <span class="tag">Matplotlib</span>
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/jvitorbarros15/Banking-Customer-Clustering" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Banking GitHub"><i class="fab fa-github"></i> Code</a>
@@ -438,17 +435,14 @@
                         </div>
                     </article>
 
-                    <article class="project-card reveal" data-track="Project: Breast Cancer">
+                    <article class="project-card project-card-compact reveal reveal-delay-1" data-track="Project: Breast Cancer">
                         <div class="project-card-inner">
-                            <div class="project-number">07</div>
-                            <div class="project-metric-big"><span>SVM</span><small>+ Ensemble Methods</small></div>
                             <h3 class="project-title">Breast Cancer Prediction</h3>
-                            <p class="project-desc">ML model for breast cancer prediction using clinical diagnostic features. Logistic regression, SVM, and ensemble methods for malignant vs. benign tumor classification.</p>
+                            <div class="project-metric-line">SVM + ensemble · classification</div>
                             <div class="tag-row">
                                 <span class="tag">Python</span>
                                 <span class="tag">Scikit-learn</span>
                                 <span class="tag">Healthcare AI</span>
-                                <span class="tag">Classification</span>
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/jvitorbarros15/Breast_Cancer_prediction" class="card-link" target="_blank" rel="noopener noreferrer" data-track="Project: Breast Cancer GitHub"><i class="fab fa-github"></i> Code</a>
@@ -456,7 +450,7 @@
                         </div>
                     </article>
 
-                </div>
+                </div><!-- /.projects-experiments -->
             </div>
         </section>
 

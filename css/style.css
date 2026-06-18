@@ -765,6 +765,36 @@ input, textarea { font-family: inherit; }
 }
 .sub-metric em { color: var(--teal); font-style: normal; font-weight: 700; }
 
+/* ── PROJECTS: ML experiments tier ───────────────────────────── */
+.projects-experiments-header {
+    margin: 48px 0 20px;
+}
+.projects-experiments-header .section-label {
+    margin-bottom: 6px;
+}
+.projects-experiments-note {
+    font-size: .85rem;
+    color: var(--text-3);
+}
+.projects-experiments {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.project-card-compact .project-card-inner { padding: 20px; }
+.project-card-compact .project-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+.project-card-compact .project-metric-line {
+    font-family: var(--font-m);
+    font-size: .8rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+.project-card-compact .tag-row { margin-bottom: 12px; }
+.project-card-compact .card-links { margin-top: 0; }
+
 /* ── SKILLS ──────────────────────────────────────────────────── */
 .skills-section { background: var(--bg-2); border-top: 1px solid var(--border); }
 .skills-grid {
@@ -1191,6 +1221,7 @@ input, textarea { font-family: inherit; }
     .nav-links, .nav-resume { display: none; }
     .nav-toggle { display: flex; }
     .projects-grid { grid-template-columns: 1fr; }
+    .projects-experiments { grid-template-columns: 1fr; }
     .project-card-featured { grid-column: span 1; }
     .certs-grid { grid-template-columns: repeat(2, 1fr); }
     .rec-grid { grid-template-columns: 1fr; }
