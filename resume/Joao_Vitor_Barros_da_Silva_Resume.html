@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joao Vitor Barros da Silva — Resume</title>
+  <style>
+    @page { size: Letter; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #fff; color: #111; }
+    body { font-family: Georgia, "Times New Roman", serif; font-size: 9pt; line-height: 1.17; }
+    .resume { width: 8.5in; min-height: 11in; padding: 0.25in 0.3in 0.2in; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 0.065in; }
+    h1 { margin: 0; font-size: 22pt; line-height: 1; font-weight: 500; font-variant: small-caps; letter-spacing: 0.7px; }
+    .contact { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.05in 0.15in; margin-top: 0.05in; font-size: 8pt; }
+    a { color: inherit; text-decoration: none; }
+    section { margin-top: 0.06in; }
+    h2 { margin: 0 0 0.028in; padding-bottom: 0.014in; border-bottom: 0.6px solid #333; font-size: 11.3pt; line-height: 1.05; }
+    .row { display: flex; justify-content: space-between; gap: 0.14in; align-items: baseline; }
+    .row strong:first-child { flex: 1; }
+    .date { white-space: nowrap; font-weight: 700; }
+    .subrow { display: flex; justify-content: space-between; gap: 0.14in; font-style: italic; }
+    .subrow span:last-child { white-space: nowrap; }
+    .entry { margin-top: 0.035in; break-inside: avoid; }
+    .entry-title { font-size: 9.25pt; }
+    .skills p { margin: 0.018in 0 0; }
+    ul { margin: 0.018in 0 0 0.16in; padding-left: 0.08in; }
+    li { margin: 0 0 0.018in; padding-left: 0.015in; }
+    .projects .entry { margin-top: 0.028in; }
+    .projects ul { margin-top: 0.014in; }
+    .certs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.012in 0.26in; margin-top: 0.025in; }
+    .certs div { white-space: nowrap; }
+    @media screen {
+      body { background: #e8e8e8; padding: 20px; }
+      .resume { background: white; box-shadow: 0 2px 18px rgba(0,0,0,.16); }
+    }
+    @media print {
+      .resume { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="resume">
+    <header>
+      <h1>Joao Vitor Barros da Silva</h1>
+      <div class="contact">
+        <a href="tel:+18143083273">814-308-3273</a>
+        <a href="mailto:jvitorbarros15@gmail.com">jvitorbarros15@gmail.com</a>
+        <a href="https://www.linkedin.com/in/joaovi/">linkedin.com/in/joaovi</a>
+        <a href="https://github.com/jvitorbarros15">github.com/jvitorbarros15</a>
+        <a href="https://joao-vitor-barros-da-silva-portfoli.vercel.app">Portfolio</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Education</h2>
+      <div class="row"><strong>The Pennsylvania State University, University Park</strong><span class="date">Aug 2026</span></div>
+      <em>B.S. in Computer Science, Minor in Entrepreneurship and Innovation</em>
+    </section>
+
+    <section class="skills">
+      <h2>Technical Skills</h2>
+      <p><strong>Full Stack (UI):</strong> React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML/CSS, responsive UI development</p>
+      <p><strong>Full Stack (API &amp; Data):</strong> Python (FastAPI, Flask), Ruby on Rails, Node.js, REST APIs, microservices, PostgreSQL, Redis, Firebase, schema design</p>
+      <p><strong>Cloud &amp; DevOps:</strong> AWS (S3, Lambda), Docker, Kubernetes, CircleCI, CI/CD pipelines, Git/GitHub, Linux</p>
+      <p><strong>AI &amp; GenAI:</strong> LLM APIs (OpenAI, Anthropic), prompt engineering, LangChain, RAG, TensorFlow, PyTorch, Scikit-learn, AI coding tools</p>
+      <p><strong>Practices:</strong> Agile/Scrum, automated testing (RSpec, pytest), peer code review, production incident resolution, technical documentation</p>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      <article class="entry">
+        <div class="row entry-title"><strong>Software Development Intern | <em>Full stack, APIs, data, cloud, AI tooling</em></strong><span class="date">Oct 2025 – Jul 2026</span></div>
+        <div class="subrow"><span>Penn State University Libraries</span><span>State College, PA</span></div>
+        <ul>
+          <li>Build and ship features on production systems serving <strong>40,000+ users</strong>, working within a formal Scrum methodology with daily standups and sprint cycles, debugging across large unfamiliar codebases under real reliability constraints using Ruby on Rails, Python, Docker, and CI.</li>
+          <li>Engineered a Python data pipeline that cleaned and validated a dataset from <strong>17.7K to 9.8K verified records</strong>, cutting manual processing time by over <strong>90%</strong>.</li>
+          <li>Shipped a large-scale PDF remediation and accessibility platform in collaboration with AWS and Adobe, supporting <strong>3M+ document uploads</strong> by automating accessibility parsing and secure storage via Adobe APIs and AWS S3.</li>
+          <li>Built a Google Scholar profile-matching pipeline (Rails, PostgreSQL, ScraperAPI) across <strong>11,000+ faculty</strong>; disambiguated authors via multi-signal entity resolution, achieving <strong>40% auto-match rate</strong> and eliminating <strong>34% of scrape volume</strong> via pre-scrape filtering and DB-backed fetch tracking.</li>
+          <li>Engineered a cross-system integration API using a Rails controller to POST JSON between independent platforms, built JSON-to-XML importers and Swagger documentation, reducing manual departmental processing by <strong>60%</strong> across multiple teams.</li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="row entry-title"><strong>Innovation and Operations Intern | <em>CRM integration, data workflows</em></strong><span class="date">May 2023 – Jul 2024</span></div>
+        <div class="subrow"><span>Happy Valley LaunchBox, Penn State Startup Accelerator</span><span>State College, PA</span></div>
+        <ul><li>Centralized customer engagement data for <strong>40+ companies</strong> by integrating HubSpot CRM with an internal interface and automating data workflows, raising reporting visibility <strong>45%</strong> and team efficiency <strong>30%</strong>.</li></ul>
+      </article>
+
+      <article class="entry">
+        <div class="row entry-title"><strong>Lead Researcher | <em>Python, distributed systems, measurement</em></strong><span class="date">Feb 2025 – Present</span></div>
+        <div class="subrow"><span>Blockchain Data Intelligence Lab, Penn State</span><span>State College, PA</span></div>
+        <ul><li>Wrote a Python simulation of a 7-validator distributed network as first author of QLink (arXiv:2512.18488), measuring <strong>707× throughput gains</strong> and sub-second latency across a parameter sweep.</li></ul>
+      </article>
+    </section>
+
+    <section class="projects">
+      <h2>Projects</h2>
+      <article class="entry">
+        <div class="row entry-title"><strong>New Home Imoveis, Live Client Platform | <em>React, Supabase, Node.js, HubSpot CRM</em></strong><span class="date">Jun 2026 – Present</span></div>
+        <ul>
+          <li>Shipped a full-stack platform for a paying client, replacing a manual lead process by capturing WhatsApp inquiries and synchronizing them into HubSpot CRM.</li>
+          <li>Designed a CRM-style React admin panel for non-technical staff to publish listings, manage media and records, and track leads.</li>
+        </ul>
+      </article>
+      <article class="entry">
+        <div class="row entry-title"><strong>NittanyAuction, Auction Marketplace | <em>Python, Flask, SQLite</em></strong><span class="date">2025</span></div>
+        <ul><li>Built a full auction marketplace on a normalized relational schema with server-side bid validation, auction lifecycle logic, and session handling.</li></ul>
+      </article>
+      <article class="entry">
+        <div class="row entry-title"><strong>Cognitra, AI Learning Platform | <em>React, Next.js, Firebase, AssemblyAI, OpenAI</em></strong><span class="date">2026 – Present</span></div>
+        <ul><li>Integrated GenAI into a shipped learning product, chaining transcription and LLM workflows to turn speaker-labeled sessions into structured study material.</li></ul>
+      </article>
+    </section>
+
+    <section>
+      <h2>Certifications</h2>
+      <div class="certs">
+        <div><strong>Full Stack Developer</strong>, Meta, 2026</div>
+        <div><strong>Google Cybersecurity Certificate</strong>, Google, 2026</div>
+        <div><strong>Machine Learning with Python</strong>, IBM, 2025</div>
+        <div><strong>AI Agents with RAG &amp; LangChain</strong>, IBM, 2025</div>
+        <div><strong>Deep Learning &amp; Neural Networks</strong>, IBM, 2025</div>
+        <div><strong>AI &amp; Blockchain Certificate</strong>, Google, 2025</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
