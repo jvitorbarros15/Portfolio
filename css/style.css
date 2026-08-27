@@ -1571,6 +1571,12 @@ body {
     font-size: 1.1rem;
 }
 
+.recommendation-verified {
+    margin-left: 4px;
+    color: #68c7ff;
+    font-size: 0.82em;
+}
+
 .recommendation-role,
 .recommendation-date {
     color: #9fd8ea;
@@ -1579,6 +1585,12 @@ body {
 
 .recommendation-date {
     white-space: nowrap;
+}
+
+.recommendation-context {
+    margin-top: 3px;
+    color: #7f9ead;
+    font-size: 0.82rem;
 }
 
 .recommendation-body p {
