@@ -317,7 +317,7 @@
                     <div class="contact-intro">
                         <span class="contact-availability"><span></span> Open to junior software and AI engineering roles</span>
                         <h2>Let’s build something useful.</h2>
-                        <p>The form opens a pre-filled draft in your email app. Nothing is sent until you review it and press Send.</p>
+                        <p>Send a message straight from this page and it lands in my inbox. I usually reply within a day.</p>
                     </div>
 
                     <form class="contact-form" id="contact-form">
@@ -333,7 +333,8 @@
                             <label for="message">How can I help?</label>
                             <textarea id="message" name="message" rows="5" required></textarea>
                         </div>
-                        <button type="submit" class="btn" data-track="Contact Form Submit"><i class="fas fa-envelope"></i> Open Email Draft</button>
+                        <button type="submit" class="btn" data-track="Contact Form Submit"><i class="fas fa-paper-plane"></i> Send message</button>
+                        <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
                     </form>
                     
                     <div class="social-links">
@@ -1210,7 +1211,16 @@
     document.addEventListener('DOMContentLoaded', function() {
       const contactForm = document.querySelector('.contact-form');
       if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        const status = document.getElementById('contact-form-status');
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+        const setStatus = function(text, state) {
+          if (!status) return;
+          status.textContent = text;
+          status.className = 'contact-form-status' + (state ? ' is-' + state : '');
+        };
+
+        contactForm.addEventListener('submit', async function(e) {
           e.preventDefault();
 
           if (!contactForm.checkValidity()) {
@@ -1219,26 +1229,50 @@
             return;
           }
 
-          const name = document.getElementById('name').value.trim();
-          const email = document.getElementById('email').value.trim();
-          const message = document.getElementById('message').value.trim();
+          const payload = {
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            message: document.getElementById('message').value.trim()
+          };
 
-          if (window.gtag) {
-            gtag('event', 'contact_draft_opened', {
-              event_category: 'contact',
-              event_label: 'email_client'
-            });
+          const originalBtn = submitBtn ? submitBtn.innerHTML : '';
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
           }
-          if (window.dataLayer) {
-            dataLayer.push({
-              'event': 'contact_draft_opened',
-              'contact_method': 'email_client'
-            });
-          }
+          setStatus('Sending your message…', 'pending');
 
-          const subject = `Portfolio inquiry from ${name}`;
-          const body = `Hi Joao,\n\n${message}\n\nBest,\n${name}\n${email}`;
-          window.location.href = `mailto:jvitorbarros15@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          try {
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const data = await response.json().catch(() => ({}));
+
+            if (response.ok && data.ok) {
+              contactForm.reset();
+              setStatus('Message sent. I will get back to you soon.', 'success');
+              if (window.gtag) {
+                gtag('event', 'contact_message_sent', {
+                  event_category: 'contact',
+                  event_label: 'api'
+                });
+              }
+              if (window.dataLayer) {
+                dataLayer.push({ 'event': 'contact_message_sent', 'contact_method': 'api' });
+              }
+            } else {
+              setStatus((data.error || 'Something went wrong.') + ' You can also email me at jvitorbarros15@gmail.com.', 'error');
+            }
+          } catch (error) {
+            setStatus('Network error. You can also email me at jvitorbarros15@gmail.com.', 'error');
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalBtn;
+            }
+          }
         });
       }
     });
