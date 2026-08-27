@@ -72,7 +72,7 @@ function setupStartupSplash() {
 
     setTimeout(function() {
         splash.classList.add('hidden');
-    }, 2400);
+    }, 1250);
 }
 
 function setupPlaylistMiniPlayer() {
@@ -1212,7 +1212,7 @@ function createGenesisBlock() {
         timestamp: new Date().toISOString(),
         data: {
             title: "Genesis Block - Blockchain Journey",
-            description: "Welcome to my blockchain journey! From AI-powered image verification on Polygon to pioneering quantum-safe Layer 3 protocols, I'm pushing the boundaries of Web3 security and interoperability. Explore my flagship blockchain projects by adding blocks to this chain.",
+            description: "Welcome to my blockchain journey! From an AI-image provenance registry on Base Sepolia to published quantum-safe Layer 3 research, I explore practical Web3 security and interoperability. Add blocks to view the flagship work.",
             technologies: ["Blockchain", "Quantum Security", "Layer 3", "Web3", "Interoperability"]
         },
         previousHash: "0000000000000000",
@@ -1259,13 +1259,13 @@ function createBlock(index, previousBlock) {
 function getBlockData(index) {
     const projectsData = [
         {
-            title: "ZorAi – AI Image Verification Platform",
-            description: "Built full-stack decentralized platform to register and verify AI-generated images on blockchain to combat misinformation. Used OpenAI API + Pinata (IPFS) + Solidity on Polygon blockchain to link images with smart contracts.",
-            technologies: ["Next.js", "React", "TypeScript", "Solidity", "OpenAI", "IPFS", "Polygon"]
+            title: "ZorAI – AI Image Provenance Registry",
+            description: "Built and deployed a full-stack registry for AI-generated image identifiers, connecting a Next.js interface and server API routes to IPFS metadata and a Solidity contract on Base Sepolia.",
+            technologies: ["Next.js", "React", "Solidity", "Hardhat", "IPFS", "Ethers.js", "Base Sepolia"]
         },
         {
             title: "QLink – Quantum-Safe Layer 3 Protocol",
-            description: "World's first quantum-safe Layer 3 interoperability protocol for secure cross-chain asset transfers. Combines post-quantum cryptography (PQC) and quantum key distribution (QKD) to deliver physically unbreakable security for validator communication, proof generation, and key management across any blockchain.",
+            description: "Published quantum-safe Layer 3 interoperability research combining post-quantum cryptography and quantum key distribution. A Python simulation measured a 7-validator network across changing link conditions, including the regimes where the design degraded.",
             technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
         },
         {
@@ -1398,27 +1398,104 @@ function addNextBlock(blockchain) {
 // Setup start button functionality
 function setupStartButton() {
     const startButton = document.querySelector('.start-button');
-    if (!startButton) return;
-    
+    const startMenu = document.getElementById('start-menu');
+    const searchInput = document.getElementById('start-menu-search-input');
+    const menuApps = Array.from(document.querySelectorAll('.start-menu-app'));
+    const menuWindowButtons = document.querySelectorAll('[data-start-window]');
+    const menuLinks = document.querySelectorAll('.start-menu-footer a');
+    const emptyState = document.getElementById('start-menu-empty');
+    const recommendedHeading = document.querySelector('.start-menu-recommended-heading');
+    const recommendedList = document.querySelector('.start-menu-recommended');
+
+    if (!startButton || !startMenu) return;
+
+    function setMenuState(isOpen, options = {}) {
+        startMenu.classList.toggle('open', isOpen);
+        startMenu.setAttribute('aria-hidden', String(!isOpen));
+        startButton.setAttribute('aria-expanded', String(isOpen));
+        startButton.setAttribute('aria-label', isOpen ? 'Close portfolio Start menu' : 'Open portfolio Start menu');
+
+        if (isOpen && options.focusSearch !== false && searchInput) {
+            window.requestAnimationFrame(() => searchInput.focus());
+        }
+
+        if (!isOpen && options.returnFocus) {
+            window.requestAnimationFrame(() => startButton.focus());
+        }
+    }
+
+    function resetMenuSearch() {
+        if (!searchInput) return;
+
+        searchInput.value = '';
+        menuApps.forEach(app => app.hidden = false);
+        if (emptyState) emptyState.hidden = true;
+        if (recommendedHeading) recommendedHeading.hidden = false;
+        if (recommendedList) recommendedList.hidden = false;
+    }
+
     startButton.addEventListener('click', function() {
-        // Add clicked class for animation
         startButton.classList.add('clicked');
-        
-        // Remove clicked class after animation completes
         setTimeout(() => {
             startButton.classList.remove('clicked');
         }, 500);
-        
-        // Reset icon positions to default
-        resetIconPositions();
-        
-        // Check if personalization overlay exists, if not, reset wallpaper
-        if (!document.querySelector('.wallpaper-personalization')) {
-            resetWallpaper();
+
+        const willOpen = !startMenu.classList.contains('open');
+        if (willOpen) resetMenuSearch();
+        setMenuState(willOpen);
+        playSound(willOpen ? 'startup' : 'click');
+    });
+
+    menuWindowButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const windowType = button.getAttribute('data-start-window');
+            setMenuState(false);
+            openWindow(windowType);
+        });
+    });
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            setMenuState(false);
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            menuApps.forEach(app => {
+                const searchText = `${app.textContent} ${app.dataset.search || ''}`.toLowerCase();
+                const matches = !query || searchText.includes(query);
+                app.hidden = !matches;
+                if (matches) visibleCount += 1;
+            });
+
+            if (emptyState) emptyState.hidden = visibleCount > 0;
+            if (recommendedHeading) recommendedHeading.hidden = Boolean(query);
+            if (recommendedList) recommendedList.hidden = Boolean(query);
+        });
+
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const firstMatch = menuApps.find(app => !app.hidden);
+                if (firstMatch) firstMatch.click();
+            }
+        });
+    }
+
+    document.addEventListener('pointerdown', function(event) {
+        if (!startMenu.classList.contains('open')) return;
+        if (startMenu.contains(event.target) || startButton.contains(event.target)) return;
+        setMenuState(false);
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && startMenu.classList.contains('open')) {
+            event.preventDefault();
+            setMenuState(false, { returnFocus: true });
         }
-        
-        // Play startup sound
-        playSound('startup');
     });
 }
 
@@ -1585,9 +1662,9 @@ function changeWallpaper(type, customWallpaper = null) {
                         <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
                     </div>
                     <h1>Joao Vitor Barros da Silva</h1>
-                    <h2>Computer Science</h2>
-                    <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
-                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
+                    <h2>Software &amp; AI Developer</h2>
+                    <p class="welcome-message">Recent Penn State graduate building production software and applied AI.</p>
+                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Open Start for recruiter shortcuts, projects, and experience.</p>
                 </div>
             `;
             desktop.prepend(personalizationOverlay);
@@ -1625,9 +1702,9 @@ function changeWallpaper(type, customWallpaper = null) {
                             <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
                         </div>
                         <h1>Joao Vitor Barros da Silva</h1>
-                        <h2>Computer Science</h2>
-                        <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
-                        <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
+                        <h2>Software &amp; AI Developer</h2>
+                        <p class="welcome-message">Recent Penn State graduate building production software and applied AI.</p>
+                        <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Open Start for recruiter shortcuts, projects, and experience.</p>
                     </div>
                 `;
                 desktop.prepend(fallbackOverlay);
@@ -1646,9 +1723,9 @@ function changeWallpaper(type, customWallpaper = null) {
                         <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
                     </div>
                     <h1>Joao Vitor Barros da Silva</h1>
-                    <h2>Computer Science</h2>
-                    <p class="welcome-message">Welcome to my portfolio, click anything to begin the experience</p>
-                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Don't forget to try the wallpaper feature!</p>
+                    <h2>Software &amp; AI Developer</h2>
+                    <p class="welcome-message">Recent Penn State graduate building production software and applied AI.</p>
+                    <p class="welcome-message" style="font-size: 0.9rem; margin-top: 10px;">Open Start for recruiter shortcuts, projects, and experience.</p>
                 </div>
             `;
             desktop.prepend(defaultOverlay);
@@ -2401,15 +2478,15 @@ function setupPortfolioTerminal() {
 
     function printWhoAmI() {
         printTerminalLine('Joao Vitor Barros da Silva');
-        printTerminalLine('Computer Science student at Penn State focused on software engineering, AI, and blockchain.');
-        printTerminalLine('Builder mindset with a strong interest in entrepreneurship and turning ideas into real systems.');
+        printTerminalLine('Recent Penn State Computer Science graduate focused on production software and applied AI.');
+        printTerminalLine('I build full-stack products, data-intensive backends, and AI workflows that solve real operational problems.');
     }
 
     function printSkillsSummary() {
-        printTerminalLine('Production: Ruby on Rails, JavaScript, React, REST APIs, AWS, Docker');
-        printTerminalLine('AI/ML: Python, scikit-learn, XGBoost, pandas, model evaluation, applied ML');
-        printTerminalLine('Blockchain: Solidity, protocol design, decentralized apps, post-quantum research');
-        printTerminalLine('Strengths: full-stack execution, product thinking, research-heavy problem solving');
+        printTerminalLine('Full stack: React, Next.js, TypeScript, Python, Rails, Node.js, REST APIs');
+        printTerminalLine('Data & cloud: PostgreSQL, Redis, Firebase, AWS, Docker, Kubernetes, CircleCI');
+        printTerminalLine('AI/ML: OpenAI, Anthropic, LangChain, RAG, scikit-learn, XGBoost, PyTorch');
+        printTerminalLine('Strengths: end-to-end delivery, production debugging, product thinking, technical research');
     }
 
     function printResearchSummary() {

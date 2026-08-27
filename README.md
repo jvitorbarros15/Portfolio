@@ -1,49 +1,53 @@
-# Windows Desktop Portfolio
+# João Vitor Barros da Silva — Portfolio
 
-A personal portfolio website styled like a Windows desktop interface.
+Interactive software-engineering portfolio presented as a Windows 11 desktop, with draggable application windows, a searchable Start menu, a working terminal, and customizable wallpaper.
 
-## Features
+[Live portfolio](https://joao-vitor-barros-da-silva-portfoli.vercel.app) · [GitHub profile](https://github.com/jvitorbarros15) · [LinkedIn](https://www.linkedin.com/in/joao-vitor-barros-da-silva)
 
-- Fullscreen "desktop" layout as the homepage, styled like the Windows home screen
-- Clickable icons styled like desktop shortcuts
-- Windows-style draggable/modal windows
-- Taskbar with clock and window management
-- Responsive design that works across devices
+![Portfolio desktop](docs/preview.png)
 
-## Windows Include
+## Highlights
 
-1. **My Projects** - Showcase of portfolio projects
-2. **Contact Me** - Contact form and social links
-3. **My Resume** - Downloadable resume and preview
-4. **About Me** - Profile and bio information
-5. **Recycle Bin** - Easter egg content
+- Recruiter-focused project cards with live demos, source links, stack summaries, and engineering outcomes
+- Windows-style Start menu with search, keyboard navigation, and quick links
+- Draggable, resizable, minimizeable, and maximizeable windows
+- Built-in terminal commands and interactive desktop customization
+- Responsive layout with accessible controls and reduced-motion support
+- Downloadable résumé and direct email contact
 
-## Setup Instructions
+## Featured work
 
-1. Clone or download this repository
-2. Add your Windows style wallpaper as `img/windows-wallpaper.jpg`
-3. Add your profile picture as `img/profile-placeholder.jpg`
-4. Edit the HTML files to add your personal information
-5. Open `index.html` in your web browser
+| Project | Focus | Demo |
+| --- | --- | --- |
+| JobNow | AI job-search workflows, Google integrations, Supabase | [Open](https://jobnow-lime.vercel.app) |
+| New Home Imóveis | Real-estate discovery and administration | [Open](https://new-home-imoveis.vercel.app) |
+| Meridian Invest | Next.js, FastAPI, PostgreSQL, Redis, Docker | Local setup |
+| Cognitra | AI study tools, transcription, Firebase | [Open](https://cognitra.vercel.app) |
+| ZorAI | AI-image provenance, Solidity, IPFS, Base Sepolia | [Open](https://zorai.vercel.app) |
 
-## Customization
+## Run locally
 
-- Replace placeholder content with your actual projects, resume, and personal information
-- Modify colors in CSS to match your preferred Windows theme
-- Add sound effects by uncommenting the sound code in script.js and adding sound files
-- Add more icons or windows as needed
+No application build step is required.
 
-## Technologies Used
+```bash
+python -m http.server 8080
+```
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-- Font Awesome for icons
+Open <http://localhost:8080>.
 
-## License
+## Structure
 
-This project is available for personal and educational use.
+```text
+index.html       Desktop, windows, and portfolio content
+css/style.css    Windows-inspired interface and responsive states
+js/script.js     Window manager, Start menu, terminal, and interactions
+img/projects/    Project previews
+files/           Downloadable résumé
+docs/            Repository preview assets
+```
 
-## Author
+## Verification
 
-Joao Vitor Barros da Silva
+After content or interaction changes, test desktop and mobile layouts, keyboard navigation, the Start menu, project links, résumé download, and browser-console output.
+
+Built with semantic HTML, modern CSS, and vanilla JavaScript to keep the portfolio fast and dependency-light.
