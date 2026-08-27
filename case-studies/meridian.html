@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: Meridian, a containerized investment dashboard built with Next.js, FastAPI, PostgreSQL, and Redis.">
+  <link rel="canonical" href="https://joao-vitor-barros-da-silva-portfolio.vercel.app/case-studies/meridian.html">
+  <meta property="og:type" content="article"><meta property="og:title" content="Meridian — Case Study"><meta property="og:description" content="A typed investment dashboard backed by FastAPI, PostgreSQL, Redis, and live market ingestion."><meta property="og:url" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/case-studies/meridian.html"><meta property="og:image" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/img/projects/meridian.jpg"><meta name="twitter:card" content="summary_large_image">
+  <title>Meridian — Case Study | Joao Vitor</title><link rel="stylesheet" href="../css/case-study.css">
+</head>
+<body><a class="skip-link" href="#main">Skip to case study</a><nav class="case-nav" aria-label="Case study navigation"><a class="case-brand" href="../index.html">JV / Portfolio</a><div class="case-nav-links"><a href="../index.html">All projects</a><a href="cognitra.html">Next case study →</a></div></nav>
+<main id="main" class="case-shell"><header class="case-hero"><span class="case-eyebrow">Backend &amp; infrastructure · 2026</span><h1>Meridian</h1><p class="case-lede">A multi-market investment dashboard for Brazilian stocks and FIIs, U.S. equities, and cryptocurrency, with reproducible local infrastructure.</p><div class="case-actions"><a class="case-button" href="https://github.com/jvitorbarros15/meridian-invest" target="_blank" rel="noopener noreferrer">View source</a></div></header>
+<figure class="case-visual"><img src="../img/projects/meridian.jpg" alt="Meridian investment portfolio dashboard"></figure>
+<section class="case-stats" aria-label="Project summary"><div class="case-stat"><strong>Four markets</strong><span>Brazilian equities, FIIs, U.S. stocks, and crypto</span></div><div class="case-stat"><strong>One command</strong><span>Docker Compose starts the complete system</span></div><div class="case-stat"><strong>Typed stack</strong><span>Next.js frontend and documented FastAPI service</span></div></section>
+<div class="case-grid"><div><section class="case-section"><h2>The problem</h2><p>Investment data is often fragmented by country and asset class. Meridian explores how one product can normalize holdings, market refreshes, returns, watchlists, and alerts without hiding the infrastructure needed to keep that data coherent.</p></section>
+<section class="case-section"><h2>What I built</h2><ul><li>Next.js 16 and React 19 interface for portfolio, holdings, watchlists, alerts, and market data.</li><li>Asynchronous FastAPI service with SQLAlchemy, JWT authentication, and interactive API documentation.</li><li>PostgreSQL persistence, Redis caching, and yfinance-based market ingestion.</li><li>Docker Compose environment with local demo credentials and repeatable setup.</li></ul></section>
+<section class="case-section"><h2>Architecture</h2><div class="architecture">Next.js / React
+       ↓ REST
+    FastAPI
+   ↙       ↘
+PostgreSQL  Redis ← yfinance</div></section>
+<section class="case-section"><h2>Engineering decisions</h2><ul><li>Kept market ingestion behind the API so the interface does not own provider logic.</li><li>Used Redis for data that benefits from short-lived caching while preserving durable portfolio state in PostgreSQL.</li><li>Containerized every dependency so reviewers can run the same topology locally.</li></ul></section>
+<section class="case-section"><h2>Verification</h2><p>The repository documents frontend tests, linting, and production builds, alongside an on-demand market refresh endpoint and generated FastAPI documentation.</p></section></div>
+<aside class="case-aside"><h2>Stack</h2><ul class="tag-list"><li>Next.js 16</li><li>React 19</li><li>Python</li><li>FastAPI</li><li>PostgreSQL</li><li>Redis</li><li>Docker</li></ul><h2>My role</h2><p>Full-stack architecture, backend services, persistence, caching, and product interface.</p></aside></div>
+<section class="case-next"><h2>What I would improve next</h2><p>Deploy a public read-only environment, add longer historical performance views, and expand integration tests across the API and data services.</p></section></main><footer class="case-footer">Designed and built by Joao Vitor Barros da Silva.</footer></body></html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Case study: New Home Imóveis, a full-stack real-estate and CRM workflow delivered for a paying client.">
+  <link rel="canonical" href="https://joao-vitor-barros-da-silva-portfolio.vercel.app/case-studies/new-home.html">
+  <meta property="og:type" content="article"><meta property="og:title" content="New Home Imóveis — Case Study"><meta property="og:description" content="A client real-estate platform connecting property discovery, administration, WhatsApp leads, and HubSpot."><meta property="og:url" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/case-studies/new-home.html"><meta property="og:image" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/img/projects/new-home.jpg"><meta name="twitter:card" content="summary_large_image">
+  <title>New Home Imóveis — Case Study | Joao Vitor</title>
+  <link rel="stylesheet" href="../css/case-study.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to case study</a>
+  <nav class="case-nav" aria-label="Case study navigation"><a class="case-brand" href="../index.html">JV / Portfolio</a><div class="case-nav-links"><a href="../index.html">All projects</a><a href="meridian.html">Next case study →</a></div></nav>
+  <main id="main" class="case-shell">
+    <header class="case-hero"><span class="case-eyebrow">Paying client · Full-stack delivery · 2026</span><h1>New Home Imóveis</h1><p class="case-lede">A Portuguese-language real-estate platform connecting property discovery, listing administration, WhatsApp inquiries, and HubSpot lead tracking.</p><div class="case-actions"><a class="case-button" href="https://new-home-imoveis.vercel.app" target="_blank" rel="noopener noreferrer">Open live product</a><a class="case-button secondary" href="https://github.com/jvitorbarros15/new-home-imoveis" target="_blank" rel="noopener noreferrer">View source</a></div></header>
+    <figure class="case-visual"><img src="../img/projects/new-home.jpg" alt="New Home Imóveis property discovery home page"></figure>
+    <section class="case-stats" aria-label="Project summary"><div class="case-stat"><strong>Client delivery</strong><span>Built for a paying real-estate customer</span></div><div class="case-stat"><strong>Lead automation</strong><span>WhatsApp inquiries routed into HubSpot</span></div><div class="case-stat"><strong>End to end</strong><span>Public experience, data, and admin workflow</span></div></section>
+    <div class="case-grid"><div>
+      <section class="case-section"><h2>The problem</h2><p>The client needed more than a property brochure. Prospective buyers needed a clear discovery flow, while a non-technical team needed to manage listings, media, records, and incoming leads without maintaining separate manual processes.</p></section>
+      <section class="case-section"><h2>What I built</h2><ul><li>Responsive property discovery and listing-detail experiences designed for Portuguese-speaking users.</li><li>WhatsApp-focused conversion paths with HubSpot synchronization for lead follow-up.</li><li>A CRM-style administration workspace for listings, media, records, and lead visibility.</li><li>Supabase-backed authentication, listing data, and database migrations.</li></ul></section>
+      <section class="case-section"><h2>System shape</h2><div class="architecture">Buyer → React property experience → WhatsApp inquiry → HubSpot
+                         ↓
+                 Supabase data/auth
+                         ↑
+                 Admin workspace</div></section>
+      <section class="case-section"><h2>Engineering decisions</h2><ul><li>Kept the public demo usable with sample properties so recruiters can explore without production credentials.</li><li>Separated browser-safe Supabase configuration from privileged access and relied on Row Level Security for authorization.</li><li>Designed the lead path around the client’s existing WhatsApp behavior instead of forcing a new sales habit.</li></ul></section>
+      <section class="case-section"><h2>Outcome</h2><p>The result is a production client delivery spanning interface, data, administration, and CRM ingestion. It replaces a disconnected manual lead workflow with one traceable path from inquiry to follow-up.</p></section>
+    </div><aside class="case-aside"><h2>Stack</h2><ul class="tag-list"><li>React 18</li><li>React Router</li><li>Tailwind CSS</li><li>Supabase</li><li>HubSpot</li><li>JavaScript</li></ul><h2>My role</h2><p>Full-stack product delivery: interface, data model, administration, and integration workflow.</p></aside></div>
+    <section class="case-next"><h2>What I would improve next</h2><p>Add funnel analytics, automated end-to-end coverage for inquiry flows, and richer media optimization for large listing inventories.</p></section>
+  </main><footer class="case-footer">Designed and built by Joao Vitor Barros da Silva.</footer>
+</body>
+</html>

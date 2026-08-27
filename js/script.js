@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize desktop icons
     initDesktopIcons();
 
+    // Add keyboard and assistive-technology behavior to the desktop UI
+    setupAccessibility();
+
     // Remove temporary duplicate New File entries
     cleanupDefaultNewFiles();
     
@@ -717,10 +720,24 @@ function setupWindowDrag(window) {
 
 // Setup window control buttons (minimize, maximize, close)
 function setupWindowControls(window) {
-    const windowId = window.id;
     const minimizeBtn = window.querySelector('.minimize-btn');
     const maximizeBtn = window.querySelector('.maximize-btn');
     const closeBtn = window.querySelector('.close-btn');
+    const title = window.querySelector('.window-title span')?.textContent.trim() || 'window';
+
+    window.setAttribute('role', 'dialog');
+    window.setAttribute('aria-label', title);
+    window.setAttribute('aria-hidden', 'true');
+
+    [minimizeBtn, maximizeBtn, closeBtn].forEach(button => {
+        if (!button) return;
+        button.type = 'button';
+        button.querySelectorAll('i').forEach(icon => icon.setAttribute('aria-hidden', 'true'));
+    });
+
+    minimizeBtn.setAttribute('aria-label', `Minimize ${title}`);
+    maximizeBtn.setAttribute('aria-label', `Restore ${title}`);
+    closeBtn.setAttribute('aria-label', `Close ${title}`);
     
     minimizeBtn.addEventListener('click', function() {
         minimizeWindow(window);
@@ -781,6 +798,7 @@ function openWindow(windowType) {
         // Reset all windows first
         document.querySelectorAll('.window').forEach(w => {
             w.classList.remove('active');
+            w.setAttribute('aria-hidden', 'true');
             if (w !== window) {
                 w.style.display = 'none';
             }
@@ -793,6 +811,7 @@ function openWindow(windowType) {
         window.style.top = '0';
         window.style.left = '0';
         window.classList.add('fullscreen', 'active');
+        window.setAttribute('aria-hidden', 'false');
         
         // Update window title if we have a custom title
         if (customTitle) {
@@ -961,6 +980,12 @@ function toggleFullscreen(window) {
         window.style.left = '0';
         window.classList.add('fullscreen');
     }
+
+    const maximizeBtn = window.querySelector('.maximize-btn');
+    const title = window.querySelector('.window-title span')?.textContent.trim() || 'window';
+    if (maximizeBtn) {
+        maximizeBtn.setAttribute('aria-label', `${window.classList.contains('fullscreen') ? 'Restore' : 'Maximize'} ${title}`);
+    }
     
     // Make sure this window is active
     activateWindow(window);
@@ -974,6 +999,7 @@ function closeWindow(window) {
     // Hide the window
     window.style.display = 'none';
     window.classList.remove('active', 'fullscreen');
+    window.setAttribute('aria-hidden', 'true');
     
     // Remove from taskbar
     const windowId = window.id;
@@ -1012,6 +1038,7 @@ function resetBlockchain() {
 // Minimize a window
 function minimizeWindow(window) {
     window.style.display = 'none';
+    window.setAttribute('aria-hidden', 'true');
     
     // Keep in taskbar
     // Play sound effect (optional)
@@ -1028,6 +1055,7 @@ function activateWindow(window) {
     
     // Add active class to this window
     window.classList.add('active');
+    window.setAttribute('aria-hidden', 'false');
     
     // Update taskbar
     const windowId = window.id;
@@ -1045,9 +1073,10 @@ function addToTaskbar(windowType) {
     }
     
     // Create taskbar item
-    const taskbarItem = document.createElement('div');
+    const taskbarItem = document.createElement('button');
     taskbarItem.classList.add('taskbar-item');
     taskbarItem.id = `taskbar-${windowType}`;
+    taskbarItem.type = 'button';
     
     // Get icon and title from corresponding window
     const window = document.getElementById(`${windowType}-window`);
@@ -1055,6 +1084,7 @@ function addToTaskbar(windowType) {
     const iconClass = window.querySelector('.window-icon').classList.value;
     
     taskbarItem.innerHTML = `<i class="${iconClass}"></i> ${title}`;
+    taskbarItem.setAttribute('aria-label', `Toggle ${title}`);
     
     // Add click event to toggle window visibility
     taskbarItem.addEventListener('click', function() {
@@ -1496,6 +1526,41 @@ function setupStartButton() {
             event.preventDefault();
             setMenuState(false, { returnFocus: true });
         }
+    });
+}
+
+function setupAccessibility() {
+    document.querySelectorAll('.icon[data-window]').forEach(icon => {
+        const title = icon.querySelector('.icon-text')?.textContent.trim() || 'item';
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('tabindex', '0');
+        icon.setAttribute('aria-label', `Open ${title}`);
+
+        icon.addEventListener('keydown', function(event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openWindow(this.getAttribute('data-window'));
+        });
+    });
+
+    const wallpaperClose = document.querySelector('.wallpaper-close');
+    if (wallpaperClose) {
+        wallpaperClose.type = 'button';
+        wallpaperClose.setAttribute('aria-label', 'Close wallpaper settings');
+        wallpaperClose.querySelectorAll('i').forEach(icon => icon.setAttribute('aria-hidden', 'true'));
+    }
+
+    const playlistButtons = [
+        ['playlist-mini-close', 'Dismiss music player'],
+        ['playlist-mini-restart', 'Restart current track'],
+        ['playlist-mini-toggle', 'Play or pause current track']
+    ];
+
+    playlistButtons.forEach(([id, label]) => {
+        const button = document.getElementById(id);
+        if (!button) return;
+        button.type = 'button';
+        button.setAttribute('aria-label', label);
     });
 }
 

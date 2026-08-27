@@ -5,8 +5,43 @@ const escapeHtml = (value) => value
     .replace(/"/g, '&quot;');
 
 module.exports = async function handler(req, res) {
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+
     if (req.method !== 'POST') {
+        res.setHeader('Allow', 'POST');
         res.status(405).json({ ok: false, error: 'Method not allowed' });
+        return;
+    }
+
+    let body;
+    try {
+        body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    } catch (error) {
+        res.status(400).json({ ok: false, error: 'Invalid request body.' });
+        return;
+    }
+
+    const name = String(body.name || '').trim();
+    const email = String(body.email || '').trim();
+    const message = String(body.message || '').trim();
+    const website = String(body.website || '').trim();
+    const startedAt = Number(body.startedAt);
+
+    // Bots commonly complete every input. Return a neutral success without
+    // contacting the email provider so automated submissions learn nothing.
+    if (website) {
+        res.status(200).json({ ok: true });
+        return;
+    }
+
+    if (Number.isFinite(startedAt) && startedAt > 0 && Date.now() - startedAt < 1200) {
+        res.status(429).json({ ok: false, error: 'Please wait a moment and try again.' });
+        return;
+    }
+
+    if (!name || !email || !message) {
+        res.status(400).json({ ok: false, error: 'Name, email, and message are required.' });
         return;
     }
 
@@ -16,16 +51,6 @@ module.exports = async function handler(req, res) {
 
     if (!apiKey) {
         res.status(500).json({ ok: false, error: 'Email service is not configured yet.' });
-        return;
-    }
-
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-    const name = String(body.name || '').trim();
-    const email = String(body.email || '').trim();
-    const message = String(body.message || '').trim();
-
-    if (!name || !email || !message) {
-        res.status(400).json({ ok: false, error: 'Name, email, and message are required.' });
         return;
     }
 
