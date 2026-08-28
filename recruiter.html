@@ -424,7 +424,7 @@
                 clearTimeout(timer);
                 if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
                 if (paused) { return; }
-                timer = setTimeout(function () { show(current + 1); }, 30000);
+                timer = setTimeout(function () { show(current + 1); }, 15000);
             }
 
             function hold() { paused = true; clearTimeout(timer); root.classList.add('is-held'); }
