@@ -83,6 +83,28 @@ body {
     letter-spacing: 0.04em;
 }
 
+.startup-recruiter-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 24px;
+    padding: 11px 16px;
+    color: #001317;
+    background: #6fffd2;
+    border: 1px solid #9affdf;
+    border-radius: 9px;
+    box-shadow: 0 0 24px rgba(111, 255, 210, 0.2);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.startup-recruiter-link:hover,
+.startup-recruiter-link:focus-visible {
+    background: #ffffff;
+    outline: 3px solid #00ffff;
+    outline-offset: 3px;
+}
+
 .startup-progress {
     width: min(100%, 420px);
     height: 10px;
@@ -130,6 +152,59 @@ body {
     flex-direction: column;
     transition: background 0.3s ease;
     overflow: hidden;
+}
+
+.recruiter-shortcut {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 270px;
+    padding: 11px 13px;
+    color: #f4fbff;
+    background: linear-gradient(145deg, rgba(7, 17, 31, 0.94), rgba(13, 31, 45, 0.96));
+    border: 1px solid rgba(32, 244, 239, 0.56);
+    border-radius: 12px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38), 0 0 24px rgba(32, 244, 239, 0.12);
+    text-decoration: none;
+    backdrop-filter: blur(14px);
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.recruiter-shortcut:hover,
+.recruiter-shortcut:focus-visible {
+    transform: translateY(-2px);
+    border-color: #6fffd2;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42), 0 0 30px rgba(32, 244, 239, 0.2);
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.recruiter-shortcut > span:nth-child(2) {
+    min-width: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.recruiter-shortcut strong { color: #ffffff; font-size: 0.9rem; }
+.recruiter-shortcut small { color: #9fc5d1; font-size: 0.72rem; }
+.recruiter-shortcut-icon { display: grid; width: 34px; height: 34px; color: #001317; background: #6fffd2; border-radius: 9px; place-items: center; }
+
+@media (max-width: 620px) {
+    .recruiter-shortcut {
+        top: 10px;
+        right: 10px;
+        min-width: 0;
+        padding: 9px 11px;
+    }
+
+    .recruiter-shortcut > span:nth-child(2) { display: none; }
+    .recruiter-shortcut-icon { width: 31px; height: 31px; }
 }
 
 /* Desktop Icons */

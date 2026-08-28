@@ -2,13 +2,14 @@
 
 Interactive software-engineering portfolio presented as a Windows 11 desktop, with draggable application windows, a searchable Start menu, a working terminal, and customizable wallpaper.
 
-[Live portfolio](https://joao-vitor-barros-da-silva-portfoli.vercel.app) · [GitHub profile](https://github.com/jvitorbarros15) · [LinkedIn](https://www.linkedin.com/in/joao-vitor-barros-da-silva)
+[Live portfolio](https://joao-vitor-barros-da-silva-portfoli.vercel.app) · [Recruiter quick view](https://joao-vitor-barros-da-silva-portfolio.vercel.app/recruiter.html) · [GitHub profile](https://github.com/jvitorbarros15) · [LinkedIn](https://www.linkedin.com/in/joao-vitor-barros-da-silva)
 
 ![Portfolio desktop](docs/preview.png)
 
 ## Highlights
 
 - Recruiter-focused project cards with live demos, source links, stack summaries, and engineering outcomes
+- One-click recruiter view with experience, measurable impact, selected projects, résumé, and contact details
 - Windows-style Start menu with search, keyboard navigation, and quick links
 - Draggable, resizable, minimizeable, and maximizeable windows
 - Built-in terminal commands and interactive desktop customization
@@ -39,7 +40,9 @@ Open <http://localhost:8080>.
 
 ```text
 index.html       Desktop, windows, and portfolio content
+recruiter.html   Fast-scanning recruiter overview
 css/style.css    Windows-inspired interface and responsive states
+css/recruiter.css Recruiter-view layout and responsive styles
 js/script.js     Window manager, Start menu, terminal, and interactions
 img/projects/    Project previews
 files/           Downloadable résumé
