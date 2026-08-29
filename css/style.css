@@ -1231,18 +1231,6 @@ body {
         width: auto;
     }
 
-    .window {
-        width: 90%;
-        height: 80%;
-        top: 10%;
-        left: 5%;
-    }
-    
-    .desktop-icons {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-        grid-gap: 10px;
-        padding: 10px;
-    }
     
     .window-content {
         padding: 15px;
@@ -3141,4 +3129,89 @@ body {
     box-shadow: 0 0 10px rgba(0, 120, 215, 0.3);
     transform: translate(0, 0);
     will-change: transform;
-} 
+}
+
+/* ============================================================
+   Phone layout. Must stay last in this file: several desktop
+   rules below the old breakpoint block share its specificity
+   and would otherwise win on source order.
+   ============================================================ */
+@media (max-width: 768px) {
+/* --- Phone layout: a launcher and full-screen sheets, not a desktop --- */
+
+body { height: auto; min-height: 100vh; overflow: visible; }
+
+.desktop {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    padding-bottom: 58px;
+}
+
+/* The intro flows above the icons instead of sitting underneath them. */
+.wallpaper-personalization,
+.wallpaper-personalization.centered {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none;
+    padding: 24px 18px 4px;
+}
+
+/* position:static makes the browser ignore the inline left/top the drag
+   code writes, so CSS owns the layout here. */
+.desktop-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    grid-gap: 16px 4px;
+    padding: 16px 12px 24px;
+}
+
+.icon {
+    position: static;
+    width: auto;
+    padding: 8px 2px;
+    touch-action: manipulation;
+}
+
+.icon-text {
+    font-size: 11px;
+    line-height: 1.25;
+    word-wrap: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
+}
+
+/* Windows fill the screen and stack above the taskbar. openWindow writes
+   inline sizing and .window.fullscreen carries !important, so both have to
+   be beaten here. */
+.window,
+.window.active,
+.window.fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 40px !important;
+    width: auto !important;
+    height: auto !important;
+    border-width: 0 0 1px 0;
+    border-radius: 0;
+    z-index: 9000;
+}
+
+.window-content { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+.taskbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9500;
+}
+
+.recruiter-shortcut { position: fixed; z-index: 8000; }
+
+/* An open sheet covers the screen; the shortcut would sit on its close button. */
+body:has(.window.active) .recruiter-shortcut { display: none; }
+}

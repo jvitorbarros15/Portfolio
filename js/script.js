@@ -402,11 +402,23 @@ function initWindows() {
     });
 }
 
+function isLauncherLayout() {
+    return window.matchMedia('(max-width: 768px)').matches;
+}
+
 // Make icons draggable
 function makeIconsDraggable() {
     const icons = document.querySelectorAll('.icon');
     const desktop = document.querySelector('.desktop');
-    
+
+    if (isLauncherLayout()) {
+        icons.forEach(icon => {
+            icon.style.left = '';
+            icon.style.top = '';
+        });
+        return;
+    }
+
     // Position icons initially
     positionIcons(icons);
     
@@ -763,19 +775,25 @@ function initDesktopIcons() {
             openWindow(windowType);
         });
         
-        // Add touch double tap
         let lastTap = 0;
         icon.addEventListener('touchend', function(e) {
+            const windowType = this.getAttribute('data-window');
+
+            if (isLauncherLayout()) {
+                openWindow(windowType);
+                e.preventDefault();
+                lastTap = 0;
+                return;
+            }
+
             const currentTime = new Date().getTime();
             const tapLength = currentTime - lastTap;
-            
+
             if (tapLength < 500 && tapLength > 0) {
-                // Double tap detected
-                const windowType = this.getAttribute('data-window');
                 openWindow(windowType);
                 e.preventDefault();
             }
-            
+
             lastTap = currentTime;
         });
     });
