@@ -435,7 +435,7 @@ button.button { font-family: inherit; cursor: pointer; }
     width: 100%;
     background: var(--cyan);
     transform-origin: left;
-    animation: tick 15s linear forwards;
+    animation: tick 10s linear forwards;
 }
 .endorsement.is-held .endorsement-progress i { animation-play-state: paused; }
 @keyframes tick { from { transform: scaleX(0); } to { transform: scaleX(1); } }
