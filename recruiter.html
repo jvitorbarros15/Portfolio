@@ -144,6 +144,21 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <th scope="row"><span>226K+</span></th>
+                        <td>Expense records (R$ 252M) served by a public transparency site covering all 592 Brazilian federal deputies, alongside 22,700 bills and 473,000 roll-call votes, each traceable to its official source.</td>
+                        <td>Clareia</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span>180</span></th>
+                        <td>Inconsistent records in official Chamber data caught before release by a second, independent implementation that re-audits every total.</td>
+                        <td>Clareia ingestion pipeline</td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><span>99.5%</span></th>
+                        <td>Initial page payload cut from about 200 MB to about 1 MB by precomputing aggregates and loading records on demand; ranking re-sorts went from 1.6 s to 0.2 s.</td>
+                        <td>Clareia frontend</td>
+                    </tr>
+                    <tr>
                         <th scope="row"><span>40,000</span></th>
                         <td>People served by the Ruby on Rails, Python, and Docker systems I shipped and debugged features in, inside a formal Scrum team.</td>
                         <td>Penn State University Libraries</td>
@@ -173,6 +188,11 @@
                         <td>Validators in the simulation behind QLink, my first-author paper on quantum-safe blockchain interoperability. <a class="text-link" href="https://arxiv.org/pdf/2512.18488" target="_blank" rel="noopener noreferrer">Read the paper</a></td>
                         <td>Blockchain Data Intelligence Lab</td>
                     </tr>
+                    <tr>
+                        <th scope="row"><span>707×</span></th>
+                        <td>Throughput gain measured with sub-second latency across a parameter sweep of link conditions in that seven-validator simulation.</td>
+                        <td>QLink simulation</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
@@ -191,6 +211,8 @@
                         <p class="org">Penn State University Libraries</p>
                         <ul>
                             <li>Shipped and debugged features across Ruby on Rails, Python, Docker, and CI systems serving 40,000 users, working in a formal Scrum team.</li>
+                            <li>Designed and documented a cross-system REST API (Rails, JSON-to-XML importers, Swagger) between independent internal platforms, so other teams could integrate without help.</li>
+                            <li>Took features from design through peer code review and CircleCI-gated deployment to production support.</li>
                             <li>Built a Python validation pipeline that reduced 17,700 records to 9,800 verified entries and removed more than 90% of the manual review.</li>
                             <li>Helped deliver an AWS and Adobe PDF accessibility platform supporting 3M+ uploads, plus cross-system APIs that cut departmental processing by 60%.</li>
                         </ul>
@@ -198,11 +220,15 @@
                 </article>
 
                 <article>
-                    <p class="when mono">2025 – Present</p>
+                    <p class="when mono">Feb 2025 – Present</p>
                     <div>
                         <h3>Lead Researcher</h3>
                         <p class="org">Blockchain Data Intelligence Lab</p>
                         <p class="body">First author of QLink, a published quantum-safe interoperability protocol, backed by a seven-validator simulation I wrote in Python.</p>
+                        <ul>
+                            <li>Ran the simulation across a parameter sweep of link conditions, measuring 707× throughput gains at sub-second latency.</li>
+                            <li>Selected presenter at the Penn State ICDS Symposium 2025; judges ranked QLink among the top 5 quantum projects.</li>
+                        </ul>
                         <p class="after"><a class="text-link" href="https://arxiv.org/pdf/2512.18488" target="_blank" rel="noopener noreferrer">Read the research</a></p>
                     </div>
                 </article>
@@ -215,6 +241,7 @@
                         <ul>
                             <li>Rebuilt the club website from WordPress to React, covering events, products, and a community of 700 members.</li>
                             <li>Ran outreach, workshops, and guest-speaker events to grow member engagement.</li>
+                            <li>Served on the executive board.</li>
                         </ul>
                     </div>
                 </article>
@@ -284,7 +311,7 @@
             <div class="section-head">
                 <div class="row">
                     <h2 id="work-heading">Selected work</h2>
-                    <a class="text-link" href="./index.html">See all six projects on the full portfolio</a>
+                    <a class="text-link" href="./index.html">See every project on the full portfolio</a>
                 </div>
                 <p>Three projects that show the range: a client product, backend infrastructure, and a deployed AI protocol.</p>
             </div>
@@ -304,6 +331,30 @@
                     </div>
                     <span class="shot"><img src="./img/projects/new-home.jpg" alt="New Home Imóveis property listing interface" loading="lazy" width="900" height="560"></span>
                 </article>
+
+                <div class="pair">
+                    <article class="entry">
+                        <div>
+                            <p class="role mono">Public data · 500+ users</p>
+                            <h3>Clareia</h3>
+                            <p class="what">Brazil Congress transparency site covering all 592 federal deputies: 226,000+ expense records, 22,700 bills, and 473,000 roll-call votes. A dual-capture pipeline reconciles the Chamber's open-data API against its annual CEAP file, and an independent re-audit caught 180 inconsistent official records before release.</p>
+                            <ul class="built mono"><li>TypeScript</li><li>PostgreSQL</li><li>Playwright</li><li>Cloudflare</li></ul>
+                            <div class="links">
+                                <a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener noreferrer">Live site</a>
+                                <a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener noreferrer">Source</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="entry">
+                        <div>
+                            <p class="role mono">Agentic AI · Self-hosted</p>
+                            <h3>Multi-Agent AI Workspace</h3>
+                            <p class="what">A self-hosted agent gateway where an orchestrator breaks projects into tasks and delegates them to builder and researcher agents, running on Codex and local LLMs served through Ollama, reachable from WhatsApp.</p>
+                            <ul class="built mono"><li>Hermes gateway</li><li>Ollama</li><li>Qwen</li><li>Codex</li></ul>
+                        </div>
+                    </article>
+                </div>
 
                 <div class="pair">
                     <article class="entry">
@@ -346,7 +397,7 @@
             <div class="stack">
                 <div>
                     <h3>Languages</h3>
-                    <ul><li>Python</li><li>Ruby</li><li>TypeScript</li><li>JavaScript</li><li>SQL</li><li>Solidity</li></ul>
+                    <ul><li>Python</li><li>Ruby</li><li>TypeScript</li><li>JavaScript</li><li>SQL</li><li>Go</li><li>C</li><li>Solidity</li></ul>
                 </div>
                 <div>
                     <h3>Backend and data</h3>
@@ -358,11 +409,11 @@
                 </div>
                 <div>
                     <h3>Infrastructure</h3>
-                    <ul><li>Docker</li><li>AWS</li><li>CI/CD</li><li>Git and Scrum</li></ul>
+                    <ul><li>Docker</li><li>Kubernetes</li><li>AWS (S3, Lambda)</li><li>Cloudflare Workers and R2</li><li>GitHub Actions and CircleCI</li><li>Playwright and pytest</li><li>Git and Scrum</li></ul>
                 </div>
                 <div>
                     <h3>AI and ML</h3>
-                    <ul><li>LLM APIs</li><li>RAG and LangChain</li><li>PyTorch</li><li>scikit-learn</li></ul>
+                    <ul><li>LLM APIs</li><li>RAG and LangChain</li><li>AI agents and orchestration</li><li>Ollama and local LLMs</li><li>Claude Code and Codex</li><li>Model evaluation</li><li>PyTorch</li><li>scikit-learn</li></ul>
                 </div>
             </div>
         </section>

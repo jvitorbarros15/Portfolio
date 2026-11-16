@@ -250,6 +250,52 @@
                     </div>
 
                     <div class="projects-grid">
+                    <article class="project-item project-card" data-track="Project: Clareia">
+                        <div class="project-visual project-visual-concept">
+                            <i class="fas fa-landmark"></i>
+                            <div><strong>Clareia</strong><span>592 deputies, every figure sourced</span></div>
+                            <span class="project-visual-label"><i class="fas fa-database"></i> Public data</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>500+ users</span><span>2026</span></div>
+                        <h3>Clareia — Brazil Congress Transparency Site</h3>
+                        <p>Built and launched a public transparency site covering all 592 federal deputies: 226,000+ expense records (R$ 252M), 22,700 bills, and 473,000 roll-call votes, every figure traceable to its official source.</p>
+                        <ul class="project-proof">
+                            <li>Dual-capture ingestion reconciles the Chamber's open-data API against its annual CEAP file; an independent re-audit caught 180 inconsistent official records before release</li>
+                            <li>Initial payload cut from ~200 MB to ~1 MB (99.5%); ranking re-sorts 8× faster (1.6 s to 0.2 s)</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
+                            <a href="https://clareia.clareia.workers.dev/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Playwright</span>
+                            <span class="tech-tag">Cloudflare</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    <article class="project-item project-card" data-track="Project: Multi-Agent AI Workspace">
+                        <div class="project-visual project-visual-concept">
+                            <i class="fas fa-diagram-project"></i>
+                            <div><strong>Orchestrator</strong><span>Builder and researcher agents</span></div>
+                            <span class="project-visual-label"><i class="fas fa-robot"></i> Agentic AI</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Self-hosted</span><span>2026</span></div>
+                        <h3>Personal Multi-Agent AI Workspace</h3>
+                        <p>Runs a self-hosted agent gateway where an orchestrator agent breaks projects into tasks and delegates them to builder and researcher agents, using Codex and local LLMs served through Ollama, reachable from WhatsApp.</p>
+                        <div class="technologies">
+                            <span class="tech-tag">Hermes gateway</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">Qwen / Gemma</span>
+                            <span class="tech-tag">Codex</span>
+                        </div>
+                        </div>
+                    </article>
+
                     <article class="project-item project-card" data-track="Project: New Home Imoveis">
                         <div class="project-visual project-visual-image">
                             <img src="./img/projects/new-home.jpg" alt="New Home Imóveis real-estate website hero" loading="lazy">
@@ -499,6 +545,7 @@
                                     <h4>The Pennsylvania State University, University Park</h4>
                                     <p>B.S. in Computer Science, Minor in Entrepreneurship and Innovation</p>
                                     <p>August 2026</p>
+                                    <p>Relevant Coursework: Machine Learning, Deep Learning for Computer Vision, Database Management Systems, Programming Models for Big Data, Data Structures &amp; Algorithms, Operating Systems</p>
                                 </div>
                             </div>
                             
@@ -515,7 +562,13 @@
                                     <p>AWS (S3, Lambda), Docker, Kubernetes, CircleCI, CI/CD pipelines, Git/GitHub, Linux</p>
 
                                     <h4>AI &amp; GenAI</h4>
-                                    <p>LLM APIs (OpenAI, Anthropic), prompt engineering, LangChain, RAG, TensorFlow, PyTorch, Scikit-learn</p>
+                                    <p>LLM APIs (OpenAI, Anthropic), prompt engineering, LangChain, RAG, AI agents, agent orchestration, model evaluation, TensorFlow, PyTorch, Scikit-learn</p>
+
+                                    <h4>AI Tools</h4>
+                                    <p>Claude, Claude Code, Codex, Ollama, local LLMs (Qwen, Nemotron, Gemma)</p>
+
+                                    <h4>Languages &amp; Tooling</h4>
+                                    <p>Go, C, Solidity, SQLAlchemy, Cloudflare (Workers, R2), GitHub Actions, Playwright</p>
 
                                     <h4>Engineering Practices</h4>
                                     <p>Agile/Scrum, automated testing (RSpec, pytest), peer code review, production incident resolution, technical documentation</p>
@@ -559,6 +612,7 @@
                                         <li>Proposed, led, and published <strong>QLink</strong> as first author, taking an original research direction through scope, methodology, implementation, publication, and presentation at the Penn State ICDS Symposium.</li>
                                         <li>Built a Python simulation of a 7-validator distributed network, measuring up to <strong>707× throughput gains</strong> and sub-second latency across a parameter sweep.</li>
                                         <li>Publication: “QLink: Quantum-Safe Bridge Architecture for Blockchain Interoperability,” arXiv:2512.18488, 2025.</li>
+                                        <li>Selected presenter at the Penn State ICDS Symposium 2025; judges ranked QLink among the <strong>top 5 quantum projects</strong>.</li>
                                     </ul>
                                 </div>
                                 
@@ -576,6 +630,12 @@
                             <div class="resume-section">
                                 <h3>Projects</h3>
                                 <div class="resume-item">
+                                    <h4>Clareia, Brazil Congress Transparency Site | TypeScript, PostgreSQL, Playwright, Cloudflare — 2026 – Present</h4>
+                                    <p>Public transparency site covering all 592 federal deputies, used by <strong>500+ people</strong>: 226,000+ expense records (R$ 252M), 22,700 bills, and 473,000 roll-call votes. Dual-capture ingestion with an independent re-audit caught <strong>180 inconsistent records</strong> in official data; initial payload cut from ~200 MB to ~1 MB (<strong>99.5%</strong>) and ranking re-sorts made <strong>8× faster</strong>.</p>
+
+                                    <h4>Personal Multi-Agent AI Workspace | Hermes agent gateway, Ollama, local LLMs, Codex — 2026 – Present</h4>
+                                    <p>Self-hosted agent gateway where an orchestrator agent breaks projects into tasks and delegates them to builder and researcher agents, using Codex and local LLMs served through Ollama, reachable from WhatsApp.</p>
+
                                     <h4>New Home Imóveis | React, Supabase, Node.js, HubSpot CRM — Jun 2026 – Present</h4>
                                     <p>Shipped a full-stack platform for a paying client, replacing a manual lead process by capturing WhatsApp inquiries and synchronizing them into HubSpot. Built a CRM-style admin panel for listings, media, records, and leads.</p>
 
