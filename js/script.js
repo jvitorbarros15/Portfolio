@@ -1229,6 +1229,13 @@ function initBlockchain() {
     if (savedBlockchain) {
         // Use the saved blockchain data (this will be reset on window close)
         blockchain = JSON.parse(savedBlockchain).filter(block => block.index <= BLOCKCHAIN_PROJECTS.length);
+        blockchain.forEach((block, i) => {
+            if (block.index < 1) return;
+            block.data = getBlockData(block.index);
+            block.previousHash = blockchain[i - 1].hash;
+            block.hash = calculateHash(block.index, block.timestamp, block.data, block.previousHash);
+        });
+        localStorage.setItem('blockchainData', JSON.stringify(blockchain));
     } else {
         // Create genesis block for first time initialization
         const genesisBlock = createGenesisBlock();
@@ -1661,7 +1668,7 @@ function changeWallpaper(type, customWallpaper = null) {
     // Remove any previous background
     desktop.style.backgroundImage = '';
     desktop.style.backgroundColor = '';
-    desktop.classList.toggle('has-wallpaper', type !== 'default' && !(type === 'custom' && !customWallpaper));
+    desktop.classList.remove('has-wallpaper');
     
     // Remove any existing personalization overlay
     const existingOverlay = document.querySelector('.wallpaper-personalization');
@@ -1689,22 +1696,28 @@ function changeWallpaper(type, customWallpaper = null) {
             desktop.prepend(personalizationOverlay);
             break;
         case 'mountains':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'ocean':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'forest':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'cityscape':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'space':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'custom':
             if (customWallpaper) {
+                desktop.classList.add('has-wallpaper');
                 desktop.style.backgroundImage = `url("${customWallpaper}")`;
                 // Save custom wallpaper data
                 localStorage.setItem('customWallpaperData', customWallpaper);
@@ -2514,7 +2527,7 @@ function setupPortfolioTerminal() {
         printTerminalLine('- Clareia: public transparency site for 592 deputies, used by 500+ people.');
         printTerminalLine('- I can move between SWE, AI/ML, and research-heavy work.');
         printTerminalLine('- Enterprise applications serving 40,000+ users.');
-            }
+    }
 }
 
 function tokenizeTerminalCommand(rawCommand) {

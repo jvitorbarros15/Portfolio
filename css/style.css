@@ -24,10 +24,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--font-sans);
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
 }
 
 body {
+    font-family: var(--font-sans);
     overflow: hidden;
     height: 100vh;
     width: 100vw;
@@ -568,6 +575,13 @@ body {
     border-radius: 11px;
     font-size: 17px;
 }
+
+.app-icon-about { background: var(--accent); color: var(--accent-ink); }
+.app-icon-projects { background: var(--ink); color: var(--accent-ink); }
+.app-icon-resume { background: var(--surface-3); color: var(--accent); }
+.app-icon-current { background: var(--warn); color: var(--accent-ink); }
+.app-icon-certs { background: var(--ok); color: var(--accent-ink); }
+.app-icon-contact { background: var(--accent-deep); color: var(--ink); }
 
 .start-menu-empty {
     margin: 8px 4px 2px;
@@ -1601,6 +1615,7 @@ body {
 }
 
 .terminal-line {
+    font-family: var(--font-mono);
     margin-bottom: 8px;
     line-height: 1.5;
     word-break: break-word;
@@ -2207,7 +2222,11 @@ body {
     border-radius: 999px;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.desktop-dialog-btn:hover {
+    background: color-mix(in srgb, var(--ink) 16%, transparent);
 }
 
 .desktop-dialog-btn.secondary {
@@ -2219,6 +2238,14 @@ body {
 .desktop-dialog-btn.primary {
     color: var(--accent-ink);
     background: var(--accent);
+}
+
+.desktop-dialog-btn.primary:hover {
+    background: color-mix(in srgb, var(--accent) 82%, var(--ink));
+}
+
+.desktop-dialog-btn.primary.danger:hover {
+    background: color-mix(in srgb, var(--danger) 82%, var(--ink));
 }
 
 .desktop-dialog-btn.primary.danger {
@@ -2275,8 +2302,12 @@ body {
     background-position: center;
     cursor: pointer;
     position: relative;
-    transition: transform 0.2s;
+    transition: border-color 0.18s ease;
     border: 2px solid transparent;
+}
+
+.wallpaper-option:hover {
+    border-color: color-mix(in srgb, var(--ink) 55%, transparent);
 }
 
 .wallpaper-option-default {
@@ -2284,7 +2315,7 @@ body {
 }
 
 .wallpaper-option.active {
-    border-color: var(--line);
+    border-color: var(--accent);
 }
 
 .wallpaper-option span {
