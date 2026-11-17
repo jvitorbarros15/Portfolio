@@ -41,6 +41,28 @@ a { color: inherit; }
 #pan { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; background-position: var(--gx, 0) var(--gy, 0); }
 #pan.grabbing { cursor: grabbing; }
 #canvas { position: absolute; left: 0; top: 0; will-change: transform; }
+.diagram { position: absolute; overflow: visible; }
+.diagram a { cursor: pointer; outline: none; }
+.diagram text { fill: var(--ink-on-navy); font: 500 12px 'Martian Mono', ui-monospace, monospace; }
+.diagram .sub, .diagram .tag { fill: var(--muted-on-navy); font-size: 11px; font-weight: 400; }
+.diagram .note { fill: var(--yellow); }
+.diagram .boundary { fill: var(--navy); fill-opacity: .7; stroke: var(--muted-on-navy); stroke-width: 1.5; stroke-dasharray: 6 4; transition: stroke .15s; }
+.diagram a:hover .boundary, .diagram a:focus-visible .boundary { stroke: var(--yellow); }
+.diagram a:focus-visible .boundary { stroke-width: 3; }
+.diagram .shape { fill: var(--navy); stroke: var(--muted-on-navy); stroke-width: 1.5; }
+.diagram .shape.ext { stroke-dasharray: 5 3; }
+.diagram .shape.group { fill: none; }
+.diagram .shape.hl { stroke: var(--yellow); }
+.diagram .edge { fill: none; stroke: var(--muted-on-navy); stroke-width: 1.5; stroke-dasharray: 6 4; animation: dash 1s linear infinite; }
+.diagram .edge.dashed { stroke-dasharray: 2 5; animation: none; }
+.diagram .arrow { fill: var(--muted-on-navy); }
+.diagram .chip { fill: var(--navy); }
+@keyframes dash { to { stroke-dashoffset: -10; } }
+.map { position: absolute; top: 34px; left: 0; display: grid; min-width: 280px; padding: 6px; background: var(--navy-deep); border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 8px 0; font: 12px 'Martian Mono', ui-monospace, monospace; }
+.map[hidden] { display: none; }
+.map button { all: unset; cursor: pointer; padding: 7px 10px; border-radius: 4px; color: var(--ink-on-navy); white-space: nowrap; }
+.map button span { color: var(--muted-on-navy); margin-right: 10px; }
+.map button:hover, .map button:focus-visible { background: #ffffff14; color: var(--yellow); }
 #windows { position: absolute; inset: 0; pointer-events: none; }
 #windows .win { pointer-events: auto; }
 
@@ -48,13 +70,6 @@ a { color: inherit; }
 .annot .dim { display: block; border-top: 1px dashed var(--muted-on-navy); margin-bottom: 4px; position: relative; }
 .annot .dim::before, .annot .dim::after { content: ''; position: absolute; top: -4px; width: 1px; height: 7px; background: var(--muted-on-navy); }
 .annot .dim::before { left: 0 } .annot .dim::after { right: 0 }
-
-.pipeline { position: absolute; left: 40px; top: 760px; display: flex; gap: 10px; align-items: center; font: 12px 'Martian Mono', monospace; color: var(--muted-on-navy); }
-.pipeline span { border: 1px dashed var(--muted-on-navy); padding: 8px 12px; border-radius: 4px; background: var(--navy); }
-.pipeline .flow { width: 28px; height: 1px; background: repeating-linear-gradient(90deg, var(--yellow) 0 4px, transparent 4px 8px); background-size: 16px 1px; animation: flow 1s linear infinite; }
-@keyframes flow { to { background-position: 16px 0 } }
-.pipeline em { color: var(--yellow); font-style: normal; }
-.pipeline .label { position: absolute; top: -22px; left: 0; }
 
 .win { position: absolute; background: var(--paper); color: var(--ink); border-radius: 10px; box-shadow: 0 30px 60px -30px #000c, 0 0 0 1px #ffffff1a; overflow: hidden; display: flex; flex-direction: column; animation: pop .55s var(--ease) both; max-height: calc(100vh - 140px); }
 .win.closing { animation: close .2s ease-in both; }
@@ -118,7 +133,9 @@ h3 { font: 700 17px/1.2 'Archivo'; }
 </head>
 <body>
 <header class="menubar">
+  <div class="map" id="map" hidden></div>
   <strong>jvb.os</strong>
+  <button id="map-btn" aria-expanded="false" aria-controls="map">Map</button>
   <button data-open="projects">Projects</button>
   <button data-open="research">Research</button>
   <button data-open="experience" class="hide-sm">Experience</button>
@@ -129,12 +146,7 @@ h3 { font: 700 17px/1.2 'Archivo'; }
 <main class="desk" id="desk">
   <div id="pan">
     <div id="canvas">
-      <div class="annot" style="left:40px;top:28px;width:440px"><span class="dim"></span>fig. 1 — João Vitor Barros, software &amp; AI engineer, rev. 2026.11</div>
-
-      <div class="pipeline" aria-hidden="true">
-        <span class="label">fig. 2 — clareia ingestion</span>
-        <span>Chamber API</span><i class="flow"></i><span>CEAP file</span><i class="flow"></i><span>reconcile</span><i class="flow"></i><span>independent re-audit</span><i class="flow"></i><em>180 errors caught</em>
-      </div>
+      <div class="annot" style="left:40px;top:28px;width:520px"><span class="dim"></span>fig. 1 — João Vitor Barros, software &amp; AI engineer, rev. 2026.11</div>
     </div>
   </div>
   <div id="windows"></div>
@@ -323,6 +335,159 @@ document.addEventListener('keydown', e => {
 });
 
 document.getElementById('recenter').onclick = recenter;
+
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (name, attrs = {}, text) => {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  return e;
+};
+
+const rect = n => ({ x: n.x, y: n.y, w: n.w || 22, h: n.h || (n.kind === 'actor' ? 22 : n.kind === 'db' ? 60 : n.sub ? 48 : 40) });
+
+function anchors(a, b) {
+  const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+  if (oy > 0) { const y = Math.max(a.y, b.y) + oy / 2; return a.x < b.x ? [a.x + a.w, y, b.x, y] : [a.x, y, b.x + b.w, y]; }
+  const x = Math.max(a.x, b.x) + ox / 2;
+  return a.y < b.y ? [x, a.y + a.h, x, b.y] : [x, a.y, x, b.y + b.h];
+}
+
+function renderNode(n, g) {
+  const { x, y, w, h } = rect(n), cls = 'shape ' + (n.kind === 'ext' ? 'ext ' : '') + (n.group ? 'group ' : '') + (n.hl ? 'hl' : '');
+  if (n.kind === 'actor') {
+    g.append(svgEl('circle', { class: cls, cx: x + 11, cy: y + 11, r: 11 }), svgEl('text', { x: x + 11, y: y + 36, 'text-anchor': 'middle' }, n.label));
+    return;
+  }
+  if (n.kind === 'db') {
+    const ry = 9, rx = w / 2;
+    g.append(svgEl('path', { class: cls, d: `M${x} ${y + ry}a${rx} ${ry} 0 0 1 ${w} 0a${rx} ${ry} 0 0 1 ${-w} 0v${h - 2 * ry}a${rx} ${ry} 0 0 0 ${w} 0v${-(h - 2 * ry)}` }));
+  } else {
+    g.append(svgEl('rect', { class: cls, x, y, width: w, height: h, rx: n.group ? 8 : 4 }));
+  }
+  if (n.group) { g.append(svgEl('text', { class: 'tag', x: x + 10, y: y + 17 }, n.label)); return; }
+  const cy = y + h / 2 + (n.kind === 'db' ? 5 : 0), size = h < 30 ? { 'font-size': 11 } : {};
+  g.append(svgEl('text', { x: x + w / 2, y: n.sub ? cy - 3 : cy + 4, 'text-anchor': 'middle', ...size }, n.label));
+  if (n.sub) g.append(svgEl('text', { class: 'sub', x: x + w / 2, y: cy + 12, 'text-anchor': 'middle' }, n.sub));
+}
+
+function renderDiagram(d) {
+  const num = diagrams.indexOf(d) + 2, mid = 'arrow-' + d.id;
+  const svg = svgEl('svg', { class: 'diagram', viewBox: `0 0 ${d.w} ${d.h}`, width: d.w, height: d.h, style: `left:${d.x}px;top:${d.y}px` });
+  const defs = svgEl('defs'), m = svgEl('marker', { id: mid, viewBox: '0 0 8 8', refX: 8, refY: 4, markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse', markerUnits: 'userSpaceOnUse' });
+  m.append(svgEl('path', { class: 'arrow', d: 'M0 0L8 4L0 8z' }));
+  defs.append(m);
+  const link = svgEl('a', { role: 'button', tabindex: 0, 'aria-label': 'Open ' + d.title });
+  link.append(
+    svgEl('rect', { class: 'boundary', x: 1, y: 1, width: d.w - 2, height: d.h - 2, rx: 10 }),
+    svgEl('text', { class: 'tag', x: 24, y: 30 }, `fig. ${num} — ${d.title}`),
+    svgEl('text', { class: 'tag', x: d.w - 24, y: 30, 'text-anchor': 'end' }, `opens ${d.opens} →`)
+  );
+  const byId = Object.fromEntries(d.nodes.map(n => [n.id, n]));
+  d.nodes.forEach(n => renderNode(n, link));
+  d.edges.forEach(e => {
+    const [x1, y1, x2, y2] = anchors(rect(byId[e.from]), rect(byId[e.to]));
+    const attrs = { class: 'edge' + (e.dashed ? ' dashed' : ''), x1, y1, x2, y2, 'marker-end': `url(#${mid})` };
+    if (e.both) attrs['marker-start'] = `url(#${mid})`;
+    link.append(svgEl('line', attrs));
+    if (e.label) {
+      const cw = e.label.length * 6.9 + 14, mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      link.append(svgEl('rect', { class: 'chip', x: mx - cw / 2, y: my - 10, width: cw, height: 20 }), svgEl('text', { class: 'tag', x: mx, y: my + 4, 'text-anchor': 'middle' }, e.label));
+    }
+  });
+  if (d.note) link.append(svgEl('text', { class: 'note', x: 24, y: d.h - 22 }, d.note));
+  link.addEventListener('click', () => open(d.opens));
+  link.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(d.opens); } });
+  svg.append(defs, link);
+  return svg;
+}
+
+const ring = (cx, cy, r) => Array.from({ length: 7 }, (_, i) => {
+  const t = -Math.PI / 2 + i * 2 * Math.PI / 7;
+  return { id: 'v' + i, label: String(i + 1), kind: 'box', x: Math.round(cx + r * Math.cos(t) - 14), y: Math.round(cy + r * Math.sin(t) - 14), w: 28, h: 28 };
+});
+
+const pairs = list => list.map(([from, to]) => ({ from, to }));
+
+const diagrams = [
+  { id: 'clareia', x: 40, y: 516, w: 1124, h: 250, title: 'Clareia ingestion pipeline', opens: 'projects',
+    note: '180 inconsistent records caught · 200 MB → 1 MB',
+    nodes: [
+      { id: 'chamber', label: 'Chamber API', sub: 'open data', kind: 'ext', x: 24, y: 70, w: 130, h: 48 },
+      { id: 'ceap', label: 'CEAP file', sub: 'annual file', kind: 'ext', x: 24, y: 140, w: 130, h: 48 },
+      { id: 'capture', label: 'dual capture', kind: 'box', x: 200, y: 94, w: 120, h: 70 },
+      { id: 'reconcile', label: 'reconcile', kind: 'box', x: 366, y: 105, w: 120, h: 48 },
+      { id: 'reaudit', label: 're-audit', sub: 'independent', kind: 'box', x: 532, y: 105, w: 120, h: 48, hl: true },
+      { id: 'pg', label: 'PostgreSQL', kind: 'db', x: 698, y: 99, w: 110, h: 60 },
+      { id: 'workers', label: 'Workers', sub: 'Cloudflare', kind: 'box', x: 854, y: 105, w: 130, h: 48 },
+      { id: 'site', label: 'site', kind: 'box', x: 1030, y: 105, w: 70, h: 48 },
+    ],
+    edges: pairs([['chamber', 'capture'], ['ceap', 'capture'], ['capture', 'reconcile'], ['reconcile', 'reaudit'], ['reaudit', 'pg'], ['pg', 'workers'], ['workers', 'site']]) },
+  { id: 'qlink', x: 1100, y: 60, w: 906, h: 316, title: 'QLink bridge', opens: 'research',
+    note: '707× throughput · sub-second latency · arXiv:2512.18488',
+    nodes: [
+      { id: 'a', label: 'Chain A', kind: 'ext', x: 28, y: 140, w: 120, h: 48 },
+      { id: 'bridge', label: '7-validator bridge', kind: 'ext', group: true, hl: true, x: 368, y: 64, w: 170, h: 200 },
+      ...ring(453, 174, 58),
+      { id: 'b', label: 'Chain B', kind: 'ext', x: 758, y: 140, w: 120, h: 48 },
+    ],
+    edges: [{ from: 'a', to: 'bridge', both: true, label: 'quantum-safe signatures' }, { from: 'bridge', to: 'b', both: true, label: 'sub-second latency' }] },
+  { id: 'agents', x: 40, y: 920, w: 1048, h: 320, title: 'Multi-agent workspace', opens: 'projects',
+    nodes: [
+      { id: 'wa', label: 'WhatsApp', kind: 'actor', x: 40, y: 150 },
+      { id: 'hermes', label: 'Hermes gateway', kind: 'box', x: 130, y: 130, w: 150, h: 48 },
+      { id: 'orch', label: 'orchestrator', kind: 'box', x: 340, y: 130, w: 150, h: 48, hl: true },
+      { id: 'builder', label: 'builder agent', kind: 'box', x: 560, y: 90, w: 150, h: 48 },
+      { id: 'researcher', label: 'researcher agent', kind: 'box', x: 560, y: 170, w: 150, h: 48 },
+      { id: 'models', label: 'model backends', kind: 'ext', group: true, x: 790, y: 56, w: 250, h: 236 },
+      { id: 'codex', label: 'Codex', kind: 'ext', x: 810, y: 92, w: 210, h: 48 },
+      { id: 'ollama', label: 'Ollama · local LLMs', kind: 'box', group: true, x: 810, y: 164, w: 210, h: 110 },
+      { id: 'qwen', label: 'Qwen', kind: 'box', x: 826, y: 210, w: 84, h: 40 },
+      { id: 'gemma', label: 'Gemma', kind: 'box', x: 920, y: 210, w: 84, h: 40 },
+    ],
+    edges: pairs([['wa', 'hermes'], ['hermes', 'orch'], ['orch', 'builder'], ['orch', 'researcher'], ['builder', 'models'], ['researcher', 'models']]) },
+  { id: 'newhome', x: 1220, y: 520, w: 758, h: 280, title: 'New Home lead flow', opens: 'projects',
+    nodes: [
+      { id: 'lead', label: 'WhatsApp lead', kind: 'actor', x: 64, y: 114 },
+      { id: 'api', label: 'API', sub: 'Node.js', kind: 'box', x: 180, y: 100, w: 140, h: 48 },
+      { id: 'db', label: 'Supabase', kind: 'db', x: 380, y: 90, w: 130, h: 68 },
+      { id: 'hubspot', label: 'HubSpot CRM', kind: 'ext', x: 570, y: 100, w: 160, h: 48 },
+      { id: 'admin', label: 'admin panel', kind: 'box', x: 380, y: 200, w: 130, h: 48 },
+    ],
+    edges: pairs([['lead', 'api'], ['api', 'db'], ['db', 'hubspot'], ['admin', 'db']]) },
+  { id: 'libraries', x: -760, y: 120, w: 668, h: 290, title: 'Penn State Libraries integration', opens: 'experience',
+    note: '40,000+ users · 60% less manual processing',
+    nodes: [
+      { id: 'rails', label: 'Rails platform', sub: 'Penn State Libraries', kind: 'box', x: 28, y: 96, w: 170, h: 48 },
+      { id: 'importer', label: 'JSON-to-XML', sub: 'importer', kind: 'box', x: 250, y: 90, w: 140, h: 60, hl: true },
+      { id: 'partner', label: 'partner platform', kind: 'ext', x: 470, y: 96, w: 170, h: 48 },
+      { id: 'swagger', label: 'Swagger docs', kind: 'box', x: 470, y: 190, w: 170, h: 40 },
+    ],
+    edges: [...pairs([['rails', 'importer'], ['importer', 'partner']]), { from: 'swagger', to: 'partner', dashed: true }] },
+];
+
+diagrams.forEach(d => canvas.append(renderDiagram(d)));
+
+function panTo(d) {
+  const x = surface.clientWidth / 2 - (d.x + d.w / 2);
+  const y = innerWidth > 760 ? surface.clientHeight - 110 - d.h - d.y : surface.clientHeight / 2 - (d.y + d.h / 2);
+  glide(x, y);
+}
+
+const mapEl = document.getElementById('map'), mapBtn = document.getElementById('map-btn');
+const toggleMap = show => {
+  mapEl.hidden = !show;
+  mapBtn.setAttribute('aria-expanded', show);
+};
+diagrams.forEach((d, i) => {
+  const b = document.createElement('button');
+  b.innerHTML = `<span>fig. ${i + 2}</span>${d.title}`;
+  b.onclick = () => { panTo(d); toggleMap(false); };
+  mapEl.append(b);
+});
+mapBtn.onclick = () => toggleMap(mapEl.hidden);
+document.addEventListener('pointerdown', e => { if (!mapEl.hidden && !e.target.closest('#map, #map-btn')) toggleMap(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mapEl.hidden) { toggleMap(false); mapBtn.focus(); } });
 
 function markDock() {
   document.querySelectorAll('.dock button').forEach(b => b.classList.toggle('open', !!document.getElementById('win-' + b.dataset.open)));
