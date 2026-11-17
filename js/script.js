@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Make icons draggable
     makeIconsDraggable();
+    document.querySelectorAll('.icon').forEach((icon, i) => icon.style.setProperty('--i', i));
+    setupDeskNote();
     
     // Initialize blockchain
     initBlockchain();
@@ -378,7 +380,9 @@ function updateClock() {
     hours = hours % 12;
     hours = hours ? hours : 12; // Convert 0 to 12
     
-    document.getElementById('taskbar-clock').textContent = `${hours}:${minutes} ${ampm}`;
+    const clock = document.getElementById('taskbar-clock');
+    clock.textContent = `${hours}:${minutes} ${ampm}`;
+    clock.dataset.date = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
 function buildWallpaperScene() {
@@ -428,6 +432,69 @@ function buildWallpaperScene() {
         svg.style.setProperty('--px', `${x.toFixed(1)}px`);
         svg.style.setProperty('--py', `${y.toFixed(1)}px`);
     }, { passive: true });
+}
+
+function setupDeskNote() {
+    const note = document.getElementById('desk-note');
+    if (!note) return;
+
+    const grip = note.querySelector('.desk-note-grip');
+    const desktop = document.querySelector('.desktop');
+    let drag = null;
+
+    grip.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        const noteRect = note.getBoundingClientRect();
+        const desktopRect = desktop.getBoundingClientRect();
+        note.style.left = `${noteRect.left - desktopRect.left}px`;
+        note.style.top = `${noteRect.top - desktopRect.top}px`;
+        note.style.right = 'auto';
+        drag = { dx: event.clientX - noteRect.left, dy: event.clientY - noteRect.top, desktopRect };
+        note.classList.add('lifted');
+        grip.setPointerCapture(event.pointerId);
+    });
+
+    grip.addEventListener('pointermove', event => {
+        if (!drag) return;
+        const maxLeft = drag.desktopRect.width - note.offsetWidth;
+        const maxTop = drag.desktopRect.height - 40 - note.offsetHeight;
+        const left = Math.min(Math.max(event.clientX - drag.desktopRect.left - drag.dx, 0), maxLeft);
+        const top = Math.min(Math.max(event.clientY - drag.desktopRect.top - drag.dy, 0), maxTop);
+        note.style.left = `${left}px`;
+        note.style.top = `${top}px`;
+    });
+
+    ['pointerup', 'pointercancel'].forEach(type => grip.addEventListener(type, () => {
+        drag = null;
+        note.classList.remove('lifted');
+    }));
+
+    note.querySelector('.desk-note-open').addEventListener('click', () => openWindow('current'));
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function playWindowEnter(win) {
+    win.classList.remove('win-in');
+    void win.offsetWidth;
+    win.classList.add('win-in');
+}
+
+function hideWindowAnimated(win, exitClass, done) {
+    clearTimeout(win.hideTimer);
+    if (prefersReducedMotion()) {
+        win.style.display = 'none';
+        if (done) done();
+        return;
+    }
+    win.classList.add(exitClass);
+    win.hideTimer = setTimeout(() => {
+        win.classList.remove(exitClass);
+        win.style.display = 'none';
+        if (done) done();
+    }, exitClass === 'win-min' ? 220 : 170);
 }
 
 // Initialize window functionality
@@ -852,6 +919,10 @@ function openWindow(windowType) {
             customTitle = callingIcon.querySelector('.icon-text').textContent;
         }
         
+        const wasHidden = getComputedStyle(window).display === 'none';
+        clearTimeout(window.hideTimer);
+        window.classList.remove('win-out', 'win-min');
+
         // Reset all windows first
         document.querySelectorAll('.window').forEach(w => {
             w.classList.remove('active');
@@ -869,7 +940,8 @@ function openWindow(windowType) {
         window.style.left = '0';
         window.classList.add('fullscreen', 'active');
         window.setAttribute('aria-hidden', 'false');
-        
+        if (wasHidden && !prefersReducedMotion()) playWindowEnter(window);
+
         // Update window title if we have a custom title
         if (customTitle) {
             window.querySelector('.window-title span').textContent = customTitle;
@@ -884,7 +956,8 @@ function openWindow(windowType) {
         
         // Add to taskbar if not already there
         addToTaskbar(windowType);
-        
+        updateTaskbarActiveItem(windowType);
+
         // Special handling for specific windows
         if (windowType === 'blockchain') {
             // Initialize blockchain if this is the blockchain window
@@ -1053,10 +1126,12 @@ function toggleFullscreen(window) {
 
 // Close a window
 function closeWindow(window) {
-    // Hide the window
-    window.style.display = 'none';
-    window.classList.remove('active', 'fullscreen');
+    window.classList.remove('active');
     window.setAttribute('aria-hidden', 'true');
+    hideWindowAnimated(window, 'win-out', () => {
+        window.classList.remove('fullscreen');
+        updatePlaylistMiniPlayer();
+    });
     
     // Remove from taskbar
     const windowId = window.id;
@@ -1070,8 +1145,6 @@ function closeWindow(window) {
     // Remove from taskbar
     removeFromTaskbar(windowType);
 
-    updatePlaylistMiniPlayer();
-    
     // Play sound effect
     playSound('close');
 }
@@ -1094,12 +1167,9 @@ function resetBlockchain() {
 
 // Minimize a window
 function minimizeWindow(window) {
-    window.style.display = 'none';
     window.setAttribute('aria-hidden', 'true');
-    
-    // Keep in taskbar
-    // Play sound effect (optional)
-    updatePlaylistMiniPlayer();
+    document.getElementById(`taskbar-${window.id.replace('-window', '')}`)?.classList.remove('active');
+    hideWindowAnimated(window, 'win-min', updatePlaylistMiniPlayer);
     playSound('minimize');
 }
 

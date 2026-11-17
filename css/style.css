@@ -3100,6 +3100,420 @@ body {
     z-index: 1;
 }
 
+/* Desktop icons */
+.icon {
+    animation: icon-in 560ms var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 55ms + 450ms);
+}
+
+@keyframes icon-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+}
+
+.icon .icon-img {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 6px;
+    display: grid;
+    place-items: center;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 6px 14px oklch(0 0 0 / 0.3);
+    transition: transform 240ms var(--ease-out), border-color 180ms ease, background-color 180ms ease;
+}
+
+.icon .icon-img i {
+    font-size: 20px;
+}
+
+.icon-img.folder-icon i,
+.icon-img.certifications-icon i { color: var(--accent); }
+.icon-img.contact-icon i,
+.icon-img.blockchain-icon i { color: var(--verdigris); }
+.icon-img.about-icon i,
+.icon-img.current-icon i,
+.icon-img.playlist-icon i { color: var(--warn); }
+.icon-img.resume-icon i { color: var(--ink); }
+.icon-img.terminal-icon i { color: var(--ok); }
+.icon-img.trash-icon i { color: var(--ink-soft); }
+
+@media (hover: hover) and (pointer: fine) {
+    .icon:hover .icon-img {
+        transform: translateY(-3px);
+        border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+        background: var(--surface-3);
+    }
+}
+
+.icon:active .icon-img {
+    transform: scale(0.96);
+}
+
+.icon.selected .icon-img {
+    border-color: var(--accent);
+}
+
+/* Recruiter shortcut */
+.recruiter-shortcut {
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+    transition: background-color 180ms ease, transform 180ms var(--ease-out);
+    animation: shortcut-in 600ms var(--ease-out) 900ms backwards;
+}
+
+.recruiter-shortcut:hover,
+.recruiter-shortcut:focus-visible {
+    background: color-mix(in srgb, var(--accent) 84%, white);
+    border-color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+}
+
+.recruiter-shortcut:active {
+    transform: translateY(1px);
+}
+
+.recruiter-shortcut strong,
+.recruiter-shortcut-go {
+    color: var(--accent-ink);
+}
+
+.recruiter-shortcut small {
+    color: color-mix(in srgb, var(--accent-ink) 82%, transparent);
+}
+
+.recruiter-shortcut-icon {
+    background: var(--accent-ink);
+}
+
+.recruiter-shortcut-icon::before {
+    background: var(--accent);
+}
+
+.recruiter-shortcut-icon::after {
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-color: var(--accent-ink);
+}
+
+@keyframes shortcut-in {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+}
+
+/* Window motion */
+.window {
+    transform-origin: 50% 100%;
+}
+
+.window.win-in {
+    animation: win-in 380ms var(--ease-spring) backwards;
+}
+
+.window.win-out {
+    animation: win-out 170ms var(--ease-out) forwards;
+    pointer-events: none;
+}
+
+.window.win-min {
+    animation: win-min 220ms var(--ease-out) forwards;
+    pointer-events: none;
+}
+
+@keyframes win-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+}
+
+@keyframes win-out {
+    to {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+    }
+}
+
+@keyframes win-min {
+    to {
+        opacity: 0;
+        transform: translateY(70px) scale(0.9);
+    }
+}
+
+.window-header {
+    transition: box-shadow 200ms ease;
+}
+
+.window-title {
+    color: var(--ink-soft);
+    transition: color 200ms ease;
+}
+
+.window.active .window-title {
+    color: var(--ink);
+}
+
+.window.active .window-header {
+    box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.window-controls button:active {
+    background-color: color-mix(in srgb, var(--ink) 28%, transparent);
+}
+
+/* Start menu */
+.start-menu {
+    transform: translateY(14px) scale(0.97);
+    transition: opacity 160ms ease, transform 300ms var(--ease-spring), visibility 160ms;
+}
+
+.start-menu.open {
+    transform: none;
+}
+
+.start-menu.open .start-menu-app,
+.start-menu.open .start-menu-recommendation {
+    animation: tile-in 340ms var(--ease-out) backwards;
+}
+
+.start-menu.open .start-menu-app:nth-child(1) { animation-delay: 60ms; }
+.start-menu.open .start-menu-app:nth-child(2) { animation-delay: 95ms; }
+.start-menu.open .start-menu-app:nth-child(3) { animation-delay: 130ms; }
+.start-menu.open .start-menu-app:nth-child(4) { animation-delay: 165ms; }
+.start-menu.open .start-menu-app:nth-child(5) { animation-delay: 200ms; }
+.start-menu.open .start-menu-app:nth-child(6) { animation-delay: 235ms; }
+.start-menu.open .start-menu-recommendation:nth-child(1) { animation-delay: 280ms; }
+.start-menu.open .start-menu-recommendation:nth-child(2) { animation-delay: 320ms; }
+
+@keyframes tile-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.start-menu-app-icon {
+    transition: transform 220ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .start-menu-app:hover .start-menu-app-icon {
+        transform: translateY(-3px);
+    }
+}
+
+.start-menu-app:active .start-menu-app-icon {
+    transform: scale(0.95);
+}
+
+.start-button:active {
+    transform: translateY(1px);
+}
+
+/* Taskbar */
+.taskbar {
+    background: var(--surface-0);
+    border-top-color: color-mix(in srgb, var(--accent) 22%, var(--line));
+}
+
+.taskbar-item {
+    position: relative;
+    gap: 7px;
+    animation: tb-in 280ms var(--ease-out) backwards;
+}
+
+.taskbar-item.active {
+    border-bottom-color: transparent;
+}
+
+.taskbar-item::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 22px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--ink-soft);
+    transform: translateX(-50%) scaleX(0.27);
+    transition: transform 260ms var(--ease-spring), background-color 180ms ease;
+}
+
+.taskbar-item.active::after {
+    background: var(--accent);
+    transform: translateX(-50%) scaleX(1);
+}
+
+@keyframes tb-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.clock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 6px;
+    padding: 0 12px;
+    border-left: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.25;
+    text-align: right;
+}
+
+.clock::after {
+    content: attr(data-date);
+    color: var(--ink-soft);
+    font-size: 11px;
+}
+
+.desktop-dialog-btn.secondary:hover {
+    background: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+/* Desk note */
+.desk-note {
+    position: absolute;
+    top: 150px;
+    right: 40px;
+    z-index: 3;
+    width: 236px;
+    color: var(--accent-ink);
+    background: oklch(0.93 0.045 88);
+    border-radius: 3px;
+    box-shadow: 0 14px 28px oklch(0 0 0 / 0.4), 0 2px 4px oklch(0 0 0 / 0.3);
+    transform: rotate(-1.6deg);
+    transition: transform 420ms var(--ease-spring), box-shadow 240ms ease;
+    animation: note-in 700ms var(--ease-spring) 1300ms backwards;
+}
+
+.desk-note.lifted {
+    transform: rotate(0.8deg);
+    box-shadow: 0 26px 44px oklch(0 0 0 / 0.5), 0 4px 8px oklch(0 0 0 / 0.3);
+}
+
+@keyframes note-in {
+    from {
+        opacity: 0;
+        transform: translateY(-26px) rotate(-7deg);
+    }
+}
+
+.desk-note-grip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: oklch(0.84 0.07 82);
+    border-bottom: 1px solid oklch(0.17 0.02 58 / 0.14);
+    border-radius: 3px 3px 0 0;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.desk-note.lifted .desk-note-grip {
+    cursor: grabbing;
+}
+
+.desk-note ul {
+    margin: 0;
+    padding: 6px 12px 2px;
+    list-style: none;
+}
+
+.desk-note li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 8px 0;
+    border-bottom: 1px dashed oklch(0.17 0.02 58 / 0.22);
+}
+
+.desk-note li:last-child {
+    border-bottom: 0;
+}
+
+.desk-note li strong {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.desk-note li span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: oklch(0.38 0.03 60);
+}
+
+.desk-note-open {
+    display: block;
+    width: calc(100% - 24px);
+    margin: 4px 12px 12px;
+    padding: 8px 10px;
+    color: var(--ink);
+    background: var(--accent-ink);
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: left;
+    transition: background-color 180ms ease, transform 160ms var(--ease-out);
+}
+
+.desk-note-open:hover {
+    background: oklch(0.28 0.03 58);
+}
+
+.desk-note-open:active {
+    transform: scale(0.98);
+}
+
+.desk-note-open:focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+    .desk-note {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .desktop-icons {
+        position: absolute;
+        inset: 0 0 40px 0;
+        width: auto;
+    }
+
+    .window.fullscreen {
+        height: 100% !important;
+    }
+}
+
+.app-icon-resume {
+    background: var(--verdigris);
+    color: var(--accent-ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
