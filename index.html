@@ -412,7 +412,7 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
   <ul class="list">
     <li><h3>Clareia</h3><span class="meta">2026 · 500+ users</span><p>Brazil Congress transparency site: 592 deputies, 226K expense records, 473K votes. Dual-capture ingestion with an independent re-audit; payload cut from 200 MB to 1 MB.</p><span class="links"><a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener">live</a><a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>New Home Imóveis</h3><span class="meta">2026 · paying client</span><p>Real-estate platform with WhatsApp lead capture synced into HubSpot and an admin back office.</p><span class="links"><a href="./case-studies/new-home.html">case study</a><a href="https://new-home-imoveis.vercel.app" target="_blank" rel="noopener">live</a></span></li>
-    <li><h3>Multi-Agent AI Workspace</h3><span class="meta">2026 · self-hosted</span><p>An orchestrator agent splits projects into tasks for builder and researcher agents, on Codex and local LLMs through Ollama, reachable from WhatsApp.</p></li>
+    <li><h3>Multi-Agent AI Workspace</h3><span class="meta">2026 · self-hosted</span><p>Hermes gateway where an orchestrator splits projects into tasks for builder and researcher agents, on Codex and local LLMs through Ollama, reachable from WhatsApp. opencode routed through OmniRoute handles small project tasks on local models to save tokens, and an open-source model categorizes incoming email.</p></li>
     <li><h3>ZorAI</h3><span class="meta">2025 · applied AI</span><p>AI-image provenance: content analysis, IPFS metadata, and a Solidity registry on Base Sepolia.</p><span class="links"><a href="./case-studies/zorai.html">case study</a><a href="https://zorai.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Cognitra</h3><span class="meta">2026 · GenAI</span><p>Turns speaker-labeled recordings into structured study notes with AssemblyAI and OpenAI.</p><span class="links"><a href="./case-studies/cognitra.html">case study</a><a href="https://cognitra.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Meridian</h3><span class="meta">2026 · backend</span><p>Containerized investment dashboard: FastAPI, PostgreSQL, Redis, Docker.</p><span class="links"><a href="./case-studies/meridian.html">case study</a><a href="https://github.com/jvitorbarros15/meridian-invest" target="_blank" rel="noopener">source</a></span></li>
@@ -713,16 +713,17 @@ const diagrams = [
       N('r2', 'R2 vault', 'AES-256-GCM', 290, 230, 130, 66, { kind: 'db', ext: 1 }),
       N('ci', 'GitHub Actions CI', 'typecheck · tests · CPF scan', 460, 240, 250, 48, { kind: 'ext' }),
       N('held', 'held for review', 'divergences', 800, 240, 160, 48, { kind: 'ext' }),
-      Z('zC', 'Build and publish', 1130, 56, 200, 294),
-      N('build', 'build-site', 'esbuild · dist/', 1145, 110, 170, 48),
-      N('workers', 'Cloudflare Workers', 'static assets', 1145, 210, 170, 48, { kind: 'ext' }),
-      { id: 'reader', label: 'reader', kind: 'actor', x: 1219, y: 290 },
+      Z('zC', 'Build and publish', 1130, 56, 200, 312),
+      N('build', 'build-site', 'esbuild · dist/', 1145, 92, 170, 48),
+      N('docker', 'Docker', 'build + deploy image', 1145, 164, 170, 48),
+      N('workers', 'Cloudflare Workers', 'static assets', 1145, 236, 170, 48, { kind: 'ext' }),
+      { id: 'reader', label: 'reader', kind: 'actor', x: 1219, y: 318 },
     ],
     edges: [
       E('chamber', 'capture'), { pts: [[222, 234], [256, 234], [256, 150], [290, 150]] },
       E('capture', 'reconcile'), E('reconcile', 'pg'), E('pg', 'reaudit'), E('reaudit', 'active'), E('active', 'build'),
       E('capture', 'r2', 'encrypted raw captures'), E('reaudit', 'held', 'diverges'),
-      E('ci', 'reconcile', 'verifies', { dashed: true }), E('build', 'workers'), E('workers', 'reader', 'HTTPS'),
+      E('ci', 'reconcile', 'verifies', { dashed: true }), E('build', 'docker'), E('docker', 'workers', 'deploy'), E('workers', 'reader', 'HTTPS'),
     ] },
   { id: 'zorai', x: 1450, y: 516, w: 1200, h: 420, title: 'ZorAI verification and registry', opens: 'projects',
     note: 'missing or unverifiable evidence returns an unknown origin (isAiGenerated: null), never a guess',
@@ -883,20 +884,32 @@ const diagrams = [
       { pts: [[975, 328], [975, 760]], label: 'aggregated bundle (t-of-n)', lp: [975, 452] },
       E('submit', 'rpcb', 'verified message + proofs'), E('rpcb', 'bout', 'submit'),
     ] },
-    { id: 'agents', x: 1760, y: 2300, w: 1048, h: 320, title: 'Multi-agent workspace', opens: 'projects',
+    { id: 'agents', x: 1760, y: 2240, w: 1180, h: 420, title: 'Personal multi-agent workspace', opens: 'projects',
+    note: 'small project tasks run on local models first to save tokens',
     nodes: [
-      { id: 'wa', label: 'WhatsApp', kind: 'actor', x: 40, y: 150 },
-      { id: 'hermes', label: 'Hermes gateway', kind: 'box', x: 130, y: 130, w: 150, h: 48 },
-      { id: 'orch', label: 'orchestrator', kind: 'box', x: 340, y: 130, w: 150, h: 48, hl: true },
-      { id: 'builder', label: 'builder agent', kind: 'box', x: 560, y: 90, w: 150, h: 48 },
-      { id: 'researcher', label: 'researcher agent', kind: 'box', x: 560, y: 170, w: 150, h: 48 },
-      { id: 'models', label: 'model backends', kind: 'ext', group: true, x: 790, y: 56, w: 250, h: 236 },
-      { id: 'codex', label: 'Codex', kind: 'ext', x: 810, y: 92, w: 210, h: 48 },
-      { id: 'ollama', label: 'Ollama · local LLMs', kind: 'box', group: true, x: 810, y: 164, w: 210, h: 110 },
-      { id: 'qwen', label: 'Qwen', kind: 'box', x: 826, y: 210, w: 84, h: 40 },
-      { id: 'gemma', label: 'Gemma', kind: 'box', x: 920, y: 210, w: 84, h: 40 },
+      { id: 'wa', label: 'WhatsApp', kind: 'actor', x: 40, y: 110 },
+      { id: 'mail', label: 'Email', kind: 'actor', x: 40, y: 300 },
+      Z('zH', 'Hermes agent gateway', 110, 56, 630, 168),
+      N('hermes', 'Hermes', 'gateway', 130, 108, 150, 48),
+      N('orch', 'orchestrator', 'splits tasks', 330, 84, 160, 96, { hl: true }),
+      N('builder', 'builder agent', null, 560, 84, 160, 40),
+      N('classifier', 'email classifier', 'open-source model', 130, 276, 170, 48),
+      Z('zO', 'Coding agent', 330, 250, 390, 100),
+      N('opencode', 'opencode', 'small project tasks', 350, 276, 170, 48),
+      N('omni', 'OmniRoute', 'model router', 550, 276, 150, 48),
+      N('researcher', 'researcher agent', null, 560, 140, 160, 40),
+      { id: 'models', label: 'model backends', kind: 'ext', group: true, x: 770, y: 56, w: 390, h: 300 },
+      { id: 'codex', label: 'Codex', kind: 'ext', x: 790, y: 92, w: 350, h: 48 },
+      { id: 'ollama', label: 'Ollama · local LLMs', kind: 'box', group: true, x: 790, y: 164, w: 350, h: 172 },
+      { id: 'qwen', label: 'Qwen', kind: 'box', x: 806, y: 214, w: 100, h: 40 },
+      { id: 'gemma', label: 'Gemma', kind: 'box', x: 916, y: 214, w: 100, h: 40 },
+      { id: 'nemotron', label: 'Nemotron', kind: 'box', x: 1026, y: 214, w: 100, h: 40 },
     ],
-    edges: pairs([['wa', 'hermes'], ['hermes', 'orch'], ['orch', 'builder'], ['orch', 'researcher'], ['builder', 'models'], ['researcher', 'models']]) },
+    edges: [
+      E('wa', 'hermes', 'chat', { both: true }), E('hermes', 'orch'), E('orch', 'builder'), E('orch', 'researcher'),
+      E('mail', 'classifier', 'inbox'), E('builder', 'models'), E('researcher', 'models'),
+      E('opencode', 'omni'), E('omni', 'models', 'route'),
+    ] },
     { id: 'libraries', x: 1760, y: 2700, w: 668, h: 290, title: 'Penn State Libraries integration', opens: 'experience',
     note: '40,000+ users · 60% less manual processing',
     nodes: [
