@@ -1,6 +1,7 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     setupSoundDesign();
+    buildWallpaperScene();
 
     // Reset wallpaper first thing to ensure personalization shows
     resetWallpaper();
@@ -378,6 +379,55 @@ function updateClock() {
     hours = hours ? hours : 12; // Convert 0 to 12
     
     document.getElementById('taskbar-clock').textContent = `${hours}:${minutes} ${ampm}`;
+}
+
+function buildWallpaperScene() {
+    const svg = document.querySelector('.wallpaper-scene svg');
+    if (!svg) return;
+
+    const hills = [
+        { x: 1250, y: 790, base: 50, step: 44, rings: 20, seed: 1.3, stretch: 1.55 },
+        { x: 210, y: 120, base: 30, step: 36, rings: 8, seed: 4.1, stretch: 1.3, cool: true }
+    ];
+    const steps = 150;
+    let k = 0;
+    const paths = [];
+
+    hills.forEach(hill => {
+        for (let i = 0; i < hill.rings; i++) {
+            const radius = hill.base + i * hill.step;
+            const drift = 0.05 + i * 0.006;
+            let d = '';
+            for (let n = 0; n <= steps; n++) {
+                const t = (n / steps) * Math.PI * 2;
+                const wobble = 1
+                    + drift * Math.sin(2 * t + hill.seed + i * 0.11)
+                    + drift * 0.6 * Math.sin(3 * t + hill.seed * 2.1 - i * 0.07)
+                    + drift * 0.35 * Math.sin(5 * t + hill.seed * 3 + i * 0.05);
+                const px = hill.x + Math.cos(t) * radius * wobble * hill.stretch;
+                const py = hill.y + Math.sin(t) * radius * wobble * 0.72;
+                d += (n ? 'L' : 'M') + px.toFixed(1) + ' ' + py.toFixed(1);
+            }
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', d + 'Z');
+            path.setAttribute('pathLength', '1');
+            path.style.setProperty('--k', k++);
+            if (hill.cool) path.setAttribute('class', 'cool');
+            else if (i % 4 === 3) path.setAttribute('class', 'major');
+            paths.push(path);
+        }
+    });
+
+    paths.forEach(path => svg.appendChild(path));
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.matchMedia('(hover: hover)').matches) return;
+
+    document.addEventListener('pointermove', event => {
+        const x = (event.clientX / window.innerWidth - 0.5) * -14;
+        const y = (event.clientY / window.innerHeight - 0.5) * -10;
+        svg.style.setProperty('--px', `${x.toFixed(1)}px`);
+        svg.style.setProperty('--py', `${y.toFixed(1)}px`);
+    }, { passive: true });
 }
 
 // Initialize window functionality
