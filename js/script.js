@@ -1,7 +1,5 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Show boot splash briefly before full desktop interaction
-    setupStartupSplash();
     setupSoundDesign();
 
     // Reset wallpaper first thing to ensure personalization shows
@@ -68,15 +66,6 @@ let spotifyCurrentTrack = {
     subtitle: 'Open the playlist to start playback',
     url: 'https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2'
 };
-
-function setupStartupSplash() {
-    const splash = document.getElementById('startup-splash');
-    if (!splash) return;
-
-    setTimeout(function() {
-        splash.classList.add('hidden');
-    }, 1250);
-}
 
 function setupPlaylistMiniPlayer() {
     const restartBtn = document.getElementById('playlist-mini-restart');
@@ -1239,7 +1228,7 @@ function initBlockchain() {
     
     if (savedBlockchain) {
         // Use the saved blockchain data (this will be reset on window close)
-        blockchain = JSON.parse(savedBlockchain);
+        blockchain = JSON.parse(savedBlockchain).filter(block => block.index <= BLOCKCHAIN_PROJECTS.length);
     } else {
         // Create genesis block for first time initialization
         const genesisBlock = createGenesisBlock();
@@ -1303,67 +1292,21 @@ function createBlock(index, previousBlock) {
     return newBlock;
 }
 
-// Get block data based on index
-function getBlockData(index) {
-    const projectsData = [
-        {
-            title: "ZorAI – AI Image Provenance Registry",
-            description: "Built and deployed a full-stack registry for AI-generated image identifiers, connecting a Next.js interface and server API routes to IPFS metadata and a Solidity contract on Base Sepolia.",
-            technologies: ["Next.js", "React", "Solidity", "Hardhat", "IPFS", "Ethers.js", "Base Sepolia"]
-        },
-        {
-            title: "QLink – Quantum-Safe Layer 3 Protocol",
-            description: "Published quantum-safe Layer 3 interoperability research combining post-quantum cryptography and quantum key distribution. A Python simulation measured a 7-validator network across changing link conditions, including the regimes where the design degraded.",
-            technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
-        },
-        {
-            title: "🚀 Next Innovation Loading...",
-            description: "Something revolutionary is brewing in the lab! Stay tuned for the next breakthrough in blockchain technology. The future of Web3 is being built one block at a time.",
-            technologies: ["Coming Soon", "Innovation", "Blockchain", "Web3", "Future Tech"]
-        },
-        {
-            title: "🔮 The Plot Thickens...",
-            description: "Another groundbreaking project is taking shape. The blockchain never sleeps, and neither does innovation. What could be next in this journey of technological excellence?",
-            technologies: ["Mystery Project", "Blockchain", "Innovation", "TBD", "Exciting"]
-        },
-        {
-            title: "🎯 Mission: Possible",
-            description: "Every great blockchain journey needs another chapter. This block represents the endless possibilities in the decentralized future. More epic projects are on the horizon!",
-            technologies: ["Future", "Blockchain", "Possibilities", "Coming Soon", "Epic"]
-        },
-        {
-            title: "🌟 To Be Continued...",
-            description: "The blockchain story doesn't end here! More innovative projects, more groundbreaking solutions, more ways to shape the future of technology. Keep clicking to see what imagination can build!",
-            technologies: ["Infinite Potential", "Innovation", "Blockchain", "Future", "Amazing"]
-        }
-    ];
-    
-    // Return data for the current index
-    if (index <= projectsData.length) {
-        return projectsData[index - 1]; // Direct mapping: index 1 = projectsData[0], etc.
-    } else {
-        // Cycle through fun "coming soon" messages after running out of predefined ones
-        const comingSoonMessages = [
-            {
-                title: "🎲 Roll the Dice!",
-                description: "Another mystery project is in the works! The blockchain adventure continues with endless possibilities. Who knows what innovative solution will emerge next?",
-                technologies: ["Surprise", "Innovation", "Random", "Fun", "Blockchain"]
-            },
-            {
-                title: "🎪 The Show Must Go On!",
-                description: "Step right up to see the next amazing blockchain creation! Every block tells a story, and this story is far from over. More thrills and innovation await!",
-                technologies: ["Entertainment", "Blockchain", "Continuous", "Amazing", "Show"]
-            },
-            {
-                title: "🎨 Masterpiece in Progress",
-                description: "Every artist needs a canvas, and this blockchain is mine! Another stroke of genius is being painted in the world of decentralized technology.",
-                technologies: ["Art", "Creativity", "Blockchain", "Masterpiece", "Genius"]
-            }
-        ];
-        
-        const randomIndex = (index - projectsData.length - 1) % comingSoonMessages.length;
-        return comingSoonMessages[randomIndex];
+const BLOCKCHAIN_PROJECTS = [
+    {
+        title: "ZorAI – AI Image Provenance Registry",
+        description: "Built and deployed a full-stack registry for AI-generated image identifiers, connecting a Next.js interface and server API routes to IPFS metadata and a Solidity contract on Base Sepolia.",
+        technologies: ["Next.js", "React", "Solidity", "Hardhat", "IPFS", "Ethers.js", "Base Sepolia"]
+    },
+    {
+        title: "QLink – Quantum-Safe Layer 3 Protocol",
+        description: "Published quantum-safe Layer 3 interoperability research combining post-quantum cryptography and quantum key distribution. A Python simulation measured a 7-validator network across changing link conditions, including the regimes where the design degraded.",
+        technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
     }
+];
+
+function getBlockData(index) {
+    return BLOCKCHAIN_PROJECTS[index - 1];
 }
 
 // Render the blockchain
@@ -1413,8 +1356,7 @@ function renderBlockchain(blockchain) {
         }
     });
     
-    // Always show "Add Next Block" button for endless fun
-    if (true) {
+    if (blockchain.length <= BLOCKCHAIN_PROJECTS.length) {
         const addBlockBtn = document.createElement('div');
         addBlockBtn.className = 'add-block-btn';
         addBlockBtn.setAttribute('data-track', 'CTA: Add Next Block');
@@ -1483,11 +1425,6 @@ function setupStartButton() {
     }
 
     startButton.addEventListener('click', function() {
-        startButton.classList.add('clicked');
-        setTimeout(() => {
-            startButton.classList.remove('clicked');
-        }, 500);
-
         const willOpen = !startMenu.classList.contains('open');
         if (willOpen) resetMenuSearch();
         setMenuState(willOpen);
@@ -2580,11 +2517,10 @@ function setupPortfolioTerminal() {
 
     function printHireMeSummary() {
         printTerminalLine('Why hire me');
-        printTerminalLine('- I ship ambitious ideas into working systems.');
+        printTerminalLine('- Clareia: public transparency site for 592 deputies, used by 500+ people.');
         printTerminalLine('- I can move between SWE, AI/ML, and research-heavy work.');
-        printTerminalLine('- I care about real-world impact, not just prototypes.');
-        printTerminalLine('- I communicate clearly and work well in teams.');
-    }
+        printTerminalLine('- Enterprise applications serving 40,000+ users.');
+            }
 }
 
 function tokenizeTerminalCommand(rawCommand) {
