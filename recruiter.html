@@ -145,17 +145,17 @@
                 <tbody>
                     <tr>
                         <th scope="row"><span>226K+</span></th>
-                        <td>Expense records (R$ 252M) served by a public transparency site covering all 592 Brazilian federal deputies, alongside 22,700 bills and 473,000 roll-call votes, each traceable to its official source.</td>
+                        <td>Expense records (R$ 256M) served by a public transparency site covering all 592 Brazilian federal deputies, alongside 22,700 bills and 473,000 roll-call votes, each traceable to its official source.</td>
                         <td>Clareia</td>
                     </tr>
                     <tr>
-                        <th scope="row"><span>180</span></th>
-                        <td>Inconsistent records in official Chamber data caught before release by a second, independent implementation that re-audits every total.</td>
+                        <th scope="row"><span>~180</span></th>
+                        <td>Unconfirmed deputy-months held for review instead of shown as R$0, flagged by a second, independent implementation that re-audits every total.</td>
                         <td>Clareia ingestion pipeline</td>
                     </tr>
                     <tr>
-                        <th scope="row"><span>99.5%</span></th>
-                        <td>Initial page payload cut from about 200 MB to about 1 MB by precomputing aggregates and loading records on demand; ranking re-sorts went from 1.6 s to 0.2 s.</td>
+                        <th scope="row"><span>27×</span></th>
+                        <td>Smaller first load: 174 MB to 6.4 MB (613 requests to 28) by precomputing aggregates and loading records on demand; ranking re-sorts went from 1.6 s to 0.2 s.</td>
                         <td>Clareia frontend</td>
                     </tr>
                     <tr>
@@ -337,7 +337,7 @@
                         <div>
                             <p class="role mono">Public data · 500+ users</p>
                             <h3>Clareia</h3>
-                            <p class="what">Brazil Congress transparency site covering all 592 federal deputies: 226,000+ expense records, 22,700 bills, and 473,000 roll-call votes. A dual-capture pipeline reconciles the Chamber's open-data API against its annual CEAP file, and an independent re-audit caught 180 inconsistent official records before release.</p>
+                            <p class="what">Brazil Congress transparency site covering all 592 federal deputies: 226,000+ expense records, 22,700 bills, and 473,000 roll-call votes. A dual-capture pipeline reconciles the Chamber's open-data API against its annual CEAP file, and an independent re-audit holds ~180 unconfirmed deputy-months for review instead of showing them as R$0.</p>
                             <ul class="built mono"><li>TypeScript</li><li>PostgreSQL</li><li>Playwright</li><li>Cloudflare</li></ul>
                             <div class="links">
                                 <a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener noreferrer">Live site</a>
