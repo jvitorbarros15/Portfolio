@@ -1,1505 +1,563 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id=GTM-ML997XWB'+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-ML997XWB');</script>
-    <!-- End Google Tag Manager -->
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Joao Vitor Barros da Silva is a recent Penn State Computer Science graduate building production software, full-stack products, and applied AI systems.">
-    <meta name="theme-color" content="#07111f">
-    <link rel="canonical" href="https://joao-vitor-barros-da-silva-portfolio.vercel.app/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portfolio of João Vitor Barros, software and AI engineer: Clareia, QLink, a multi-agent workspace and production Rails work, laid out as a blueprint.">
+<link rel="canonical" href="https://joao-vitor-barros-da-silva-portfolio.vercel.app/blueprint.html">
+<title>João Vitor Barros — Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Martian+Mono:wght@400..600&display=swap">
+<style>
+:root {
+  --navy: #0f1b3d; --navy-deep: #08112a; --line: #ffffff12; --line-strong: #ffffff26;
+  --ink-on-navy: #dfe6ff; --muted-on-navy: #9fb0e8;
+  --paper: #f5f6fa; --paper-bar: #e4e7f0; --ink: #0f1b3d; --ink-soft: #4b557a;
+  --yellow: #ffd166; --green: #7ee0a5;
+  --ease: cubic-bezier(.2, 1.2, .3, 1);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--navy);
+  color: var(--ink-on-navy); font: 15px/1.55 'Archivo', system-ui, sans-serif; overflow: hidden;
+}
+a { color: inherit; }
+.mono { font-family: 'Martian Mono', ui-monospace, monospace; }
 
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Joao Vitor's Portfolio">
-    <meta property="og:title" content="Joao Vitor | Software &amp; AI Developer">
-    <meta property="og:description" content="Recent Penn State Computer Science graduate building production software, full-stack products, and applied AI systems.">
-    <meta property="og:url" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/">
-    <meta property="og:image" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/docs/portfolio-og.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Joao Vitor's interactive software and AI developer portfolio">
+.menubar { position: fixed; inset: 0 0 auto 0; height: 34px; display: flex; align-items: center; gap: 20px; padding: 0 16px; font: 500 12px 'Martian Mono', monospace; color: var(--muted-on-navy); border-bottom: 1px solid var(--line-strong); background: #0f1b3dcc; z-index: 1000; }
+.menubar strong { color: var(--ink-on-navy); }
+.menubar button { all: unset; cursor: pointer; }
+.menubar button:hover, .menubar button:focus-visible { color: var(--yellow); }
+.menubar .right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+.menubar .recenter { border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
+.bars { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; vertical-align: middle; margin-right: 6px; }
+.bars i { width: 2px; height: 8px; background: var(--yellow); animation: eq .9s ease-in-out infinite; }
+.bars i:nth-child(2) { animation-delay: .15s } .bars i:nth-child(3) { animation-delay: .3s } .bars i:nth-child(4) { animation-delay: .45s }
+@keyframes eq { 0%,100% { height: 3px } 50% { height: 12px } }
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Joao Vitor | Software &amp; AI Developer">
-    <meta name="twitter:description" content="Production software, full-stack products, and applied AI systems from a recent Penn State Computer Science graduate.">
-    <meta name="twitter:image" content="https://joao-vitor-barros-da-silva-portfolio.vercel.app/docs/portfolio-og.jpg">
-    <title>Joao Vitor | Software &amp; AI Developer</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="application/ld+json">
-    {
-            "@context": "https://schema.org",
-            "@graph": [
-                    {
-                            "@type": "WebSite",
-                            "@id": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/#website",
-                            "url": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/",
-                            "name": "Joao Vitor Barros da Silva",
-                            "description": "Interactive portfolio of a software and AI developer, built as a desktop operating system in the browser.",
-                            "inLanguage": "en",
-                            "author": {
-                                    "@id": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/#person"
-                            }
-                    },
-                    {
-                            "@type": "Person",
-                            "@id": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/#person",
-                            "name": "Joao Vitor Barros da Silva",
-                            "givenName": "Joao Vitor",
-                            "familyName": "Barros da Silva",
-                            "jobTitle": "Software Engineer",
-                            "description": "Software engineer working across production systems, full-stack products, and applied AI.",
-                            "url": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/",
-                            "image": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/img/IMG_2532.jpg",
-                            "email": "mailto:jvitorbarros15@gmail.com",
-                            "telephone": "+1-814-308-3273",
-                            "address": {
-                                    "@type": "PostalAddress",
-                                    "addressLocality": "Ashburn",
-                                    "addressRegion": "VA",
-                                    "addressCountry": "US"
-                            },
-                            "alumniOf": {
-                                    "@type": "CollegeOrUniversity",
-                                    "name": "The Pennsylvania State University",
-                                    "sameAs": "https://www.psu.edu/"
-                            },
-                            "hasCredential": {
-                                    "@type": "EducationalOccupationalCredential",
-                                    "credentialCategory": "Bachelor's Degree",
-                                    "educationalLevel": "B.S. Computer Science",
-                                    "dateCreated": "2026-08"
-                            },
-                            "affiliation": {
-                                    "@type": "Organization",
-                                    "name": "Blockchain Data Intelligence Lab, Penn State University"
-                            },
-                            "knowsAbout": [
-                                    "Python",
-                                    "Ruby on Rails",
-                                    "TypeScript",
-                                    "JavaScript",
-                                    "SQL",
-                                    "Solidity",
-                                    "FastAPI",
-                                    "PostgreSQL",
-                                    "Redis",
-                                    "Node.js",
-                                    "React",
-                                    "Next.js",
-                                    "Docker",
-                                    "AWS",
-                                    "CI/CD",
-                                    "Machine Learning",
-                                    "Large Language Models",
-                                    "Retrieval-Augmented Generation",
-                                    "Distributed Systems",
-                                    "Blockchain"
-                            ],
-                            "sameAs": [
-                                    "https://github.com/jvitorbarros15",
-                                    "https://www.linkedin.com/in/joaovi/"
-                            ]
-                    },
-                    {
-                            "@type": "ScholarlyArticle",
-                            "@id": "https://arxiv.org/abs/2512.18488",
-                            "name": "QLink: Quantum-Safe Bridge Architecture for Blockchain Interoperability",
-                            "author": {
-                                    "@id": "https://joao-vitor-barros-da-silva-portfolio.vercel.app/#person"
-                            },
-                            "datePublished": "2025-12-20",
-                            "identifier": "arXiv:2512.18488",
-                            "url": "https://arxiv.org/abs/2512.18488"
-                    }
-            ]
-    }
-    </script>
+.desk { position: fixed; inset: 34px 0 0 0; }
+#pan { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; background-position: var(--gx, 0) var(--gy, 0); }
+#pan.grabbing { cursor: grabbing; }
+#canvas { position: absolute; left: 0; top: 0; will-change: transform; }
+.diagram { position: absolute; overflow: visible; }
+.diagram a { cursor: pointer; outline: none; }
+.diagram text { fill: var(--ink-on-navy); font: 500 12px 'Martian Mono', ui-monospace, monospace; }
+.diagram .sub, .diagram .tag { fill: var(--muted-on-navy); font-size: 11px; font-weight: 400; }
+.diagram .note { fill: var(--yellow); }
+.diagram .boundary { fill: var(--navy); fill-opacity: .7; stroke: var(--muted-on-navy); stroke-width: 1.5; stroke-dasharray: 6 4; transition: stroke .15s; }
+.diagram a:hover .boundary, .diagram a:focus-visible .boundary { stroke: var(--yellow); }
+.diagram a:focus-visible .boundary { stroke-width: 3; }
+.diagram .shape { fill: var(--navy); stroke: var(--muted-on-navy); stroke-width: 1.5; }
+.diagram .shape.ext { stroke-dasharray: 5 3; }
+.diagram .shape.group { fill: none; }
+.diagram .shape.hl { stroke: var(--yellow); }
+.diagram .edge { fill: none; stroke: var(--muted-on-navy); stroke-width: 1.5; stroke-dasharray: 6 4; animation: dash 1s linear infinite; }
+.diagram .edge.dashed { stroke-dasharray: 2 5; animation: none; }
+.diagram .arrow { fill: var(--muted-on-navy); }
+.diagram .chip { fill: var(--navy); }
+@keyframes dash { to { stroke-dashoffset: -10; } }
+.map { position: absolute; top: 34px; left: 0; display: grid; min-width: 280px; padding: 6px; background: var(--navy-deep); border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 8px 0; font: 12px 'Martian Mono', ui-monospace, monospace; }
+.map[hidden] { display: none; }
+.map button { all: unset; cursor: pointer; padding: 7px 10px; border-radius: 4px; color: var(--ink-on-navy); white-space: nowrap; }
+.map button span { color: var(--muted-on-navy); margin-right: 10px; }
+.map button:hover, .map button:focus-visible { background: #ffffff14; color: var(--yellow); }
+#windows { position: absolute; inset: 0; pointer-events: none; }
+#windows .win { pointer-events: auto; }
+
+.annot { position: absolute; font: 12px 'Martian Mono', monospace; color: var(--muted-on-navy); pointer-events: none; }
+.annot .dim { display: block; border-top: 1px dashed var(--muted-on-navy); margin-bottom: 4px; position: relative; }
+.annot .dim::before, .annot .dim::after { content: ''; position: absolute; top: -4px; width: 1px; height: 7px; background: var(--muted-on-navy); }
+.annot .dim::before { left: 0 } .annot .dim::after { right: 0 }
+
+.win { position: absolute; background: var(--paper); color: var(--ink); border-radius: 10px; box-shadow: 0 30px 60px -30px #000c, 0 0 0 1px #ffffff1a; overflow: hidden; display: flex; flex-direction: column; animation: pop .55s var(--ease) both; max-height: calc(100vh - 140px); }
+.win.closing { animation: close .2s ease-in both; }
+@keyframes pop { from { transform: translateY(16px) scale(.96); opacity: 0 } }
+@keyframes close { to { transform: scale(.96); opacity: 0 } }
+.win .bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: var(--paper-bar); font: 12px 'Martian Mono', monospace; color: #59618a; cursor: grab; user-select: none; }
+.win .bar:active { cursor: grabbing; }
+.win .bar button { all: unset; width: 11px; height: 11px; border-radius: 50%; background: #bfc5d9; cursor: pointer; }
+.win .bar button.x:hover { background: #ef6b5b; }
+.win .bar span { margin-left: 6px; }
+.win .body { padding: 22px; overflow: auto; }
+.win.dark { background: var(--navy-deep); color: var(--muted-on-navy); box-shadow: 0 30px 60px -30px #000c, 0 0 0 1px var(--line-strong); }
+.win.dark .bar { background: #0c1835; color: var(--muted-on-navy); }
+.win.dark .bar button { background: #22336b; }
+
+h1 { font: 800 clamp(30px, 3.4vw, 42px)/1.02 'Archivo'; letter-spacing: -0.02em; }
+h2 { font: 700 22px/1.1 'Archivo'; margin-bottom: 4px; }
+h3 { font: 700 17px/1.2 'Archivo'; }
+.lede { color: var(--ink-soft); margin: 12px 0 18px; max-width: 46ch; }
+.kick { font: 500 12px 'Martian Mono', monospace; color: #59618a; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.kick .live { width: 7px; height: 7px; border-radius: 50%; background: #2fae6b; }
+.ctas { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 6px; border: 1.5px solid var(--ink); font: 600 14px 'Archivo'; text-decoration: none; color: var(--ink); background: transparent; cursor: pointer; transition: transform .15s var(--ease), background .15s; }
+.btn:hover { transform: translateY(-2px); }
+.btn.primary { background: var(--ink); color: var(--paper); }
+.btn:active { transform: translateY(0); }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1.5px solid var(--ink); margin-top: 20px; padding-top: 12px; gap: 12px; }
+.stats b { font: 800 26px 'Archivo'; display: block; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 12px; color: var(--ink-soft); line-height: 1.3; display: block; }
+
+.list { list-style: none; padding: 0; }
+.list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; border-top: 1px solid #d8dbe6; }
+.list li:first-child { border-top: 0; padding-top: 0; }
+.list p { grid-column: 1 / -1; color: var(--ink-soft); font-size: 14px; }
+.list .meta { font: 12px 'Martian Mono', monospace; color: #59618a; }
+.list .links { grid-column: 1 / -1; display: flex; gap: 12px; font: 500 13px 'Martian Mono', monospace; }
+.list .links a { text-decoration: none; border-bottom: 1px solid currentColor; }
+.list .links a:hover { color: #2c47b8; }
+
+.term { font: 13px/1.6 'Martian Mono', monospace; min-height: 220px; }
+.term .y { color: var(--yellow); } .term .g { color: var(--green); } .term .w { color: var(--ink-on-navy); }
+.term form { display: flex; gap: 8px; }
+.term input { all: unset; flex: 1; color: var(--ink-on-navy); caret-color: var(--yellow); }
+
+.dock { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; gap: 6px; padding: 8px; border-radius: 14px; background: #0c1835e6; border: 1px solid var(--line-strong); z-index: 999; }
+.dock button { all: unset; cursor: pointer; display: grid; justify-items: center; gap: 4px; padding: 6px 8px; border-radius: 8px; font: 11px 'Martian Mono', monospace; color: var(--muted-on-navy); transition: transform .2s var(--ease), color .15s; }
+.dock button svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+.dock button:hover, .dock button:focus-visible { transform: translateY(-5px); color: var(--yellow); }
+.dock button.open::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--yellow); }
+
+a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock button:focus-visible, .map button:focus-visible, .win .bar button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.win a:focus-visible, .win button:focus-visible { outline-color: var(--ink); }
+.win.dark button:focus-visible { outline-color: var(--yellow); }
+@media (pointer: coarse) {
+  .win .bar button { width: 18px; height: 18px; }
+  .menubar button, .map button, .dock button { min-height: 32px; }
+}
+@media (max-width: 760px) {
+  body { overflow: auto; }
+  .menubar { gap: 12px; padding: 0 12px; }
+  .menubar .right { gap: 10px; }
+  .desk { position: static; padding: 50px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
+  #windows { order: -1; position: static; display: flex; flex-direction: column; gap: 16px; }
+  #pan { position: relative; inset: auto; height: 60vh; border: 1px solid var(--line-strong); border-radius: 8px; }
+  .win { position: static !important; width: auto !important; max-height: none; }
+  .win .body { padding: 18px; }
+  .stats { gap: 8px; }
+  .stats b { font-size: 20px; }
+  .annot, .menubar .hide-sm { display: none; }
+  .dock button { padding: 6px 4px; }
+  .dock { left: 8px; right: 8px; transform: none; gap: 0; justify-content: space-between; overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ML997XWB"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+<header class="menubar">
+  <div class="map" id="map" hidden></div>
+  <strong>jvb.os</strong>
+  <button id="map-btn" aria-expanded="false" aria-controls="map">Map</button>
+  <button data-open="projects">Projects</button>
+  <button data-open="research">Research</button>
+  <button data-open="experience" class="hide-sm">Experience</button>
+  <button data-open="music" class="hide-sm">Music</button>
+  <div class="right"><span class="hide-sm"><span class="bars"><i></i><i></i><i></i><i></i></span>on repeat</span><button class="recenter" id="recenter">Recenter</button><span id="clock" class="hide-sm"></span></div>
+</header>
 
-    <div class="startup-splash" id="startup-splash">
-        <div class="startup-splash-inner">
-            <div class="startup-chip">Now Loading...</div>
-            <p class="startup-name">Joao Vitor Barros da Silva</p>
-            <h2>Recent Computer Science Graduate</h2>
-            <p class="startup-specialties">Software Engineering · Applied AI · Production Systems</p>
-            <a class="startup-recruiter-link" href="./recruiter.html" data-track="Recruiter Quick View: Startup">Recruiter Quick View <span aria-hidden="true">→</span></a>
-            <div class="startup-progress">
-                <span class="startup-progress-bar"></span>
-            </div>
-            <p class="startup-caption">Booting portfolio experience...</p>
-        </div>
+<main class="desk" id="desk">
+  <div id="pan">
+    <div id="canvas">
+      <div class="annot" style="left:40px;top:28px;width:520px"><span class="dim"></span>fig. 1 — João Vitor Barros, software &amp; AI engineer, rev. 2026.11</div>
     </div>
-    
-    <div class="desktop">
-        <a class="recruiter-shortcut" href="./recruiter.html" data-track="Recruiter Quick View: Desktop">
-            <span class="recruiter-shortcut-icon" aria-hidden="true"></span>
-            <span class="recruiter-shortcut-copy">
-                <strong>Recruiter Quick View</strong>
-                <small>Evidence · experience · resume</small>
-            </span>
-            <span class="recruiter-shortcut-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
-        </a>
-        <!-- Desktop icons -->
-        <div class="desktop-icons">
-            <div class="icon" data-window="projects">
-                <div class="icon-img folder-icon">
-                    <i class="fas fa-folder"></i>
-                </div>
-                <div class="icon-text">My Projects</div>
-            </div>
+  </div>
+  <div id="windows"></div>
+</main>
 
-            <div class="icon" data-window="trash">
-                <div class="icon-img trash-icon">
-                    <i class="fas fa-trash"></i>
-                </div>
-                <div class="icon-text">Recycle Bin</div>
-            </div>
-            
-            <div class="icon" data-window="contact">
-                <div class="icon-img contact-icon">
-                    <i class="fas fa-address-book"></i>
-                </div>
-                <div class="icon-text">Contact Me</div>
-            </div>
-            
-            <div class="icon" data-window="resume">
-                <div class="icon-img resume-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="icon-text">My Resume</div>
-            </div>
-            
-            <div class="icon" data-window="about">
-                <div class="icon-img about-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="icon-text">About Me</div>
-            </div>
-            
-            <div class="icon" data-window="blockchain">
-                <div class="icon-img blockchain-icon">
-                    <i class="fas fa-cube"></i>
-                </div>
-                <div class="icon-text">Blockchain Projects</div>
-            </div>
-            
-            <div class="icon" data-window="certifications">
-                <div class="icon-img certifications-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <div class="icon-text">Certifications</div>
-            </div>
+<nav class="dock" aria-label="Open windows">
+  <button data-open="readme"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z M14 3v4h4 M9 12h6 M9 16h6"/></svg>readme</button>
+  <button data-open="projects"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg>projects</button>
+  <button data-open="research"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="3.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-60 12 12)"/></svg>research</button>
+  <button data-open="experience"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4z M9 8V5h6v3"/></svg>work</button>
+  <button data-open="music"><svg viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><circle cx="17" cy="15" r="3"/><path d="M10 17V5l10-2v12"/></svg>music</button>
+  <button data-open="terminal"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z M7 10l3 2-3 2 M12 15h5"/></svg>terminal</button>
+</nav>
 
-            <div class="icon" data-window="current">
-                <div class="icon-img current-icon">
-                    <i class="fas fa-terminal"></i>
-                </div>
-                <div class="icon-text">Current.exe</div>
-            </div>
+<template id="tpl-readme">
+  <div class="kick"><span class="live" aria-hidden="true"></span>Open to entry-level SWE and AI engineering roles</div>
+  <h1>I build software people can check.</h1>
+  <p class="lede">Software &amp; AI engineer, Penn State CS '26. I shipped Clareia, a public record of Brazil's Congress whose pipeline caught errors in official data, and first-authored QLink on arXiv.</p>
+  <div class="ctas">
+    <a class="btn primary" href="./files/Joao_Vitor_Barros_da_Silva_Resume.pdf" download>Resume (PDF)</a>
+    <a class="btn" href="mailto:jvitorbarros15@gmail.com">Email</a>
+    <a class="btn" href="https://github.com/jvitorbarros15" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://linkedin.com/in/joaovi" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <div class="stats">
+    <div><b data-count="226000" data-suffix="+">0</b><span>expense records on Clareia</span></div>
+    <div><b data-count="40000" data-suffix="+">0</b><span>users on the Rails platform I shipped to</span></div>
+    <div><b data-count="707" data-suffix="×">0</b><span>throughput in the QLink simulation</span></div>
+  </div>
+</template>
 
-            <div class="icon" data-window="terminal">
-                <div class="icon-img terminal-icon">
-                    <i class="fas fa-laptop-code"></i>
-                </div>
-                <div class="icon-text">Command Prompt</div>
-            </div>
+<template id="tpl-projects">
+  <h2>Projects</h2>
+  <ul class="list">
+    <li><h3>Clareia</h3><span class="meta">2026 · 500+ users</span><p>Brazil Congress transparency site: 592 deputies, 226K expense records, 473K votes. Dual-capture ingestion with an independent re-audit; payload cut from 200 MB to 1 MB.</p><span class="links"><a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener">live</a><a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener">source</a></span></li>
+    <li><h3>New Home Imóveis</h3><span class="meta">2026 · paying client</span><p>Real-estate platform with WhatsApp lead capture synced into HubSpot and an admin back office.</p><span class="links"><a href="./case-studies/new-home.html">case study</a><a href="https://new-home-imoveis.vercel.app" target="_blank" rel="noopener">live</a></span></li>
+    <li><h3>Multi-Agent AI Workspace</h3><span class="meta">2026 · self-hosted</span><p>An orchestrator agent splits projects into tasks for builder and researcher agents, on Codex and local LLMs through Ollama, reachable from WhatsApp.</p></li>
+    <li><h3>ZorAI</h3><span class="meta">2025 · applied AI</span><p>AI-image provenance: content analysis, IPFS metadata, and a Solidity registry on Base Sepolia.</p><span class="links"><a href="./case-studies/zorai.html">case study</a><a href="https://zorai.vercel.app" target="_blank" rel="noopener">live</a></span></li>
+    <li><h3>Cognitra</h3><span class="meta">2026 · GenAI</span><p>Turns speaker-labeled recordings into structured study notes with AssemblyAI and OpenAI.</p><span class="links"><a href="./case-studies/cognitra.html">case study</a><a href="https://cognitra.vercel.app" target="_blank" rel="noopener">live</a></span></li>
+    <li><h3>Meridian</h3><span class="meta">2026 · backend</span><p>Containerized investment dashboard: FastAPI, PostgreSQL, Redis, Docker.</p><span class="links"><a href="./case-studies/meridian.html">case study</a></span></li>
+  </ul>
+</template>
 
-            <div class="icon" data-window="playlist">
-                <div class="icon-img playlist-icon">
-                    <i class="fas fa-music"></i>
-                </div>
-                <div class="icon-text">My Playlist</div>
-            </div>
-        </div>
-        
-        <!-- Windows -->
-        <div class="windows-container">
-            <!-- Projects Window -->
-            <div id="projects-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-folder window-icon"></i>
-                        <span>My Projects</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="projects-showcase-header">
-                        <div>
-                            <span class="projects-eyebrow">Selected work</span>
-                            <h2>Products, production systems, and applied AI</h2>
-                            <p>Six projects chosen for engineering depth, real-world use, and measurable outcomes.</p>
-                        </div>
-                        <a href="https://github.com/jvitorbarros15" class="btn projects-github-btn" target="_blank" rel="noopener noreferrer" data-track="Projects: View All GitHub"><i class="fab fa-github"></i> All repositories</a>
-                    </div>
+<template id="tpl-research">
+  <h2>QLink</h2>
+  <p class="meta mono" style="color:#59618a;font-size:12px;margin-bottom:12px">arXiv:2512.18488 · first author · ICDS Symposium 2025, top 5 quantum projects</p>
+  <p style="color:var(--ink-soft)">A quantum-safe bridge architecture for blockchain interoperability. I wrote the Python simulation of a seven-validator network and swept link conditions, measuring up to 707× throughput at sub-second latency.</p>
+  <p style="margin-top:16px"><a class="btn" href="https://arxiv.org/abs/2512.18488" target="_blank" rel="noopener">Read the paper</a></p>
+</template>
 
-                    <div class="projects-grid">
-                    <article class="project-item project-card" data-track="Project: Clareia">
-                        <div class="project-visual project-visual-concept">
-                            <i class="fas fa-landmark"></i>
-                            <div><strong>Clareia</strong><span>592 deputies, every figure sourced</span></div>
-                            <span class="project-visual-label"><i class="fas fa-database"></i> Public data</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>500+ users</span><span>2026</span></div>
-                        <h3>Clareia — Brazil Congress Transparency Site</h3>
-                        <p>Built and launched a public transparency site covering all 592 federal deputies: 226,000+ expense records (R$ 252M), 22,700 bills, and 473,000 roll-call votes, every figure traceable to its official source.</p>
-                        <ul class="project-proof">
-                            <li>Dual-capture ingestion reconciles the Chamber's open-data API against its annual CEAP file; an independent re-audit caught 180 inconsistent official records before release</li>
-                            <li>Initial payload cut from ~200 MB to ~1 MB (99.5%); ranking re-sorts 8× faster (1.6 s to 0.2 s)</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://clareia.clareia.workers.dev/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Playwright</span>
-                            <span class="tech-tag">Cloudflare</span>
-                        </div>
-                        </div>
-                    </article>
+<template id="tpl-experience">
+  <h2>Experience</h2>
+  <ul class="list">
+    <li><h3>Software Development Intern</h3><span class="meta">Oct 2025 – Jul 2026</span><p>Penn State University Libraries. Shipped Rails features to 40,000+ users through code review and CircleCI; designed a documented cross-system REST API; built a validation pipeline that cut 17.7K records to 9.8K verified.</p></li>
+    <li><h3>Lead Researcher</h3><span class="meta">Feb 2025 – Present</span><p>Blockchain Data Intelligence Lab. First author of QLink.</p></li>
+    <li><h3>Web Developer and Outreach Lead</h3><span class="meta">Jan 2024 – Jun 2025</span><p>Nittany Entrepreneur Society. Rebuilt the club site in React for 700 members; executive board.</p></li>
+    <li><h3>Innovation and Operations Intern</h3><span class="meta">May 2023 – Jul 2024</span><p>Happy Valley LaunchBox. Integrated HubSpot CRM with an internal reporting UI for 40+ startups.</p></li>
+  </ul>
+</template>
 
-                    <article class="project-item project-card" data-track="Project: Multi-Agent AI Workspace">
-                        <div class="project-visual project-visual-concept">
-                            <i class="fas fa-diagram-project"></i>
-                            <div><strong>Orchestrator</strong><span>Builder and researcher agents</span></div>
-                            <span class="project-visual-label"><i class="fas fa-robot"></i> Agentic AI</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Self-hosted</span><span>2026</span></div>
-                        <h3>Personal Multi-Agent AI Workspace</h3>
-                        <p>Runs a self-hosted agent gateway where an orchestrator agent breaks projects into tasks and delegates them to builder and researcher agents, using Codex and local LLMs served through Ollama, reachable from WhatsApp.</p>
-                        <div class="technologies">
-                            <span class="tech-tag">Hermes gateway</span>
-                            <span class="tech-tag">Ollama</span>
-                            <span class="tech-tag">Qwen / Gemma</span>
-                            <span class="tech-tag">Codex</span>
-                        </div>
-                        </div>
-                    </article>
+<template id="tpl-music">
+  <h2>On repeat</h2>
+  <p style="color:var(--ink-soft);margin-bottom:12px">What I code to.</p>
+  <iframe style="border-radius:10px;border:0" src="https://open.spotify.com/embed/playlist/37i9dQZEVXd0oRUtzDucvP" width="100%" height="232" loading="lazy" allow="encrypted-media" title="Spotify playlist"></iframe>
+</template>
 
-                    <article class="project-item project-card" data-track="Project: New Home Imoveis">
-                        <div class="project-visual project-visual-image">
-                            <img src="./img/projects/new-home.jpg" alt="New Home Imóveis real-estate website hero" loading="lazy">
-                            <span class="project-visual-label"><i class="fas fa-handshake"></i> Client delivery</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Paying client</span><span>2026</span></div>
-                        <h3>New Home Imóveis — Client Platform</h3>
-                        <p>Shipped a full-stack real-estate platform that captures inbound WhatsApp leads, synchronizes them into HubSpot, and gives a non-technical team an admin workspace for listings, media, records, and lead tracking.</p>
-                        <ul class="project-proof">
-                            <li>Production client delivery from database through interface</li>
-                            <li>Automated CRM ingestion replaces a manual lead workflow</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/new-home.html" class="btn btn-secondary" data-track="Project: New Home Imoveis - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/new-home-imoveis" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: New Home Imoveis - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://new-home-imoveis.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: New Home Imoveis - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Supabase</span>
-                            <span class="tech-tag">HubSpot</span>
-                            <span class="tech-tag">CRM Automation</span>
-                        </div>
-                        </div>
-                    </article>
-                    
-                    <article class="project-item project-card" data-track="Project: Meridian">
-                        <div class="project-visual project-visual-image">
-                            <img src="./img/projects/meridian.jpg" alt="Meridian investment portfolio dashboard" loading="lazy">
-                            <span class="project-visual-label"><i class="fas fa-server"></i> Full stack</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Backend &amp; infrastructure</span><span>2026</span></div>
-                        <h3>Meridian — Investment Research Platform</h3>
-                        <p>Built a containerized investment dashboard spanning Brazilian equities, FIIs, U.S. stocks, and crypto, with live market refreshes and on-demand portfolio return calculations.</p>
-                        <ul class="project-proof">
-                            <li>Async FastAPI and SQLAlchemy backend with JWT authentication</li>
-                            <li>PostgreSQL, Redis, Next.js, and Docker Compose end to end</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/meridian.html" class="btn btn-secondary" data-track="Project: Meridian - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/meridian-invest" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Meridian - GitHub"><i class="fab fa-github"></i> View Code</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Redis</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Next.js</span>
-                        </div>
-                        </div>
-                    </article>
-                    
-                    <article class="project-item project-card" data-track="Project: Cognitra">
-                        <div class="project-visual project-visual-image">
-                            <img src="./img/projects/cognitra.jpg" alt="Cognitra AI study workspace landing page" loading="lazy">
-                            <span class="project-visual-label"><i class="fas fa-brain"></i> Applied AI</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Live product</span><span>2026</span></div>
-                        <h3>Cognitra — AI Learning Platform</h3>
-                        <p>Created an intelligent study workspace that turns recorded lectures and notes into structured learning materials, mind maps, flashcards, and searchable class content.</p>
-                        <ul class="project-proof">
-                            <li>Speaker-aware transcription through AssemblyAI</li>
-                            <li>LLM workflows with OpenAI and LangChain</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/cognitra.html" class="btn btn-secondary" data-track="Project: Cognitra - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://cognitra.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">OpenAI</span>
-                            <span class="tech-tag">LangChain</span>
-                            <span class="tech-tag">AssemblyAI</span>
-                        </div>
-                        </div>
-                    </article>
-                    
-                    <article class="project-item project-card" data-track="Project: ZorAI">
-                        <div class="project-visual project-visual-image">
-                            <img src="./img/projects/zorai.jpg" alt="ZorAI image provenance registry interface" loading="lazy">
-                            <span class="project-visual-label"><i class="fas fa-shield-halved"></i> On-chain provenance</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Deployed protocol</span><span>Base Sepolia</span></div>
-                        <h3>ZorAI — AI Image Verification Registry</h3>
-                        <p>Developed a public provenance registry for AI-generated images, combining image identifiers, IPFS metadata, risk information, and a deployed smart contract that can register and verify records.</p>
-                        <ul class="project-proof">
-                            <li>Deployed Solidity registry on Base Sepolia</li>
-                            <li>Server API routes, wallet support, Pinata IPFS, and CI</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/zorai.html" class="btn btn-secondary" data-track="Project: ZorAI - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAI - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://zorai.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAI - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Solidity</span>
-                            <span class="tech-tag">Hardhat</span>
-                            <span class="tech-tag">IPFS</span>
-                            <span class="tech-tag">Ethers.js</span>
-                        </div>
-                        </div>
-                    </article>
-                    
-                    <article class="project-item project-card" data-track="Project: NFL 4th Down Predictor">
-                        <div class="project-visual project-visual-concept project-visual-nfl">
-                            <i class="fas fa-football"></i>
-                            <div><strong>4th &amp; Decision</strong><span>Calibrated conversion probabilities</span></div>
-                            <span class="project-visual-label"><i class="fas fa-chart-simple"></i> ML analysis</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>480K plays</span><span>Built in 2025</span></div>
-                        <h3>NFL 4th Down Conversion Predictor</h3>
-                        <p>Trained an XGBoost model on 480K plays from the 2013–2024 seasons and evaluated whether its probabilities—not only its classifications—were reliable enough to inform fourth-down decisions.</p>
-                        <ul class="project-proof">
-                            <li>62% accuracy and 0.66 ROC-AUC</li>
-                            <li>0.23 Brier score for probability calibration</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/nfl-4th-down.html" class="btn btn-secondary" data-track="Project: NFL 4th Down Predictor - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: NFL 4th Down Predictor - GitHub"><i class="fab fa-github"></i> View Analysis</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">XGBoost</span>
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Calibration</span>
-                            <span class="tech-tag">Feature Engineering</span>
-                        </div>
-                        </div>
-                    </article>
+<template id="tpl-terminal">
+  <div class="term" id="term"><div id="out"><span class="w">jvb.os</span> — type <span class="y">help</span><br></div><form id="cmd"><span class="y">$</span><input id="in" aria-label="Terminal command" autocomplete="off" spellcheck="false"></form></div>
+</template>
 
-                    <article class="project-item project-card" data-track="Project: JobNow">
-                        <div class="project-visual project-visual-image">
-                            <img src="./img/projects/jobnow.jpg" alt="JobNow sign-in interface" loading="lazy">
-                            <span class="project-visual-label"><i class="fas fa-wand-magic-sparkles"></i> AI product</span>
-                        </div>
-                        <div class="project-card-body">
-                        <div class="project-card-kicker"><span>Featured</span><span>2026</span></div>
-                        <h3>JobNow — AI Job Search Copilot</h3>
-                        <p>Built a three-part job-search workspace that turns Gmail into an application tracker, drafts LinkedIn posts from current tech news, and generates tailored LaTeX resumes for live job listings.</p>
-                        <ul class="project-proof">
-                            <li>Claude-powered classification and document generation</li>
-                            <li>Gmail, Google Calendar, Sheets, Indeed, and ZipRecruiter integrations</li>
-                        </ul>
-                        <div class="project-links">
-                            <a href="./case-studies/jobnow.html" class="btn btn-secondary" data-track="Project: JobNow - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/jobnow" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: JobNow - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://jobnow-lime.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: JobNow - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                        <div class="technologies">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Supabase</span>
-                            <span class="tech-tag">Claude</span>
-                            <span class="tech-tag">Google APIs</span>
-                        </div>
-                        </div>
-                    </article>
+<script>
+const desk = document.getElementById('desk'), surface = document.getElementById('pan'), canvas = document.getElementById('canvas'), layer = document.getElementById('windows');
+const wins = {
+  readme:     { title: 'readme.md',      x: 40,  y: 56,  w: 520 },
+  terminal:   { title: 'zsh — jvb',      x: 600, y: 56,  w: 400, dark: true },
+  projects:   { title: 'projects/',      x: 120, y: 80,  w: 560 },
+  research:   { title: 'qlink.pdf',      x: 640, y: 120, w: 420 },
+  experience: { title: 'experience.log', x: 200, y: 100, w: 540 },
+  music:      { title: 'on-repeat.m3u',  x: 680, y: 260, w: 360 },
+};
+let z = 10;
 
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Contact Window -->
-            <div id="contact-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-address-book window-icon"></i>
-                        <span>Contact Me</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="contact-intro">
-                        <span class="contact-availability"><span></span> Open to junior software and AI engineering roles</span>
-                        <h2>Let’s build something useful.</h2>
-                        <p>Send a message straight from this page and it lands in my inbox. I usually reply within a day.</p>
-                    </div>
+function open(id) {
+  const existing = document.getElementById('win-' + id);
+  if (existing) { existing.style.zIndex = ++z; return; }
+  const c = wins[id];
+  const el = document.createElement('section');
+  el.className = 'win' + (c.dark ? ' dark' : '');
+  el.id = 'win-' + id;
+  el.setAttribute('aria-label', c.title);
+  const maxX = Math.max(16, innerWidth - c.w - 16);
+  Object.assign(el.style, { left: Math.min(c.x, maxX) + 'px', top: c.y + 'px', width: c.w + 'px', zIndex: ++z });
+  el.innerHTML = `<div class="bar"><button class="x" aria-label="Close ${c.title}"></button><button aria-hidden="true" tabindex="-1"></button><button aria-hidden="true" tabindex="-1"></button><span>${c.title}</span></div><div class="body"></div>`;
+  el.querySelector('.body').append(document.getElementById('tpl-' + id).content.cloneNode(true));
+  el.querySelector('.x').onclick = () => { el.classList.add('closing'); el.addEventListener('animationend', () => { el.remove(); markDock(); }, { once: true }); };
+  el.addEventListener('pointerdown', () => el.style.zIndex = ++z);
+  drag(el, el.querySelector('.bar'));
+  layer.append(el);
+  if (id === 'readme') countUp(el);
+  if (id === 'terminal') term(el);
+  markDock();
+}
 
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Your name</label>
-                            <input type="text" id="name" name="name" autocomplete="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Your email</label>
-                            <input type="email" id="email" name="email" autocomplete="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">How can I help?</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <div class="contact-honeypot" aria-hidden="true">
-                            <label for="company-website">Leave this field blank</label>
-                            <input type="text" id="company-website" name="website" tabindex="-1" autocomplete="off">
-                        </div>
-                        <button type="submit" class="btn" data-track="Contact Form Submit"><i class="fas fa-paper-plane"></i> Send message</button>
-                        <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
-                    </form>
-                    
-                    <div class="social-links">
-                        <a href="https://github.com/jvitorbarros15" class="social-link" target="_blank" rel="noopener noreferrer" data-track="Contact: GitHub"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://www.linkedin.com/in/joaovi/" class="social-link" target="_blank" rel="noopener noreferrer" data-track="Contact: LinkedIn"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                        <a href="mailto:jvitorbarros15@gmail.com" class="social-link" data-track="Contact: Email"><i class="fas fa-envelope"></i> jvitorbarros15@gmail.com</a>
-                        <a href="tel:+18143083273" class="social-link" data-track="Contact: Phone"><i class="fas fa-phone"></i> 814-308-3273</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Resume Window -->
-            <div id="resume-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-file-alt window-icon"></i>
-                        <span>My Resume</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="resume-content">
-                        <div class="resume-actions">
-                            <a href="./files/Joao_Vitor_Barros_da_Silva_Resume.pdf" class="btn download-btn" target="_blank" rel="noopener noreferrer" download data-track="Resume Download"><i class="fas fa-download"></i> Download PDF</a>
-                        </div>
-                        <div class="resume-preview">
-                            <h2>Resume Preview</h2>
-                            
-                            <div class="resume-section">
-                                <h3>Education</h3>
-                                <div class="resume-item">
-                                    <h4>The Pennsylvania State University, University Park</h4>
-                                    <p>B.S. in Computer Science, Minor in Entrepreneurship and Innovation</p>
-                                    <p>August 2026</p>
-                                    <p>Relevant Coursework: Machine Learning, Deep Learning for Computer Vision, Database Management Systems, Programming Models for Big Data, Data Structures &amp; Algorithms, Operating Systems</p>
-                                </div>
-                            </div>
-                            
-                            <div class="resume-section">
-                                <h3>Technical Skills</h3>
-                                <div class="resume-item">
-                                    <h4>Full Stack — UI</h4>
-                                    <p>React, Next.js, TypeScript, JavaScript, Tailwind CSS, HTML/CSS, responsive UI development</p>
+function drag(el, handle) {
+  handle.addEventListener('pointerdown', e => {
+    if (e.target.tagName === 'BUTTON' || innerWidth <= 760) return;
+    const sx = e.clientX - el.offsetLeft, sy = e.clientY - el.offsetTop;
+    handle.setPointerCapture(e.pointerId);
+    const move = ev => { el.style.left = ev.clientX - sx + 'px'; el.style.top = Math.max(0, ev.clientY - sy) + 'px'; };
+    handle.addEventListener('pointermove', move);
+    handle.addEventListener('pointerup', () => handle.removeEventListener('pointermove', move), { once: true });
+  });
+}
 
-                                    <h4>Full Stack — API &amp; Data</h4>
-                                    <p>Python (FastAPI, Flask), Ruby on Rails, Node.js, REST APIs, microservices, PostgreSQL, Redis, Firebase, schema design</p>
+const state = { panX: 0, panY: 0 };
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+let frame = 0, anim = 0;
 
-                                    <h4>Cloud &amp; DevOps</h4>
-                                    <p>AWS (S3, Lambda), Docker, Kubernetes, CircleCI, CI/CD pipelines, Git/GitHub, Linux</p>
+function paint() {
+  frame = 0;
+  canvas.style.transform = `translate(${state.panX}px, ${state.panY}px)`;
+  surface.style.setProperty('--gx', state.panX % 24 + 'px');
+  surface.style.setProperty('--gy', state.panY % 24 + 'px');
+}
 
-                                    <h4>AI &amp; GenAI</h4>
-                                    <p>LLM APIs (OpenAI, Anthropic), prompt engineering, LangChain, RAG, AI agents, agent orchestration, model evaluation, TensorFlow, PyTorch, Scikit-learn</p>
+function pan(dx, dy) {
+  state.panX += dx; state.panY += dy;
+  if (!frame) frame = requestAnimationFrame(paint);
+}
 
-                                    <h4>AI Tools</h4>
-                                    <p>Claude, Claude Code, Codex, Ollama, local LLMs (Qwen, Nemotron, Gemma)</p>
+function glide(x, y) {
+  cancelAnimationFrame(anim);
+  if (reduced.matches) { pan(x - state.panX, y - state.panY); return; }
+  const x0 = state.panX, y0 = state.panY, t0 = performance.now();
+  const step = t => {
+    const p = Math.min(1, (t - t0) / 400), e = 1 - Math.pow(1 - p, 3);
+    pan(x0 + (x - x0) * e - state.panX, y0 + (y - y0) * e - state.panY);
+    if (p < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
 
-                                    <h4>Languages &amp; Tooling</h4>
-                                    <p>Go, C, Solidity, SQLAlchemy, Cloudflare (Workers, R2), GitHub Actions, Playwright</p>
 
-                                    <h4>Engineering Practices</h4>
-                                    <p>Agile/Scrum, automated testing (RSpec, pytest), peer code review, production incident resolution, technical documentation</p>
-                                </div>
-                            </div>
-                            
-                            <div class="resume-section">
-                                <h3>Certifications</h3>
-                                <div class="resume-item">
-                                    <ul>
-                                        <li><strong>Full Stack Developer</strong> — Meta, 2026</li>
-                                        <li><strong>Google Cybersecurity Certificate</strong> — Google, 2026</li>
-                                        <li><strong>Machine Learning with Python</strong> — IBM, 2025</li>
-                                        <li><strong>AI Agents with RAG &amp; LangChain</strong> — IBM, 2025</li>
-                                        <li><strong>Deep Learning &amp; Neural Networks</strong> — IBM, 2025</li>
-                                        <li><strong>AI &amp; Blockchain Certificate</strong> — Google, 2025</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="resume-section">
-                                <h3>Experience</h3>
-                                <div class="resume-item">
-                                    <h4>Penn State University Libraries</h4>
-                                    <p>Software Development Intern | Full stack, APIs, data, cloud, AI tooling | Oct 2025 – Jul 2026</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Build and ship features on production systems serving <strong>40,000+ users</strong>, working within a formal Scrum methodology with daily standups and sprint cycles, debugging across large unfamiliar codebases under real reliability constraints using Ruby on Rails, Python, Docker, and CI.</li>
-                                        <li>Engineered a Python data pipeline that cleaned and validated a dataset from <strong>17.7K to 9.8K verified records</strong>, cutting manual processing time by over <strong>90%</strong>.</li>
-                                        <li>Shipped a large-scale PDF remediation and accessibility platform in collaboration with AWS and Adobe, supporting <strong>3M+ document uploads</strong> by automating accessibility parsing and secure storage via Adobe APIs and AWS S3.</li>
-                                        <li>Built a Google Scholar profile-matching pipeline (Rails, PostgreSQL, ScraperAPI) across <strong>11,000+ faculty</strong>; disambiguated authors via multi-signal entity resolution, achieving <strong>40% auto-match rate</strong> and eliminating <strong>34% of scrape volume</strong> via pre-scrape filtering and DB-backed fetch tracking.</li>
-                                        <li>Engineered a cross-system integration API using a Rails controller to POST JSON between independent platforms, built JSON-to-XML importers and Swagger documentation, reducing manual departmental processing by <strong>60%</strong> across multiple teams.</li>
-                                    </ul>
-                                </div>
-                                
-                                <div class="resume-item">
-                                    <h4>Blockchain Data Intelligence Lab | Penn State University</h4>
-                                    <p>Lead Researcher | Python, distributed systems, measurement | Feb 2025 – Present</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Proposed, led, and published <strong>QLink</strong> as first author, taking an original research direction through scope, methodology, implementation, publication, and presentation at the Penn State ICDS Symposium.</li>
-                                        <li>Built a Python simulation of a 7-validator distributed network, measuring up to <strong>707× throughput gains</strong> and sub-second latency across a parameter sweep.</li>
-                                        <li>Publication: “QLink: Quantum-Safe Bridge Architecture for Blockchain Interoperability,” arXiv:2512.18488, 2025.</li>
-                                        <li>Selected presenter at the Penn State ICDS Symposium 2025; judges ranked QLink among the <strong>top 5 quantum projects</strong>.</li>
-                                    </ul>
-                                </div>
-                                
-                                <div class="resume-item">
-                                    <h4>Happy Valley LaunchBox Startup Accelerator</h4>
-                                    <p>Innovation and Operations Intern | AI Automation, Data Integration | May 2023 – Jul 2024</p>
-                                    <p style="font-style: italic; color: #666;">State College, PA</p>
-                                    <ul>
-                                        <li>Spearheaded the integration of <strong>HubSpot CRM</strong> with a new internal UI, centralizing engagement data for <strong>40+ active startups</strong> and improving reporting visibility by <strong>45%</strong>.</li>
-                                        <li>Automated email replies, data entry, and data fetching workflows using <strong>AI in Power Automate</strong>, streamlining communications and data management, and increasing team efficiency by <strong>30%</strong>.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="resume-section">
-                                <h3>Projects</h3>
-                                <div class="resume-item">
-                                    <h4>Clareia, Brazil Congress Transparency Site | TypeScript, PostgreSQL, Playwright, Cloudflare — 2026 – Present</h4>
-                                    <p>Public transparency site covering all 592 federal deputies, used by <strong>500+ people</strong>: 226,000+ expense records (R$ 252M), 22,700 bills, and 473,000 roll-call votes. Dual-capture ingestion with an independent re-audit caught <strong>180 inconsistent records</strong> in official data; initial payload cut from ~200 MB to ~1 MB (<strong>99.5%</strong>) and ranking re-sorts made <strong>8× faster</strong>.</p>
+let drag0 = null, moved = false, swallow = 0;
+surface.addEventListener('pointerdown', e => {
+  if (!e.isPrimary || e.button !== 0) return;
+  cancelAnimationFrame(anim);
+  drag0 = { id: e.pointerId, x: e.clientX, y: e.clientY };
+  moved = false;
+});
+surface.addEventListener('pointermove', e => {
+  if (!drag0 || e.pointerId !== drag0.id) return;
+  const dx = e.clientX - drag0.x, dy = e.clientY - drag0.y;
+  if (!moved) {
+    if (Math.hypot(dx, dy) <= 4) return;
+    moved = true;
+    surface.setPointerCapture(e.pointerId);
+    surface.classList.add('grabbing');
+  }
+  drag0.x = e.clientX; drag0.y = e.clientY;
+  pan(dx, dy);
+});
+const endDrag = e => {
+  if (!drag0 || e.pointerId !== drag0.id) return;
+  drag0 = null;
+  surface.classList.remove('grabbing');
+  if (moved) { swallow = 1; setTimeout(() => swallow = 0, 50); }
+};
+surface.addEventListener('pointerup', endDrag);
+surface.addEventListener('pointercancel', endDrag);
+document.addEventListener('click', e => { if (swallow) { e.preventDefault(); e.stopPropagation(); swallow = 0; } }, true);
 
-                                    <h4>Personal Multi-Agent AI Workspace | Hermes agent gateway, Ollama, local LLMs, Codex — 2026 – Present</h4>
-                                    <p>Self-hosted agent gateway where an orchestrator agent breaks projects into tasks and delegates them to builder and researcher agents, using Codex and local LLMs served through Ollama, reachable from WhatsApp.</p>
+desk.addEventListener('wheel', e => {
+  if (e.ctrlKey || e.target.closest('.win .body') || (innerWidth <= 760 && !e.target.closest('#pan'))) return;
+  e.preventDefault();
+  const k = e.deltaMode === 1 ? 16 : 1;
+  pan(-e.deltaX * k, -e.deltaY * k);
+}, { passive: false });
 
-                                    <h4>New Home Imóveis | React, Supabase, Node.js, HubSpot CRM — Jun 2026 – Present</h4>
-                                    <p>Shipped a full-stack platform for a paying client, replacing a manual lead process by capturing WhatsApp inquiries and synchronizing them into HubSpot. Built a CRM-style admin panel for listings, media, records, and leads.</p>
+const arrows = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] };
+document.addEventListener('keydown', e => {
+  if (innerWidth <= 760 || document.activeElement !== document.body || !arrows[e.key]) return;
+  e.preventDefault();
+  pan(...arrows[e.key]);
+});
 
-                                    <h4>NittanyAuction | Python, Flask, SQLite — 2025</h4>
-                                    <p>Built a complete auction marketplace on a normalized relational schema covering users, listings, bids, payments, ratings, and role-specific workflows, with server-side validation and session handling.</p>
 
-                                    <h4>Cognitra | React, Next.js, Firebase, AssemblyAI, OpenAI — 2026 – Present</h4>
-                                    <p>Integrated GenAI into a shipped learning product, chaining transcription and LLM workflows to turn recorded, speaker-labeled sessions into structured study material.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- About Window -->
-            <div id="about-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-user window-icon"></i>
-                        <span>About Me</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="about-content">
-                        <div class="profile-picture">
-                            <img src="./img/IMG_2532.jpg" alt="Joao Vitor Barros da Silva">
-                        </div>
-                        <div class="about-details">
-                            <h2>Joao Vitor Barros da Silva</h2>
-                            <h3>Recent Computer Science Graduate, Penn State University</h3>
-                            <p>I'm a recent Penn State Computer Science graduate who builds production software, full-stack products, and applied AI systems. My experience spans enterprise applications serving 40,000+ users, shipped client work, and published distributed-systems research.</p>
-                            <p>Beyond technical skills, I'm involved in entrepreneurship initiatives and community building. When I'm not coding, you can find me exploring new technologies and collaborating on innovative projects.</p>
-                            <div class="seeking-card">
-                                <h4>Seeking</h4>
-                                <p><strong>Role Types:</strong> Software Engineering, Machine Learning / AI, and Research Engineering roles</p>
-                                <p><strong>Location Preferences:</strong> Open to U.S.-based opportunities, relocation, and remote or hybrid roles</p>
-                                <p><strong>Graduation Date:</strong> August 2026</p>
-                            </div>
-                            <div class="why-hire-card">
-                                <h4>Why Hire Me</h4>
-                                <ul>
-                                    <li>Brings an entrepreneurial mindset shaped by growing up around a family tech business and learning early how technology can solve real problems.</li>
-                                    <li>Combines Computer Science with Entrepreneurship and Innovation at Penn State, with hands-on experience in AI, blockchain, and full-stack development.</li>
-                                    <li>Enjoys turning ambitious ideas into working systems, from quantum-safe blockchain research to AI automation and product design.</li>
-                                    <li>Builds with impact in mind, focusing on scalable solutions that solve meaningful pains instead of just shipping features.</li>
-                                </ul>
-                            </div>
-                            <div class="contact-info">
-                                <p><i class="fas fa-map-marker-alt"></i> Ashburn, VA</p>
-                                <p><i class="fas fa-envelope"></i> jvitorbarros15@gmail.com</p>
-                                <p><i class="fas fa-phone"></i> 814-308-3273</p>
-                                <p><i class="fab fa-github"></i> github.com/jvitorbarros15</p>
-                                <p><i class="fab fa-linkedin"></i>linkedin.com/in/joaovi/</p>
-                            </div>
-                        </div>
-                    </div>
-                    <section class="github-activity-section">
-                        <div class="github-activity-header">
-                            <div>
-                                <h3>GitHub Activity</h3>
-                                <p>A snapshot of my GitHub profile with recent activity, coding trends, and overall contribution details across my projects.</p>
-                            </div>
-                            <a href="https://github.com/jvitorbarros15" class="btn" target="_blank" rel="noopener noreferrer" data-track="About: GitHub Profile"><i class="fab fa-github"></i> View Profile</a>
-                        </div>
-                        <div class="github-activity-card">
-                            <img
-                                src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jvitorbarros15&theme=github_dark"
-                                alt="GitHub profile summary card for Joao Vitor Barros da Silva"
-                                loading="lazy"
-                            >
-                        </div>
-                    </section>
-                    <div class="recommendations-section">
-                        <h3>Professional Recommendations</h3>
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (name, attrs = {}, text) => {
+  const e = document.createElementNS(NS, name);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  return e;
+};
 
-                        <article class="recommendation-card">
-                            <div class="recommendation-header">
-                                <div>
-                                    <h4>Alex Kiessling <i class="fas fa-circle-check recommendation-verified" aria-label="LinkedIn verified"></i></h4>
-                                    <p class="recommendation-role">Software Developer at Penn State University</p>
-                                    <p class="recommendation-context">Alex managed João Vitor directly</p>
-                                </div>
-                                <p class="recommendation-date">May 1, 2026</p>
-                            </div>
-                            <div class="recommendation-body">
-                                <p>I had the privilege of supervising João throughout his internship as a software developer within the Penn State University Libraries.</p>
-                                <p>João was tasked with a large and complicated data integration project between two of our faculty + research information systems. His ability to gather requirements from stakeholders, convert those requirements to actionable GitHub issues, and coordinate with his team members to begin development right from the start was impressive for an intern. His technical ability was impressive as well. From writing and understanding the code, to traversing our docker/VM setups, building tests and adding documentation, João was able to piece together this project with minimal supervision.</p>
-                                <p>João is also a pleasure to work with. He is polite, respectful, and attentive to others’ opinions and ideas. He brings a positive attitude to the workplace and continually shows interest in other peoples’ lives and experiences. He was a valuable resource for the rest of the intern cohort, as he was always open to help, answer questions, and brainstorm solutions.</p>
-                                <p>I strongly recommend João for anyone looking to hire an exceptional software developer. His professionalism, technical ability, initiative, and positive attitude set him apart from the rest!</p>
-                            </div>
-                        </article>
+const rect = n => ({ x: n.x, y: n.y, w: n.w || 22, h: n.h || (n.kind === 'actor' ? 22 : n.kind === 'db' ? 60 : n.sub ? 48 : 40) });
 
-                        <article class="recommendation-card">
-                            <div class="recommendation-header">
-                                <div>
-                                    <h4>Binky Lush</h4>
-                                    <p class="recommendation-role">Manager, Discovery, Access and Web Services at Penn State University Libraries</p>
-                                </div>
-                                <p class="recommendation-date">April 3, 2026</p>
-                            </div>
-                            <div class="recommendation-body">
-                                <p>I have the pleasure of working with Joao as a member of our Libraries Strategic Technologies Software Development Intern Cohort, and he has consistently exceeded expectations since day one. His combination of technical aptitude, initiative, and professionalism is something you rarely see at any level.</p>
-                                <p>Joao is exceptionally sharp and a very hard worker - a combination that makes him incredibly effective. He has been working on a Ruby on Rails project involving data mapping and integration between enterprise applications, and his impact has been remarkable. He picks up new concepts quickly and translates that understanding into high-quality work with impressive speed. What truly sets him apart is his initiative. He is a genuine self-starter who has naturally taken a leadership role within the cohort, writing tickets, helping to scope work, and keeping the project moving forward. That level of ownership and project awareness is rare for any developer, let alone an intern.</p>
-                                <p>Joao also takes it upon himself to attend our Agile team meetings and sit in with the full-time developers on our team, seeking out opportunities to learn how software development comes together in a real-world professional setting. He asks thoughtful, well-considered questions that demonstrate both his curiosity and his commitment to continuous growth.</p>
-                                <p>Beyond his technical ability, Joao is polite, professional, and an absolute pleasure to work with. He brings a positive energy to every interaction and elevates the work of those around him.</p>
-                                <p>I highly recommend Joao to any organization looking for a software developer who combines sharp technical ability, a strong work ethic, leadership instincts, and genuine professionalism. He will be a tremendous asset wherever he goes.</p>
-                            </div>
-                        </article>
+function anchors(a, b) {
+  const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x), oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+  if (oy > 0) { const y = Math.max(a.y, b.y) + oy / 2; return a.x < b.x ? [a.x + a.w, y, b.x, y] : [a.x, y, b.x + b.w, y]; }
+  const x = Math.max(a.x, b.x) + ox / 2;
+  return a.y < b.y ? [x, a.y + a.h, x, b.y] : [x, a.y, x, b.y + b.h];
+}
 
-                        <article class="recommendation-card">
-                            <div class="recommendation-header">
-                                <div>
-                                    <h4>Jason Huber</h4>
-                                    <p class="recommendation-role">Startup Consultant and Co-Working Manager at the Happy Valley LaunchBox at Penn State University</p>
-                                </div>
-                                <p class="recommendation-date">January 28, 2026</p>
-                            </div>
-                            <div class="recommendation-body">
-                                <p>I've had the pleasure of knowing Joao for just about three years now. He is a consummate team player that isn't afraid to tackle any and all projects thrown at him. He is a highly capable individual that brings professionalism, passion and an upbeat demeanor with him wherever he goes. We were lucky to have had him at the Happy Valley LaunchBox as a member of our team and I am convinced that he will be an asset to any organization that hires him in the future.</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Blockchain Window -->
-            <div id="blockchain-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-cube window-icon"></i>
-                        <span>Blockchain Projects</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="blockchain-container">
-                        <h2>My Blockchain Journey</h2>
-                        <p>Explore my flagship blockchain projects: from AI-powered verification platforms to quantum-safe Layer 3 protocols. Keep clicking "Add Next Block" to see what's coming next - the innovation never stops!</p>
-                        <div class="blockchain" id="blockchain">
-                            <!-- Genesis block will be added by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Certifications Window -->
-            <div id="certifications-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-certificate window-icon"></i>
-                        <span>Certifications</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="certification-item">
-                        <h3>AI Agents Using RAG & LangChain</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Advanced certification covering retrieval-augmented generation, LangChain framework, and AI agent development.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">LangChain</span>
-                            <span class="skill-tag">RAG</span>
-                            <span class="skill-tag">AI Agents</span>
-                            <span class="skill-tag">LLMs</span>
-                        </div>
-                        <a href="./files/AI Agents Using RAG & LangChain Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
+function renderNode(n, g) {
+  const { x, y, w, h } = rect(n), cls = 'shape ' + (n.kind === 'ext' ? 'ext ' : '') + (n.group ? 'group ' : '') + (n.hl ? 'hl' : '');
+  if (n.kind === 'actor') {
+    g.append(svgEl('circle', { class: cls, cx: x + 11, cy: y + 11, r: 11 }), svgEl('text', { x: x + 11, y: y + 36, 'text-anchor': 'middle' }, n.label));
+    return;
+  }
+  if (n.kind === 'db') {
+    const ry = 9, rx = w / 2;
+    g.append(svgEl('path', { class: cls, d: `M${x} ${y + ry}a${rx} ${ry} 0 0 1 ${w} 0a${rx} ${ry} 0 0 1 ${-w} 0v${h - 2 * ry}a${rx} ${ry} 0 0 0 ${w} 0v${-(h - 2 * ry)}` }));
+  } else {
+    g.append(svgEl('rect', { class: cls, x, y, width: w, height: h, rx: n.group ? 8 : 4 }));
+  }
+  if (n.group) { g.append(svgEl('text', { class: 'tag', x: x + 10, y: y + 17 }, n.label)); return; }
+  const cy = y + h / 2 + (n.kind === 'db' ? 5 : 0), size = h < 30 ? { 'font-size': 11 } : {};
+  g.append(svgEl('text', { x: x + w / 2, y: n.sub ? cy - 3 : cy + 4, 'text-anchor': 'middle', ...size }, n.label));
+  if (n.sub) g.append(svgEl('text', { class: 'sub', x: x + w / 2, y: cy + 12, 'text-anchor': 'middle' }, n.sub));
+}
 
-                    <div class="certification-item">
-                        <h3>AI & Blockchain Certificate</h3>
-                        <p class="cert-issuer">Google</p>
-                        <p class="cert-date">May 2025</p>
-                        <p class="cert-description">Comprehensive certification covering the intersection of artificial intelligence and blockchain technologies.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Blockchain</span>
-                            <span class="skill-tag">AI</span>
-                            <span class="skill-tag">Smart Contracts</span>
-                            <span class="skill-tag">Machine Learning</span>
-                        </div>
-                        <a href="./files/AI and blockchain Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Deep Learning & Neural Networks</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Specialized certification in deep learning architectures, neural network optimization, and advanced ML techniques.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Deep Learning</span>
-                            <span class="skill-tag">Neural Networks</span>
-                            <span class="skill-tag">TensorFlow</span>
-                            <span class="skill-tag">PyTorch</span>
-                        </div>
-                        <a href="./files/Deep Learning & NNs IBM Certficate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Machine Learning with Python</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">June 2025</p>
-                        <p class="cert-description">Comprehensive certification covering machine learning fundamentals, supervised and unsupervised learning, and practical Python-based ML workflows.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Data Science</span>
-                        </div>
-                        <a href="./files/Machine Learning IBM Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Generative AI</h3>
-                        <p class="cert-issuer">Google</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Certification covering generative AI fundamentals, large language models, and practical applications of generative technologies.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Generative AI</span>
-                            <span class="skill-tag">LLMs</span>
-                            <span class="skill-tag">Prompt Engineering</span>
-                            <span class="skill-tag">Google AI</span>
-                        </div>
-                        <a href="./files/Gen AI Google Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Data Visualization with Python</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Certification covering data visualization techniques using Python libraries including Matplotlib, Seaborn, and Plotly.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Matplotlib</span>
-                            <span class="skill-tag">Seaborn</span>
-                            <span class="skill-tag">Data Visualization</span>
-                        </div>
-                        <a href="./files/Data Visualization with Python Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Image Segmentation with PyTorch</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Hands-on project certification applying PyTorch for image segmentation tasks using convolutional neural network architectures.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">PyTorch</span>
-                            <span class="skill-tag">Computer Vision</span>
-                            <span class="skill-tag">Image Segmentation</span>
-                            <span class="skill-tag">Deep Learning</span>
-                        </div>
-                        <a href="./files/Image Segmentation Pytorch Certificate - Copia.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Machine Learning Web App with Streamlit</h3>
-                        <p class="cert-issuer">Coursera</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project-based certification building and deploying machine learning web applications using the Streamlit framework.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Streamlit</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Web Deployment</span>
-                        </div>
-                        <a href="./files/Machine Learning Webapp with Streamlit.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Fake News Detection with Machine Learning</h3>
-                        <p class="cert-issuer">Coursera</p>
-                        <p class="cert-date">May 2025</p>
-                        <p class="cert-description">Practical certification focusing on NLP techniques and machine learning approaches for detecting misinformation and fake news.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">NLP</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Text Analysis</span>
-                            <span class="skill-tag">Classification</span>
-                        </div>
-                        <a href="./files/Fake News ML Project Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Breast Cancer Prediction</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project certification applying Scikit-learn classification algorithms to breast cancer diagnostic data for malignant vs benign tumor prediction.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Classification</span>
-                            <span class="skill-tag">Healthcare AI</span>
-                            <span class="skill-tag">Python</span>
-                        </div>
-                        <a href="./files/Scikit-learn Project Certicate Breast Cancer.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Machine Learning Project</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Hands-on project certification demonstrating proficiency with Scikit-learn for building and evaluating machine learning pipelines.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Machine Learning</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Model Evaluation</span>
-                        </div>
-                        <a href="./files/Scikit-learn Project Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-
-                    <div class="certification-item">
-                        <h3>Scikit-learn: Regression Analysis</h3>
-                        <p class="cert-issuer">IBM</p>
-                        <p class="cert-date">2025</p>
-                        <p class="cert-description">Project certification applying regression techniques with Scikit-learn, including linear, ridge, lasso, and ensemble regression models.</p>
-                        <div class="cert-skills">
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">Regression</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Predictive Modeling</span>
-                        </div>
-                        <a href="./files/Scikit-learn Project Regression Certificate.pdf" class="btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> View Certificate</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Current Window -->
-            <div id="current-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-terminal window-icon"></i>
-                        <span>Current.exe</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="current-section-header">
-                        <h2>Recent Work &amp; Current Focus</h2>
-                        <p>A transparent snapshot of recently shipped products and the research I am continuing after graduation.</p>
-                    </div>
-
-                    <div class="current-project-card" data-track="Current: ZorAI">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>ZorAI</h3>
-                                <p class="current-project-subtitle">AI image provenance across content analysis, IPFS metadata, and Base Sepolia</p>
-                            </div>
-                            <span class="current-status status-live">Recently Shipped</span>
-                        </div>
-                        <p>Built and deployed a public provenance registry for AI-generated images, combining structured image analysis, content-addressed IPFS metadata, wallet support, and a Solidity verification contract on Base Sepolia.</p>
-                        <div class="technologies current-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Solidity</span>
-                            <span class="tech-tag">Hardhat</span>
-                            <span class="tech-tag">IPFS</span>
-                            <span class="tech-tag">Ethers.js</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="./case-studies/zorai.html" class="btn" data-track="Current: ZorAI - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://zorai.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - Live App"><i class="fas fa-external-link-alt"></i> Live App</a>
-                        </div>
-                    </div>
-
-                    <div class="current-project-card" data-track="Current: QLink Research">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>QLink Quantum-Safe Interoperability Research</h3>
-                                <p class="current-project-subtitle">Layer-3 blockchain protocol research with QKD and post-quantum cryptography</p>
-                            </div>
-                            <span class="current-status status-research">Research Active</span>
-                        </div>
-                        <p>Advancing the QLink protocol by exploring secure cross-chain interoperability, validator simulations, and quantum-safe key refresh mechanisms for blockchain networks.</p>
-                        <div class="technologies current-tech">
-                            <span class="tech-tag">Blockchain</span>
-                            <span class="tech-tag">PQC</span>
-                            <span class="tech-tag">QKD</span>
-                            <span class="tech-tag">Protocol Design</span>
-                            <span class="tech-tag">Research</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://arxiv.org/pdf/2512.18488" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: QLink - Research Paper"><i class="fas fa-file-alt"></i> Read Research</a>
-                        </div>
-                    </div>
-
-                    <div class="current-project-card" data-track="Current: Cognitra">
-                        <div class="current-project-top">
-                            <div>
-                                <h3>Cognitra</h3>
-                                <p class="current-project-subtitle">AI study workspace for notes, lectures, mind maps, and generated learning materials</p>
-                            </div>
-                            <span class="current-status status-ship">Live Product</span>
-                        </div>
-                        <p>Shipped a bilingual learning platform with Firebase-backed classes and notes, visual mind mapping, speaker-aware lecture transcription, and LLM-generated study resources.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://cognitra.vercel.app/" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Terminal Window -->
-            <div id="terminal-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-laptop-code window-icon"></i>
-                        <span>Command Prompt</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content terminal-window-content">
-                    <div class="terminal-shell" id="portfolio-terminal-shell">
-                        <div class="terminal-output" id="portfolio-terminal-output">
-                            <div class="terminal-line">Microsoft Windows [Version 11.0.22631]</div>
-                            <div class="terminal-line">(c) Joao Vitor Barros da Silva. All rights reserved.</div>
-                            <div class="terminal-line terminal-line-spacer"></div>
-                            <div class="terminal-line">Portfolio Terminal ready.</div>
-                            <div class="terminal-line">Type <span class="terminal-accent">help</span> to see available commands.</div>
-                        </div>
-                        <form class="terminal-input-row" id="portfolio-terminal-form">
-                            <span class="terminal-prompt">C:\portfolio&gt;</span>
-                            <input
-                                type="text"
-                                id="portfolio-terminal-input"
-                                class="terminal-input"
-                                autocomplete="off"
-                                spellcheck="false"
-                                placeholder="try: about, projects, resume, github"
-                            >
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Playlist Window -->
-            <div id="playlist-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-music window-icon"></i>
-                        <span>My Playlist</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content playlist-window-content">
-                    <div class="playlist-hero">
-                        <div class="playlist-badge" id="playlist-badge">Personal Soundtrack</div>
-                        <h2 id="playlist-title">What I'm Listening To</h2>
-                        <p id="playlist-summary">Music is a big part of how I think, work, relax, and reset. This playlist is a small window into my mood, my rhythm, and the kind of sound that stays with me while I study, build, and slow down.</p>
-                    </div>
-
-                    <div class="playlist-card">
-                        <div class="playlist-cover" id="playlist-cover">
-                            <i class="fab fa-spotify"></i>
-                        </div>
-                        <div class="playlist-meta">
-                            <h3 id="playlist-name">A Playlist That Feels Like Me</h3>
-                            <p class="playlist-subtitle" id="playlist-subtitle">The songs I come back to when I want to focus, breathe, and feel grounded</p>
-                            <p class="playlist-description" id="playlist-description">More than background music, this is part of my personality. It reflects what I listen to when I want to relax, study, sleep, or just sit with a feeling for a while. It is a small showcase of who I am outside the resume.</p>
-                            <div class="project-links">
-                                <a href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2" class="btn" target="_blank" rel="noopener noreferrer" data-track="Playlist: Open Spotify" id="playlist-primary-link"><i class="fab fa-spotify"></i> Open in Spotify</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="spotify-embed-wrapper">
-                        <div id="spotify-playlist-embed" class="spotify-playlist-embed"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Trash Window -->
-            <div id="trash-window" class="window">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-trash window-icon"></i>
-                        <span>Recycle Bin</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content">
-                    <div class="trash-content">
-                        <div class="trash-icon-large">
-                            <i class="fas fa-trash"></i>
-                        </div>
-                        <p class="easter-egg">You found me! This trash bin is empty, just like my coffee cup on Monday mornings.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Notepad Window -->
-            <div id="notepad-window" class="window" style="display: none;">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-file-alt window-icon"></i>
-                        <span>Notepad</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content notepad-content">
-                    <textarea class="notepad-textarea" placeholder="Type your text here..."></textarea>
-                </div>
-            </div>
-            
-            <!-- Folder Window -->
-            <div id="folder-window" class="window" style="display: none;">
-                <div class="window-header">
-                    <div class="window-title">
-                        <i class="fas fa-folder window-icon"></i>
-                        <span>Folder</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="minimize-btn"><i class="fas fa-window-minimize"></i></button>
-                        <button class="maximize-btn"><i class="fas fa-window-maximize"></i></button>
-                        <button class="close-btn"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="window-content folder-content">
-                    <!-- Folder items will be added dynamically -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Start Menu -->
-        <section class="start-menu" id="start-menu" aria-label="Portfolio navigation" aria-hidden="true">
-            <div class="start-menu-profile">
-                <img src="./img/IMG_2532.jpg" alt="" class="start-menu-avatar">
-                <div class="start-menu-identity">
-                    <strong>Joao Vitor</strong>
-                    <span>Software &amp; AI Developer</span>
-                </div>
-                <span class="start-menu-status"><span aria-hidden="true"></span> Open to work</span>
-            </div>
-
-            <label class="start-menu-search" for="start-menu-search-input">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <input id="start-menu-search-input" type="search" placeholder="Search portfolio" autocomplete="off">
-            </label>
-
-            <div class="start-menu-section-heading">
-                <h2>Pinned</h2>
-                <span>Recruiter shortcuts</span>
-            </div>
-            <div class="start-menu-apps" id="start-menu-apps">
-                <button class="start-menu-app" type="button" data-start-window="about" data-search="about profile background new graduate">
-                    <span class="start-menu-app-icon app-icon-about"><i class="fas fa-user" aria-hidden="true"></i></span>
-                    <span>About</span>
-                </button>
-                <button class="start-menu-app" type="button" data-start-window="projects" data-search="projects software full stack machine learning ai">
-                    <span class="start-menu-app-icon app-icon-projects"><i class="fas fa-code" aria-hidden="true"></i></span>
-                    <span>Projects</span>
-                </button>
-                <button class="start-menu-app" type="button" data-start-window="resume" data-search="resume experience skills education cv">
-                    <span class="start-menu-app-icon app-icon-resume"><i class="fas fa-file-lines" aria-hidden="true"></i></span>
-                    <span>Resume</span>
-                </button>
-                <button class="start-menu-app" type="button" data-start-window="current" data-search="recent work current projects shipped research">
-                    <span class="start-menu-app-icon app-icon-current"><i class="fas fa-bolt" aria-hidden="true"></i></span>
-                    <span>Recent Work</span>
-                </button>
-                <button class="start-menu-app" type="button" data-start-window="certifications" data-search="certifications credentials ai machine learning">
-                    <span class="start-menu-app-icon app-icon-certs"><i class="fas fa-certificate" aria-hidden="true"></i></span>
-                    <span>Credentials</span>
-                </button>
-                <button class="start-menu-app" type="button" data-start-window="contact" data-search="contact email phone linkedin hire">
-                    <span class="start-menu-app-icon app-icon-contact"><i class="fas fa-paper-plane" aria-hidden="true"></i></span>
-                    <span>Contact</span>
-                </button>
-            </div>
-            <p class="start-menu-empty" id="start-menu-empty" hidden>No matching portfolio sections.</p>
-
-            <div class="start-menu-section-heading start-menu-recommended-heading">
-                <h2>Recommended</h2>
-                <span>Start here</span>
-            </div>
-            <div class="start-menu-recommended">
-                <button type="button" class="start-menu-recommendation" data-start-window="resume">
-                    <span class="start-menu-recommendation-icon"><i class="fas fa-briefcase" aria-hidden="true"></i></span>
-                    <span><strong>Production experience</strong><small>APIs, data pipelines, AWS, Docker, Rails</small></span>
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="start-menu-recommendation" data-start-window="projects">
-                    <span class="start-menu-recommendation-icon"><i class="fas fa-brain" aria-hidden="true"></i></span>
-                    <span><strong>AI &amp; software projects</strong><small>Shipped products, ML models, applied research</small></span>
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <div class="start-menu-footer">
-                <a href="https://github.com/jvitorbarros15" target="_blank" rel="noopener noreferrer" data-track="Start Menu: GitHub"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span></a>
-                <a href="https://www.linkedin.com/in/joaovi/" target="_blank" rel="noopener noreferrer" data-track="Start Menu: LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>
-                <a href="./files/Joao_Vitor_Barros_da_Silva_Resume.pdf" target="_blank" rel="noopener noreferrer" download data-track="Start Menu: Resume Download"><i class="fas fa-download" aria-hidden="true"></i><span>PDF Resume</span></a>
-            </div>
-        </section>
-
-        <!-- Taskbar -->
-        <div class="taskbar">
-            <button class="start-button" type="button" aria-controls="start-menu" aria-expanded="false" aria-label="Open portfolio Start menu" data-track="CTA: Start Button">
-                <i class="fab fa-windows" aria-hidden="true"></i>
-                <span>Start</span>
-            </button>
-            <div class="taskbar-items">
-                <!-- Will be populated with JavaScript -->
-            </div>
-            <div class="taskbar-right">
-                <div class="taskbar-icon wallpaper-settings" title="Change Wallpaper">
-                    <i class="fas fa-image"></i>
-                </div>
-                <div class="clock" id="taskbar-clock">10:00 AM</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Wallpaper Settings Popup -->
-    <div class="wallpaper-popup">
-        <div class="wallpaper-popup-header">
-            <h3>Change Wallpaper</h3>
-            <button class="wallpaper-close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="wallpaper-options">
-            <div class="wallpaper-option" data-wallpaper="default" style="background: linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%);">
-                <span>Default</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="mountains" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Mountains</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="ocean" style="background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Ocean</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="forest" style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Forest</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="cityscape" style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80');">
-                <span>Cityscape</span>
-            </div>
-            <div class="wallpaper-option" data-wallpaper="space" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                <span>Space</span>
-            </div>
-        </div>
-        
-        <div class="wallpaper-custom">
-            <p>Or upload your own image:</p>
-            <div class="file-upload-container">
-                <input type="file" id="wallpaper-file-input" accept="image/*" class="wallpaper-file-input">
-                <label for="wallpaper-file-input" class="file-upload-btn">
-                    <i class="fas fa-upload"></i> Choose File
-                </label>
-                <span id="selected-file-name">No file selected</span>
-            </div>
-            <button class="btn apply-custom-wallpaper" disabled>Apply</button>
-        </div>
-    </div>
-
-    <div class="desktop-dialog-overlay" id="desktop-dialog-overlay">
-        <div class="desktop-dialog" role="dialog" aria-modal="true" aria-labelledby="desktop-dialog-title">
-            <div class="desktop-dialog-header">
-                <h3 id="desktop-dialog-title">Create New Item</h3>
-                <button class="desktop-dialog-close" id="desktop-dialog-close" aria-label="Close dialog">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="desktop-dialog-body">
-                <p class="desktop-dialog-description" id="desktop-dialog-description">Choose a name for your new file.</p>
-                <label class="desktop-dialog-label" for="desktop-dialog-input" id="desktop-dialog-label">File name</label>
-                <input type="text" id="desktop-dialog-input" class="desktop-dialog-input" />
-                <div class="desktop-dialog-actions">
-                    <button class="desktop-dialog-btn secondary" id="desktop-dialog-cancel">Cancel</button>
-                    <button class="desktop-dialog-btn primary" id="desktop-dialog-confirm">Create</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="playlist-mini-player" id="playlist-mini-player">
-        <button class="playlist-mini-close" id="playlist-mini-close" title="Dismiss">&times;</button>
-        <div class="playlist-mini-player-meta">
-            <div class="playlist-mini-player-label">Now Playing</div>
-            <div class="playlist-mini-player-title" id="playlist-mini-player-title">My Playlist</div>
-            <div class="playlist-mini-player-subtitle" id="playlist-mini-player-subtitle">Open the playlist to start playback</div>
-        </div>
-        <div class="playlist-mini-player-actions">
-            <button class="playlist-mini-btn" id="playlist-mini-restart" title="Restart current track">
-                <i class="fas fa-backward-step"></i>
-            </button>
-            <button class="playlist-mini-btn playlist-mini-btn-primary" id="playlist-mini-toggle" title="Play or pause">
-                <i class="fas fa-play" id="playlist-mini-toggle-icon"></i>
-            </button>
-            <a
-                href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2"
-                class="playlist-mini-btn"
-                id="playlist-mini-open"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Open in Spotify"
-            >
-                <i class="fab fa-spotify"></i>
-            </a>
-        </div>
-    </div>
-
-    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
-    <script src="./js/script.js"></script>
-    
-    <!-- Analytics Tracking Scripts -->
-    <script>
-    // Universal click tracker - tracks elements with data-track attribute
-    document.addEventListener('click', function(e){
-      const el = e.target.closest('[data-track]');
-      if(!el) return;
-      const label = el.getAttribute('data-track') || el.textContent.trim().slice(0,60);
-
-      // GA4 via gtag:
-      if (window.gtag) {
-        gtag('event','click', {
-          event_category: 'portfolio_click',
-          event_label: label
-        });
-      }
-
-      // If using dataLayer (GTM):
-      if (window.dataLayer) {
-        dataLayer.push({
-          'event': 'portfolio_click',
-          'click_label': label,
-          'click_url': el.href || null
-        });
-      }
-    });
-
-    // Scroll depth tracking
-    let fired = {25:false,50:false,75:false,100:false};
-    window.addEventListener('scroll', function(){
-      const pct = Math.round( (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100 );
-      [25,50,75,100].forEach(v=>{
-        if(pct >= v && !fired[v]){
-          fired[v]=true;
-          if(window.gtag) gtag('event','scroll', {event_category:'engagement', event_label: v + '%'});
-          if(window.dataLayer) dataLayer.push({event:'scroll_depth', depth:v});
-        }
-      });
-    });
-
-    // Form submission and validation tracking
-    document.addEventListener('DOMContentLoaded', function() {
-      const contactForm = document.querySelector('.contact-form');
-      if (contactForm) {
-        const status = document.getElementById('contact-form-status');
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        contactForm.dataset.startedAt = String(Date.now());
-
-        const setStatus = function(text, state) {
-          if (!status) return;
-          status.textContent = text;
-          status.className = 'contact-form-status' + (state ? ' is-' + state : '');
-        };
-
-        contactForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
-
-          if (!contactForm.checkValidity()) {
-            contactForm.reportValidity();
-            trackValidationError('contact_form_invalid');
-            return;
-          }
-
-          const payload = {
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            message: document.getElementById('message').value.trim(),
-            website: document.getElementById('company-website').value.trim(),
-            startedAt: Number(contactForm.dataset.startedAt)
-          };
-
-          const originalBtn = submitBtn ? submitBtn.innerHTML : '';
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
-          }
-          setStatus('Sending your message…', 'pending');
-
-          try {
-            const response = await fetch('/api/contact', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            const data = await response.json().catch(() => ({}));
-
-            if (response.ok && data.ok) {
-              contactForm.reset();
-              contactForm.dataset.startedAt = String(Date.now());
-              setStatus('Message sent. I will get back to you soon.', 'success');
-              if (window.gtag) {
-                gtag('event', 'contact_message_sent', {
-                  event_category: 'contact',
-                  event_label: 'api'
-                });
-              }
-              if (window.dataLayer) {
-                dataLayer.push({ 'event': 'contact_message_sent', 'contact_method': 'api' });
-              }
-            } else {
-              setStatus((data.error || 'Something went wrong.') + ' You can also email me at jvitorbarros15@gmail.com.', 'error');
-            }
-          } catch (error) {
-            setStatus('Network error. You can also email me at jvitorbarros15@gmail.com.', 'error');
-          } finally {
-            if (submitBtn) {
-              submitBtn.disabled = false;
-              submitBtn.innerHTML = originalBtn;
-            }
-          }
-        });
-      }
-    });
-    
-    // Helper function to track validation errors
-    function trackValidationError(field) {
-      if (window.gtag) {
-        gtag('event', 'form_validation_error', {
-          event_category: 'contact',
-          event_label: field
-        });
-      }
-      if (window.dataLayer) {
-        dataLayer.push({
-          'event': 'form_validation_error',
-          'field': field
-        });
-      }
+function renderDiagram(d) {
+  const num = diagrams.indexOf(d) + 2, mid = 'arrow-' + d.id;
+  const svg = svgEl('svg', { class: 'diagram', viewBox: `0 0 ${d.w} ${d.h}`, width: d.w, height: d.h, style: `left:${d.x}px;top:${d.y}px` });
+  const defs = svgEl('defs'), m = svgEl('marker', { id: mid, viewBox: '0 0 8 8', refX: 8, refY: 4, markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse', markerUnits: 'userSpaceOnUse' });
+  m.append(svgEl('path', { class: 'arrow', d: 'M0 0L8 4L0 8z' }));
+  defs.append(m);
+  const link = svgEl('a', { role: 'button', tabindex: 0, 'aria-label': 'Open ' + d.title });
+  link.append(
+    svgEl('rect', { class: 'boundary', x: 1, y: 1, width: d.w - 2, height: d.h - 2, rx: 10 }),
+    svgEl('text', { class: 'tag', x: 24, y: 30 }, `fig. ${num} — ${d.title}`),
+    svgEl('text', { class: 'tag', x: d.w - 24, y: 30, 'text-anchor': 'end' }, `opens ${d.opens} →`)
+  );
+  const byId = Object.fromEntries(d.nodes.map(n => [n.id, n]));
+  d.nodes.forEach(n => renderNode(n, link));
+  d.edges.forEach(e => {
+    const [x1, y1, x2, y2] = anchors(rect(byId[e.from]), rect(byId[e.to]));
+    const attrs = { class: 'edge' + (e.dashed ? ' dashed' : ''), x1, y1, x2, y2, 'marker-end': `url(#${mid})` };
+    if (e.both) attrs['marker-start'] = `url(#${mid})`;
+    link.append(svgEl('line', attrs));
+    if (e.label) {
+      const cw = e.label.length * 6.9 + 14, mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      link.append(svgEl('rect', { class: 'chip', x: mx - cw / 2, y: my - 10, width: cw, height: 20 }), svgEl('text', { class: 'tag', x: mx, y: my + 4, 'text-anchor': 'middle' }, e.label));
     }
-    </script>
+  });
+  if (d.note) link.append(svgEl('text', { class: 'note', x: 24, y: d.h - 22 }, d.note));
+  link.addEventListener('click', () => open(d.opens));
+  link.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(d.opens); } });
+  svg.append(defs, link);
+  return svg;
+}
+
+const ring = (cx, cy, r) => Array.from({ length: 7 }, (_, i) => {
+  const t = -Math.PI / 2 + i * 2 * Math.PI / 7;
+  return { id: 'v' + i, label: String(i + 1), kind: 'box', x: Math.round(cx + r * Math.cos(t) - 14), y: Math.round(cy + r * Math.sin(t) - 14), w: 28, h: 28 };
+});
+
+const pairs = list => list.map(([from, to]) => ({ from, to }));
+
+const diagrams = [
+  { id: 'clareia', x: 40, y: 516, w: 1124, h: 250, title: 'Clareia ingestion pipeline', opens: 'projects',
+    note: '180 inconsistent records caught · 200 MB → 1 MB',
+    nodes: [
+      { id: 'chamber', label: 'Chamber API', sub: 'open data', kind: 'ext', x: 24, y: 70, w: 130, h: 48 },
+      { id: 'ceap', label: 'CEAP file', sub: 'annual file', kind: 'ext', x: 24, y: 140, w: 130, h: 48 },
+      { id: 'capture', label: 'dual capture', kind: 'box', x: 200, y: 94, w: 120, h: 70 },
+      { id: 'reconcile', label: 'reconcile', kind: 'box', x: 366, y: 105, w: 120, h: 48 },
+      { id: 'reaudit', label: 're-audit', sub: 'independent', kind: 'box', x: 532, y: 105, w: 120, h: 48, hl: true },
+      { id: 'pg', label: 'PostgreSQL', kind: 'db', x: 698, y: 99, w: 110, h: 60 },
+      { id: 'workers', label: 'Workers', sub: 'Cloudflare', kind: 'box', x: 854, y: 105, w: 130, h: 48 },
+      { id: 'site', label: 'site', kind: 'box', x: 1030, y: 105, w: 70, h: 48 },
+    ],
+    edges: pairs([['chamber', 'capture'], ['ceap', 'capture'], ['capture', 'reconcile'], ['reconcile', 'reaudit'], ['reaudit', 'pg'], ['pg', 'workers'], ['workers', 'site']]) },
+  { id: 'qlink', x: 1100, y: 60, w: 906, h: 316, title: 'QLink bridge', opens: 'research',
+    note: '707× throughput · sub-second latency · arXiv:2512.18488',
+    nodes: [
+      { id: 'a', label: 'Chain A', kind: 'ext', x: 28, y: 140, w: 120, h: 48 },
+      { id: 'bridge', label: '7-validator bridge', kind: 'ext', group: true, hl: true, x: 368, y: 64, w: 170, h: 200 },
+      ...ring(453, 174, 58),
+      { id: 'b', label: 'Chain B', kind: 'ext', x: 758, y: 140, w: 120, h: 48 },
+    ],
+    edges: [{ from: 'a', to: 'bridge', both: true, label: 'quantum-safe signatures' }, { from: 'bridge', to: 'b', both: true, label: 'sub-second latency' }] },
+  { id: 'agents', x: 40, y: 920, w: 1048, h: 320, title: 'Multi-agent workspace', opens: 'projects',
+    nodes: [
+      { id: 'wa', label: 'WhatsApp', kind: 'actor', x: 40, y: 150 },
+      { id: 'hermes', label: 'Hermes gateway', kind: 'box', x: 130, y: 130, w: 150, h: 48 },
+      { id: 'orch', label: 'orchestrator', kind: 'box', x: 340, y: 130, w: 150, h: 48, hl: true },
+      { id: 'builder', label: 'builder agent', kind: 'box', x: 560, y: 90, w: 150, h: 48 },
+      { id: 'researcher', label: 'researcher agent', kind: 'box', x: 560, y: 170, w: 150, h: 48 },
+      { id: 'models', label: 'model backends', kind: 'ext', group: true, x: 790, y: 56, w: 250, h: 236 },
+      { id: 'codex', label: 'Codex', kind: 'ext', x: 810, y: 92, w: 210, h: 48 },
+      { id: 'ollama', label: 'Ollama · local LLMs', kind: 'box', group: true, x: 810, y: 164, w: 210, h: 110 },
+      { id: 'qwen', label: 'Qwen', kind: 'box', x: 826, y: 210, w: 84, h: 40 },
+      { id: 'gemma', label: 'Gemma', kind: 'box', x: 920, y: 210, w: 84, h: 40 },
+    ],
+    edges: pairs([['wa', 'hermes'], ['hermes', 'orch'], ['orch', 'builder'], ['orch', 'researcher'], ['builder', 'models'], ['researcher', 'models']]) },
+  { id: 'newhome', x: 1220, y: 520, w: 758, h: 280, title: 'New Home lead flow', opens: 'projects',
+    nodes: [
+      { id: 'lead', label: 'WhatsApp lead', kind: 'actor', x: 64, y: 114 },
+      { id: 'api', label: 'API', sub: 'Node.js', kind: 'box', x: 180, y: 100, w: 140, h: 48 },
+      { id: 'db', label: 'Supabase', kind: 'db', x: 380, y: 90, w: 130, h: 68 },
+      { id: 'hubspot', label: 'HubSpot CRM', kind: 'ext', x: 570, y: 100, w: 160, h: 48 },
+      { id: 'admin', label: 'admin panel', kind: 'box', x: 380, y: 200, w: 130, h: 48 },
+    ],
+    edges: pairs([['lead', 'api'], ['api', 'db'], ['db', 'hubspot'], ['admin', 'db']]) },
+  { id: 'libraries', x: -760, y: 120, w: 668, h: 290, title: 'Penn State Libraries integration', opens: 'experience',
+    note: '40,000+ users · 60% less manual processing',
+    nodes: [
+      { id: 'rails', label: 'Rails platform', sub: 'Penn State Libraries', kind: 'box', x: 28, y: 96, w: 170, h: 48 },
+      { id: 'importer', label: 'JSON-to-XML', sub: 'importer', kind: 'box', x: 250, y: 90, w: 140, h: 60, hl: true },
+      { id: 'partner', label: 'partner platform', kind: 'ext', x: 470, y: 96, w: 170, h: 48 },
+      { id: 'swagger', label: 'Swagger docs', kind: 'box', x: 470, y: 190, w: 170, h: 40 },
+    ],
+    edges: [...pairs([['rails', 'importer'], ['importer', 'partner']]), { from: 'swagger', to: 'partner', dashed: true }] },
+];
+
+diagrams.forEach(d => canvas.append(renderDiagram(d)));
+
+const mobile = () => innerWidth <= 760;
+const recenter = () => mobile() ? panTo(diagrams[0]) : glide(0, 0);
+document.getElementById('recenter').onclick = recenter;
+
+function panTo(d) {
+  if (mobile()) { glide(16 - d.x, 16 - d.y); return; }
+  glide(surface.clientWidth / 2 - (d.x + d.w / 2), surface.clientHeight - 110 - d.h - d.y);
+}
+
+const mapEl = document.getElementById('map'), mapBtn = document.getElementById('map-btn');
+const toggleMap = show => {
+  mapEl.hidden = !show;
+  mapBtn.setAttribute('aria-expanded', show);
+};
+diagrams.forEach((d, i) => {
+  const b = document.createElement('button');
+  b.innerHTML = `<span>fig. ${i + 2}</span>${d.title}`;
+  b.onclick = () => { panTo(d); toggleMap(false); };
+  mapEl.append(b);
+});
+mapBtn.onclick = () => toggleMap(mapEl.hidden);
+document.addEventListener('pointerdown', e => { if (!mapEl.hidden && !e.target.closest('#map, #map-btn')) toggleMap(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mapEl.hidden) { toggleMap(false); mapBtn.focus(); } });
+
+function markDock() {
+  document.querySelectorAll('.dock button').forEach(b => {
+    const on = !!document.getElementById('win-' + b.dataset.open);
+    b.classList.toggle('open', on);
+    b.setAttribute('aria-pressed', on);
+  });
+}
+
+function countUp(root) {
+  root.querySelectorAll('[data-count]').forEach(n => {
+    const end = +n.dataset.count;
+    if (reduced.matches) { n.textContent = end.toLocaleString('en-US') + n.dataset.suffix; return; }
+    const t0 = performance.now(), dur = 1200;
+    const tick = t => {
+      const p = Math.min(1, (t - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      n.textContent = v.toLocaleString('en-US') + (p === 1 ? n.dataset.suffix : '');
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+function term(root) {
+  const out = root.querySelector('#out'), input = root.querySelector('#in');
+  const cmds = {
+    help: () => 'commands: <span class="y">whoami</span>, <span class="y">projects</span>, <span class="y">open</span> &lt;window&gt;, <span class="y">resume</span>, <span class="y">contact</span>, <span class="y">clear</span>',
+    whoami: () => '<span class="g">software &amp; AI engineer · Penn State CS \'26 · Ashburn, VA</span>',
+    projects: () => '<span class="y">clareia  new-home  agents  zorai  cognitra  meridian</span>',
+    resume: () => { open('readme'); return 'opening readme.md — resume button inside'; },
+    contact: () => 'jvitorbarros15@gmail.com · linkedin.com/in/joaovi',
+    clear: () => { out.innerHTML = ''; return null; },
+    open: a => wins[a] ? (open(a), 'opening ' + wins[a].title) : 'open: try ' + Object.keys(wins).join(', '),
+  };
+  root.querySelector('#cmd').onsubmit = e => {
+    e.preventDefault();
+    const [c, ...args] = input.value.trim().split(/\s+/);
+    input.value = '';
+    if (!c) return;
+    const res = cmds[c] ? cmds[c](args[0]) : `command not found: ${c.replace(/</g, '&lt;')}`;
+    if (res !== null) out.insertAdjacentHTML('beforeend', `<span class="y">$</span> ${c.replace(/</g, '&lt;')} ${args.join(' ').replace(/</g, '&lt;')}<br>${res}<br>`);
+    out.parentElement.parentElement.scrollTop = 1e6;
+  };
+  root.addEventListener('click', () => input.focus());
+}
+
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => open(b.dataset.open));
+const clock = document.getElementById('clock');
+const tickClock = () => clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+tickClock(); setInterval(tickClock, 30000);
+
+open('readme');
+if (mobile()) recenter();
+setTimeout(() => !mobile() && open('terminal'), 250);
+</script>
 </body>
-</html> 
+</html>
