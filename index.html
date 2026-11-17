@@ -8,7 +8,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id=GTM-ML997XWB'+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-ML997XWB');</script>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Portfolio of João Vitor Barros, software and AI engineer: Clareia, QLink, a multi-agent workspace and production Rails work, laid out as a blueprint.">
 <link rel="canonical" href="https://joao-vitor-barros-da-silva-portfolio.vercel.app/">
 <title>João Vitor Barros — Blueprint</title>
@@ -139,7 +139,6 @@ a { color: inherit; }
 .menubar button { all: unset; cursor: pointer; }
 .menubar button:hover, .menubar button:focus-visible { color: var(--yellow); }
 .menubar .right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
-.menubar .explore-btn { display: none; border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
 .menubar .recruiter { color: var(--yellow); border: 1px solid var(--yellow); border-radius: 4px; padding: 3px 9px; text-decoration: none; white-space: nowrap; }
 .menubar .recruiter:hover, .menubar .recruiter:focus-visible { background: var(--yellow); color: var(--navy-deep); }
 .menubar .recenter { border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
@@ -251,24 +250,88 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
   .win .bar button { width: 18px; height: 18px; }
   .menubar button, .map button, .dock button { min-height: 32px; }
 }
+#m, .m-sheet, .m-view { display: none; }
 @media (max-width: 760px) {
-  body { overflow: auto; }
-  .menubar { gap: 12px; padding: 0 12px; }
-  .menubar .right { gap: 8px; }
-  .menubar [data-open], .menubar .recenter { display: none; }
-  .desk { position: static; padding: 50px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
-  #windows { order: -1; position: static; display: flex; flex-direction: column; gap: 16px; }
-  #pan { position: relative; inset: auto; height: 60vh; border: 1px solid var(--line-strong); border-radius: 8px; touch-action: pan-y; }
-  #pan.explore { touch-action: none; border-color: var(--yellow); }
-  .menubar .explore-btn { display: inline-block; }
-  .win { position: static !important; width: auto !important; max-height: none; scroll-margin-top: 48px; }
-  .win .body { padding: 18px; }
+  :root { --ease-out: cubic-bezier(.23, 1, .32, 1); }
+  html, body { height: auto; }
+  body { overflow: auto; -webkit-text-size-adjust: 100%; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; }
+  html.m-lock, html.m-lock body { overflow: hidden; }
+  .menubar, .desk, .dock { display: none; }
+  #m { display: block; --top: calc(52px + env(safe-area-inset-top)); --tabs: calc(60px + env(safe-area-inset-bottom)); --sl: max(12px, env(safe-area-inset-left)); --sr: max(12px, env(safe-area-inset-right)); }
+  #m button, #m a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .m-top { position: fixed; inset: 0 0 auto 0; z-index: 900; height: var(--top); padding: env(safe-area-inset-top) var(--sr) 0 var(--sl); display: flex; align-items: center; justify-content: space-between; background: #0f1b3d; border-bottom: 1px solid var(--line-strong); }
+  .m-brand { font: 600 14px 'Martian Mono', monospace; color: var(--ink-on-navy); display: inline-flex; align-items: center; gap: 8px; }
+  .m-brand i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  .m-btn { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 1px solid var(--line-strong); border-radius: 8px; font: 500 13px 'Martian Mono', monospace; color: var(--ink-on-navy); transition: transform .16s var(--ease-out), background .16s; }
+  .m-btn:active { transform: scale(.97); background: #ffffff14; }
+  .m-btn svg, .m-tabs svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .m-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: calc(var(--top) + 14px) var(--sr) calc(var(--tabs) + 28px) var(--sl); }
+  .m-cap { font: 11px 'Martian Mono', monospace; color: var(--muted-on-navy); border-top: 1px dashed var(--muted-on-navy); padding-top: 8px; overflow-wrap: anywhere; }
+  .card { background: var(--paper); color: var(--ink); border-radius: 10px; box-shadow: 0 24px 48px -28px #000c, 0 0 0 1px #ffffff1a; overflow: hidden; min-width: 0; scroll-margin-top: calc(var(--top) + 10px); }
+  .card.dark { background: var(--navy-deep); color: var(--muted-on-navy); box-shadow: 0 24px 48px -28px #000c, 0 0 0 1px var(--line-strong); }
+  .card .bar { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 0 0 14px; background: var(--paper-bar); font: 12px 'Martian Mono', monospace; color: #59618a; }
+  .card.dark .bar { background: #0c1835; color: var(--muted-on-navy); }
+  .card .dots { display: inline-flex; gap: 5px; } .card .dots b { width: 9px; height: 9px; border-radius: 50%; background: #bfc5d9; } .card.dark .dots b { background: #22336b; }
+  .card .bar span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .card .tog { all: unset; box-sizing: border-box; cursor: pointer; width: 48px; min-height: 44px; display: grid; place-items: center; align-self: stretch; color: inherit; }
+  .card .tog svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s var(--ease-out); }
+  .card.collapsed .tog svg { transform: rotate(-90deg); }
+  .card .body { padding: 18px 16px 20px; overflow-wrap: anywhere; min-width: 0; }
+  .card .body[hidden] { display: none; }
+  .card a:focus-visible, .card button:focus-visible { outline-color: var(--ink); }
+  .card.dark a:focus-visible, .card.dark button:focus-visible { outline-color: var(--yellow); }
+  .card h1 { font-size: clamp(28px, 9vw, 40px); }
+  .card .lede { max-width: none; }
+  .card .ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .card .ctas .btn { min-height: 46px; justify-content: center; text-align: center; padding: 0 10px; }
+  .card .ctas .btn:first-child { grid-column: 1 / -1; }
+  .card .ctas.inline { display: flex; flex-wrap: wrap; }
+  .card .ctas.inline .btn:first-child { grid-column: auto; }
+  .btn:hover { transform: none; } .btn:active { transform: scale(.97); }
   .stats { gap: 8px; }
-  .stats b { font-size: 20px; }
-  .annot, .menubar .hide-sm { display: none; }
-  .dock button { padding: 6px 4px; }
-  .dock { left: 8px; right: 8px; transform: none; gap: 0; justify-content: space-between; overflow-x: auto; }
+  .stats b { font-size: clamp(16px, 5.4vw, 24px); overflow-wrap: normal; }
+  .list .links { flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+  .list .links a, .plain a { display: inline-flex; align-items: center; min-height: 44px; border-bottom: 0; text-decoration: underline; text-underline-offset: 4px; }
+  .plain { gap: 0; } .plain li { border-top: 1px solid #d8dbe6; } .plain li:first-child { border-top: 0; }
+  .arch { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 1.5px solid var(--ink); border-radius: 6px; font: 600 14px 'Archivo', sans-serif; color: var(--ink); transition: transform .16s var(--ease-out), background .16s; }
+  .arch svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .list .links > .arch { flex: 1 0 100%; justify-content: center; }
+  .arch:active { transform: scale(.97); background: #0f1b3d14; }
+  .card .term { min-height: 180px; }
+  .card .term input { font-size: 16px; min-height: 44px; }
+  .card .term form { align-items: center; }
+  .m-tabs { position: fixed; inset: auto 0 0 0; z-index: 900; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: #0c1835; border-top: 1px solid var(--line-strong); }
+  .m-tabs button { all: unset; box-sizing: border-box; cursor: pointer; min-height: 60px; display: grid; justify-items: center; align-content: center; gap: 3px; font: 500 11px 'Martian Mono', monospace; letter-spacing: -.04em; color: var(--muted-on-navy); transition: color .16s; }
+  .m-tabs button:active svg { transform: scale(.92); }
+  .m-tabs svg { transition: transform .16s var(--ease-out); }
+  .m-tabs button.on { color: var(--yellow); }
+  .m-top .m-btn:focus-visible, .m-tabs button:focus-visible, .m-sheet :focus-visible, .m-view :focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+  .m-tabs button:focus-visible { outline-offset: -4px; }
+  .m-sheet { position: fixed; inset: 0; z-index: 2000; flex-direction: column; background: var(--navy-deep); animation: m-in .22s var(--ease-out) both; }
+  .m-sheet:not([hidden]), .m-view:not([hidden]) { display: flex; }
+  .m-sheet-head { display: flex; align-items: center; justify-content: space-between; height: var(--top); padding: env(safe-area-inset-top) var(--sr) 0 var(--sl); border-bottom: 1px solid var(--line-strong); flex: none; }
+  .m-sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 8px var(--sr) calc(24px + env(safe-area-inset-bottom)) var(--sl); }
+  .m-eyebrow { font: 500 11px 'Martian Mono', monospace; color: var(--yellow); letter-spacing: .08em; text-transform: uppercase; padding: 22px 0 6px; }
+  .m-row { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 14px; width: 100%; min-height: 52px; padding: 6px 4px; border-bottom: 1px solid var(--line); font: 600 17px 'Archivo', sans-serif; color: var(--ink-on-navy); transition: background .16s; }
+  .m-row span { flex: none; min-width: 52px; font: 400 12px 'Martian Mono', monospace; color: var(--muted-on-navy); }
+  .m-row:active { background: #ffffff14; }
+  .m-row.yel { color: var(--yellow); }
+  .m-view { position: fixed; inset: 0; z-index: 3000; flex-direction: column; background: var(--navy-deep); animation: m-zoom .22s var(--ease-out) both; }
+  .m-view-head { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(8px + env(safe-area-inset-top)) var(--sr) 8px var(--sl); border-bottom: 1px solid var(--line-strong); }
+  .m-view-head div { min-width: 0; }
+  .m-view-fig { font: 11px 'Martian Mono', monospace; color: var(--muted-on-navy); }
+  .m-view-head h2 { font: 700 16px/1.2 'Archivo'; margin: 2px 0 0; color: var(--ink-on-navy); overflow-wrap: anywhere; }
+  .m-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; cursor: grab; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; user-select: none; -webkit-user-select: none; }
+  #v-cv { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+  #v-cv.anim { transition: transform .22s var(--ease-out); }
+  #v-cv .diagram { position: static; display: block; }
+  .m-hint { position: absolute; left: 12px; right: 12px; bottom: 10px; text-align: center; font: 11px 'Martian Mono', monospace; color: var(--muted-on-navy); pointer-events: none; transition: opacity .3s; }
+  .m-hint.gone { opacity: 0; }
+  .m-view-foot { flex: none; display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; padding: 8px var(--sr) calc(8px + env(safe-area-inset-bottom)) var(--sl); border-top: 1px solid var(--line-strong); }
+  .m-view-foot .m-btn { min-height: 48px; }
 }
+@keyframes m-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes m-zoom { from { opacity: 0; transform: scale(.98); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
@@ -283,7 +346,7 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
   <button data-open="experience" class="hide-sm">Experience</button>
   <button data-open="certs" class="hide-sm">Certificates</button>
   <button data-open="music" class="hide-sm">Music</button>
-  <div class="right"><a class="recruiter" href="./recruiter.html">Recruiter view</a><span class="hide-sm"><span class="bars"><i></i><i></i><i></i><i></i></span>on repeat</span><button class="explore-btn" id="explore" aria-pressed="false">Explore</button><button class="recenter" id="recenter">Recenter</button><span id="clock" class="hide-sm"></span></div>
+  <div class="right"><a class="recruiter" href="./recruiter.html">Recruiter view</a><span class="hide-sm"><span class="bars"><i></i><i></i><i></i><i></i></span>on repeat</span><button class="recenter" id="recenter">Recenter</button><span id="clock" class="hide-sm"></span></div>
 </header>
 
 <main class="desk" id="desk">
@@ -304,6 +367,27 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
   <button data-open="music"><svg viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><circle cx="17" cy="15" r="3"/><path d="M10 17V5l10-2v12"/></svg>music</button>
   <button data-open="terminal"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z M7 10l3 2-3 2 M12 15h5"/></svg>terminal</button>
 </nav>
+
+<div id="m">
+  <header class="m-top"><span class="m-brand"><i aria-hidden="true"></i>jvb.os</span><button class="m-btn" id="m-menu" aria-expanded="false" aria-controls="m-sheet" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button></header>
+  <main class="m-main" id="m-main"></main>
+  <nav class="m-tabs" id="m-tabs" aria-label="Sections">
+    <button data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z M9 20v-6h6v6"/></svg>Home</button>
+    <button data-tab="projects"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h7l2 2h9v10H3z"/></svg>Projects</button>
+    <button data-tab="diagrams"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v5H3z M14 15h7v5h-7z M6.5 9v4h11v2"/></svg>Diagrams</button>
+    <button data-tab="music"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="17" r="3"/><circle cx="17" cy="15" r="3"/><path d="M10 17V5l10-2v12"/></svg>Music</button>
+    <button data-tab="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>More</button>
+  </nav>
+  <div class="m-sheet" id="m-sheet" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <div class="m-sheet-head"><span class="m-brand"><i aria-hidden="true"></i>jvb.os</span><button class="m-btn" id="m-sheet-x" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Close</button></div>
+    <div class="m-sheet-body" id="m-sheet-body"></div>
+  </div>
+  <div class="m-view" id="m-view" role="dialog" aria-modal="true" aria-label="Diagram viewer" hidden>
+    <div class="m-view-head"><div><p class="m-view-fig" id="v-fig"></p><h2 id="v-title"></h2></div><button class="m-btn" id="v-x" aria-label="Close diagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Close</button></div>
+    <div class="m-stage" id="v-stage"><div id="v-cv"></div><p class="m-hint" id="v-hint">Drag · pinch · double-tap to zoom</p></div>
+    <div class="m-view-foot"><button class="m-btn" id="v-prev" aria-label="Previous diagram">&lsaquo; Prev</button><button class="m-btn" id="v-fit">Fit</button><button class="m-btn" id="v-next" aria-label="Next diagram">Next &rsaquo;</button></div>
+  </div>
+</div>
 
 <template id="tpl-readme">
   <div class="kick"><span class="live" aria-hidden="true"></span>Open to entry-level SWE and AI engineering roles</div>
@@ -394,7 +478,6 @@ function closeWin(el) {
 
 function reveal(el) {
   el.style.zIndex = ++z;
-  if (mobile()) el.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' });
 }
 
 function open(id) {
@@ -417,7 +500,6 @@ function open(id) {
   if (id === 'readme') countUp(el);
   if (id === 'terminal') term(el);
   markDock();
-  if (mobile() && el.previousElementSibling) reveal(el);
 }
 
 function drag(el, handle) {
@@ -571,21 +653,21 @@ function longest(pts) {
   return [(best[0][0] + best[1][0]) / 2, (best[0][1] + best[1][1]) / 2];
 }
 
-function renderDiagram(d) {
-  const num = diagrams.indexOf(d) + 2, mid = 'arrow-' + d.id;
-  const svg = svgEl('svg', { class: 'diagram', viewBox: `0 0 ${d.w} ${d.h}`, width: d.w, height: d.h, style: `left:${d.x}px;top:${d.y}px` });
+function renderDiagram(d, viewer) {
+  const num = diagrams.indexOf(d) + 2, mid = 'arrow-' + d.id + (viewer ? '-v' : '');
+  const svg = svgEl('svg', viewer ? { class: 'diagram', viewBox: `0 0 ${d.w} ${d.h}`, width: d.w, height: d.h, role: 'img', 'aria-label': d.title + (d.note ? '. ' + d.note : '') } : { class: 'diagram', viewBox: `0 0 ${d.w} ${d.h}`, width: d.w, height: d.h, style: `left:${d.x}px;top:${d.y}px` });
   const defs = svgEl('defs');
   [['', 'arrow'], ['y', 'arrow y']].forEach(([k, cls]) => {
     const m = svgEl('marker', { id: mid + k, viewBox: '0 0 8 8', refX: 8, refY: 4, markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse', markerUnits: 'userSpaceOnUse' });
     m.append(svgEl('path', { class: cls, d: 'M0 0L8 4L0 8z' }));
     defs.append(m);
   });
-  const link = svgEl('a', { role: 'button', tabindex: 0, 'aria-label': 'Open ' + d.title });
+  const link = viewer ? svgEl('g') : svgEl('a', { role: 'button', tabindex: 0, 'aria-label': 'Open ' + d.title });
   link.append(
     svgEl('rect', { class: 'boundary', x: 1, y: 1, width: d.w - 2, height: d.h - 2, rx: 10 }),
     svgEl('text', { class: 'tag', x: 24, y: 30 }, `fig. ${num} — ${d.title}`),
-    svgEl('text', { class: 'tag', x: d.w - 24, y: 30, 'text-anchor': 'end' }, `opens ${d.opens} →`)
   );
+  if (!viewer) link.append(svgEl('text', { class: 'tag', x: d.w - 24, y: 30, 'text-anchor': 'end' }, `opens ${d.opens} →`));
   const byId = Object.fromEntries(d.nodes.map(n => [n.id, n]));
   d.nodes.filter(isZone).forEach(n => renderZone(n, link));
   const chips = [];
@@ -602,8 +684,10 @@ function renderDiagram(d) {
     link.append(svgEl('rect', { class: 'chip', x: mx - cw / 2, y: my - 10, width: cw, height: 20 }), svgEl('text', { class: 'tag', x: mx, y: my + 4, 'text-anchor': 'middle' }, label));
   });
   if (d.note) link.append(svgEl('text', { class: 'note', x: 24, y: d.h - 22 }, d.note));
-  link.addEventListener('click', () => open(d.opens));
-  link.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(d.opens); } });
+  if (!viewer) {
+    link.addEventListener('click', () => open(d.opens));
+    link.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(d.opens); } });
+  }
   svg.append(defs, link);
   return svg;
 }
@@ -826,18 +910,9 @@ const diagrams = [
 
 diagrams.forEach(d => canvas.append(renderDiagram(d)));
 
-const mobile = () => innerWidth <= 760;
-const recenter = () => mobile() ? panTo(diagrams[0]) : glide(0, 0);
+const recenter = () => glide(0, 0);
 document.getElementById('recenter').onclick = recenter;
-const exploreBtn = document.getElementById('explore');
-exploreBtn.onclick = () => {
-  const on = surface.classList.toggle('explore');
-  exploreBtn.setAttribute('aria-pressed', on);
-  exploreBtn.textContent = on ? 'Done' : 'Explore';
-};
-
 function panTo(d) {
-  if (mobile()) { glide(16 - d.x, 16 - d.y); return; }
   const w = surface.clientWidth, h = surface.clientHeight;
   glide(d.w > w - 32 ? 16 - d.x : w / 2 - (d.x + d.w / 2), d.h > h - 140 ? 16 - d.y : h - 110 - d.h - d.y);
 }
@@ -885,10 +960,10 @@ function term(root) {
     help: () => 'commands: <span class="y">whoami</span>, <span class="y">projects</span>, <span class="y">open</span> &lt;window&gt;, <span class="y">resume</span>, <span class="y">contact</span>, <span class="y">clear</span>',
     whoami: () => '<span class="g">software &amp; AI engineer · Penn State CS \'26 · Ashburn, VA</span>',
     projects: () => '<span class="y">clareia  new-home  agents  zorai  cognitra  meridian  jobnow  nfl-4th-down</span>',
-    resume: () => { open('readme'); return 'opening readme.md — resume button inside'; },
+    resume: () => { nav('readme'); return 'opening readme.md — resume button inside'; },
     contact: () => 'jvitorbarros15@gmail.com · linkedin.com/in/joaovi',
     clear: () => { out.innerHTML = ''; return null; },
-    open: a => Object.hasOwn(wins, a) ? (open(a), 'opening ' + wins[a].title) : 'open: try ' + Object.keys(wins).join(', '),
+    open: a => Object.hasOwn(wins, a) ? (nav(a), 'opening ' + wins[a].title) : 'open: try ' + Object.keys(wins).join(', '),
   };
   root.querySelector('#cmd').onsubmit = e => {
     e.preventDefault();
@@ -902,14 +977,341 @@ function term(root) {
   root.addEventListener('click', () => input.focus());
 }
 
+const mq = matchMedia('(max-width: 760px)');
+const mobile = () => mq.matches;
+const nav = id => mobile() ? goTo(id) : open(id);
+
+const sections = [['readme', 'Readme'], ['projects', 'Projects'], ['research', 'Research'], ['experience', 'Work'], ['certs', 'Certificates'], ['music', 'Music'], ['terminal', 'Terminal']];
+const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries' };
+const archIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v5H3z M14 15h7v5h-7z M6.5 9v4h11v2"/></svg>';
+const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+const diagramIdx = id => diagrams.findIndex(d => d.id === id);
+const $ = id => document.getElementById(id);
+const behavior = () => reduced.matches ? 'auto' : 'smooth';
+
+function archButton(id) {
+  const b = document.createElement('button');
+  b.className = 'arch';
+  b.innerHTML = archIcon + 'View architecture';
+  b.onclick = () => openViewer(diagramIdx(id), b);
+  return b;
+}
+
+let phoneReady = false;
+function buildPhone() {
+  phoneReady = true;
+  const main = $('m-main');
+  sections.forEach(([id]) => {
+    const c = wins[id];
+    const card = document.createElement('section');
+    card.className = 'card' + (c.dark ? ' dark' : '');
+    card.id = 'm-' + id;
+    card.setAttribute('aria-label', c.title);
+    card.innerHTML = `<div class="bar"><i class="dots" aria-hidden="true"><b></b><b></b><b></b></i><span>${c.title}</span>${id === 'readme' ? '' : `<button class="tog" aria-expanded="true" aria-controls="m-body-${id}" aria-label="Collapse ${c.title}">${chevron}</button>`}</div><div class="body" id="m-body-${id}"></div>`;
+    const body = card.querySelector('.body');
+    body.append($('tpl-' + id).content.cloneNode(true));
+    const tog = card.querySelector('.tog');
+    if (tog) tog.onclick = () => setCollapsed(card, !card.classList.contains('collapsed'));
+    main.append(card);
+    if (id === 'projects' || id === 'experience') body.querySelectorAll('.list li').forEach(li => {
+      const aid = archOf[li.querySelector('h3').textContent];
+      if (!aid) return;
+      let links = li.querySelector('.links');
+      if (!links) { links = document.createElement('span'); links.className = 'links'; li.append(links); }
+      links.prepend(archButton(aid));
+    });
+    if (id === 'research') {
+      const row = body.querySelector('.btn').parentElement;
+      row.classList.add('ctas', 'inline');
+      row.append(archButton('qlink'));
+    }
+    if (id === 'terminal') term(body);
+  });
+  const cap = document.createElement('p');
+  cap.className = 'm-cap';
+  cap.textContent = 'fig. 1 — João Vitor Barros, software & AI engineer, rev. 2026.11';
+  main.prepend(cap);
+  countUp($('m-readme'));
+  buildSheet();
+}
+
+function setCollapsed(card, on) {
+  card.classList.toggle('collapsed', on);
+  card.querySelector('.body').hidden = on;
+  const t = card.querySelector('.tog');
+  t.setAttribute('aria-expanded', !on);
+  t.setAttribute('aria-label', (on ? 'Expand ' : 'Collapse ') + wins[card.id.slice(2)].title);
+}
+
+function goTo(id) {
+  const card = $('m-' + id);
+  if (card && card.classList.contains('collapsed')) setCollapsed(card, false);
+  if (!card || id === 'readme') scrollTo({ top: 0, behavior: behavior() });
+  else card.scrollIntoView({ behavior: behavior(), block: 'start' });
+}
+
+function buildSheet() {
+  const body = $('m-sheet-body');
+  const row = (cls, label, tag, attrs = {}) => {
+    const e = document.createElement(attrs.href ? 'a' : 'button');
+    e.className = 'm-row ' + cls;
+    e.innerHTML = (tag ? `<span>${tag}</span>` : '') + label;
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  };
+  const eyebrow = (t, id) => { const p = document.createElement('p'); p.className = 'm-eyebrow'; p.textContent = t; if (id) p.id = id; return p; };
+  body.append(eyebrow('Sections'));
+  sections.forEach(([id, label], i) => {
+    const r = row('', label, String(i + 1).padStart(2, '0'));
+    r.onclick = () => leave(() => goTo(id));
+    body.append(r);
+  });
+  body.append(eyebrow('Profile'),
+    row('yel', 'Recruiter view', '→', { href: './recruiter.html' }),
+    row('', 'Resume (PDF)', '↓', { href: './files/Joao_Vitor_Barros_da_Silva_Resume.pdf', download: '' }));
+  body.append(eyebrow('Diagrams', 'm-dg'));
+  diagrams.forEach((d, i) => {
+    const r = row('', d.title, 'fig. ' + (i + 2));
+    r.onclick = () => openViewer(i);
+    body.append(r);
+  });
+}
+
+let ov = null, opener = null;
+const menuBtn = $('m-menu'), sheet = $('m-sheet'), view = $('m-view');
+const inertEls = () => [document.querySelector('.m-top'), $('m-main'), $('m-tabs')];
+
+function showOv(kind) {
+  sheet.hidden = kind !== 'sheet';
+  view.hidden = kind !== 'viewer';
+  document.documentElement.classList.add('m-lock');
+  inertEls().forEach(e => e.inert = true);
+  menuBtn.setAttribute('aria-expanded', kind === 'sheet');
+  ov = kind;
+}
+
+function hideOv() {
+  sheet.hidden = true; view.hidden = true;
+  document.documentElement.classList.remove('m-lock');
+  inertEls().forEach(e => e.inert = false);
+  menuBtn.setAttribute('aria-expanded', 'false');
+  ov = null;
+  if (opener && opener.isConnected) opener.focus({ preventScroll: true });
+  opener = null;
+}
+
+function leave(then) {
+  const had = ov;
+  hideOv();
+  if (had) history.back();
+  then();
+}
+
+function closeOv() { if (ov) history.back(); }
+
+function openSheet(toDiagrams) {
+  if (ov || !mobile()) return;
+  if (!phoneReady) buildPhone();
+  opener = document.activeElement;
+  history.pushState({ ov: 'sheet' }, '');
+  showOv('sheet');
+  const b = $('m-sheet-body');
+  if (toDiagrams) b.scrollTop = $('m-dg').offsetTop - 8; else b.scrollTop = 0;
+  $('m-sheet-x').focus({ preventScroll: true });
+}
+
+addEventListener('popstate', () => { if (ov) hideOv(); });
+menuBtn.onclick = () => openSheet();
+$('m-sheet-x').onclick = closeOv;
+$('v-x').onclick = closeOv;
+
+const stage = $('v-stage'), cv = $('v-cv');
+const V = { i: 0, k: 1, x: 0, y: 0, fit: 1 };
+const ptrs = new Map();
+let pinch = null, multi = false, lastTap = null, animTimer = 0;
+
+function vApply(animate) {
+  if (animate && !reduced.matches) {
+    cv.classList.add('anim');
+    clearTimeout(animTimer);
+    animTimer = setTimeout(() => cv.classList.remove('anim'), 260);
+  }
+  cv.style.transform = `translate(${V.x}px, ${V.y}px) scale(${V.k})`;
+}
+
+function vClamp() {
+  const d = diagrams[V.i], W = stage.clientWidth, H = stage.clientHeight;
+  V.k = Math.min(V.fit * 4, Math.max(V.fit * .5, V.k));
+  V.x = Math.min(W - 60, Math.max(60 - d.w * V.k, V.x));
+  V.y = Math.min(H - 60, Math.max(60 - d.h * V.k, V.y));
+}
+
+function vFit(animate) {
+  const d = diagrams[V.i], W = stage.clientWidth, H = stage.clientHeight;
+  V.fit = Math.min(W / d.w, H / d.h) * .96;
+  V.k = V.fit;
+  V.x = (W - d.w * V.k) / 2;
+  V.y = (H - d.h * V.k) / 2;
+  vApply(animate);
+}
+
+const atFit = () => Math.abs(V.k - V.fit) < V.fit * .02;
+
+function zoomAt(px, py, nk, animate) {
+  const cx = (px - V.x) / V.k, cy = (py - V.y) / V.k;
+  V.k = nk;
+  vClamp();
+  V.x = px - cx * V.k; V.y = py - cy * V.k;
+  vClamp();
+  vApply(animate);
+}
+
+function showDiagram(i) {
+  const n = diagrams.length;
+  V.i = (i + n) % n;
+  const d = diagrams[V.i];
+  cv.replaceChildren(renderDiagram(d, true));
+  cv.style.width = d.w + 'px'; cv.style.height = d.h + 'px';
+  $('v-fig').textContent = `fig. ${V.i + 2} · ${V.i + 1} of ${n}`;
+  $('v-title').textContent = d.title;
+  ptrs.clear(); pinch = null;
+  vFit(false);
+}
+
+function openViewer(i, from) {
+  if (!mobile()) return;
+  if (!phoneReady) buildPhone();
+  if (ov === 'sheet') history.replaceState({ ov: 'viewer' }, '');
+  else if (ov !== 'viewer') { opener = from || document.activeElement; history.pushState({ ov: 'viewer' }, ''); }
+  showOv('viewer');
+  $('v-hint').classList.remove('gone');
+  showDiagram(i);
+  $('v-x').focus({ preventScroll: true });
+}
+
+$('v-prev').onclick = () => showDiagram(V.i - 1);
+$('v-next').onclick = () => showDiagram(V.i + 1);
+$('v-fit').onclick = () => vFit(true);
+
+const rel = e => { const r = stage.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+
+function startPinch() {
+  const [a, b] = [...ptrs.values()], r = stage.getBoundingClientRect();
+  const mx = (a.x + b.x) / 2 - r.left, my = (a.y + b.y) / 2 - r.top;
+  pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) || 1, k: V.k, cx: (mx - V.x) / V.k, cy: (my - V.y) / V.k };
+}
+
+stage.addEventListener('pointerdown', e => {
+  if (!e.isPrimary && ptrs.size === 0) return;
+  stage.setPointerCapture(e.pointerId);
+  ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, t: performance.now() });
+  if (ptrs.size >= 2) { multi = true; startPinch(); }
+  $('v-hint').classList.add('gone');
+});
+
+stage.addEventListener('pointermove', e => {
+  const p = ptrs.get(e.pointerId);
+  if (!p) return;
+  const px = p.x, py = p.y;
+  p.x = e.clientX; p.y = e.clientY;
+  if (ptrs.size === 1) {
+    V.x += p.x - px; V.y += p.y - py;
+    vClamp(); vApply();
+  } else if (pinch) {
+    const [a, b] = [...ptrs.values()], r = stage.getBoundingClientRect();
+    const mx = (a.x + b.x) / 2 - r.left, my = (a.y + b.y) / 2 - r.top;
+    V.k = pinch.k * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d;
+    V.k = Math.min(V.fit * 4, Math.max(V.fit * .5, V.k));
+    V.x = mx - pinch.cx * V.k; V.y = my - pinch.cy * V.k;
+    vClamp(); vApply();
+  }
+});
+
+const pointerEnd = e => {
+  const p = ptrs.get(e.pointerId);
+  if (!p) return;
+  ptrs.delete(e.pointerId);
+  if (ptrs.size < 2) pinch = null;
+  if (ptrs.size === 1) { const q = [...ptrs.values()][0]; q.x0 = q.x; q.y0 = q.y; }
+  if (ptrs.size > 0) return;
+  const wasMulti = multi;
+  multi = false;
+  if (e.type !== 'pointerup' || wasMulti) { lastTap = null; return; }
+  const now = performance.now();
+  if (Math.hypot(e.clientX - p.x0, e.clientY - p.y0) > 10 || now - p.t > 350) { lastTap = null; return; }
+  if (lastTap && now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 40) {
+    lastTap = null;
+    const [rx, ry] = rel(e);
+    if (atFit()) zoomAt(rx, ry, V.fit * 2, true); else vFit(true);
+  } else lastTap = { t: now, x: e.clientX, y: e.clientY };
+};
+stage.addEventListener('pointerup', pointerEnd);
+stage.addEventListener('pointercancel', pointerEnd);
+
+stage.addEventListener('wheel', e => {
+  e.preventDefault();
+  const [rx, ry] = rel(e);
+  zoomAt(rx, ry, V.k * Math.exp(-e.deltaY * (e.ctrlKey ? .01 : .002)));
+}, { passive: false });
+
+addEventListener('keydown', e => {
+  if (!ov) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeOv(); }
+  else if (ov === 'viewer' && e.key === 'ArrowRight') showDiagram(V.i + 1);
+  else if (ov === 'viewer' && e.key === 'ArrowLeft') showDiagram(V.i - 1);
+});
+
+addEventListener('resize', () => {
+  if (ov !== 'viewer') return;
+  const was = atFit();
+  if (was) vFit(); else { V.fit = Math.min(stage.clientWidth / diagrams[V.i].w, stage.clientHeight / diagrams[V.i].h) * .96; vClamp(); vApply(); }
+});
+
+const tabFor = { readme: 'home', projects: 'projects', research: 'projects', experience: 'projects', music: 'music' };
+let spy = 0;
+function paintTabs() {
+  spy = 0;
+  if (!mobile() || !phoneReady) return;
+  let cur = 'readme';
+  sections.forEach(([id]) => { if ($('m-' + id).getBoundingClientRect().top <= innerHeight * .4) cur = id; });
+  document.querySelectorAll('.m-tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === tabFor[cur]));
+}
+addEventListener('scroll', () => { if (!spy) spy = requestAnimationFrame(paintTabs); }, { passive: true });
+
+document.querySelectorAll('.m-tabs button').forEach(b => b.onclick = () => {
+  const t = b.dataset.tab;
+  if (t === 'home') goTo('readme');
+  else if (t === 'projects' || t === 'music') goTo(t);
+  else openSheet(t === 'diagrams');
+});
+
+let deskReady = false;
+function enterDesktop() {
+  if (deskReady) return;
+  deskReady = true;
+  open('readme');
+  setTimeout(() => open('terminal'), 250);
+}
+function enterPhone() {
+  if (!phoneReady) buildPhone();
+  paintTabs();
+}
+mq.addEventListener('change', e => {
+  if (e.matches) enterPhone();
+  else {
+    const had = ov;
+    hideOv();
+    if (had) history.back();
+    enterDesktop();
+  }
+});
+
 document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => open(b.dataset.open));
 const clock = document.getElementById('clock');
 const tickClock = () => clock.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 tickClock(); setInterval(tickClock, 30000);
 
-open('readme');
-if (mobile()) recenter();
-setTimeout(() => !mobile() && open('terminal'), 250);
+if (mobile()) enterPhone(); else enterDesktop();
 </script>
 </body>
 </html>
