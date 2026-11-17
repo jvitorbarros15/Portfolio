@@ -33,7 +33,7 @@ a { color: inherit; }
 .menubar .right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
 .menubar .recenter { border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
 .bars { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; vertical-align: middle; margin-right: 6px; }
-.bars i { width: 2px; background: var(--yellow); animation: eq .9s ease-in-out infinite; }
+.bars i { width: 2px; height: 8px; background: var(--yellow); animation: eq .9s ease-in-out infinite; }
 .bars i:nth-child(2) { animation-delay: .15s } .bars i:nth-child(3) { animation-delay: .3s } .bars i:nth-child(4) { animation-delay: .45s }
 @keyframes eq { 0%,100% { height: 3px } 50% { height: 12px } }
 
@@ -121,12 +121,27 @@ h3 { font: 700 17px/1.2 'Archivo'; }
 .dock button:hover, .dock button:focus-visible { transform: translateY(-5px); color: var(--yellow); }
 .dock button.open::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--yellow); }
 
+a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock button:focus-visible, .map button:focus-visible, .win .bar button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.win a:focus-visible, .win button:focus-visible { outline-color: var(--ink); }
+.win.dark button:focus-visible { outline-color: var(--yellow); }
+@media (pointer: coarse) {
+  .win .bar button { width: 18px; height: 18px; }
+  .menubar button, .map button, .dock button { min-height: 32px; }
+}
 @media (max-width: 760px) {
   body { overflow: auto; }
-  .desk { position: static; padding: 50px 16px 110px; display: flex; flex-direction: column; gap: 16px; }
+  .menubar { gap: 12px; padding: 0 12px; }
+  .menubar .right { gap: 10px; }
+  .desk { position: static; padding: 50px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
+  #windows { order: -1; position: static; display: flex; flex-direction: column; gap: 16px; }
+  #pan { position: relative; inset: auto; height: 60vh; border: 1px solid var(--line-strong); border-radius: 8px; }
   .win { position: static !important; width: auto !important; max-height: none; }
-  .pipeline, .annot, .menubar .hide-sm { display: none; }
-  .dock { gap: 0; }
+  .win .body { padding: 18px; }
+  .stats { gap: 8px; }
+  .stats b { font-size: 20px; }
+  .annot, .menubar .hide-sm { display: none; }
+  .dock button { padding: 6px 4px; }
+  .dock { left: 8px; right: 8px; transform: none; gap: 0; justify-content: space-between; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
@@ -162,7 +177,7 @@ h3 { font: 700 17px/1.2 'Archivo'; }
 </nav>
 
 <template id="tpl-readme">
-  <div class="kick"><span class="live"></span>Open to entry-level SWE and AI engineering roles</div>
+  <div class="kick"><span class="live" aria-hidden="true"></span>Open to entry-level SWE and AI engineering roles</div>
   <h1>I build software people can check.</h1>
   <p class="lede">Software &amp; AI engineer, Penn State CS '26. I shipped Clareia, a public record of Brazil's Congress whose pipeline caught errors in official data, and first-authored QLink on arXiv.</p>
   <div class="ctas">
@@ -289,7 +304,6 @@ function glide(x, y) {
   anim = requestAnimationFrame(step);
 }
 
-const recenter = () => glide(0, 0);
 
 let drag0 = null, moved = false, swallow = 0;
 surface.addEventListener('pointerdown', e => {
@@ -334,7 +348,6 @@ document.addEventListener('keydown', e => {
   pan(...arrows[e.key]);
 });
 
-document.getElementById('recenter').onclick = recenter;
 
 const NS = 'http://www.w3.org/2000/svg';
 const svgEl = (name, attrs = {}, text) => {
@@ -468,10 +481,13 @@ const diagrams = [
 
 diagrams.forEach(d => canvas.append(renderDiagram(d)));
 
+const mobile = () => innerWidth <= 760;
+const recenter = () => mobile() ? panTo(diagrams[0]) : glide(0, 0);
+document.getElementById('recenter').onclick = recenter;
+
 function panTo(d) {
-  const x = surface.clientWidth / 2 - (d.x + d.w / 2);
-  const y = innerWidth > 760 ? surface.clientHeight - 110 - d.h - d.y : surface.clientHeight / 2 - (d.y + d.h / 2);
-  glide(x, y);
+  if (mobile()) { glide(16 - d.x, 16 - d.y); return; }
+  glide(surface.clientWidth / 2 - (d.x + d.w / 2), surface.clientHeight - 110 - d.h - d.y);
 }
 
 const mapEl = document.getElementById('map'), mapBtn = document.getElementById('map-btn');
@@ -490,12 +506,18 @@ document.addEventListener('pointerdown', e => { if (!mapEl.hidden && !e.target.c
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mapEl.hidden) { toggleMap(false); mapBtn.focus(); } });
 
 function markDock() {
-  document.querySelectorAll('.dock button').forEach(b => b.classList.toggle('open', !!document.getElementById('win-' + b.dataset.open)));
+  document.querySelectorAll('.dock button').forEach(b => {
+    const on = !!document.getElementById('win-' + b.dataset.open);
+    b.classList.toggle('open', on);
+    b.setAttribute('aria-pressed', on);
+  });
 }
 
 function countUp(root) {
   root.querySelectorAll('[data-count]').forEach(n => {
-    const end = +n.dataset.count, t0 = performance.now(), dur = 1200;
+    const end = +n.dataset.count;
+    if (reduced.matches) { n.textContent = end.toLocaleString('en-US') + n.dataset.suffix; return; }
+    const t0 = performance.now(), dur = 1200;
     const tick = t => {
       const p = Math.min(1, (t - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
       n.textContent = v.toLocaleString('en-US') + (p === 1 ? n.dataset.suffix : '');
@@ -534,7 +556,8 @@ const tickClock = () => clock.textContent = new Date().toLocaleTimeString([], { 
 tickClock(); setInterval(tickClock, 30000);
 
 open('readme');
-setTimeout(() => innerWidth > 760 && open('terminal'), 250);
+if (mobile()) recenter();
+setTimeout(() => !mobile() && open('terminal'), 250);
 </script>
 </body>
 </html>
