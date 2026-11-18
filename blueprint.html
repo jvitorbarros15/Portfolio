@@ -587,6 +587,7 @@ function pan(dx, dy) {
 
 function glide(x, y) {
   cancelAnimationFrame(anim);
+  zTarget = state.zoom;
   if (reduced.matches) { pan(x - state.panX, y - state.panY); return; }
   const x0 = state.panX, y0 = state.panY, t0 = performance.now();
   const step = t => {
@@ -602,6 +603,7 @@ let drag0 = null, moved = false, swallow = 0;
 surface.addEventListener('pointerdown', e => {
   if (!e.isPrimary || e.button !== 0) return;
   cancelAnimationFrame(anim);
+  zTarget = state.zoom;
   drag0 = { id: e.pointerId, x: e.clientX, y: e.clientY };
   moved = false;
 });
