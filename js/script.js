@@ -1,8 +1,7 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Show boot splash briefly before full desktop interaction
-    setupStartupSplash();
     setupSoundDesign();
+    buildWallpaperScene();
 
     // Reset wallpaper first thing to ensure personalization shows
     resetWallpaper();
@@ -34,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Make icons draggable
     makeIconsDraggable();
+    document.querySelectorAll('.icon').forEach((icon, i) => icon.style.setProperty('--icon-delay', `${i * 55 + 450}ms`));
+    setupDeskNote();
     
     // Initialize blockchain
     initBlockchain();
@@ -68,15 +69,6 @@ let spotifyCurrentTrack = {
     subtitle: 'Open the playlist to start playback',
     url: 'https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2'
 };
-
-function setupStartupSplash() {
-    const splash = document.getElementById('startup-splash');
-    if (!splash) return;
-
-    setTimeout(function() {
-        splash.classList.add('hidden');
-    }, 1250);
-}
 
 function setupPlaylistMiniPlayer() {
     const restartBtn = document.getElementById('playlist-mini-restart');
@@ -339,6 +331,7 @@ function getPinnedSystemIconPosition(icon) {
         'certifications',
         'current',
         'terminal',
+        'blueprint',
         'playlist',
         'trash'
     ];
@@ -388,7 +381,134 @@ function updateClock() {
     hours = hours % 12;
     hours = hours ? hours : 12; // Convert 0 to 12
     
-    document.getElementById('taskbar-clock').textContent = `${hours}:${minutes} ${ampm}`;
+    const clock = document.getElementById('taskbar-clock');
+    clock.textContent = `${hours}:${minutes} ${ampm}`;
+    clock.dataset.date = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
+
+function buildWallpaperScene() {
+    const svg = document.querySelector('.wallpaper-scene svg');
+    if (!svg) return;
+
+    const hills = [
+        { x: 1250, y: 790, base: 50, step: 44, rings: 20, seed: 1.3, stretch: 1.55 },
+        { x: 210, y: 120, base: 30, step: 36, rings: 8, seed: 4.1, stretch: 1.3, cool: true }
+    ];
+    const steps = 150;
+    let k = 0;
+    const paths = [];
+
+    hills.forEach(hill => {
+        for (let i = 0; i < hill.rings; i++) {
+            const radius = hill.base + i * hill.step;
+            const drift = 0.05 + i * 0.006;
+            let d = '';
+            for (let n = 0; n <= steps; n++) {
+                const t = (n / steps) * Math.PI * 2;
+                const wobble = 1
+                    + drift * Math.sin(2 * t + hill.seed + i * 0.11)
+                    + drift * 0.6 * Math.sin(3 * t + hill.seed * 2.1 - i * 0.07)
+                    + drift * 0.35 * Math.sin(5 * t + hill.seed * 3 + i * 0.05);
+                const px = hill.x + Math.cos(t) * radius * wobble * hill.stretch;
+                const py = hill.y + Math.sin(t) * radius * wobble * 0.72;
+                d += (n ? 'L' : 'M') + px.toFixed(1) + ' ' + py.toFixed(1);
+            }
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', d + 'Z');
+            path.setAttribute('pathLength', '1');
+            path.style.setProperty('--k', k++);
+            if (hill.cool) path.setAttribute('class', 'cool');
+            else if (i % 4 === 3) path.setAttribute('class', 'major');
+            paths.push(path);
+        }
+    });
+
+    paths.forEach(path => svg.appendChild(path));
+
+    if (prefersReducedMotion() || !window.matchMedia('(hover: hover)').matches) return;
+
+    const desktop = document.querySelector('.desktop');
+    let frame = 0, lastX = 0, lastY = 0;
+    document.addEventListener('pointermove', event => {
+        lastX = event.clientX;
+        lastY = event.clientY;
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+            frame = 0;
+            if (desktop.classList.contains('has-wallpaper') || document.querySelector('.window.fullscreen.active')) return;
+            svg.style.setProperty('--px', `${((lastX / window.innerWidth - 0.5) * -14).toFixed(1)}px`);
+            svg.style.setProperty('--py', `${((lastY / window.innerHeight - 0.5) * -10).toFixed(1)}px`);
+        });
+    }, { passive: true });
+}
+
+function setupDeskNote() {
+    const note = document.getElementById('desk-note');
+    if (!note) return;
+
+    const grip = note.querySelector('.desk-note-grip');
+    const desktop = document.querySelector('.desktop');
+    let drag = null;
+
+    grip.addEventListener('pointerdown', event => {
+        if (event.button !== 0) return;
+        const desktopRect = desktop.getBoundingClientRect();
+        const left = note.offsetLeft, top = note.offsetTop;
+        note.style.left = `${left}px`;
+        note.style.top = `${top}px`;
+        note.style.right = 'auto';
+        drag = { dx: event.clientX - desktopRect.left - left, dy: event.clientY - desktopRect.top - top, desktopRect };
+        note.classList.add('lifted');
+        grip.setPointerCapture(event.pointerId);
+    });
+
+    grip.addEventListener('pointermove', event => {
+        if (!drag) return;
+        const maxLeft = drag.desktopRect.width - note.offsetWidth;
+        const maxTop = drag.desktopRect.height - 40 - note.offsetHeight;
+        const left = Math.min(Math.max(event.clientX - drag.desktopRect.left - drag.dx, 0), maxLeft);
+        const top = Math.min(Math.max(event.clientY - drag.desktopRect.top - drag.dy, 0), maxTop);
+        note.style.left = `${left}px`;
+        note.style.top = `${top}px`;
+    });
+
+    ['pointerup', 'pointercancel'].forEach(type => grip.addEventListener(type, () => {
+        drag = null;
+        note.classList.remove('lifted');
+    }));
+
+    note.querySelector('.desk-note-open').addEventListener('click', () => openWindow('current'));
+}
+
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function playWindowEnter(win) {
+    win.classList.remove('win-in');
+    void win.offsetWidth;
+    win.classList.add('win-in');
+}
+
+function hideWindowAnimated(win, exitClass, done) {
+    clearTimeout(win.hideTimer);
+    if (prefersReducedMotion()) {
+        win.style.display = 'none';
+        if (done) done();
+        return;
+    }
+    win.classList.add(exitClass);
+    const finish = () => {
+        clearTimeout(win.hideTimer);
+        win.removeEventListener('animationend', onEnd);
+        if (!win.classList.contains(exitClass)) return;
+        win.classList.remove(exitClass);
+        win.style.display = 'none';
+        if (done) done();
+    };
+    const onEnd = e => { if (e.target === win) finish(); };
+    win.addEventListener('animationend', onEnd);
+    win.hideTimer = setTimeout(finish, 400);
 }
 
 // Initialize window functionality
@@ -802,6 +922,7 @@ function initDesktopIcons() {
 
 // Open a window
 function openWindow(windowType) {
+    if (windowType === 'blueprint') { location.href = 'blueprint.html'; return; }
     const window = document.getElementById(`${windowType}-window`);
     
     if (window) {
@@ -813,6 +934,10 @@ function openWindow(windowType) {
             customTitle = callingIcon.querySelector('.icon-text').textContent;
         }
         
+        const wasHidden = getComputedStyle(window).display === 'none';
+        clearTimeout(window.hideTimer);
+        window.classList.remove('win-out', 'win-min');
+
         // Reset all windows first
         document.querySelectorAll('.window').forEach(w => {
             w.classList.remove('active');
@@ -830,7 +955,8 @@ function openWindow(windowType) {
         window.style.left = '0';
         window.classList.add('fullscreen', 'active');
         window.setAttribute('aria-hidden', 'false');
-        
+        if (wasHidden && !prefersReducedMotion()) playWindowEnter(window);
+
         // Update window title if we have a custom title
         if (customTitle) {
             window.querySelector('.window-title span').textContent = customTitle;
@@ -845,7 +971,8 @@ function openWindow(windowType) {
         
         // Add to taskbar if not already there
         addToTaskbar(windowType);
-        
+        updateTaskbarActiveItem(windowType);
+
         // Special handling for specific windows
         if (windowType === 'blockchain') {
             // Initialize blockchain if this is the blockchain window
@@ -1014,25 +1141,18 @@ function toggleFullscreen(window) {
 
 // Close a window
 function closeWindow(window) {
-    // Hide the window
-    window.style.display = 'none';
-    window.classList.remove('active', 'fullscreen');
+    window.classList.remove('active');
     window.setAttribute('aria-hidden', 'true');
-    
-    // Remove from taskbar
-    const windowId = window.id;
-    const windowType = windowId.replace('-window', '');
-    
-    // Reset blockchain if blockchain window is closed
-    if (windowType === 'blockchain') {
-        resetBlockchain();
-    }
+    const windowType = window.id.replace('-window', '');
+    hideWindowAnimated(window, 'win-out', () => {
+        window.classList.remove('fullscreen');
+        updatePlaylistMiniPlayer();
+        if (windowType === 'blockchain') resetBlockchain();
+    });
     
     // Remove from taskbar
     removeFromTaskbar(windowType);
 
-    updatePlaylistMiniPlayer();
-    
     // Play sound effect
     playSound('close');
 }
@@ -1055,12 +1175,9 @@ function resetBlockchain() {
 
 // Minimize a window
 function minimizeWindow(window) {
-    window.style.display = 'none';
     window.setAttribute('aria-hidden', 'true');
-    
-    // Keep in taskbar
-    // Play sound effect (optional)
-    updatePlaylistMiniPlayer();
+    document.getElementById(`taskbar-${window.id.replace('-window', '')}`)?.classList.remove('active');
+    hideWindowAnimated(window, 'win-min', updatePlaylistMiniPlayer);
     playSound('minimize');
 }
 
@@ -1108,8 +1225,8 @@ function addToTaskbar(windowType) {
     taskbarItem.addEventListener('click', function() {
         const window = document.getElementById(`${windowType}-window`);
         
-        if (window.style.display === 'none') {
-            // Show window if it's hidden
+        if (window.style.display === 'none' || window.classList.contains('win-min')) {
+            // Show window if it's hidden or minimizing
             openWindow(windowType);
         } else if (window.classList.contains('active')) {
             // Minimize window if it's active
@@ -1239,7 +1356,15 @@ function initBlockchain() {
     
     if (savedBlockchain) {
         // Use the saved blockchain data (this will be reset on window close)
-        blockchain = JSON.parse(savedBlockchain);
+        blockchain = JSON.parse(savedBlockchain).filter(block => block.index <= BLOCKCHAIN_PROJECTS.length);
+        if (!blockchain.length || blockchain[0].index !== 0) blockchain = [createGenesisBlock()];
+        blockchain.forEach((block, i) => {
+            if (block.index < 1) return;
+            block.data = getBlockData(block.index);
+            block.previousHash = blockchain[i - 1].hash;
+            block.hash = calculateHash(block.index, block.timestamp, block.data, block.previousHash);
+        });
+        localStorage.setItem('blockchainData', JSON.stringify(blockchain));
     } else {
         // Create genesis block for first time initialization
         const genesisBlock = createGenesisBlock();
@@ -1303,67 +1428,21 @@ function createBlock(index, previousBlock) {
     return newBlock;
 }
 
-// Get block data based on index
-function getBlockData(index) {
-    const projectsData = [
-        {
-            title: "ZorAI – AI Image Provenance Registry",
-            description: "Built and deployed a full-stack registry for AI-generated image identifiers, connecting a Next.js interface and server API routes to IPFS metadata and a Solidity contract on Base Sepolia.",
-            technologies: ["Next.js", "React", "Solidity", "Hardhat", "IPFS", "Ethers.js", "Base Sepolia"]
-        },
-        {
-            title: "QLink – Quantum-Safe Layer 3 Protocol",
-            description: "Published quantum-safe Layer 3 interoperability research combining post-quantum cryptography and quantum key distribution. A Python simulation measured a 7-validator network across changing link conditions, including the regimes where the design degraded.",
-            technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
-        },
-        {
-            title: "🚀 Next Innovation Loading...",
-            description: "Something revolutionary is brewing in the lab! Stay tuned for the next breakthrough in blockchain technology. The future of Web3 is being built one block at a time.",
-            technologies: ["Coming Soon", "Innovation", "Blockchain", "Web3", "Future Tech"]
-        },
-        {
-            title: "🔮 The Plot Thickens...",
-            description: "Another groundbreaking project is taking shape. The blockchain never sleeps, and neither does innovation. What could be next in this journey of technological excellence?",
-            technologies: ["Mystery Project", "Blockchain", "Innovation", "TBD", "Exciting"]
-        },
-        {
-            title: "🎯 Mission: Possible",
-            description: "Every great blockchain journey needs another chapter. This block represents the endless possibilities in the decentralized future. More epic projects are on the horizon!",
-            technologies: ["Future", "Blockchain", "Possibilities", "Coming Soon", "Epic"]
-        },
-        {
-            title: "🌟 To Be Continued...",
-            description: "The blockchain story doesn't end here! More innovative projects, more groundbreaking solutions, more ways to shape the future of technology. Keep clicking to see what imagination can build!",
-            technologies: ["Infinite Potential", "Innovation", "Blockchain", "Future", "Amazing"]
-        }
-    ];
-    
-    // Return data for the current index
-    if (index <= projectsData.length) {
-        return projectsData[index - 1]; // Direct mapping: index 1 = projectsData[0], etc.
-    } else {
-        // Cycle through fun "coming soon" messages after running out of predefined ones
-        const comingSoonMessages = [
-            {
-                title: "🎲 Roll the Dice!",
-                description: "Another mystery project is in the works! The blockchain adventure continues with endless possibilities. Who knows what innovative solution will emerge next?",
-                technologies: ["Surprise", "Innovation", "Random", "Fun", "Blockchain"]
-            },
-            {
-                title: "🎪 The Show Must Go On!",
-                description: "Step right up to see the next amazing blockchain creation! Every block tells a story, and this story is far from over. More thrills and innovation await!",
-                technologies: ["Entertainment", "Blockchain", "Continuous", "Amazing", "Show"]
-            },
-            {
-                title: "🎨 Masterpiece in Progress",
-                description: "Every artist needs a canvas, and this blockchain is mine! Another stroke of genius is being painted in the world of decentralized technology.",
-                technologies: ["Art", "Creativity", "Blockchain", "Masterpiece", "Genius"]
-            }
-        ];
-        
-        const randomIndex = (index - projectsData.length - 1) % comingSoonMessages.length;
-        return comingSoonMessages[randomIndex];
+const BLOCKCHAIN_PROJECTS = [
+    {
+        title: "ZorAI – AI Image Provenance Registry",
+        description: "Built and deployed a full-stack registry for AI-generated image identifiers, connecting a Next.js interface and server API routes to IPFS metadata and a Solidity contract on Base Sepolia.",
+        technologies: ["Next.js", "React", "Solidity", "Hardhat", "IPFS", "Ethers.js", "Base Sepolia"]
+    },
+    {
+        title: "QLink – Quantum-Safe Layer 3 Protocol",
+        description: "Published quantum-safe Layer 3 interoperability research combining post-quantum cryptography and quantum key distribution. A Python simulation measured a 7-validator network across changing link conditions, including the regimes where the design degraded.",
+        technologies: ["Layer 3", "Post-Quantum Cryptography", "QKD", "Cross-Chain", "Validator Network", "Quantum Security"]
     }
+];
+
+function getBlockData(index) {
+    return BLOCKCHAIN_PROJECTS[index - 1];
 }
 
 // Render the blockchain
@@ -1413,8 +1492,7 @@ function renderBlockchain(blockchain) {
         }
     });
     
-    // Always show "Add Next Block" button for endless fun
-    if (true) {
+    if (blockchain.length <= BLOCKCHAIN_PROJECTS.length) {
         const addBlockBtn = document.createElement('div');
         addBlockBtn.className = 'add-block-btn';
         addBlockBtn.setAttribute('data-track', 'CTA: Add Next Block');
@@ -1483,11 +1561,6 @@ function setupStartButton() {
     }
 
     startButton.addEventListener('click', function() {
-        startButton.classList.add('clicked');
-        setTimeout(() => {
-            startButton.classList.remove('clicked');
-        }, 500);
-
         const willOpen = !startMenu.classList.contains('open');
         if (willOpen) resetMenuSearch();
         setMenuState(willOpen);
@@ -1724,6 +1797,7 @@ function changeWallpaper(type, customWallpaper = null) {
     // Remove any previous background
     desktop.style.backgroundImage = '';
     desktop.style.backgroundColor = '';
+    desktop.classList.remove('has-wallpaper');
     
     // Remove any existing personalization overlay
     const existingOverlay = document.querySelector('.wallpaper-personalization');
@@ -1734,8 +1808,6 @@ function changeWallpaper(type, customWallpaper = null) {
     // Apply new background based on type
     switch (type) {
         case 'default':
-            desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
-            
             // Add personalization overlay with name, major and profile picture in center
             const personalizationOverlay = document.createElement('div');
             personalizationOverlay.className = 'wallpaper-personalization centered';
@@ -1753,29 +1825,32 @@ function changeWallpaper(type, customWallpaper = null) {
             desktop.prepend(personalizationOverlay);
             break;
         case 'mountains':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'ocean':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'forest':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'cityscape':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'space':
+            desktop.classList.add('has-wallpaper');
             desktop.style.backgroundImage = 'url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80")';
             break;
         case 'custom':
             if (customWallpaper) {
+                desktop.classList.add('has-wallpaper');
                 desktop.style.backgroundImage = `url("${customWallpaper}")`;
                 // Save custom wallpaper data
                 localStorage.setItem('customWallpaperData', customWallpaper);
             } else {
-                // Fallback to default if custom wallpaper data is missing
-                desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
-                
                 // Add personalization overlay 
                 const fallbackOverlay = document.createElement('div');
                 fallbackOverlay.className = 'wallpaper-personalization centered';
@@ -1795,8 +1870,6 @@ function changeWallpaper(type, customWallpaper = null) {
             break;
         default:
             // Default fallback
-            desktop.style.background = 'linear-gradient(135deg, #0a1628 0%, #1a2332 25%, #0d1421 50%, #1e2a3a 75%, #0a1628 100%)';
-            
             // Add personalization overlay
             const defaultOverlay = document.createElement('div');
             defaultOverlay.className = 'wallpaper-personalization centered';
@@ -2580,10 +2653,9 @@ function setupPortfolioTerminal() {
 
     function printHireMeSummary() {
         printTerminalLine('Why hire me');
-        printTerminalLine('- I ship ambitious ideas into working systems.');
+        printTerminalLine('- Clareia: public transparency site for 592 deputies, used by 500+ people.');
         printTerminalLine('- I can move between SWE, AI/ML, and research-heavy work.');
-        printTerminalLine('- I care about real-world impact, not just prototypes.');
-        printTerminalLine('- I communicate clearly and work well in teams.');
+        printTerminalLine('- Enterprise applications serving 40,000+ users.');
     }
 }
 
