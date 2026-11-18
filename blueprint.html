@@ -362,20 +362,18 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
 <main class="desk" id="desk">
   <div id="pan">
     <div id="canvas">
-      <div class="annot" style="left:40px;top:28px;width:760px"><span class="dim"></span>fig. 1 — João Vitor Barros, software &amp; AI engineer, rev. 2026.11</div>
+      <div class="annot" style="left:40px;top:476px;width:760px"><span class="dim"></span>fig. 1 — João Vitor Barros, software &amp; AI engineer, rev. 2026.11</div>
     </div>
   </div>
   <div id="windows"></div>
 </main>
 
 <nav class="dock" aria-label="Open windows">
-  <button data-open="readme"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z M14 3v4h4 M9 12h6 M9 16h6"/></svg>readme</button>
   <button data-open="projects"><svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg>projects</button>
   <button data-open="research"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="9" ry="3.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-60 12 12)"/></svg>research</button>
   <button data-open="experience"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4z M9 8V5h6v3"/></svg>work</button>
   <button data-open="certs"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13.5L7 21l5-3 5 3-2-7.5"/></svg>certs</button>
   <button data-open="music"><svg viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><circle cx="17" cy="15" r="3"/><path d="M10 17V5l10-2v12"/></svg>music</button>
-  <button data-open="terminal"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z M7 10l3 2-3 2 M12 15h5"/></svg>terminal</button>
 </nav>
 
 <div id="m">
@@ -1023,7 +1021,7 @@ const diagrams = [
 
 diagrams.forEach(d => canvas.append(renderDiagram(d)));
 
-const recenter = () => glide(0, 0);
+const HOME_Y = -440, recenter = () => glide(0, HOME_Y);
 document.getElementById('recenter').onclick = recenter;
 function panTo(d) {
   const w = surface.clientWidth, h = surface.clientHeight;
@@ -1430,8 +1428,7 @@ let deskReady = false;
 function enterDesktop() {
   if (deskReady) return;
   deskReady = true;
-  open('readme');
-  setTimeout(() => open('terminal'), 250);
+  if (!state.panX && !state.panY) pan(0, HOME_Y);
 }
 function enterPhone() {
   if (!phoneReady) buildPhone();
