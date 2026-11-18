@@ -763,8 +763,8 @@ const Z = (id, label, x, y, w, h, tone, o = {}) => ({ id, label, zone: true, ton
 const N = (id, label, sub, x, y, w, h, o = {}) => ({ id, label, sub, x, y, w, h, kind: 'box', ...o });
 
 const diagrams = [
-  { id: 'clareia', x: 40, y: 516, w: 1560, h: 960, title: 'Clareia data pipeline', opens: 'projects',
-    note: 'no server, database or queue at request time · 592 deputies · 226,510 expense records',
+  { id: 'clareia', x: 40, y: 516, w: 1560, h: 1230, title: 'Clareia data pipeline', opens: 'projects',
+    note: 'site: no server at request time · 592 deputies · 226,510 expense records · Go API built and load-tested, not deployed',
     nodes: [
       Z('zA', 'Câmara dos Deputados (public)', 16, 56, 300, 460),
       N('api', 'Dados Abertos API v2', 'expenses · bills · votes', 30, 92, 270, 48, { kind: 'ext' }),
@@ -801,6 +801,13 @@ const diagrams = [
       { id: 'reader', label: 'reader', kind: 'actor', x: 1200, y: 870 },
       N('client', 'client-side compute', 'rankings · map · comparisons', 1260, 862, 270, 56),
       N('analytics', 'Cloudflare Web Analytics', 'allowed by strict CSP', 860, 862, 260, 56, { kind: 'ext' }),
+      Z('zAPI', 'Read-only REST API · Go (net/http + pgx) · built and load-tested, not deployed', 16, 956, 1514, 226, null, { la: 'end' }),
+      N('loader', 'Go loader', null, 36, 1006, 200, 110, { lines: ['CPF scan gate', 'imports one publication', 'into its own pub_<id>', 'schema'] }),
+      N('apipg', 'PostgreSQL', null, 326, 1000, 220, 124, { kind: 'db', lines: ['pub_<id> behind api.* views', 'active · previous', 'revoked · retired'] }),
+      N('goapi', 'Go API · /v1', null, 636, 992, 250, 140, { hl: true, lines: ['read-only DB role', 'REPEATABLE READ tx / request', 'ETag + 304 · 10 s timeout', 'cursor bound to publication', 'stale cursor → 409'] }),
+      N('openapi', 'OpenAPI 3.1 contract', 'static docs + PDF at /api', 976, 992, 250, 56),
+      N('k6', 'k6 load tests (one laptop)', null, 976, 1066, 250, 100, { kind: 'ext', lines: ['p95 22–26 ms at 100 req/s', 'supplier p95 ~190 → ~15 ms', '168 → 850+ req/s, 0 dropped'] }),
+      N('prea', 'supplier pre-aggregation', 'built at load time', 1306, 1088, 204, 56),
     ],
     edges: [
       ...[['api', 116], ['bulk', 176], ['ceap', 236], ['portal', 296, 1], ['legacy', 356], ['mesa', 416], ['transp', 476, 1]].map(([, y, d]) => ({ pts: [[300, y], [330, y], [330, 258], [370, 258]], dashed: !!d })),
@@ -812,6 +819,9 @@ const diagrams = [
       E('buildfull', 'cpf'), E('cpf', 'pw'), E('pw', 'wrangler'), E('wrangler', 'workers'), E('workers', 'smoke'),
       { pts: [[1211, 798], [1211, 870]], label: 'HTTPS · immutable cache', lp: [1211, 846] },
       E('reader', 'client'), E('reader', 'analytics'),
+      { pts: [[600, 688], [600, 936], [136, 936], [136, 1006]], label: 'published snapshot', lp: [380, 936] },
+      E('loader', 'apipg', 'validate'), E('apipg', 'goapi', 'api.*'),
+      E('goapi', 'openapi', 'contract', { dashed: true }), E('k6', 'goapi', 'load', { dashed: true }), E('k6', 'prea', 'exposed', { dashed: true }),
     ] },
   { id: 'zorai', x: 1660, y: 516, w: 1200, h: 420, title: 'ZorAI verification and registry', opens: 'projects',
     note: 'missing or unverifiable evidence returns an unknown origin (isAiGenerated: null), never a guess',
@@ -834,7 +844,7 @@ const diagrams = [
       E('pubverify', 'lib'), E('verify', 'lib'), E('register', 'lib'),
       E('lib', 'redis', 'usage', { both: true }), E('lib', 'pinata', 'pin'), E('lib', 'chain', 'read · tx', { both: true }),
     ] },
-  { id: 'newhome', x: 40, y: 1536, w: 1410, h: 610, title: 'New Home Imóveis architecture', opens: 'projects',
+  { id: 'newhome', x: 40, y: 1796, w: 1410, h: 610, title: 'New Home Imóveis architecture', opens: 'projects',
     note: 'no service-role key in the browser: Row Level Security and Storage policies are the boundary',
     nodes: [
       N('visitor', 'visitor', 'browser', 30, 100, 130, 48, { kind: 'ext' }),
@@ -880,7 +890,7 @@ const diagrams = [
       E('tracker', 'g', 'sync via OAuth', { both: true }), E('tracker', 'c', 'classify mail'), E('posts', 'c', 'draft posts'), E('posts', 'n', 'headlines'), E('jobs', 'j', 'search'),
       E('tracker', 'pg', 'job_applications', { both: true }), E('posts', 'pg', 'post_drafts · digests', { both: true }), E('jobs', 'pg', 'resumes', { both: true }),
     ] },
-  { id: 'cognitra', x: 40, y: 2206, w: 1090, h: 530, title: 'Cognitra architecture', opens: 'projects',
+  { id: 'cognitra', x: 40, y: 2466, w: 1090, h: 530, title: 'Cognitra architecture', opens: 'projects',
     note: 'the browser talks to Firebase directly; server routes only hold the AI keys',
     nodes: [
       Z('zB', 'Browser', 20, 56, 260, 264),
@@ -900,7 +910,7 @@ const diagrams = [
       E('transcribe', 'aai', 'upload + poll'), E('generate', 'oai', 'prompt'),
       E('ui', 'fauth', 'sign-in', { both: true }), E('ui', 'fs', 'classes, lectures', { both: true }),
     ] },
-  { id: 'meridian', x: 1190, y: 2206, w: 1210, h: 510, title: 'Meridian architecture', opens: 'projects',
+  { id: 'meridian', x: 1190, y: 2466, w: 1210, h: 510, title: 'Meridian architecture', opens: 'projects',
     note: 'Redis is provisioned in docker-compose and settings, but no code path calls it yet',
     nodes: [
       N('sb', 'Supabase Auth', 'optional · else demo JWT login', 300, 60, 260, 48, { kind: 'ext' }),
@@ -917,7 +927,7 @@ const diagrams = [
       E('browser', 'fe', 'HTTP'), E('fe', 'app', 'REST', { both: true }), E('app', 'pg', 'asyncpg', { both: true }), E('app', 'yahoo', 'httpx · yfinance'),
       E('sched', 'app', 'jobs'), E('fe', 'sb', 'optional login', { dashed: true }), E('app', 'sb', 'verify token', { dashed: true }),
     ] },
-  { id: 'nfl', x: 2460, y: 2206, w: 1290, h: 250, title: 'NFL 4th-down model pipeline', opens: 'projects',
+  { id: 'nfl', x: 2460, y: 2466, w: 1290, h: 250, title: 'NFL 4th-down model pipeline', opens: 'projects',
     note: 'accuracy 0.6227 · ROC-AUC 0.6566 · Brier 0.2293 (from the repository README)',
     nodes: [
       N('ds', 'Kaggle dataset', 'play-by-play 2013-24', 20, 110, 180, 66, { kind: 'db', ext: 1 }),
@@ -929,7 +939,7 @@ const diagrams = [
       N('eval', 'evaluation', 'acc · AUC · Brier', 1100, 110, 150, 48),
     ],
     edges: [E('ds', 'load', 'download'), ...pairs([['load', 'filter'], ['filter', 'feat'], ['feat', 'xgb'], ['xgb', 'eval']])] },
-  { id: 'qlink', x: 40, y: 2796, w: 1650, h: 950, title: 'QLink bridge architecture', opens: 'research',
+  { id: 'qlink', x: 40, y: 3056, w: 1650, h: 950, title: 'QLink bridge architecture', opens: 'research',
     note: 'research design · simulation measured up to 707× throughput · arXiv:2512.18488',
     nodes: [
       Z('net', 'QLink Layer-3 network (Python validators)', 270, 56, 1350, 524),
@@ -972,7 +982,7 @@ const diagrams = [
       { pts: [[975, 328], [975, 760]], label: 'aggregated bundle (t-of-n)', lp: [975, 452] },
       E('submit', 'rpcb', 'verified message + proofs'), E('rpcb', 'bout', 'submit'),
     ] },
-  { id: 'agents', x: 1760, y: 2796, w: 1330, h: 830, title: 'Personal multi-agent workspace', opens: 'projects',
+  { id: 'agents', x: 1760, y: 3056, w: 1330, h: 830, title: 'Personal multi-agent workspace', opens: 'projects',
     note: 'start at the cheapest tier that fits · move up after 2 failures · precision, personal-data, security and deploy work never below Sonnet',
     nodes: [
       Z('zC', 'Claude Code supervisor (Opus)', 16, 56, 480, 430),
@@ -1011,7 +1021,7 @@ const diagrams = [
       E('hermes', 'orch'), E('orch', 'builder'), E('orch', 'researcher'), E('hermes', 'classifier'),
       { pts: [[215, 580], [215, 515], [1010, 515], [1010, 265], [980, 265]], dashed: true, label: 'uses local models', lp: [620, 515] },
     ] },
-    { id: 'libraries', x: 1760, y: 3686, w: 1500, h: 1060, title: 'Penn State Libraries integration', opens: 'experience',
+    { id: 'libraries', x: 1760, y: 3946, w: 1500, h: 1060, title: 'Penn State Libraries integration', opens: 'experience',
     note: 'production Rails apps for 40,000+ users · 10 merged PRs · CI · Docker',
     nodes: [
       Z('zA', 'researcher-metadata · Rails + PostgreSQL', 16, 56, 720, 350),
