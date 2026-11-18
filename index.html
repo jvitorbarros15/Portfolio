@@ -658,7 +658,7 @@ function longest(pts) {
     const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
     if (l > len) { len = l; best = [pts[i - 1], pts[i]]; }
   }
-  return [(best[0][0] + best[1][0]) / 2, (best[0][1] + best[1][1]) / 2];
+  return [(best[0][0] + best[1][0]) / 2, (best[0][1] + best[1][1]) / 2, best[0][1] === best[1][1] ? 'h' : 'v'];
 }
 
 function renderDiagram(d, viewer) {
@@ -684,11 +684,11 @@ function renderDiagram(d, viewer) {
     const attrs = { class: 'edge' + (e.dashed ? ' dashed' : '') + (k ? ' y' : ''), d: 'M' + pts.map(p => p.join(' ')).join('L'), 'marker-end': `url(#${mid + k})` };
     if (e.both) attrs['marker-start'] = `url(#${mid + k})`;
     link.append(svgEl('path', attrs));
-    if (e.label) chips.push([e.label, e.lp || longest(pts)]);
+    if (e.label) chips.push([e.label, e.lp ? e.lp[2] ? e.lp : [...e.lp, pts.some((p, i) => i && p[1] === pts[i - 1][1] && p[1] === e.lp[1]) ? 'h' : 'v'] : longest(pts)]);
   });
   d.nodes.filter(n => !isZone(n)).forEach(n => renderNode(n, link));
-  chips.forEach(([label, [mx, my]]) => {
-    const cw = label.length * 7.8 + 14;
+  chips.forEach(([label, [x, y, dir]]) => {
+    const cw = label.length * 7.8 + 14, mx = dir === 'v' ? x + cw / 2 + 6 : x, my = dir === 'h' ? y - 13 : y;
     link.append(svgEl('rect', { class: 'chip', x: mx - cw / 2, y: my - 10, width: cw, height: 20 }), svgEl('text', { class: 'tag', x: mx, y: my + 4, 'text-anchor': 'middle' }, label));
   });
   if (d.note) link.append(svgEl('text', { class: 'note', x: 24, y: d.h - 22 }, d.note));
@@ -909,7 +909,7 @@ const diagrams = [
       { pts: [[1230, 314], [1370, 314]], both: true, tone: 'y', label: 'QKD link', lp: [1300, 314] },
       { pts: [[1230, 424], [1370, 424]], both: true, tone: 'y', label: 'QKD link', lp: [1300, 424] },
       { pts: [[1100, 192], [1100, 506], [750, 506]], dashed: true, label: 'rotate / revoke', lp: [1100, 351] },
-      { pts: [[1540, 290], [1540, 192]], dashed: true, label: 'metrics · alerts', lp: [1540, 225] },
+      { pts: [[1540, 290], [1540, 192]], dashed: true, label: 'metrics · alerts', lp: [1462, 236, 'n'] },
       E('bin', 'rpca', 'emits'), E('rpca', 'watch', 'Locked event'),
       { pts: [[425, 760], [425, 328]], label: 'event data + headers', lp: [425, 452] },
       { pts: [[975, 328], [975, 760]], label: 'aggregated bundle (t-of-n)', lp: [975, 452] },
@@ -1012,7 +1012,7 @@ const diagrams = [
       { pts: [[500, 850], [545, 850], [545, 924], [590, 924]] },
       E('sidekiq', 'redis', 'queue'),
       E('poller', 's3', null, { dashed: true }),
-      { pts: [[695, 736], [695, 708], [111, 708], [111, 736]], dashed: true, label: 'webhook · job.succeeded | job.failed', lp: [400, 708] },
+      { pts: [[695, 736], [695, 708], [111, 708], [111, 736]], dashed: true, label: 'webhook · job.succeeded | job.failed', lp: [400, 722, 'n'] },
       { pts: [[800, 830], [850, 830], [850, 873], [1140, 873], [1140, 928], [1190, 928]], label: 'image alt text', lp: [1092, 873] },
     ] },
 ];
