@@ -2995,7 +2995,6 @@ body {
     stroke: var(--accent);
     stroke-width: 1;
     stroke-opacity: 0.17;
-    vector-effect: non-scaling-stroke;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
     animation: contour-draw 2.2s var(--ease-out) forwards;
@@ -3103,7 +3102,7 @@ body {
 /* Desktop icons */
 .icon {
     animation: icon-in 560ms var(--ease-out) backwards;
-    animation-delay: calc(var(--i, 0) * 55ms + 450ms);
+    animation-delay: var(--icon-delay, 0ms);
 }
 
 @keyframes icon-in {
@@ -3518,7 +3517,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
+        animation-delay: 0s !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        transition-delay: 0s !important;
     }
 }

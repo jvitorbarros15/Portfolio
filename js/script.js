@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Make icons draggable
     makeIconsDraggable();
-    document.querySelectorAll('.icon').forEach((icon, i) => icon.style.setProperty('--i', i));
+    document.querySelectorAll('.icon').forEach((icon, i) => icon.style.setProperty('--icon-delay', `${i * 55 + 450}ms`));
     setupDeskNote();
     
     // Initialize blockchain
@@ -425,13 +425,20 @@ function buildWallpaperScene() {
 
     paths.forEach(path => svg.appendChild(path));
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.matchMedia('(hover: hover)').matches) return;
+    if (prefersReducedMotion() || !window.matchMedia('(hover: hover)').matches) return;
 
+    const desktop = document.querySelector('.desktop');
+    let frame = 0, lastX = 0, lastY = 0;
     document.addEventListener('pointermove', event => {
-        const x = (event.clientX / window.innerWidth - 0.5) * -14;
-        const y = (event.clientY / window.innerHeight - 0.5) * -10;
-        svg.style.setProperty('--px', `${x.toFixed(1)}px`);
-        svg.style.setProperty('--py', `${y.toFixed(1)}px`);
+        lastX = event.clientX;
+        lastY = event.clientY;
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+            frame = 0;
+            if (desktop.classList.contains('has-wallpaper') || document.querySelector('.window.fullscreen.active')) return;
+            svg.style.setProperty('--px', `${((lastX / window.innerWidth - 0.5) * -14).toFixed(1)}px`);
+            svg.style.setProperty('--py', `${((lastY / window.innerHeight - 0.5) * -10).toFixed(1)}px`);
+        });
     }, { passive: true });
 }
 
@@ -445,12 +452,12 @@ function setupDeskNote() {
 
     grip.addEventListener('pointerdown', event => {
         if (event.button !== 0) return;
-        const noteRect = note.getBoundingClientRect();
         const desktopRect = desktop.getBoundingClientRect();
-        note.style.left = `${noteRect.left - desktopRect.left}px`;
-        note.style.top = `${noteRect.top - desktopRect.top}px`;
+        const left = note.offsetLeft, top = note.offsetTop;
+        note.style.left = `${left}px`;
+        note.style.top = `${top}px`;
         note.style.right = 'auto';
-        drag = { dx: event.clientX - noteRect.left, dy: event.clientY - noteRect.top, desktopRect };
+        drag = { dx: event.clientX - desktopRect.left - left, dy: event.clientY - desktopRect.top - top, desktopRect };
         note.classList.add('lifted');
         grip.setPointerCapture(event.pointerId);
     });
@@ -491,11 +498,17 @@ function hideWindowAnimated(win, exitClass, done) {
         return;
     }
     win.classList.add(exitClass);
-    win.hideTimer = setTimeout(() => {
+    const finish = () => {
+        clearTimeout(win.hideTimer);
+        win.removeEventListener('animationend', onEnd);
+        if (!win.classList.contains(exitClass)) return;
         win.classList.remove(exitClass);
         win.style.display = 'none';
         if (done) done();
-    }, exitClass === 'win-min' ? 220 : 170);
+    };
+    const onEnd = e => { if (e.target === win) finish(); };
+    win.addEventListener('animationend', onEnd);
+    win.hideTimer = setTimeout(finish, 400);
 }
 
 // Initialize window functionality
@@ -1130,19 +1143,12 @@ function toggleFullscreen(window) {
 function closeWindow(window) {
     window.classList.remove('active');
     window.setAttribute('aria-hidden', 'true');
+    const windowType = window.id.replace('-window', '');
     hideWindowAnimated(window, 'win-out', () => {
         window.classList.remove('fullscreen');
         updatePlaylistMiniPlayer();
+        if (windowType === 'blockchain') resetBlockchain();
     });
-    
-    // Remove from taskbar
-    const windowId = window.id;
-    const windowType = windowId.replace('-window', '');
-    
-    // Reset blockchain if blockchain window is closed
-    if (windowType === 'blockchain') {
-        resetBlockchain();
-    }
     
     // Remove from taskbar
     removeFromTaskbar(windowType);
@@ -1219,8 +1225,8 @@ function addToTaskbar(windowType) {
     taskbarItem.addEventListener('click', function() {
         const window = document.getElementById(`${windowType}-window`);
         
-        if (window.style.display === 'none') {
-            // Show window if it's hidden
+        if (window.style.display === 'none' || window.classList.contains('win-min')) {
+            // Show window if it's hidden or minimizing
             openWindow(windowType);
         } else if (window.classList.contains('active')) {
             // Minimize window if it's active
@@ -1351,6 +1357,7 @@ function initBlockchain() {
     if (savedBlockchain) {
         // Use the saved blockchain data (this will be reset on window close)
         blockchain = JSON.parse(savedBlockchain).filter(block => block.index <= BLOCKCHAIN_PROJECTS.length);
+        if (!blockchain.length || blockchain[0].index !== 0) blockchain = [createGenesisBlock()];
         blockchain.forEach((block, i) => {
             if (block.index < 1) return;
             block.data = getBlockData(block.index);
