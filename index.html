@@ -231,6 +231,12 @@ h3 { font: 700 17px/1.2 'Archivo'; }
 .list .links { grid-column: 1 / -1; display: flex; gap: 12px; font: 500 13px 'Martian Mono', monospace; }
 .list .links a { text-decoration: none; border-bottom: 1px solid currentColor; }
 .list .links a:hover { color: #2c47b8; }
+.proj { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 10px; }
+.proj:hover .t { text-decoration: underline; text-underline-offset: 4px; }
+.proj:focus-visible { outline: 2px solid #2c47b8; outline-offset: 3px; border-radius: 3px; }
+.proj .hint { font: 500 11px 'Martian Mono', monospace; color: #2c47b8; }
+.diagram.pulse .boundary { stroke: var(--yellow); stroke-width: 4; animation: pulse 1.4s ease-out 1 both; }
+@keyframes pulse { from { stroke-opacity: 1; stroke-width: 5; } to { stroke-opacity: 1; stroke-width: 1.5; stroke: var(--muted-on-navy); } }
 
 .term { font: 13px/1.6 'Martian Mono', monospace; min-height: 220px; }
 .term .y { color: var(--yellow); } .term .g { color: var(--green); } .term .w { color: var(--ink-on-navy); }
@@ -296,6 +302,7 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
   .arch { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 1.5px solid var(--ink); border-radius: 6px; font: 600 14px 'Archivo', sans-serif; color: var(--ink); transition: transform .16s var(--ease-out), background .16s; }
   .arch svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
   .list .links > .arch { flex: 1 0 100%; justify-content: center; }
+  .proj { min-height: 44px; align-items: center; }
   .arch:active { transform: scale(.97); background: #0f1b3d14; }
   .card .term { min-height: 180px; }
   .card .term input { font-size: 16px; min-height: 44px; }
@@ -494,6 +501,7 @@ function open(id) {
   el.innerHTML = `<div class="bar"><button class="x" aria-label="Close ${c.title}"></button><button aria-hidden="true" tabindex="-1"></button><button aria-hidden="true" tabindex="-1"></button><span>${c.title}</span></div><div class="body"></div>`;
   el.querySelector('.body').append(document.getElementById('tpl-' + id).content.cloneNode(true));
   el.querySelector('.x').onclick = () => closeWin(el);
+  if (id === 'projects' || id === 'experience' || id === 'research') wireArch(el.querySelector('.body'));
   el.addEventListener('pointerdown', () => el.style.zIndex = ++z);
   drag(el, el.querySelector('.bar'));
   layer.append(el);
@@ -1083,12 +1091,38 @@ const mobile = () => mq.matches;
 const nav = id => mobile() ? goTo(id) : open(id);
 
 const sections = [['readme', 'Readme'], ['projects', 'Projects'], ['research', 'Research'], ['experience', 'Work'], ['certs', 'Certificates'], ['music', 'Music'], ['terminal', 'Terminal']];
-const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries' };
+const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries', 'QLink': 'qlink' };
 const archIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v5H3z M14 15h7v5h-7z M6.5 9v4h11v2"/></svg>';
 const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 const diagramIdx = id => diagrams.findIndex(d => d.id === id);
 const $ = id => document.getElementById(id);
 const behavior = () => reduced.matches ? 'auto' : 'smooth';
+
+function showArch(id, from) {
+  const i = diagramIdx(id);
+  if (mobile()) { openViewer(i, from); return; }
+  panTo(diagrams[i]);
+  const svg = canvas.querySelectorAll('.diagram')[i];
+  svg.classList.remove('pulse');
+  void svg.getBoundingClientRect();
+  svg.classList.add('pulse');
+  setTimeout(() => svg.classList.remove('pulse'), 1400);
+}
+
+function wireArch(root) {
+  root.querySelectorAll('.list li > h3, h2').forEach(h => {
+    const title = h.textContent, id = archOf[title];
+    if (!id) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'proj';
+    b.setAttribute('aria-label', title + ': show architecture diagram');
+    b.innerHTML = '<span class="t"></span><span class="hint" aria-hidden="true">→ diagram</span>';
+    b.firstChild.textContent = title;
+    b.onclick = () => showArch(id, b);
+    h.replaceChildren(b);
+  });
+}
 
 function archButton(id) {
   const b = document.createElement('button');
@@ -1121,6 +1155,7 @@ function buildPhone() {
       if (!links) { links = document.createElement('span'); links.className = 'links'; li.append(links); }
       links.prepend(archButton(aid));
     });
+    if (id === 'projects' || id === 'experience' || id === 'research') wireArch(body);
     if (id === 'research') {
       const row = body.querySelector('.btn').parentElement;
       row.classList.add('ctas', 'inline');
