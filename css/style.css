@@ -3133,7 +3133,8 @@ body {
 .icon-img.folder-icon i,
 .icon-img.certifications-icon i { color: var(--accent); }
 .icon-img.contact-icon i,
-.icon-img.blockchain-icon i { color: var(--verdigris); }
+.icon-img.blockchain-icon i,
+.icon-img.blueprint-icon i { color: var(--verdigris); }
 .icon-img.about-icon i,
 .icon-img.current-icon i,
 .icon-img.playlist-icon i { color: var(--warn); }

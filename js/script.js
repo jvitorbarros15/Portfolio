@@ -331,6 +331,7 @@ function getPinnedSystemIconPosition(icon) {
         'certifications',
         'current',
         'terminal',
+        'blueprint',
         'playlist',
         'trash'
     ];
@@ -908,6 +909,7 @@ function initDesktopIcons() {
 
 // Open a window
 function openWindow(windowType) {
+    if (windowType === 'blueprint') { location.href = 'blueprint.html'; return; }
     const window = document.getElementById(`${windowType}-window`);
     
     if (window) {
