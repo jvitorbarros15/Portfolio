@@ -142,6 +142,13 @@ a { color: inherit; }
 .menubar .recruiter { color: var(--yellow); border: 1px solid var(--yellow); border-radius: 4px; padding: 3px 9px; text-decoration: none; white-space: nowrap; }
 .menubar .recruiter:hover, .menubar .recruiter:focus-visible { background: var(--yellow); color: var(--navy-deep); }
 .menubar .recenter { border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
+.zoom { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; background: var(--navy-deep); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 12px 30px -14px #000c; overflow: hidden; }
+.zoom button { all: unset; box-sizing: border-box; width: 44px; height: 44px; display: grid; place-items: center; color: var(--yellow); font: 500 22px/1 'Martian Mono', monospace; cursor: pointer; }
+.zoom button:hover { background: #ffffff12; }
+.zoom button:focus-visible { outline: 2px solid var(--yellow); outline-offset: -2px; }
+.zoom button:disabled { color: var(--muted-on-navy); opacity: .45; cursor: default; background: none; }
+.zoom output { width: 44px; padding: 7px 0; text-align: center; border-block: 1px solid var(--line-strong); font: 12px 'Martian Mono', monospace; color: var(--muted-on-navy); cursor: pointer; }
+@media (max-width: 760px) { .zoom { display: none; } }
 .bars { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; vertical-align: middle; margin-right: 6px; }
 .bars i { width: 2px; height: 8px; background: var(--yellow); animation: eq .9s ease-in-out infinite; }
 .bars i:nth-child(2) { animation-delay: .15s } .bars i:nth-child(3) { animation-delay: .3s } .bars i:nth-child(4) { animation-delay: .45s }
@@ -366,6 +373,7 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
     </div>
   </div>
   <div id="windows"></div>
+  <div class="zoom" role="group" aria-label="Zoom"><button id="zoom-in" aria-label="Zoom in">+</button><output id="zoom-level" title="Reset zoom" aria-live="polite">100%</output><button id="zoom-out" aria-label="Zoom out">−</button></div>
 </main>
 
 <nav class="dock" aria-label="Open windows">
@@ -527,16 +535,50 @@ function drag(el, handle) {
   });
 }
 
-const state = { panX: 0, panY: 0 };
+const state = { panX: 0, panY: 0, zoom: 1 };
+const ZMIN = 0.3, ZMAX = 2;
+let zTarget = 1;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let frame = 0, anim = 0;
 
 function paint() {
   frame = 0;
-  canvas.style.transform = `translate(${state.panX}px, ${state.panY}px)`;
-  surface.style.setProperty('--gx', state.panX % 24 + 'px');
-  surface.style.setProperty('--gy', state.panY % 24 + 'px');
+  const g = 24 * state.zoom;
+  canvas.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+  surface.style.setProperty('--gx', state.panX % g + 'px');
+  surface.style.setProperty('--gy', state.panY % g + 'px');
+  surface.style.backgroundSize = `${g}px ${g}px`;
 }
+
+function setZoom(z, cx = surface.clientWidth / 2, cy = surface.clientHeight / 2) {
+  z = Math.min(ZMAX, Math.max(ZMIN, z));
+  const f = z / state.zoom;
+  state.panX = cx - (cx - state.panX) * f;
+  state.panY = cy - (cy - state.panY) * f;
+  state.zoom = z;
+  zoomLevel.value = Math.round(z * 100) + '%';
+  zoomIn.disabled = z >= ZMAX;
+  zoomOut.disabled = z <= ZMIN;
+  if (!frame) frame = requestAnimationFrame(paint);
+}
+
+function zoomBy(f) {
+  cancelAnimationFrame(anim);
+  const z0 = state.zoom, z1 = zTarget = Math.min(ZMAX, Math.max(ZMIN, zTarget * f));
+  if (reduced.matches) { setZoom(z1); return; }
+  const t0 = performance.now();
+  const step = t => {
+    const p = Math.min(1, (t - t0) / 200), e = 1 - Math.pow(1 - p, 3);
+    setZoom(z0 + (z1 - z0) * e);
+    if (p < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+
+const zoomIn = document.getElementById('zoom-in'), zoomOut = document.getElementById('zoom-out'), zoomLevel = document.getElementById('zoom-level');
+zoomIn.onclick = () => zoomBy(1.25);
+zoomOut.onclick = () => zoomBy(1 / 1.25);
+zoomLevel.onclick = () => zoomBy(1 / zTarget);
 
 function pan(dx, dy) {
   state.panX += dx; state.panY += dy;
@@ -545,6 +587,7 @@ function pan(dx, dy) {
 
 function glide(x, y) {
   cancelAnimationFrame(anim);
+  zTarget = state.zoom;
   if (reduced.matches) { pan(x - state.panX, y - state.panY); return; }
   const x0 = state.panX, y0 = state.panY, t0 = performance.now();
   const step = t => {
@@ -560,6 +603,7 @@ let drag0 = null, moved = false, swallow = 0;
 surface.addEventListener('pointerdown', e => {
   if (!e.isPrimary || e.button !== 0) return;
   cancelAnimationFrame(anim);
+  zTarget = state.zoom;
   drag0 = { id: e.pointerId, x: e.clientX, y: e.clientY };
   moved = false;
 });
@@ -587,11 +631,24 @@ surface.addEventListener('pointercancel', endDrag);
 document.addEventListener('click', e => { if (swallow) { e.preventDefault(); e.stopPropagation(); swallow = 0; } }, true);
 
 desk.addEventListener('wheel', e => {
-  if (e.ctrlKey || e.target.closest('.win .body') || (innerWidth <= 760 && !e.target.closest('#pan'))) return;
+  if (e.target.closest('.win .body') || (innerWidth <= 760 && !e.target.closest('#pan'))) return;
   e.preventDefault();
+  if (e.ctrlKey || e.metaKey) {
+    const r = surface.getBoundingClientRect();
+    setZoom(state.zoom * Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0025)), e.clientX - r.left, e.clientY - r.top);
+    zTarget = state.zoom;
+    return;
+  }
   const k = e.deltaMode === 1 ? 16 : 1;
   pan(-e.deltaX * k, -e.deltaY * k);
 }, { passive: false });
+
+document.addEventListener('keydown', e => {
+  if (innerWidth <= 760 || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, select, [contenteditable]')) return;
+  if (e.key === '+' || e.key === '=') zoomBy(1.25);
+  else if (e.key === '-' || e.key === '_') zoomBy(1 / 1.25);
+  else if (e.key === '0') zoomBy(1 / zTarget);
+});
 
 const arrows = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] };
 document.addEventListener('keydown', e => {
@@ -708,8 +765,8 @@ const Z = (id, label, x, y, w, h, tone, o = {}) => ({ id, label, zone: true, ton
 const N = (id, label, sub, x, y, w, h, o = {}) => ({ id, label, sub, x, y, w, h, kind: 'box', ...o });
 
 const diagrams = [
-  { id: 'clareia', x: 40, y: 516, w: 1560, h: 960, title: 'Clareia data pipeline', opens: 'projects',
-    note: 'no server, database or queue at request time · 592 deputies · 226,510 expense records',
+  { id: 'clareia', x: 40, y: 516, w: 1560, h: 1230, title: 'Clareia data pipeline', opens: 'projects',
+    note: 'site: no server at request time · 592 deputies · 226,510 expense records · Go API built and load-tested, not deployed',
     nodes: [
       Z('zA', 'Câmara dos Deputados (public)', 16, 56, 300, 460),
       N('api', 'Dados Abertos API v2', 'expenses · bills · votes', 30, 92, 270, 48, { kind: 'ext' }),
@@ -746,6 +803,13 @@ const diagrams = [
       { id: 'reader', label: 'reader', kind: 'actor', x: 1200, y: 870 },
       N('client', 'client-side compute', 'rankings · map · comparisons', 1260, 862, 270, 56),
       N('analytics', 'Cloudflare Web Analytics', 'allowed by strict CSP', 860, 862, 260, 56, { kind: 'ext' }),
+      Z('zAPI', 'Read-only REST API · Go (net/http + pgx) · built and load-tested, not deployed', 16, 956, 1514, 226, null, { la: 'end' }),
+      N('loader', 'Go loader', null, 36, 1006, 200, 110, { lines: ['CPF scan gate', 'imports one publication', 'into its own pub_<id>', 'schema'] }),
+      N('apipg', 'PostgreSQL', null, 326, 1000, 220, 124, { kind: 'db', lines: ['pub_<id> behind api.* views', 'active · previous', 'revoked · retired'] }),
+      N('goapi', 'Go API · /v1', null, 636, 992, 250, 140, { hl: true, lines: ['read-only DB role', 'REPEATABLE READ tx / request', 'ETag + 304 · 10 s timeout', 'cursor bound to publication', 'stale cursor → 409'] }),
+      N('openapi', 'OpenAPI 3.1 contract', 'static docs + PDF at /api', 976, 992, 250, 56),
+      N('k6', 'k6 load tests (one laptop)', null, 976, 1066, 250, 100, { kind: 'ext', lines: ['p95 22–26 ms at 100 req/s', 'supplier p95 ~190 → ~15 ms', '168 → 850+ req/s, 0 dropped'] }),
+      N('prea', 'supplier pre-aggregation', 'built at load time', 1306, 1088, 204, 56),
     ],
     edges: [
       ...[['api', 116], ['bulk', 176], ['ceap', 236], ['portal', 296, 1], ['legacy', 356], ['mesa', 416], ['transp', 476, 1]].map(([, y, d]) => ({ pts: [[300, y], [330, y], [330, 258], [370, 258]], dashed: !!d })),
@@ -757,6 +821,9 @@ const diagrams = [
       E('buildfull', 'cpf'), E('cpf', 'pw'), E('pw', 'wrangler'), E('wrangler', 'workers'), E('workers', 'smoke'),
       { pts: [[1211, 798], [1211, 870]], label: 'HTTPS · immutable cache', lp: [1211, 846] },
       E('reader', 'client'), E('reader', 'analytics'),
+      { pts: [[600, 688], [600, 936], [136, 936], [136, 1006]], label: 'published snapshot', lp: [380, 936] },
+      E('loader', 'apipg', 'validate'), E('apipg', 'goapi', 'api.*'),
+      E('goapi', 'openapi', 'contract', { dashed: true }), E('k6', 'goapi', 'load', { dashed: true }), E('k6', 'prea', 'exposed', { dashed: true }),
     ] },
   { id: 'zorai', x: 1660, y: 516, w: 1200, h: 420, title: 'ZorAI verification and registry', opens: 'projects',
     note: 'missing or unverifiable evidence returns an unknown origin (isAiGenerated: null), never a guess',
@@ -779,7 +846,7 @@ const diagrams = [
       E('pubverify', 'lib'), E('verify', 'lib'), E('register', 'lib'),
       E('lib', 'redis', 'usage', { both: true }), E('lib', 'pinata', 'pin'), E('lib', 'chain', 'read · tx', { both: true }),
     ] },
-  { id: 'newhome', x: 40, y: 1536, w: 1410, h: 610, title: 'New Home Imóveis architecture', opens: 'projects',
+  { id: 'newhome', x: 40, y: 1796, w: 1410, h: 610, title: 'New Home Imóveis architecture', opens: 'projects',
     note: 'no service-role key in the browser: Row Level Security and Storage policies are the boundary',
     nodes: [
       N('visitor', 'visitor', 'browser', 30, 100, 130, 48, { kind: 'ext' }),
@@ -825,7 +892,7 @@ const diagrams = [
       E('tracker', 'g', 'sync via OAuth', { both: true }), E('tracker', 'c', 'classify mail'), E('posts', 'c', 'draft posts'), E('posts', 'n', 'headlines'), E('jobs', 'j', 'search'),
       E('tracker', 'pg', 'job_applications', { both: true }), E('posts', 'pg', 'post_drafts · digests', { both: true }), E('jobs', 'pg', 'resumes', { both: true }),
     ] },
-  { id: 'cognitra', x: 40, y: 2206, w: 1090, h: 530, title: 'Cognitra architecture', opens: 'projects',
+  { id: 'cognitra', x: 40, y: 2466, w: 1090, h: 530, title: 'Cognitra architecture', opens: 'projects',
     note: 'the browser talks to Firebase directly; server routes only hold the AI keys',
     nodes: [
       Z('zB', 'Browser', 20, 56, 260, 264),
@@ -845,7 +912,7 @@ const diagrams = [
       E('transcribe', 'aai', 'upload + poll'), E('generate', 'oai', 'prompt'),
       E('ui', 'fauth', 'sign-in', { both: true }), E('ui', 'fs', 'classes, lectures', { both: true }),
     ] },
-  { id: 'meridian', x: 1190, y: 2206, w: 1210, h: 510, title: 'Meridian architecture', opens: 'projects',
+  { id: 'meridian', x: 1190, y: 2466, w: 1210, h: 510, title: 'Meridian architecture', opens: 'projects',
     note: 'Redis is provisioned in docker-compose and settings, but no code path calls it yet',
     nodes: [
       N('sb', 'Supabase Auth', 'optional · else demo JWT login', 300, 60, 260, 48, { kind: 'ext' }),
@@ -862,7 +929,7 @@ const diagrams = [
       E('browser', 'fe', 'HTTP'), E('fe', 'app', 'REST', { both: true }), E('app', 'pg', 'asyncpg', { both: true }), E('app', 'yahoo', 'httpx · yfinance'),
       E('sched', 'app', 'jobs'), E('fe', 'sb', 'optional login', { dashed: true }), E('app', 'sb', 'verify token', { dashed: true }),
     ] },
-  { id: 'nfl', x: 2460, y: 2206, w: 1290, h: 250, title: 'NFL 4th-down model pipeline', opens: 'projects',
+  { id: 'nfl', x: 2460, y: 2466, w: 1290, h: 250, title: 'NFL 4th-down model pipeline', opens: 'projects',
     note: 'accuracy 0.6227 · ROC-AUC 0.6566 · Brier 0.2293 (from the repository README)',
     nodes: [
       N('ds', 'Kaggle dataset', 'play-by-play 2013-24', 20, 110, 180, 66, { kind: 'db', ext: 1 }),
@@ -874,7 +941,7 @@ const diagrams = [
       N('eval', 'evaluation', 'acc · AUC · Brier', 1100, 110, 150, 48),
     ],
     edges: [E('ds', 'load', 'download'), ...pairs([['load', 'filter'], ['filter', 'feat'], ['feat', 'xgb'], ['xgb', 'eval']])] },
-  { id: 'qlink', x: 40, y: 2796, w: 1650, h: 950, title: 'QLink bridge architecture', opens: 'research',
+  { id: 'qlink', x: 40, y: 3056, w: 1650, h: 950, title: 'QLink bridge architecture', opens: 'research',
     note: 'research design · simulation measured up to 707× throughput · arXiv:2512.18488',
     nodes: [
       Z('net', 'QLink Layer-3 network (Python validators)', 270, 56, 1350, 524),
@@ -917,7 +984,7 @@ const diagrams = [
       { pts: [[975, 328], [975, 760]], label: 'aggregated bundle (t-of-n)', lp: [975, 452] },
       E('submit', 'rpcb', 'verified message + proofs'), E('rpcb', 'bout', 'submit'),
     ] },
-  { id: 'agents', x: 1760, y: 2796, w: 1330, h: 830, title: 'Personal multi-agent workspace', opens: 'projects',
+  { id: 'agents', x: 1760, y: 3056, w: 1330, h: 830, title: 'Personal multi-agent workspace', opens: 'projects',
     note: 'start at the cheapest tier that fits · move up after 2 failures · precision, personal-data, security and deploy work never below Sonnet',
     nodes: [
       Z('zC', 'Claude Code supervisor (Opus)', 16, 56, 480, 430),
@@ -956,7 +1023,7 @@ const diagrams = [
       E('hermes', 'orch'), E('orch', 'builder'), E('orch', 'researcher'), E('hermes', 'classifier'),
       { pts: [[215, 580], [215, 515], [1010, 515], [1010, 265], [980, 265]], dashed: true, label: 'uses local models', lp: [620, 515] },
     ] },
-    { id: 'libraries', x: 1760, y: 3686, w: 1500, h: 1060, title: 'Penn State Libraries integration', opens: 'experience',
+    { id: 'libraries', x: 1760, y: 3946, w: 1500, h: 1060, title: 'Penn State Libraries integration', opens: 'experience',
     note: 'production Rails apps for 40,000+ users · 10 merged PRs · CI · Docker',
     nodes: [
       Z('zA', 'researcher-metadata · Rails + PostgreSQL', 16, 56, 720, 350),
@@ -1021,11 +1088,11 @@ const diagrams = [
 
 diagrams.forEach(d => canvas.append(renderDiagram(d)));
 
-const HOME_Y = -440, recenter = () => glide(0, HOME_Y);
+const HOME_Y = -440, recenter = () => { setZoom(zTarget = 1, 0, 0); glide(0, HOME_Y); };
 document.getElementById('recenter').onclick = recenter;
 function panTo(d) {
-  const w = surface.clientWidth, h = surface.clientHeight;
-  glide(d.w > w - 32 ? 16 - d.x : w / 2 - (d.x + d.w / 2), d.h > h - 140 ? 16 - d.y : h - 110 - d.h - d.y);
+  const w = surface.clientWidth, h = surface.clientHeight, z = state.zoom, dw = d.w * z, dh = d.h * z, dx = d.x * z, dy = d.y * z;
+  glide(dw > w - 32 ? 16 - dx : w / 2 - (dx + dw / 2), dh > h - 140 ? 16 - dy : h - 110 - dh - dy);
 }
 
 const mapEl = document.getElementById('map'), mapBtn = document.getElementById('map-btn');
