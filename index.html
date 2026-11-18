@@ -151,7 +151,7 @@ a { color: inherit; }
 #pan { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 24px 24px; background-position: var(--gx, 0) var(--gy, 0); }
 #pan.grabbing { cursor: grabbing; }
 #canvas { position: absolute; left: 0; top: 0; will-change: transform; }
-.diagram { position: absolute; overflow: visible; }
+.diagram { position: absolute; overflow: visible; user-select: none; -webkit-user-select: none; }
 .diagram a { cursor: pointer; outline: none; }
 .diagram text { fill: var(--ink-on-navy); font: 500 12px 'Martian Mono', ui-monospace, monospace; }
 .diagram .sub, .diagram .tag { fill: var(--muted-on-navy); font-size: 11px; font-weight: 400; }
@@ -194,9 +194,12 @@ a { color: inherit; }
 .win.closing { animation: close .2s ease-in both; }
 @keyframes pop { from { transform: translateY(16px) scale(.96); opacity: 0 } }
 @keyframes close { to { transform: scale(.96); opacity: 0 } }
-.win .bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: var(--paper-bar); font: 12px 'Martian Mono', monospace; color: #59618a; cursor: grab; user-select: none; }
+.win .bar { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--paper-bar); font: 12px 'Martian Mono', monospace; color: #59618a; cursor: grab; user-select: none; }
 .win .bar:active { cursor: grabbing; }
-.win .bar button { all: unset; width: 11px; height: 11px; border-radius: 50%; background: #bfc5d9; cursor: pointer; }
+.win .bar button { all: unset; position: relative; width: 14px; height: 14px; border-radius: 50%; background: #bfc5d9; cursor: pointer; }
+.win .bar button::before { content: ''; position: absolute; inset: -6px; }
+.win .bar button.x::after { content: '×'; position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px/1 system-ui, sans-serif; color: #7a1d12; opacity: 0; }
+.win .bar button.x:hover::after, .win .bar button.x:focus-visible::after { opacity: 1; }
 .win .bar button.x:hover { background: #ef6b5b; }
 .win .bar span { margin-left: 6px; }
 .win .body { padding: 22px; overflow: auto; }
@@ -580,6 +583,7 @@ const endDrag = e => {
   surface.classList.remove('grabbing');
   if (moved) { swallow = 1; setTimeout(() => swallow = 0, 50); }
 };
+surface.addEventListener('dragstart', e => { if (!e.target.closest?.('.win .body')) e.preventDefault(); });
 surface.addEventListener('pointerup', endDrag);
 surface.addEventListener('pointercancel', endDrag);
 document.addEventListener('click', e => { if (swallow) { e.preventDefault(); e.stopPropagation(); swallow = 0; } }, true);
