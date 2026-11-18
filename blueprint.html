@@ -142,6 +142,13 @@ a { color: inherit; }
 .menubar .recruiter { color: var(--yellow); border: 1px solid var(--yellow); border-radius: 4px; padding: 3px 9px; text-decoration: none; white-space: nowrap; }
 .menubar .recruiter:hover, .menubar .recruiter:focus-visible { background: var(--yellow); color: var(--navy-deep); }
 .menubar .recenter { border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 8px; }
+.zoom { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; flex-direction: column; align-items: center; background: var(--navy-deep); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 12px 30px -14px #000c; overflow: hidden; }
+.zoom button { all: unset; box-sizing: border-box; width: 44px; height: 44px; display: grid; place-items: center; color: var(--yellow); font: 500 22px/1 'Martian Mono', monospace; cursor: pointer; }
+.zoom button:hover { background: #ffffff12; }
+.zoom button:focus-visible { outline: 2px solid var(--yellow); outline-offset: -2px; }
+.zoom button:disabled { color: var(--muted-on-navy); opacity: .45; cursor: default; background: none; }
+.zoom output { width: 44px; padding: 7px 0; text-align: center; border-block: 1px solid var(--line-strong); font: 12px 'Martian Mono', monospace; color: var(--muted-on-navy); cursor: pointer; }
+@media (max-width: 760px) { .zoom { display: none; } }
 .bars { display: inline-flex; gap: 2px; align-items: flex-end; height: 12px; vertical-align: middle; margin-right: 6px; }
 .bars i { width: 2px; height: 8px; background: var(--yellow); animation: eq .9s ease-in-out infinite; }
 .bars i:nth-child(2) { animation-delay: .15s } .bars i:nth-child(3) { animation-delay: .3s } .bars i:nth-child(4) { animation-delay: .45s }
@@ -366,6 +373,7 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
     </div>
   </div>
   <div id="windows"></div>
+  <div class="zoom" role="group" aria-label="Zoom"><button id="zoom-in" aria-label="Zoom in">+</button><output id="zoom-level" title="Reset zoom" aria-live="polite">100%</output><button id="zoom-out" aria-label="Zoom out">−</button></div>
 </main>
 
 <nav class="dock" aria-label="Open windows">
@@ -527,16 +535,50 @@ function drag(el, handle) {
   });
 }
 
-const state = { panX: 0, panY: 0 };
+const state = { panX: 0, panY: 0, zoom: 1 };
+const ZMIN = 0.3, ZMAX = 2;
+let zTarget = 1;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let frame = 0, anim = 0;
 
 function paint() {
   frame = 0;
-  canvas.style.transform = `translate(${state.panX}px, ${state.panY}px)`;
-  surface.style.setProperty('--gx', state.panX % 24 + 'px');
-  surface.style.setProperty('--gy', state.panY % 24 + 'px');
+  const g = 24 * state.zoom;
+  canvas.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.zoom})`;
+  surface.style.setProperty('--gx', state.panX % g + 'px');
+  surface.style.setProperty('--gy', state.panY % g + 'px');
+  surface.style.backgroundSize = `${g}px ${g}px`;
 }
+
+function setZoom(z, cx = surface.clientWidth / 2, cy = surface.clientHeight / 2) {
+  z = Math.min(ZMAX, Math.max(ZMIN, z));
+  const f = z / state.zoom;
+  state.panX = cx - (cx - state.panX) * f;
+  state.panY = cy - (cy - state.panY) * f;
+  state.zoom = z;
+  zoomLevel.value = Math.round(z * 100) + '%';
+  zoomIn.disabled = z >= ZMAX;
+  zoomOut.disabled = z <= ZMIN;
+  if (!frame) frame = requestAnimationFrame(paint);
+}
+
+function zoomBy(f) {
+  cancelAnimationFrame(anim);
+  const z0 = state.zoom, z1 = zTarget = Math.min(ZMAX, Math.max(ZMIN, zTarget * f));
+  if (reduced.matches) { setZoom(z1); return; }
+  const t0 = performance.now();
+  const step = t => {
+    const p = Math.min(1, (t - t0) / 200), e = 1 - Math.pow(1 - p, 3);
+    setZoom(z0 + (z1 - z0) * e);
+    if (p < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
+}
+
+const zoomIn = document.getElementById('zoom-in'), zoomOut = document.getElementById('zoom-out'), zoomLevel = document.getElementById('zoom-level');
+zoomIn.onclick = () => zoomBy(1.25);
+zoomOut.onclick = () => zoomBy(1 / 1.25);
+zoomLevel.onclick = () => zoomBy(1 / zTarget);
 
 function pan(dx, dy) {
   state.panX += dx; state.panY += dy;
@@ -587,11 +629,24 @@ surface.addEventListener('pointercancel', endDrag);
 document.addEventListener('click', e => { if (swallow) { e.preventDefault(); e.stopPropagation(); swallow = 0; } }, true);
 
 desk.addEventListener('wheel', e => {
-  if (e.ctrlKey || e.target.closest('.win .body') || (innerWidth <= 760 && !e.target.closest('#pan'))) return;
+  if (e.target.closest('.win .body') || (innerWidth <= 760 && !e.target.closest('#pan'))) return;
   e.preventDefault();
+  if (e.ctrlKey || e.metaKey) {
+    const r = surface.getBoundingClientRect();
+    setZoom(state.zoom * Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0025)), e.clientX - r.left, e.clientY - r.top);
+    zTarget = state.zoom;
+    return;
+  }
   const k = e.deltaMode === 1 ? 16 : 1;
   pan(-e.deltaX * k, -e.deltaY * k);
 }, { passive: false });
+
+document.addEventListener('keydown', e => {
+  if (innerWidth <= 760 || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, select, [contenteditable]')) return;
+  if (e.key === '+' || e.key === '=') zoomBy(1.25);
+  else if (e.key === '-' || e.key === '_') zoomBy(1 / 1.25);
+  else if (e.key === '0') zoomBy(1 / zTarget);
+});
 
 const arrows = { ArrowLeft: [40, 0], ArrowRight: [-40, 0], ArrowUp: [0, 40], ArrowDown: [0, -40] };
 document.addEventListener('keydown', e => {
@@ -1021,11 +1076,11 @@ const diagrams = [
 
 diagrams.forEach(d => canvas.append(renderDiagram(d)));
 
-const HOME_Y = -440, recenter = () => glide(0, HOME_Y);
+const HOME_Y = -440, recenter = () => { setZoom(zTarget = 1, 0, 0); glide(0, HOME_Y); };
 document.getElementById('recenter').onclick = recenter;
 function panTo(d) {
-  const w = surface.clientWidth, h = surface.clientHeight;
-  glide(d.w > w - 32 ? 16 - d.x : w / 2 - (d.x + d.w / 2), d.h > h - 140 ? 16 - d.y : h - 110 - d.h - d.y);
+  const w = surface.clientWidth, h = surface.clientHeight, z = state.zoom, dw = d.w * z, dh = d.h * z, dx = d.x * z, dy = d.y * z;
+  glide(dw > w - 32 ? 16 - dx : w / 2 - (dx + dw / 2), dh > h - 140 ? 16 - dy : h - 110 - dh - dy);
 }
 
 const mapEl = document.getElementById('map'), mapBtn = document.getElementById('map-btn');
