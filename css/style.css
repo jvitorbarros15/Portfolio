@@ -2987,10 +2987,10 @@ body {
 
 .wallpaper-scene svg {
     position: absolute;
-    inset: -14px;
-    width: calc(100% + 28px);
-    height: calc(100% + 28px);
-    transition: transform 900ms var(--ease-out);
+    inset: -90px;
+    width: calc(100% + 180px);
+    height: calc(100% + 180px);
+    transition: transform 700ms var(--ease-out);
     transform: translate(var(--px, 0), var(--py, 0));
 }
 
@@ -3008,6 +3008,8 @@ body {
 .wallpaper-scene path.major {
     stroke-opacity: 0.36;
     stroke-width: 1.4;
+    transform: translate(calc(var(--px, 0px) * 0.5), calc(var(--py, 0px) * 0.5));
+    transition: transform 900ms var(--ease-out);
 }
 
 .wallpaper-scene path.cool {
@@ -3388,7 +3390,7 @@ body {
 /* Desk note */
 .desk-note {
     position: absolute;
-    top: 150px;
+    top: 40px;
     right: 40px;
     z-index: 3;
     width: 236px;

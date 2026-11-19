@@ -436,8 +436,8 @@ function buildWallpaperScene() {
         frame = requestAnimationFrame(() => {
             frame = 0;
             if (desktop.classList.contains('has-wallpaper') || document.querySelector('.window.fullscreen.active')) return;
-            svg.style.setProperty('--px', `${((lastX / window.innerWidth - 0.5) * -14).toFixed(1)}px`);
-            svg.style.setProperty('--py', `${((lastY / window.innerHeight - 0.5) * -10).toFixed(1)}px`);
+            svg.style.setProperty('--px', `${((lastX / window.innerWidth - 0.5) * -80).toFixed(1)}px`);
+            svg.style.setProperty('--py', `${((lastY / window.innerHeight - 0.5) * -56).toFixed(1)}px`);
         });
     }, { passive: true });
 }

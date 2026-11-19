@@ -133,20 +133,12 @@
 
     <div class="desktop">
         <div class="wallpaper-scene" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg></div>
-        <a class="recruiter-shortcut" href="./recruiter.html" data-track="Recruiter Quick View: Desktop">
-            <span class="recruiter-shortcut-icon" aria-hidden="true"></span>
-            <span class="recruiter-shortcut-copy">
-                <strong>Recruiter Quick View</strong>
-                <small>Evidence · experience · resume</small>
-            </span>
-            <span class="recruiter-shortcut-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
-        </a>
         <aside class="desk-note" id="desk-note" aria-label="What I am working on now">
             <div class="desk-note-grip"><span>Now</span><i class="fas fa-grip" aria-hidden="true"></i></div>
             <ul>
-                <li><strong>ZorAI</strong><span>Recently shipped</span></li>
-                <li><strong>QLink research</strong><span>Research active</span></li>
-                <li><strong>Cognitra</strong><span>Live product</span></li>
+                <li><strong>Clareia</strong><span>Live · Go API built</span></li>
+                <li><strong>New Home Imóveis</strong><span>Client · launch prep</span></li>
+                <li><strong>Spark</strong><span>Personal idea lab</span></li>
             </ul>
             <button class="desk-note-open" type="button" data-track="Desktop Note: Open Current">Open Current.exe</button>
         </aside>
@@ -267,10 +259,11 @@
                         <h3>Clareia — Brazil Congress Transparency Site</h3>
                         <p>Built and launched a public transparency site covering all 592 federal deputies: 226,000+ expense records (R$ 256M), 22,700 bills, and 473,000 roll-call votes, every figure traceable to its official source.</p>
                         <ul class="project-proof">
-                            <li>Dual-capture ingestion reconciles the Chamber's open-data API against its annual CEAP file; an independent re-audit holds ~180 unconfirmed deputy-months for review instead of showing them as R$0</li>
+                            <li>Dual-capture ingestion reconciles the Chamber's open-data API against its annual CEAP file; a second implementation re-audits every total and holds ~180 unconfirmed deputy-months for review instead of showing them as R$0</li>
                             <li>Initial load cut from 174 MB to 6.4 MB (613 requests → 28); ranking re-sorts ~9× faster (1.2 s to 0.13 s)</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./case-studies/clareia.html" class="btn btn-secondary" data-track="Project: Clareia - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://clareia.clareia.workers.dev/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
                         </div>
@@ -310,10 +303,10 @@
                         <div class="project-card-body">
                         <div class="project-card-kicker"><span>Paying client</span><span>2026</span></div>
                         <h3>New Home Imóveis — Client Platform</h3>
-                        <p>Shipped a full-stack real-estate platform that captures inbound WhatsApp leads, synchronizes them into HubSpot, and gives a non-technical team an admin workspace for listings, media, records, and lead tracking.</p>
+                        <p>Shipped a full-stack real-estate platform that saves every inquiry before handing the buyer to WhatsApp, and gives a non-technical team an admin area for listings, images and leads, secured with Row Level Security and two-factor login.</p>
                         <ul class="project-proof">
                             <li>Production client delivery from database through interface</li>
-                            <li>Automated CRM ingestion replaces a manual lead workflow</li>
+                            <li>Leads stored before WhatsApp, so none are lost</li>
                         </ul>
                         <div class="project-links">
                             <a href="./case-studies/new-home.html" class="btn btn-secondary" data-track="Project: New Home Imoveis - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
@@ -324,8 +317,8 @@
                             <span class="tech-tag">React</span>
                             <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">Supabase</span>
-                            <span class="tech-tag">HubSpot</span>
-                            <span class="tech-tag">CRM Automation</span>
+                            <span class="tech-tag">PostgreSQL RLS</span>
+                            <span class="tech-tag">Vercel</span>
                         </div>
                         </div>
                     </article>
@@ -637,13 +630,13 @@
                                 <h3>Projects</h3>
                                 <div class="resume-item">
                                     <h4>Clareia, Brazil Congress Transparency Site | TypeScript, PostgreSQL, Playwright, Cloudflare — 2026 – Present</h4>
-                                    <p>Public transparency site covering all 592 federal deputies, used by <strong>500+ people</strong>: 226,000+ expense records (R$ 256M), 22,700 bills, and 473,000 roll-call votes. Dual-capture ingestion with an independent re-audit holds <strong>~180 unconfirmed deputy-months</strong> for review instead of showing them as R$0; initial load cut from 174 MB to 6.4 MB (<strong>613 → 28 requests</strong>) and ranking re-sorts made <strong>~9× faster</strong> (1.2 s to 0.13 s).</p>
+                                    <p>Public transparency site covering all 592 federal deputies, used by <strong>500+ people</strong>: 226,000+ expense records (R$ 256M), 22,700 bills, and 473,000 roll-call votes. Dual-capture ingestion with a second-implementation re-audit holds <strong>~180 unconfirmed deputy-months</strong> for review instead of showing them as R$0; initial load cut from 174 MB to 6.4 MB (<strong>613 → 28 requests</strong>) and ranking re-sorts made <strong>~9× faster</strong> (1.2 s to 0.13 s).</p>
 
                                     <h4>Personal Multi-Agent AI Workspace | Claude Code, Codex, Ollama, opencode, Hermes — 2026 – Present</h4>
                                     <p>A tiered agent setup for my own projects: Claude Code (Opus) plans, writes specs and reviews every diff while Sonnet, Haiku, Fable and Codex subagents do the work, and mechanical edits run free on local Ollama models (Gemma 4, Nemotron) through opencode and OmniRoute. A self-hosted Hermes gateway reaches it from WhatsApp and email, with an open-source model categorizing incoming mail.</p>
 
-                                    <h4>New Home Imóveis | React, Supabase, Node.js, HubSpot CRM — Jun 2026 – Present</h4>
-                                    <p>Shipped a full-stack platform for a paying client, replacing a manual lead process by capturing WhatsApp inquiries and synchronizing them into HubSpot. Built a CRM-style admin panel for listings, media, records, and leads.</p>
+                                    <h4>New Home Imóveis | React, Supabase, PostgreSQL, Vercel — Jun 2026 – Present</h4>
+                                    <p>Shipped a full-stack platform for a paying client that stores every inquiry before the WhatsApp hand-off, with an admin panel for listings, images and leads secured by Row Level Security and TOTP two-factor login.</p>
 
                                     <h4>NittanyAuction | Python, Flask, SQLite — 2025</h4>
                                     <p>Built a complete auction marketplace on a normalized relational schema covering users, listings, bids, payments, ratings, and role-specific workflows, with server-side validation and session handling.</p>
@@ -996,66 +989,85 @@
                 </div>
                 <div class="window-content">
                     <div class="current-section-header">
-                        <h2>Recent Work &amp; Current Focus</h2>
-                        <p>A transparent snapshot of recently shipped products and the research I am continuing after graduation.</p>
+                        <h2>What I Am Working On</h2>
+                        <p>Updated November 2026. Shipped work is marked shipped; everything else says where it stands.</p>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: ZorAI">
+                    <div class="current-project-card" data-track="Current: Clareia">
                         <div class="current-project-top">
                             <div>
-                                <h3>ZorAI</h3>
-                                <p class="current-project-subtitle">AI image provenance across content analysis, IPFS metadata, and Base Sepolia</p>
+                                <h3>Clareia</h3>
+                                <p class="current-project-subtitle">Public record of Brazilian federal deputies' expense quota, from official Câmara data</p>
                             </div>
-                            <span class="current-status status-live">Recently Shipped</span>
+                            <span class="current-status status-ship">Live</span>
                         </div>
-                        <p>Built and deployed a public provenance registry for AI-generated images, combining structured image analysis, content-addressed IPFS metadata, wallet support, and a Solidity verification contract on Base Sepolia.</p>
+                        <p>226,510 expense records for 2025 across 592 deputies (R$ 256M), every number linked to its source records. This week: an open data page with monthly CSVs and SHA-256 checksums, a read-only Go API (built and load-tested, not deployed yet), and a fix for a sign error I found in the Câmara's API.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Solidity</span>
-                            <span class="tech-tag">Hardhat</span>
-                            <span class="tech-tag">IPFS</span>
-                            <span class="tech-tag">Ethers.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Go</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Cloudflare Workers</span>
                         </div>
                         <div class="project-links">
-                            <a href="./case-studies/zorai.html" class="btn" data-track="Current: ZorAI - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://zorai.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - Live App"><i class="fas fa-external-link-alt"></i> Live App</a>
+                            <a href="./case-studies/clareia.html" class="btn" data-track="Current: Clareia - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
+                            <a href="https://clareia.clareia.workers.dev" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                            <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: QLink Research">
+                    <div class="current-project-card" data-track="Current: New Home">
                         <div class="current-project-top">
                             <div>
-                                <h3>QLink Quantum-Safe Interoperability Research</h3>
-                                <p class="current-project-subtitle">Layer-3 blockchain protocol research with QKD and post-quantum cryptography</p>
+                                <h3>New Home Imóveis</h3>
+                                <p class="current-project-subtitle">Real-estate platform for a paying client in Rio de Janeiro</p>
                             </div>
-                            <span class="current-status status-research">Research Active</span>
+                            <span class="current-status status-research">Launch prep</span>
                         </div>
-                        <p>Advancing the QLink protocol by exploring secure cross-chain interoperability, validator simulations, and quantum-safe key refresh mechanisms for blockchain networks.</p>
+                        <p>Property search, WhatsApp inquiries saved before the hand-off, and an admin area secured with Row Level Security and two-factor login. Now preparing the launch: audit fixes with CI, and a server-side lead endpoint with spam protection and email alerts.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">Blockchain</span>
-                            <span class="tech-tag">PQC</span>
-                            <span class="tech-tag">QKD</span>
-                            <span class="tech-tag">Protocol Design</span>
-                            <span class="tech-tag">Research</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">PostgreSQL RLS</span>
+                            <span class="tech-tag">Vercel</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://arxiv.org/pdf/2512.18488" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: QLink - Research Paper"><i class="fas fa-file-alt"></i> Read Research</a>
+                            <a href="./case-studies/new-home.html" class="btn" data-track="Current: New Home - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
+                            <a href="https://new-home-imoveis.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: New Home - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
                         </div>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: Cognitra">
+                    <div class="current-project-card" data-track="Current: Spark">
                         <div class="current-project-top">
                             <div>
-                                <h3>Cognitra</h3>
-                                <p class="current-project-subtitle">AI study workspace for notes, lectures, mind maps, and generated learning materials</p>
+                                <h3>Spark</h3>
+                                <p class="current-project-subtitle">A local workbench for capturing and testing ideas</p>
                             </div>
-                            <span class="current-status status-ship">Live Product</span>
+                            <span class="current-status status-research">In progress · private</span>
                         </div>
-                        <p>Shipped a bilingual learning platform with Firebase-backed classes and notes, visual mind mapping, speaker-aware lecture transcription, and LLM-generated study resources.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://cognitra.vercel.app/" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        <p>Runs on my own machine with no npm dependencies and Node's built-in SQLite. Capture a thought by typing or one-tap dictation (local Whisper transcription), turn it into an idea, problem or experiment, and ask one or several models about it. Anything a model writes is marked as a draft and kept apart from my own evidence until I review it. Paper search across OpenAlex, Crossref and arXiv with DOI checks.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">Whisper</span>
+                        </div>
+                    </div>
+
+                    <div class="current-project-card" data-track="Current: AI Workflow">
+                        <div class="current-project-top">
+                            <div>
+                                <h3>AI-Assisted Development Workflow</h3>
+                                <p class="current-project-subtitle">How I build all of the above</p>
+                            </div>
+                            <span class="current-status status-research">In daily use</span>
+                        </div>
+                        <p>I route tasks by risk and cost: Claude Code (Opus) plans, writes specs and reviews every diff; Sonnet, Haiku, Fable and Codex subagents do the work; mechanical edits run on local Ollama models through opencode and OmniRoute. Nothing merges without my review.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">Claude Code</span>
+                            <span class="tech-tag">Codex</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">opencode</span>
                         </div>
                     </div>
                 </div>
@@ -1231,9 +1243,9 @@
                     <span class="start-menu-app-icon app-icon-resume"><i class="fas fa-file-lines" aria-hidden="true"></i></span>
                     <span>Resume</span>
                 </button>
-                <button class="start-menu-app" type="button" data-start-window="current" data-search="recent work current projects shipped research">
+                <button class="start-menu-app" type="button" data-start-window="current" data-search="current work now clareia api projects">
                     <span class="start-menu-app-icon app-icon-current"><i class="fas fa-bolt" aria-hidden="true"></i></span>
-                    <span>Recent Work</span>
+                    <span>Current Work</span>
                 </button>
                 <button class="start-menu-app" type="button" data-start-window="certifications" data-search="certifications credentials ai machine learning">
                     <span class="start-menu-app-icon app-icon-certs"><i class="fas fa-certificate" aria-hidden="true"></i></span>
@@ -1266,6 +1278,7 @@
             <div class="start-menu-footer">
                 <a href="https://github.com/jvitorbarros15" target="_blank" rel="noopener noreferrer" data-track="Start Menu: GitHub"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span></a>
                 <a href="https://www.linkedin.com/in/joaovi/" target="_blank" rel="noopener noreferrer" data-track="Start Menu: LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>
+                <a href="./recruiter.html" data-track="Start Menu: Recruiter View"><i class="fas fa-user-tie" aria-hidden="true"></i> Recruiter view</a>
                 <a href="./files/Joao_Vitor_Barros_da_Silva_Resume.pdf" target="_blank" rel="noopener noreferrer" download data-track="Start Menu: Resume Download"><i class="fas fa-download" aria-hidden="true"></i><span>PDF Resume</span></a>
             </div>
         </section>
