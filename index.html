@@ -133,20 +133,12 @@
 
     <div class="desktop">
         <div class="wallpaper-scene" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice"></svg></div>
-        <a class="recruiter-shortcut" href="./recruiter.html" data-track="Recruiter Quick View: Desktop">
-            <span class="recruiter-shortcut-icon" aria-hidden="true"></span>
-            <span class="recruiter-shortcut-copy">
-                <strong>Recruiter Quick View</strong>
-                <small>Evidence · experience · resume</small>
-            </span>
-            <span class="recruiter-shortcut-go" aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
-        </a>
         <aside class="desk-note" id="desk-note" aria-label="What I am working on now">
             <div class="desk-note-grip"><span>Now</span><i class="fas fa-grip" aria-hidden="true"></i></div>
             <ul>
-                <li><strong>ZorAI</strong><span>Recently shipped</span></li>
-                <li><strong>QLink research</strong><span>Research active</span></li>
-                <li><strong>Cognitra</strong><span>Live product</span></li>
+                <li><strong>Clareia</strong><span>Live · open data page</span></li>
+                <li><strong>Clareia Go API</strong><span>Built · load-tested</span></li>
+                <li><strong>Agent workspace</strong><span>In daily use</span></li>
             </ul>
             <button class="desk-note-open" type="button" data-track="Desktop Note: Open Current">Open Current.exe</button>
         </aside>
@@ -996,66 +988,77 @@
                 </div>
                 <div class="window-content">
                     <div class="current-section-header">
-                        <h2>Recent Work &amp; Current Focus</h2>
-                        <p>A transparent snapshot of recently shipped products and the research I am continuing after graduation.</p>
+                        <h2>What I Am Working On</h2>
+                        <p>Updated November 2026. Shipped work is marked shipped; everything else says where it stands.</p>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: ZorAI">
+                    <div class="current-project-card" data-track="Current: Clareia">
                         <div class="current-project-top">
                             <div>
-                                <h3>ZorAI</h3>
-                                <p class="current-project-subtitle">AI image provenance across content analysis, IPFS metadata, and Base Sepolia</p>
+                                <h3>Clareia</h3>
+                                <p class="current-project-subtitle">Public record of Brazilian federal deputies' expense quota, from official Câmara data</p>
                             </div>
-                            <span class="current-status status-live">Recently Shipped</span>
+                            <span class="current-status status-ship">Live</span>
                         </div>
-                        <p>Built and deployed a public provenance registry for AI-generated images, combining structured image analysis, content-addressed IPFS metadata, wallet support, and a Solidity verification contract on Base Sepolia.</p>
+                        <p>226,510 expense records for 2025 across 592 deputies (R$ 256M), every number linked to its source records. Shipped this week: an open data page with monthly CSVs, SHA-256 checksums and a data dictionary; the party each deputy belonged to at the time of each expense; approved bills in the deputy comparison; and a CPF scan with checksum validation on every build.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Solidity</span>
-                            <span class="tech-tag">Hardhat</span>
-                            <span class="tech-tag">IPFS</span>
-                            <span class="tech-tag">Ethers.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Playwright</span>
+                            <span class="tech-tag">Cloudflare Workers</span>
                         </div>
                         <div class="project-links">
-                            <a href="./case-studies/zorai.html" class="btn" data-track="Current: ZorAI - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
-                            <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://zorai.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: ZorAI - Live App"><i class="fas fa-external-link-alt"></i> Live App</a>
+                            <a href="https://clareia.clareia.workers.dev" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
+                            <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: QLink Research">
+                    <div class="current-project-card" data-track="Current: Clareia API">
                         <div class="current-project-top">
                             <div>
-                                <h3>QLink Quantum-Safe Interoperability Research</h3>
-                                <p class="current-project-subtitle">Layer-3 blockchain protocol research with QKD and post-quantum cryptography</p>
+                                <h3>Clareia Read-Only API</h3>
+                                <p class="current-project-subtitle">Go (net/http + pgx) over PostgreSQL, OpenAPI 3.1 contract</p>
                             </div>
-                            <span class="current-status status-research">Research Active</span>
+                            <span class="current-status status-live">Built, not deployed</span>
                         </div>
-                        <p>Advancing the QLink protocol by exploring secure cross-chain interoperability, validator simulations, and quantum-safe key refresh mechanisms for blockchain networks.</p>
+                        <p>Loads each published snapshot into its own schema behind read-only views, after a CPF scan. k6 load tests on one laptop: p95 22–26 ms at 100 req/s. The test exposed a supplier endpoint re-aggregating 123K rows per request; pre-aggregating it at load time cut its p95 from about 190 ms to about 15 ms and raised the rate held with zero dropped requests from 168 to 850+ req/s. It stays off paid hosting until there is a real consumer.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">Blockchain</span>
-                            <span class="tech-tag">PQC</span>
-                            <span class="tech-tag">QKD</span>
-                            <span class="tech-tag">Protocol Design</span>
-                            <span class="tech-tag">Research</span>
+                            <span class="tech-tag">Go</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">OpenAPI 3.1</span>
+                            <span class="tech-tag">k6</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://arxiv.org/pdf/2512.18488" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: QLink - Research Paper"><i class="fas fa-file-alt"></i> Read Research</a>
+                            <a href="https://clareia.clareia.workers.dev/api" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia API - Docs"><i class="fas fa-book-open"></i> API Docs</a>
+                            <a href="./blueprint.html" class="btn" data-track="Current: Clareia API - Diagram"><i class="fas fa-drafting-compass"></i> Architecture</a>
                         </div>
                     </div>
 
-                    <div class="current-project-card" data-track="Current: Cognitra">
+                    <div class="current-project-card" data-track="Current: Clareia Data Fix">
                         <div class="current-project-top">
                             <div>
-                                <h3>Cognitra</h3>
-                                <p class="current-project-subtitle">AI study workspace for notes, lectures, mind maps, and generated learning materials</p>
+                                <h3>Câmara Data-Quality Fix</h3>
+                                <p class="current-project-subtitle">A sign error in the official API</p>
                             </div>
-                            <span class="current-status status-ship">Live Product</span>
+                            <span class="current-status status-research">In progress</span>
                         </div>
-                        <p>Shipped a bilingual learning platform with Firebase-backed classes and notes, visual mind mapping, speaker-aware lecture transcription, and LLM-generated study resources.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
-                            <a href="https://cognitra.vercel.app/" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        <p>Since 12 November the Câmara API returns the net value of ordinary expenses as the negative of the document value, in 2024, 2025 and 2026 samples; the annual CSV is still correct. Writing a rule, with tests, that takes the CSV value in exactly that case, reviewed before the next publication.</p>
+                    </div>
+
+                    <div class="current-project-card" data-track="Current: Agent Workspace">
+                        <div class="current-project-top">
+                            <div>
+                                <h3>Multi-Agent Development Workspace</h3>
+                                <p class="current-project-subtitle">How I build my own projects</p>
+                            </div>
+                            <span class="current-status status-research">In daily use</span>
+                        </div>
+                        <p>Claude Code (Opus) plans, writes specs and reviews every diff while Sonnet, Haiku, Fable and Codex subagents do the work, and mechanical edits run on local Ollama models through opencode and OmniRoute. A self-hosted Hermes gateway reaches it from WhatsApp and email.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">Claude Code</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">opencode</span>
+                            <span class="tech-tag">Hermes</span>
                         </div>
                     </div>
                 </div>
@@ -1231,9 +1234,9 @@
                     <span class="start-menu-app-icon app-icon-resume"><i class="fas fa-file-lines" aria-hidden="true"></i></span>
                     <span>Resume</span>
                 </button>
-                <button class="start-menu-app" type="button" data-start-window="current" data-search="recent work current projects shipped research">
+                <button class="start-menu-app" type="button" data-start-window="current" data-search="current work now clareia api projects">
                     <span class="start-menu-app-icon app-icon-current"><i class="fas fa-bolt" aria-hidden="true"></i></span>
-                    <span>Recent Work</span>
+                    <span>Current Work</span>
                 </button>
                 <button class="start-menu-app" type="button" data-start-window="certifications" data-search="certifications credentials ai machine learning">
                     <span class="start-menu-app-icon app-icon-certs"><i class="fas fa-certificate" aria-hidden="true"></i></span>
@@ -1266,6 +1269,7 @@
             <div class="start-menu-footer">
                 <a href="https://github.com/jvitorbarros15" target="_blank" rel="noopener noreferrer" data-track="Start Menu: GitHub"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span></a>
                 <a href="https://www.linkedin.com/in/joaovi/" target="_blank" rel="noopener noreferrer" data-track="Start Menu: LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span></a>
+                <a href="./recruiter.html" data-track="Start Menu: Recruiter View"><i class="fas fa-user-tie" aria-hidden="true"></i> Recruiter view</a>
                 <a href="./files/Joao_Vitor_Barros_da_Silva_Resume.pdf" target="_blank" rel="noopener noreferrer" download data-track="Start Menu: Resume Download"><i class="fas fa-download" aria-hidden="true"></i><span>PDF Resume</span></a>
             </div>
         </section>
