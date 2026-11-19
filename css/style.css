@@ -1295,6 +1295,37 @@ body {
     margin-right: 8px;
 }
 
+.rv { max-width: 920px; margin: 0 auto; padding: 28px clamp(18px, 4vw, 40px) 48px; line-height: 1.6; }
+.rv-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 22px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
+.rv-head h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.rv-tagline { margin-top: 6px; color: var(--ink-soft); font-size: 0.95rem; }
+.rv-head .download-btn { padding: 10px 16px; border-radius: 6px; color: var(--accent-ink); background: var(--accent); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.rv-head .download-btn:hover { background: color-mix(in srgb, var(--accent) 85%, white); }
+.rv-section { padding-top: 26px; }
+.rv-section > h3 { margin-bottom: 14px; color: var(--accent); font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.rv-entry { padding: 16px 0; border-top: 1px solid var(--line); }
+.rv-section > h3 + .rv-entry { border-top: 0; padding-top: 0; }
+.rv-entry-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.rv-entry-head h4 { font-size: 1.05rem; font-weight: 700; }
+.rv-entry-head h4 a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.rv-date { color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.75rem; white-space: nowrap; }
+.rv-org { margin-top: 2px; color: var(--ink-soft); font-size: 0.92rem; }
+.rv-note { margin-top: 8px; color: var(--ink-soft); font-size: 0.92rem; }
+.rv-note strong { color: var(--ink); }
+.rv-bullets { margin-top: 10px; padding-left: 18px; color: color-mix(in srgb, var(--ink) 88%, var(--ink-soft)); font-size: 0.94rem; }
+.rv-bullets li + li { margin-top: 6px; }
+.rv-bullets li::marker { color: var(--accent); }
+.rv-bullets strong { color: var(--ink); }
+.rv-bullets a { color: var(--accent); }
+.rv-skills { display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; font-size: 0.94rem; }
+.rv-skills dt { color: var(--ink); font-weight: 700; }
+.rv-skills dd { color: var(--ink-soft); }
+.rv-certs { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.rv-certs li { padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; }
+.rv-certs strong { display: block; font-size: 0.92rem; }
+.rv-certs span { color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.72rem; }
+@media (max-width: 560px) { .rv-skills { grid-template-columns: 1fr; gap: 2px; } .rv-skills dd { margin-bottom: 10px; } }
+
 .resume-section {
     margin-bottom: 20px;
 }
