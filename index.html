@@ -138,7 +138,8 @@
             <ul>
                 <li><strong>Clareia</strong><span>Live · Go API built</span></li>
                 <li><strong>New Home Imóveis</strong><span>Client · launch prep</span></li>
-                <li><strong>Spark</strong><span>Personal idea lab</span></li>
+                <li><strong>Spark</strong><span>Open source · local AI</span></li>
+                <li><strong>Agent Party</strong><span>On npm</span></li>
             </ul>
             <button class="desk-note-open" type="button" data-track="Desktop Note: Open Current">Open Current.exe</button>
         </aside>
@@ -263,6 +264,7 @@
                             <li>Initial load cut from 174 MB to 6.4 MB (613 requests → 28); ranking re-sorts ~9× faster (1.2 s to 0.13 s)</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#clareia" class="btn btn-secondary" data-track="Project: Clareia - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/clareia.html" class="btn btn-secondary" data-track="Project: Clareia - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://clareia.clareia.workers.dev/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Clareia - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
@@ -286,6 +288,9 @@
                         <div class="project-card-kicker"><span>Self-hosted</span><span>2026</span></div>
                         <h3>Personal Multi-Agent AI Workspace</h3>
                         <p>A tiered agent setup for my own projects: Claude Code (Opus) plans, writes specs and reviews every diff while Sonnet, Haiku, Fable and Codex subagents do the work, and mechanical edits run free on local Ollama models (Gemma 4, Nemotron) through opencode and OmniRoute. A self-hosted Hermes gateway reaches it from WhatsApp and email, with an open-source model categorizing incoming mail.</p>
+                        <div class="project-links">
+                            <a href="./blueprint.html#agents" class="btn btn-secondary" data-track="Project: Multi-Agent AI Workspace - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                        </div>
                         <div class="technologies">
                             <span class="tech-tag">Claude Code</span>
                             <span class="tech-tag">Ollama</span>
@@ -309,6 +314,7 @@
                             <li>Leads stored before WhatsApp, so none are lost</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#newhome" class="btn btn-secondary" data-track="Project: New Home Imoveis - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/new-home.html" class="btn btn-secondary" data-track="Project: New Home Imoveis - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/new-home-imoveis" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: New Home Imoveis - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://new-home-imoveis.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: New Home Imoveis - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
@@ -323,6 +329,62 @@
                         </div>
                     </article>
                     
+                    <article class="project-item project-card" data-track="Project: Spark">
+                        <div class="project-visual project-visual-image">
+                            <img src="./img/projects/spark.jpg" alt="Spark idea dashboard with key numbers, simulated pipeline results and idea details, using sample data" loading="lazy">
+                            <span class="project-visual-label"><i class="fas fa-lightbulb"></i> Local AI</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Open source · local first</span><span>2026</span></div>
+                        <h3>Spark — Local Idea Workbench</h3>
+                        <p>A local workbench for capturing ideas by text or dictation and testing them with models, built on Node and SQLite with zero dependencies. Anything a model writes stays a reviewable draft and can never fill an evidence field, and private entries never leave the computer.</p>
+                        <ul class="project-proof">
+                            <li>Decision engine reads token probabilities instead of trusting a model's stated confidence; unsure captures are asked about, not guessed</li>
+                            <li>82-capture eval: cloud classifier 97.6% accurate vs 91.5% for the local model; paper relevance AUC 0.998</li>
+                            <li>Cost router keeps private, structured and over-budget calls local: a heavy month measured at about $0.35</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="./blueprint.html#spark" class="btn btn-secondary" data-track="Project: Spark - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                                                        <a href="https://github.com/jvitorbarros15/spark-personal-lab" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Spark - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">LLM evals</span>
+                            <span class="tech-tag">Whisper</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    <article class="project-item project-card" data-track="Project: Agent Party">
+                        <div class="project-visual project-visual-image">
+                            <img src="./img/projects/agent-party.jpg" alt="Agent Party dashboard showing AI coding agents as pixel-art party members with context, tokens and a quest log" loading="lazy">
+                            <span class="project-visual-label"><i class="fas fa-gamepad"></i> Developer tool</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Open source · on npm</span><span>2026</span></div>
+                        <h3>Agent Party — Dashboard for AI Coding Agents</h3>
+                        <p>A pixel-art dashboard that shows every AI coding agent on your machine: what it is doing, how much context it has left and what it costs. It reads Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode sessions read-only, with one small adapter file per tool.</p>
+                        <ul class="project-proof">
+                            <li>Flags agents that need you, are stuck in a loop, or are editing the same file as another agent</li>
+                            <li>Approve Claude Code permission prompts from the dashboard or a paired phone</li>
+                            <li>Zero dependencies: plain Node and one HTML file, run with <code>npx agent-party-dashboard</code></li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="./blueprint.html#party" class="btn btn-secondary" data-track="Project: Agent Party - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://agent-dashboard-pi-seven.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Agent Party - Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="https://github.com/jvitorbarros15/agent-dashboard" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Agent Party - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Claude Code hooks</span>
+                            <span class="tech-tag">npm</span>
+                        </div>
+                        </div>
+                    </article>
+
                     <article class="project-item project-card" data-track="Project: Meridian">
                         <div class="project-visual project-visual-image">
                             <img src="./img/projects/meridian.jpg" alt="Meridian investment portfolio dashboard" loading="lazy">
@@ -337,6 +399,7 @@
                             <li>PostgreSQL, Redis, Next.js, and Docker Compose end to end</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#meridian" class="btn btn-secondary" data-track="Project: Meridian - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/meridian.html" class="btn btn-secondary" data-track="Project: Meridian - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/meridian-invest" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Meridian - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
@@ -365,6 +428,7 @@
                             <li>LLM workflows with OpenAI and LangChain</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#cognitra" class="btn btn-secondary" data-track="Project: Cognitra - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/cognitra.html" class="btn btn-secondary" data-track="Project: Cognitra - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/Cognitra" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Cognitra - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://cognitra.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Cognitra - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
@@ -393,6 +457,7 @@
                             <li>Server API routes, wallet support, Pinata IPFS, and CI</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#zorai" class="btn btn-secondary" data-track="Project: ZorAI - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/zorai.html" class="btn btn-secondary" data-track="Project: ZorAI - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/zorai" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAI - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://zorai.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: ZorAI - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
@@ -422,6 +487,7 @@
                             <li>0.23 Brier score for probability calibration</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#nfl" class="btn btn-secondary" data-track="Project: NFL 4th Down Predictor - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/nfl-4th-down.html" class="btn btn-secondary" data-track="Project: NFL 4th Down Predictor - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/nfl-4th-down-predictor" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: NFL 4th Down Predictor - GitHub"><i class="fab fa-github"></i> View Analysis</a>
                         </div>
@@ -449,6 +515,7 @@
                             <li>Gmail, Google Calendar, Sheets, Indeed, and ZipRecruiter integrations</li>
                         </ul>
                         <div class="project-links">
+                            <a href="./blueprint.html#jobnow" class="btn btn-secondary" data-track="Project: JobNow - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/jobnow.html" class="btn btn-secondary" data-track="Project: JobNow - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://github.com/jvitorbarros15/jobnow" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: JobNow - GitHub"><i class="fab fa-github"></i> View Code</a>
                             <a href="https://jobnow-lime.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: JobNow - Live Demo"><i class="fas fa-external-link-alt"></i> Live App</a>
@@ -1023,6 +1090,7 @@
                             <span class="tech-tag">Cloudflare Workers</span>
                         </div>
                         <div class="project-links">
+                            <a href="./blueprint.html#clareia" class="btn" data-track="Current: Clareia - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/clareia.html" class="btn" data-track="Current: Clareia - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://clareia.clareia.workers.dev" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
                             <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
@@ -1045,6 +1113,7 @@
                             <span class="tech-tag">Vercel</span>
                         </div>
                         <div class="project-links">
+                            <a href="./blueprint.html#newhome" class="btn" data-track="Current: New Home - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                             <a href="./case-studies/new-home.html" class="btn" data-track="Current: New Home - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://new-home-imoveis.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: New Home - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
                         </div>
@@ -1056,15 +1125,39 @@
                                 <h3>Spark</h3>
                                 <p class="current-project-subtitle">A local workbench for capturing and testing ideas</p>
                             </div>
-                            <span class="current-status status-research">In progress · private</span>
+                            <span class="current-status status-ship">Open source</span>
                         </div>
-                        <p>Runs on my own machine with no npm dependencies and Node's built-in SQLite. Capture a thought by typing or one-tap dictation (local Whisper transcription), turn it into an idea, problem or experiment, and ask one or several models about it. Anything a model writes is marked as a draft and kept apart from my own evidence until I review it. Paper search across OpenAlex, Crossref and arXiv with DOI checks.</p>
+                        <p>Node and SQLite, zero dependencies. Capture by typing or dictation (local Whisper), then a decision engine types each capture from token probabilities and asks when it is unsure. Model output stays a reviewable draft, and private entries never leave the computer. In an 82-capture eval the cloud classifier was right 97.6% of the time vs 91.5% for the local model.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">JavaScript</span>
                             <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">SQLite</span>
                             <span class="tech-tag">Ollama</span>
                             <span class="tech-tag">Whisper</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="./blueprint.html#spark" class="btn" data-track="Current: Spark - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://github.com/jvitorbarros15/spark-personal-lab" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Spark - GitHub"><i class="fab fa-github"></i> View Code</a>
+                                                    </div>
+                    </div>
+
+                    <div class="current-project-card" data-track="Current: Agent Party">
+                        <div class="current-project-top">
+                            <div>
+                                <h3>Agent Party</h3>
+                                <p class="current-project-subtitle">Pixel-art dashboard for AI coding agents</p>
+                            </div>
+                            <span class="current-status status-ship">On npm</span>
+                        </div>
+                        <p>Shows every Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode session on my machine, flags agents that need me or are stuck, tracks context and cost, and lets me approve permission prompts from my phone. Zero dependencies.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">npm</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="./blueprint.html#party" class="btn" data-track="Current: Agent Party - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://agent-dashboard-pi-seven.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Agent Party - Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="https://github.com/jvitorbarros15/agent-dashboard" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Agent Party - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
                     </div>
 
@@ -1153,6 +1246,7 @@
                             <p class="playlist-subtitle" id="playlist-subtitle">The songs I come back to when I want to focus, breathe, and feel grounded</p>
                             <p class="playlist-description" id="playlist-description">A playlist I keep on while working.</p>
                             <div class="project-links">
+                            <a href="./blueprint.html#agents" class="btn" data-track="Current: AI Workflow - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
                                 <a href="https://open.spotify.com/playlist/37i9dQZEVXd0oRUtzDucvP?si=a3f057bdac4a4cf2" class="btn" target="_blank" rel="noopener noreferrer" data-track="Playlist: Open Spotify" id="playlist-primary-link"><i class="fab fa-spotify"></i> Open in Spotify</a>
                             </div>
                         </div>
