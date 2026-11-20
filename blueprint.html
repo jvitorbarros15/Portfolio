@@ -426,9 +426,11 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
 <template id="tpl-projects">
   <h2>Projects</h2>
   <ul class="list">
-    <li><h3>Clareia</h3><span class="meta">2026 · 500+ users</span><p>Brazil Congress transparency site: 592 deputies, 226K expense records, 473K votes. Dual-capture ingestion with an independent re-audit that holds ~180 unconfirmed deputy-months for review instead of showing them as R$0; first load cut from 174 MB to 6.4 MB (613 requests → 28).</p><span class="links"><a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener">live</a><a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener">source</a></span></li>
+    <li><h3>Clareia</h3><span class="meta">2026 · 500+ users</span><p>Brazil Congress transparency site: 592 deputies, 226K expense records, 473K votes. Dual-capture ingestion with a second-implementation re-audit that holds ~180 unconfirmed deputy-months for review instead of showing them as R$0; first load cut from 174 MB to 6.4 MB (613 requests → 28).</p><span class="links"><a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener">live</a><a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>New Home Imóveis</h3><span class="meta">2026 · paying client</span><p>Real-estate platform for a paying client in Rio de Janeiro: filtered search, WhatsApp lead capture saved to Supabase, and an admin panel secured with Row Level Security and TOTP two-factor auth.</p><span class="links"><a href="./case-studies/new-home.html">case study</a><a href="https://new-home-imoveis.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Multi-Agent AI Workspace</h3><span class="meta">2026 · self-hosted</span><p>A Claude Code supervisor (Opus) plans and reviews every diff while Sonnet, Haiku and Fable subagents and Codex do the work, and local Ollama models handle mechanical edits through opencode and OmniRoute. A Hermes gateway reachable over WhatsApp and email routes tasks to builder and researcher agents, with an open-source model classifying incoming email.</p></li>
+    <li><h3>Spark</h3><span class="meta">2026 · local AI · open source</span><p>Local-first idea workbench on Node and SQLite with zero dependencies. A decision engine reads token probabilities instead of trusting a model's self-reported confidence; model output stays a reviewable draft that can never fill evidence fields; private entries never leave the computer. In an 82-capture eval the cloud classifier was right 97.6% of the time vs 91.5% for the local model.</p><span class="links"><a href="https://github.com/jvitorbarros15/spark-personal-lab" target="_blank" rel="noopener">source</a></span></li>
+    <li><h3>Agent Party</h3><span class="meta">2026 · open source · npm</span><p>Pixel-art dashboard for AI coding agents: reads Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode sessions read-only, flags agents that need you or are stuck, tracks cost and context, and answers Claude Code permission prompts from a paired phone. Zero dependencies.</p><span class="links"><a href="https://agent-dashboard-pi-seven.vercel.app" target="_blank" rel="noopener">live demo</a><a href="https://github.com/jvitorbarros15/agent-dashboard" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>ZorAI</h3><span class="meta">2025 · applied AI</span><p>AI-image provenance: a verification API with API-key and hash-only public endpoints, issuer-signed claims, signed evidence pinned to IPFS, and a Solidity on-chain registry on Base Sepolia.</p><span class="links"><a href="./case-studies/zorai.html">case study</a><a href="https://zorai.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Cognitra</h3><span class="meta">2026 · GenAI</span><p>Turns speaker-labeled recordings into structured study notes with AssemblyAI and OpenAI.</p><span class="links"><a href="./case-studies/cognitra.html">case study</a><a href="https://cognitra.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Meridian</h3><span class="meta">2026 · backend</span><p>Containerized investment dashboard: FastAPI, PostgreSQL, Redis, Docker.</p><span class="links"><a href="./case-studies/meridian.html">case study</a><a href="https://github.com/jvitorbarros15/meridian-invest" target="_blank" rel="noopener">source</a></span></li>
@@ -1023,6 +1025,75 @@ const diagrams = [
       E('hermes', 'orch'), E('orch', 'builder'), E('orch', 'researcher'), E('hermes', 'classifier'),
       { pts: [[215, 580], [215, 515], [1010, 515], [1010, 265], [980, 265]], dashed: true, label: 'uses local models', lp: [620, 515] },
     ] },
+  { id: 'party', x: 3120, y: 516, w: 1320, h: 640, title: 'Agent Party: dashboard for AI coding agents', opens: 'projects',
+    note: 'zero dependencies · plain Node + one HTML file · reads 7 tools · never writes to agent files',
+    nodes: [
+      Z('zM', 'Your machine · read-only sources', 16, 56, 330, 500),
+      N('cc', 'Claude Code', 'session JSONL', 36, 92, 290, 56, { kind: 'ext' }),
+      N('cx', 'Codex CLI', 'session JSONL', 36, 158, 290, 56, { kind: 'ext' }),
+      N('cur', 'Cursor · OpenCode', 'SQLite, opened read-only', 36, 224, 290, 56, { kind: 'ext' }),
+      N('oth', 'Gemini CLI · Cline · Aider', 'chat logs', 36, 290, 290, 56, { kind: 'ext' }),
+      N('plan', 'status line JSON', 'Claude plan limits', 36, 386, 290, 56, { kind: 'ext' }),
+      N('hw', 'nvidia-smi · os · Ollama API', 'machine load', 36, 470, 290, 56, { kind: 'ext' }),
+      N('adapters', 'adapters/*.mjs', null, 400, 196, 220, 120, { lines: ['one file per tool', 'reads from last byte', 'offset seen'] }),
+      N('server', 'server.mjs · 127.0.0.1:4300', null, 680, 196, 290, 170, { hl: true, lines: ['merges sessions + subagents', 'Watchtower: needs-you,', 'stuck, file clash', 'budgets · context forecasts'] }),
+      N('hook', 'Claude Code hook', 'permission requests', 680, 92, 290, 56),
+      N('store', '~/.agent-party/', null, 680, 430, 290, 96, { kind: 'db', lines: ['budgets · lifetime XP', 'paired devices'] }),
+      N('ui', 'index.html · single-file UI', null, 1030, 196, 270, 160, { lines: ['polls /api/state every 2 s', 'Party · Cosmos · Chronicle', 'Vizier · Hall of Fame', 'approve / deny'] }),
+      N('vercel', 'Vercel', 'static UI + demo data', 1030, 92, 270, 56, { kind: 'ext' }),
+      N('phone', 'paired phone', '--lan · 6-digit code', 1030, 386, 270, 56),
+      N('notify', 'OS notifications', 'budget alerts at 80% / 100%', 1030, 470, 270, 56, { kind: 'ext' }),
+    ],
+    edges: [
+      ...[120, 186, 252, 318].map(y => ({ pts: [[326, y], [362, y], [362, 256], [400, 256]] })),
+      { pts: [[326, 414], [650, 414], [650, 330], [680, 330]] },
+      { pts: [[326, 498], [640, 498], [640, 350], [680, 350]] },
+      E('adapters', 'server'),
+      E('hook', 'server', 'waits for answer'),
+      E('server', 'ui', null, { both: true }),
+      E('vercel', 'ui', null, { dashed: true }),
+      E('server', 'store', 'own files only'),
+      { pts: [[1030, 414], [1012, 414], [1012, 330], [970, 330]], dashed: true, both: true, label: 'LAN · paired token', lp: [1012, 372] },
+      { pts: [[970, 352], [990, 352], [990, 498], [1030, 498]], dashed: true },
+    ] },
+  { id: 'spark', x: 40, y: 4066, w: 1600, h: 880, title: 'Spark: local idea workbench', opens: 'projects',
+    note: 'local first · model output is a draft until you review it · private entries never leave the computer · 25 test files',
+    nodes: [
+      Z('zIn', 'Capture', 16, 56, 260, 330),
+      N('type', 'type or dictate', 'all captures enter here', 36, 92, 220, 56),
+      N('stt', 'Speaches · faster-whisper', null, 36, 176, 220, 76, { kind: 'ext', lines: ['dictation → transcript', 'local, on loopback'] }),
+      N('phone', 'paired phone', null, 36, 280, 220, 76, { lines: ['captures over an HTTPS', 'gateway · one-use code'] }),
+      Z('zS', 'Spark server · Node 22 · zero dependencies · loopback only', 300, 56, 880, 640),
+      N('server', 'server.cjs', 'API · host checks', 320, 92, 200, 76),
+      N('planner', 'assistant planner', 'fills one JSON form', 560, 92, 200, 76),
+      N('decide', 'decision engine', null, 800, 86, 350, 100, { hl: true, lines: ['probability per option from logprobs', 'unsure (< 0.6) → asks you', 'bge-m3 embedding check'] }),
+      N('pipeline', 'idea test pipeline', null, 320, 230, 250, 110, { lines: ['9 stages · gates · stage cache', '≤ 40 model calls per job', 'cancel · resume · retry'] }),
+      N('research', 'research pipeline', null, 600, 230, 260, 110, { lines: ['papers kept only if DOI', 'or arXiv verifies them', 'quotes must match abstract'] }),
+      N('review', 'To review', null, 900, 230, 250, 110, { hl: true, lines: ['every draft marked by model', 'never fills evidence fields', 'accept · discard · undo'] }),
+      N('cost', 'model router · cost.cjs', null, 320, 400, 380, 120, { lines: ['private → local model', 'structured JSON → local', 'unpriced or over budget → local', '$5 monthly cap · usage ledger'] }),
+      N('store', 'SQLite · spark.sqlite', null, 760, 396, 390, 130, { kind: 'db', lines: ['entries · discussions · ledger', 'attachments, content-addressed', '20 JSON recovery snapshots'] }),
+      N('founder', 'founder bridge', 'export idea → you run Claude Code skills → import as drafts', 320, 600, 830, 56, { kind: 'ext' }),
+      Z('zP', 'Models and sources', 1210, 56, 374, 640),
+      N('ollama', 'Ollama · local', null, 1230, 92, 334, 90, { kind: 'db', lines: ['gemma4:e4b planner + decisions', 'bge-m3 embeddings'] }),
+      N('clef', 'clef:cloud classifier', 'non-private captures only', 1230, 206, 334, 56, { kind: 'ext' }),
+      N('cloud', 'cloud writers', null, 1230, 290, 334, 90, { kind: 'ext', lines: ['OpenAI · Anthropic · Gemini', 'Ollama Cloud models'] }),
+      N('papers', 'OpenAlex · Crossref · arXiv', 'paper search + DOI checks', 1230, 410, 334, 56, { kind: 'ext' }),
+      N('web', 'Ollama web search', 'competitor scout · ≤ 30 per test', 1230, 494, 334, 56, { kind: 'ext' }),
+      N('eval', 'decide-eval · 82 hand-labelled captures', 'clef:cloud 97.6% vs gemma4:e4b 91.5% · paper relevance AUC 0.998 vs 0.978', 36, 740, 740, 56, { hl: true }),
+      N('spend', 'measured on real runs (DeepSeek V4.1 Flash, off-peak)', 'heavy month ≈ $0.35 · local model handled 95 of 137 calls', 820, 740, 760, 56),
+    ],
+    edges: [
+      { pts: [[256, 120], [320, 120]] },
+      E('server', 'planner'),
+      E('planner', 'decide'),
+      E('decide', 'review'),
+      E('decide', 'ollama', 'logprobs'),
+      { pts: [[1150, 172], [1202, 172], [1202, 234], [1230, 234]], dashed: true },
+      E('research', 'review'),
+      E('review', 'store', 'accepted'),
+      { pts: [[510, 520], [510, 562], [1196, 562], [1196, 335], [1230, 335]], label: 'cloud only if allowed', lp: [850, 562] },
+      { pts: [[730, 230], [730, 212], [1180, 212], [1180, 438], [1230, 438]], dashed: true, label: 'verify DOIs', lp: [880, 212] },
+    ] },
     { id: 'libraries', x: 1760, y: 3946, w: 1500, h: 1060, title: 'Penn State Libraries integration', opens: 'experience',
     note: 'production Rails apps for 40,000+ users · 10 merged PRs · CI · Docker',
     nodes: [
@@ -1160,7 +1231,7 @@ const mobile = () => mq.matches;
 const nav = id => mobile() ? goTo(id) : open(id);
 
 const sections = [['readme', 'Readme'], ['projects', 'Projects'], ['research', 'Research'], ['experience', 'Work'], ['certs', 'Certificates'], ['music', 'Music'], ['terminal', 'Terminal']];
-const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries', 'QLink': 'qlink' };
+const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries', 'QLink': 'qlink', 'Spark': 'spark', 'Agent Party': 'party' };
 const archIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v5H3z M14 15h7v5h-7z M6.5 9v4h11v2"/></svg>';
 const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 const diagramIdx = id => diagrams.findIndex(d => d.id === id);

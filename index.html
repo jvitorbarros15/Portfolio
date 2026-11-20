@@ -138,7 +138,8 @@
             <ul>
                 <li><strong>Clareia</strong><span>Live · Go API built</span></li>
                 <li><strong>New Home Imóveis</strong><span>Client · launch prep</span></li>
-                <li><strong>Spark</strong><span>Personal idea lab</span></li>
+                <li><strong>Spark</strong><span>Open source · local AI</span></li>
+                <li><strong>Agent Party</strong><span>On npm</span></li>
             </ul>
             <button class="desk-note-open" type="button" data-track="Desktop Note: Open Current">Open Current.exe</button>
         </aside>
@@ -323,6 +324,61 @@
                         </div>
                     </article>
                     
+                    <article class="project-item project-card" data-track="Project: Spark">
+                        <div class="project-visual project-visual-image">
+                            <img src="./img/projects/spark.jpg" alt="Spark idea dashboard with key numbers, simulated pipeline results and idea details, using sample data" loading="lazy">
+                            <span class="project-visual-label"><i class="fas fa-lightbulb"></i> Local AI</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Open source · local first</span><span>2026</span></div>
+                        <h3>Spark — Local Idea Workbench</h3>
+                        <p>A local workbench for capturing ideas by text or dictation and testing them with models, built on Node and SQLite with zero dependencies. Anything a model writes stays a reviewable draft and can never fill an evidence field, and private entries never leave the computer.</p>
+                        <ul class="project-proof">
+                            <li>Decision engine reads token probabilities instead of trusting a model's stated confidence; unsure captures are asked about, not guessed</li>
+                            <li>82-capture eval: cloud classifier 97.6% accurate vs 91.5% for the local model; paper relevance AUC 0.998</li>
+                            <li>Cost router keeps private, structured and over-budget calls local: a heavy month measured at about $0.35</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="./blueprint.html" class="btn btn-secondary" data-track="Project: Spark - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://github.com/jvitorbarros15/spark-personal-lab" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Spark - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">LLM evals</span>
+                            <span class="tech-tag">Whisper</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    <article class="project-item project-card" data-track="Project: Agent Party">
+                        <div class="project-visual project-visual-image">
+                            <img src="./img/projects/agent-party.jpg" alt="Agent Party dashboard showing AI coding agents as pixel-art party members with context, tokens and a quest log" loading="lazy">
+                            <span class="project-visual-label"><i class="fas fa-gamepad"></i> Developer tool</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Open source · on npm</span><span>2026</span></div>
+                        <h3>Agent Party — Dashboard for AI Coding Agents</h3>
+                        <p>A pixel-art dashboard that shows every AI coding agent on your machine: what it is doing, how much context it has left and what it costs. It reads Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode sessions read-only, with one small adapter file per tool.</p>
+                        <ul class="project-proof">
+                            <li>Flags agents that need you, are stuck in a loop, or are editing the same file as another agent</li>
+                            <li>Approve Claude Code permission prompts from the dashboard or a paired phone</li>
+                            <li>Zero dependencies: plain Node and one HTML file, run with <code>npx agent-party-dashboard</code></li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="https://agent-dashboard-pi-seven.vercel.app" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" data-track="Project: Agent Party - Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="https://github.com/jvitorbarros15/agent-dashboard" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: Agent Party - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Claude Code hooks</span>
+                            <span class="tech-tag">npm</span>
+                        </div>
+                        </div>
+                    </article>
+
                     <article class="project-item project-card" data-track="Project: Meridian">
                         <div class="project-visual project-visual-image">
                             <img src="./img/projects/meridian.jpg" alt="Meridian investment portfolio dashboard" loading="lazy">
@@ -1056,15 +1112,38 @@
                                 <h3>Spark</h3>
                                 <p class="current-project-subtitle">A local workbench for capturing and testing ideas</p>
                             </div>
-                            <span class="current-status status-research">In progress · private</span>
+                            <span class="current-status status-ship">Open source</span>
                         </div>
-                        <p>Runs on my own machine with no npm dependencies and Node's built-in SQLite. Capture a thought by typing or one-tap dictation (local Whisper transcription), turn it into an idea, problem or experiment, and ask one or several models about it. Anything a model writes is marked as a draft and kept apart from my own evidence until I review it. Paper search across OpenAlex, Crossref and arXiv with DOI checks.</p>
+                        <p>Node and SQLite, zero dependencies. Capture by typing or dictation (local Whisper), then a decision engine types each capture from token probabilities and asks when it is unsure. Model output stays a reviewable draft, and private entries never leave the computer. In an 82-capture eval the cloud classifier was right 97.6% of the time vs 91.5% for the local model.</p>
                         <div class="technologies current-tech">
-                            <span class="tech-tag">JavaScript</span>
                             <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">SQLite</span>
                             <span class="tech-tag">Ollama</span>
                             <span class="tech-tag">Whisper</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/jvitorbarros15/spark-personal-lab" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Spark - GitHub"><i class="fab fa-github"></i> View Code</a>
+                            <a href="./blueprint.html" class="btn" data-track="Current: Spark - Diagram"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                        </div>
+                    </div>
+
+                    <div class="current-project-card" data-track="Current: Agent Party">
+                        <div class="current-project-top">
+                            <div>
+                                <h3>Agent Party</h3>
+                                <p class="current-project-subtitle">Pixel-art dashboard for AI coding agents</p>
+                            </div>
+                            <span class="current-status status-ship">On npm</span>
+                        </div>
+                        <p>Shows every Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode session on my machine, flags agents that need me or are stuck, tracks context and cost, and lets me approve permission prompts from my phone. Zero dependencies.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">npm</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://agent-dashboard-pi-seven.vercel.app" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Agent Party - Demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="https://github.com/jvitorbarros15/agent-dashboard" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Agent Party - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
                     </div>
 
