@@ -1588,6 +1588,9 @@ const tickClock = () => clock.textContent = new Date().toLocaleTimeString([], { 
 tickClock(); setInterval(tickClock, 30000);
 
 if (mobile()) enterPhone(); else enterDesktop();
+const archFromHash = () => { const id = decodeURIComponent(location.hash.slice(1)); if (diagramIdx(id) >= 0) showArch(id); };
+addEventListener('hashchange', archFromHash);
+requestAnimationFrame(archFromHash);
 </script>
 </body>
 </html>
