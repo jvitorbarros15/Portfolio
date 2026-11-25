@@ -429,6 +429,8 @@ a:focus-visible, button:focus-visible, .menubar button:focus-visible, .dock butt
     <li><h3>Clareia</h3><span class="meta">2026 · 500+ users</span><p>Brazil Congress transparency site: 592 deputies, 226K expense records, 473K votes. Dual-capture ingestion with a second-implementation re-audit that holds ~180 unconfirmed deputy-months for review instead of showing them as R$0; first load cut from 174 MB to 6.4 MB (613 requests → 28).</p><span class="links"><a href="https://clareia.clareia.workers.dev/" target="_blank" rel="noopener">live</a><a href="https://github.com/jvitorbarros15/clareia" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>New Home Imóveis</h3><span class="meta">2026 · paying client</span><p>Real-estate platform for a paying client in Rio de Janeiro: filtered search, WhatsApp lead capture saved to Supabase, and an admin panel secured with Row Level Security and TOTP two-factor auth.</p><span class="links"><a href="./case-studies/new-home.html">case study</a><a href="https://new-home-imoveis.vercel.app" target="_blank" rel="noopener">live</a></span></li>
     <li><h3>Multi-Agent AI Workspace</h3><span class="meta">2026 · self-hosted</span><p>A Claude Code supervisor (Opus) plans and reviews every diff while Sonnet, Haiku and Fable subagents and Codex do the work, and local Ollama models handle mechanical edits through opencode and OmniRoute. A Hermes gateway reachable over WhatsApp and email routes tasks to builder and researcher agents, with an open-source model classifying incoming email.</p></li>
+    <li><h3>Clareia software factory</h3><span class="meta">2026 · multi-agent CI</span><p>Turns a GitHub issue labeled <code>fabrica</code> into a reviewed, merged pull request: Claude writes the spec and sets a risk tier, cheaper models build in their own worktree, and a reviewer from a different vendor checks every change. Tier C changes and production deploys wait for me. First 2 days: 10 merged pull requests; hardening after an audit is in progress.</p></li>
+    <li><h3>kaizen-loop</h3><span class="meta">2026 · open source · stage 1 of 3</span><p>Records every Claude Code session through a plugin hook, removes secrets before anything touches disk, and scores each task 0 to 10 from real signals (tests, retries, re-reads, cost against your own median) plus a blind judge that never sees the model, repo or cost. Failing tests cap the score. Stages 2 and 3, benchmark-gated skill rewrites shipped by pull request and local decision models, are designed but not built. 571 tests, standard library only.</p><span class="links"><a href="https://github.com/jvitorbarros15/kaizen-loop" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>Spark</h3><span class="meta">2026 · local AI · open source</span><p>Local-first idea workbench on Node and SQLite with zero dependencies. A decision engine reads token probabilities instead of trusting a model's self-reported confidence; model output stays a reviewable draft that can never fill evidence fields; private entries never leave the computer. In an 82-capture eval the cloud classifier was right 97.6% of the time vs 91.5% for the local model.</p><span class="links"><a href="https://github.com/jvitorbarros15/spark-personal-lab" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>Agent Party</h3><span class="meta">2026 · open source · npm</span><p>Pixel-art dashboard for AI coding agents: reads Claude Code, Codex, Cursor, Gemini CLI, Cline, Aider and OpenCode sessions read-only, flags agents that need you or are stuck, tracks cost and context, and answers Claude Code permission prompts from a paired phone. Zero dependencies.</p><span class="links"><a href="https://agent-dashboard-pi-seven.vercel.app" target="_blank" rel="noopener">live demo</a><a href="https://github.com/jvitorbarros15/agent-dashboard" target="_blank" rel="noopener">source</a></span></li>
     <li><h3>ZorAI</h3><span class="meta">2025 · applied AI</span><p>AI-image provenance: a verification API with API-key and hash-only public endpoints, issuer-signed claims, signed evidence pinned to IPFS, and a Solidity on-chain registry on Base Sepolia.</p><span class="links"><a href="./case-studies/zorai.html">case study</a><a href="https://zorai.vercel.app" target="_blank" rel="noopener">live</a></span></li>
@@ -1056,6 +1058,80 @@ const diagrams = [
       { pts: [[1030, 414], [1012, 414], [1012, 330], [970, 330]], dashed: true, both: true, label: 'LAN · paired token', lp: [1012, 372] },
       { pts: [[970, 352], [990, 352], [990, 498], [1030, 498]], dashed: true },
     ] },
+  { id: 'kaizen', x: 3120, y: 1216, w: 1500, h: 860, title: 'kaizen-loop: self-improvement loop for coding agents', opens: 'projects',
+    note: 'stage 1 of 3 built · 571 tests · ~4,000 lines of Python · only a redacted judge packet leaves the machine',
+    nodes: [
+      Z('zA', 'Claude Code plugin · adapter', 16, 56, 300, 250),
+      N('hend', 'session-end hook', 'records in background · ~0.3 s', 36, 92, 260, 70),
+      N('hrate', 'prompt hook', null, 36, 186, 260, 96, { lines: ["'kz 7' saves a rating", 'hidden from the model', '~0.08 s'] }),
+      Z('zC', 'kaizen core · Python 3.11 · standard library only', 350, 56, 780, 440),
+      N('parse', 'parse', 'transcript → run record', 370, 92, 190, 76),
+      N('redact', 'redact', 'keys · tokens · credentials', 600, 92, 200, 76, { hl: true }),
+      N('store', 'store', 'JSON per run + ledger', 840, 92, 270, 76),
+      N('signals', 'signals', null, 370, 228, 230, 110, { lines: ['test results', 're-reads · retries', 'tool errors'] }),
+      N('judge', 'blind judge', null, 640, 228, 230, 110, { hl: true, lines: ['no model, repo or cost', 'in the packet', '5-point rubric'] }),
+      N('score', 'score 0–10', null, 370, 370, 370, 110, { hl: true, lines: ['quality 40% · efficiency 30%', 'cost 30% vs your own median', 'failing tests cap it at 4.0'] }),
+      N('report', 'report · calibrate', null, 780, 370, 330, 110, { lines: ['where tokens go, per task', 'repeated corrections', 'judge vs your own grades'] }),
+      Z('zL', '~/.kaizen · never leaves the machine', 1160, 56, 320, 200),
+      N('ledger', 'SQLite ledger', null, 1180, 92, 280, 140, { kind: 'db', lines: ['runs · tasks · grades', 'ratings', 'one JSON file per run'] }),
+      N('haiku', 'Claude Haiku', 'redacted packet · your subscription', 1180, 300, 280, 70, { kind: 'ext' }),
+      N('codex', 'Codex', 'allowlisted repositories only', 1180, 396, 280, 70, { kind: 'ext' }),
+      Z('zP', 'Planned · stages 2 and 3 (design only, not built yet)', 16, 540, 1464, 250, 'yellow'),
+      N('improve', 'improve', null, 36, 590, 260, 100, { kind: 'ext', lines: ['rewrite one skill', 'from failure clusters'] }),
+      N('bench', 'benchmark', null, 336, 590, 260, 100, { kind: 'ext', lines: ['before vs after', 'hidden half decides'] }),
+      N('pr', 'pull request', null, 636, 590, 280, 100, { kind: 'ext', lines: ['auto zone: merges', 'review zone: waits for you'] }),
+      N('watch', 'watch real use', null, 956, 590, 240, 100, { kind: 'ext', lines: ['score drops →', 'automatic revert'] }),
+      N('router', 'local decision models', null, 1236, 590, 224, 100, { kind: 'ext', lines: ['route model tier', 'triage failures'] }),
+      N('forbid', 'off limits to the loop', 'benchmark tasks and answers · judge code · the policy file', 36, 716, 1424, 50, { kind: 'ext' }),
+    ],
+    edges: [
+      E('hend', 'parse'),
+      E('parse', 'redact'), E('redact', 'store'), E('store', 'ledger'),
+      { pts: [[975, 168], [975, 198], [485, 198], [485, 228]] },
+      E('signals', 'judge'),
+      E('judge', 'score'),
+      E('score', 'report'),
+      { pts: [[870, 283], [1150, 283], [1150, 335], [1180, 335]], dashed: true, label: 'redacted summary', lp: [1010, 283] },
+      { pts: [[1150, 335], [1150, 431], [1180, 431]], dashed: true },
+      { pts: [[555, 480], [555, 515], [166, 515], [166, 590]], dashed: true, label: 'daily batch (planned)', lp: [360, 515] },
+      E('improve', 'bench', null, { dashed: true }), E('bench', 'pr', null, { dashed: true }), E('pr', 'watch', null, { dashed: true }),
+    ] },
+  { id: 'fabrica', x: 4680, y: 516, w: 1600, h: 780, title: 'Clareia software factory: issue to merged PR', opens: 'projects',
+    note: 'cheaper models build, Claude specs and guards the risky parts · reviewer is always another vendor · hardening in progress after an audit',
+    nodes: [
+      Z('zIn', 'Intake', 16, 56, 280, 340),
+      N('form', 'dashboard', 'approve · redo · deploy · pause', 36, 92, 240, 76),
+      N('issue', 'GitHub issue', 'fabrica label, added by the owner', 36, 196, 240, 70),
+      N('kev', 'risk tiers', null, 36, 290, 240, 96, { hl: true, lines: ['A: tests · docs · CSS', 'B: site logic · C: money, CPF,', 'data, secrets, deploy, CI'] }),
+      Z('zF', 'Headless runner · deterministic step decider, no model decides the flow', 320, 56, 900, 560),
+      N('spec', 'spec', null, 340, 92, 200, 96, { lines: ['Claude Sonnet', 'Opus 2nd pass on tier C'] }),
+      N('gold', 'blind spec check', null, 580, 92, 220, 96, { lines: ['Gemini (Codex alternate)', 'sees only spec + repo'] }),
+      N('build', 'build in its own git worktree', null, 840, 92, 360, 110, { hl: true, lines: ['exact BEFORE/AFTER edits by code', 'small → Haiku · medium → Codex/Gemini', 'failures escalate · Sonnet last'] }),
+      N('checks', 'checks before any commit', null, 340, 250, 280, 110, { hl: true, lines: ['typecheck · unit tests', 'full build + headless UI check', 'screenshots at 390 and 1440 px'] }),
+      N('reviews', 'reviews', null, 660, 250, 300, 120, { lines: ['code: other vendor than builder', 'UI: vision model', 'tier C: Opus security, Fable data'] }),
+      N('approver', 'approver', null, 1000, 250, 200, 96, { lines: ['Sonnet', 'Fable on tier C'] }),
+      N('pr', 'PR · Closes #N', null, 340, 420, 300, 96, { lines: ['merge refused unless every', 'review is newer than the build'] }),
+      N('ci', 'CI', 'GitHub Actions', 680, 420, 200, 96),
+      N('merge', 'merge', null, 920, 420, 260, 96, { lines: ['tier A / B: auto on green CI', 'tier C: waits for the owner'] }),
+      Z('zD', 'Deploy', 1250, 56, 330, 250),
+      N('dtest', 'deploy test', null, 1270, 92, 290, 96, { lines: ['runs after every merge', 'dry run, numbers vs live'] }),
+      N('deploy', 'production deploy', 'owner clicks the button', 1270, 214, 290, 70, { hl: true }),
+      N('owner', 'owner', null, 1270, 400, 290, 116, { kind: 'ext', lines: ['approves tier C merges', 'and production deploys', 'advisor suggests (new)'] }),
+      N('measured', 'first 2 days · 23–24 Nov 2026', '10 merged fabrica/* PRs · 14 jobs, 11 deployed (4 tier A, 4 B, 3 C) · 88 external model calls: Gemini 51, Codex 17, local 14, Haiku 6', 16, 650, 1564, 56, { hl: true }),
+    ],
+    edges: [
+      E('issue', 'kev'), { pts: [[276, 340], [306, 340], [306, 140], [340, 140]] },
+      E('spec', 'gold'), E('gold', 'build'),
+      { pts: [[1020, 202], [1020, 228], [480, 228], [480, 250]] },
+      E('checks', 'reviews'), E('reviews', 'approver'),
+      { pts: [[1100, 346], [1100, 396], [490, 396], [490, 420]] },
+      E('pr', 'ci'), E('ci', 'merge'),
+      { pts: [[780, 516], [780, 572], [1210, 572], [1210, 147], [1200, 147]], dashed: true, label: 'red CI or changes requested → rebuild, ≤ 3 rounds', lp: [960, 572] },
+      { pts: [[1180, 468], [1236, 468], [1236, 140], [1270, 140]] },
+      E('dtest', 'deploy'),
+      E('owner', 'merge', null, { dashed: true }),
+      { pts: [[1415, 400], [1415, 284]], dashed: true },
+    ] },
   { id: 'spark', x: 40, y: 4066, w: 1600, h: 880, title: 'Spark: local idea workbench', opens: 'projects',
     note: 'local first · model output is a draft until you review it · private entries never leave the computer · 25 test files',
     nodes: [
@@ -1231,7 +1307,7 @@ const mobile = () => mq.matches;
 const nav = id => mobile() ? goTo(id) : open(id);
 
 const sections = [['readme', 'Readme'], ['projects', 'Projects'], ['research', 'Research'], ['experience', 'Work'], ['certs', 'Certificates'], ['music', 'Music'], ['terminal', 'Terminal']];
-const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries', 'QLink': 'qlink', 'Spark': 'spark', 'Agent Party': 'party' };
+const archOf = { 'Clareia': 'clareia', 'New Home Imóveis': 'newhome', 'Multi-Agent AI Workspace': 'agents', 'ZorAI': 'zorai', 'Cognitra': 'cognitra', 'Meridian': 'meridian', 'JobNow': 'jobnow', 'NFL 4th Down Predictor': 'nfl', 'Software Development Intern': 'libraries', 'QLink': 'qlink', 'Spark': 'spark', 'Agent Party': 'party', 'kaizen-loop': 'kaizen', 'Clareia software factory': 'fabrica' };
 const archIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v5H3z M14 15h7v5h-7z M6.5 9v4h11v2"/></svg>';
 const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 const diagramIdx = id => diagrams.findIndex(d => d.id === id);
