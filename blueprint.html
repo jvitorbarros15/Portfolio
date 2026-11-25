@@ -171,7 +171,7 @@ a { color: inherit; }
 .diagram .shape.group { fill: none; }
 .diagram .shape.hl { stroke: var(--yellow); }
 .diagram .edge { fill: none; stroke: var(--muted-on-navy); stroke-width: 1.5; stroke-dasharray: 6 4; animation: dash 1s linear infinite; }
-.diagram .edge.dashed { stroke-dasharray: 2 5; animation: none; }
+.diagram .edge.dashed { stroke-dasharray: 2 5; animation: dot 1.6s linear infinite; }
 .diagram .arrow { fill: var(--muted-on-navy); }
 .diagram .zone { fill: #ffffff08; stroke: var(--muted-on-navy); stroke-width: 1.2; stroke-dasharray: 7 4; }
 .diagram .zone.green { stroke: var(--green); fill: #7ee0a510; }
@@ -184,6 +184,8 @@ a { color: inherit; }
 .diagram .arrow.y { fill: var(--yellow); }
 .diagram .chip { fill: var(--navy); }
 @keyframes dash { to { stroke-dashoffset: -10; } }
+@keyframes dot { to { stroke-dashoffset: -7; } }
+@media (prefers-reduced-motion: reduce) { .diagram .edge { animation: none; } }
 .map { position: absolute; top: 34px; left: 0; display: grid; min-width: 280px; padding: 6px; background: var(--navy-deep); border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 8px 0; font: 12px 'Martian Mono', ui-monospace, monospace; }
 .map[hidden] { display: none; }
 .map button { all: unset; cursor: pointer; padding: 7px 10px; border-radius: 4px; color: var(--ink-on-navy); white-space: nowrap; }
