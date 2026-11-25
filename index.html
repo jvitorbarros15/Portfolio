@@ -288,7 +288,7 @@
                         <div class="project-card-body">
                         <div class="project-card-kicker"><span>Built for Clareia</span><span>2026</span></div>
                         <h3>Clareia Software Factory — Issue to Merged PR</h3>
-                        <p>A production line that turns a GitHub issue labeled <code>fabrica</code> into a reviewed, tested pull request, so one person can maintain a data-heavy public site. A deterministic step decider runs the flow; Claude writes the spec and guards risky changes, while cheaper models (Codex, Gemini, Haiku) do most of the building and reviewing.</p>
+                        <p>A production line that turns a GitHub issue labeled <code>fabrica</code> into a reviewed, tested pull request, so one person can maintain a data-heavy public site. A deterministic step decider runs the flow; a local 4B model triages each issue's risk tier (it can only raise it), Claude writes the spec and guards risky changes, while cheaper models (Codex, Gemini, Haiku) do most of the building and reviewing.</p>
                         <ul class="project-proof">
                             <li>Code commits only after typecheck, tests, a full build and a headless UI check pass; merge is refused unless every review is newer than the build</li>
                             <li>The reviewer is always a different vendor than the builder; money, CPF, data and deploy changes (tier C) also get Opus security and Fable data reviews and wait for me</li>
