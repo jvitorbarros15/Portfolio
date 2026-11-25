@@ -137,6 +137,7 @@
             <div class="desk-note-grip"><span>Now</span><i class="fas fa-grip" aria-hidden="true"></i></div>
             <ul>
                 <li><strong>Clareia</strong><span>Live · Go API built</span></li>
+                <li><strong>kaizen-loop</strong><span>Stage 1 of 3 built</span></li>
                 <li><strong>New Home Imóveis</strong><span>Client · launch prep</span></li>
                 <li><strong>Spark</strong><span>Open source · local AI</span></li>
                 <li><strong>Agent Party</strong><span>On npm</span></li>
@@ -274,6 +275,62 @@
                             <span class="tech-tag">PostgreSQL</span>
                             <span class="tech-tag">Playwright</span>
                             <span class="tech-tag">Cloudflare</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    <article class="project-item project-card" data-track="Project: Clareia Factory">
+                        <div class="project-visual project-visual-concept">
+                            <i class="fas fa-industry"></i>
+                            <div><strong>Issue → reviewed PR</strong><span>10 merged in its first 2 days</span></div>
+                            <span class="project-visual-label"><i class="fas fa-robot"></i> Multi-agent CI</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Built for Clareia</span><span>2026</span></div>
+                        <h3>Clareia Software Factory — Issue to Merged PR</h3>
+                        <p>A production line that turns a GitHub issue labeled <code>fabrica</code> into a reviewed, tested pull request, so one person can maintain a data-heavy public site. A deterministic step decider runs the flow; a local 4B model triages each issue's risk tier (it can only raise it), Claude writes the spec and guards risky changes, while cheaper models (Codex, Gemini, Haiku) do most of the building and reviewing.</p>
+                        <ul class="project-proof">
+                            <li>Code commits only after typecheck, tests, a full build and a headless UI check pass; merge is refused unless every review is newer than the build</li>
+                            <li>The reviewer is always a different vendor than the builder; money, CPF, data and deploy changes (tier C) also get Opus security and Fable data reviews and wait for me</li>
+                            <li>First 2 days: 10 merged pull requests; hardening after an audit is in progress</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="./blueprint.html#fabrica" class="btn btn-secondary" data-track="Project: Clareia Factory - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                            <span class="tech-tag">Claude</span>
+                            <span class="tech-tag">Codex</span>
+                            <span class="tech-tag">Gemini</span>
+                        </div>
+                        </div>
+                    </article>
+
+                    <article class="project-item project-card" data-track="Project: kaizen-loop">
+                        <div class="project-visual project-visual-concept">
+                            <i class="fas fa-arrows-rotate"></i>
+                            <div><strong>Record → score → improve</strong><span>Stage 1 of 3 built</span></div>
+                            <span class="project-visual-label"><i class="fas fa-flask"></i> Agent evaluation</span>
+                        </div>
+                        <div class="project-card-body">
+                        <div class="project-card-kicker"><span>Open source · in progress</span><span>2026</span></div>
+                        <h3>kaizen-loop — Self-Improvement Loop for Coding Agents</h3>
+                        <p>Coding agents repeat the same mistakes because nothing they learn in one session reaches the next. kaizen-loop records every Claude Code session through a plugin hook, removes secrets before anything touches disk, and scores each task from real signals plus a blind judge.</p>
+                        <ul class="project-proof">
+                            <li>Score 0–10: blind-judge quality 40%, efficiency 30%, cost 30% against your own median; a failing last test run caps it at 4.0</li>
+                            <li>The judge never sees the model, repository or cost, and a calibrate command checks it against your own grades</li>
+                            <li>571 tests, Python standard library only; stages 2 and 3 (benchmark-gated skill rewrites shipped by pull request, local decision models) are designed, not built</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="./blueprint.html#kaizen" class="btn btn-secondary" data-track="Project: kaizen-loop - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://github.com/jvitorbarros15/kaizen-loop" class="btn" target="_blank" rel="noopener noreferrer" data-track="Project: kaizen-loop - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                        <div class="technologies">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Claude Code plugins</span>
+                            <span class="tech-tag">LLM-as-judge</span>
                         </div>
                         </div>
                     </article>
@@ -1091,9 +1148,30 @@
                         </div>
                         <div class="project-links">
                             <a href="./blueprint.html#clareia" class="btn" data-track="Current: Clareia - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="./blueprint.html#fabrica" class="btn" data-track="Current: Clareia - Factory"><i class="fas fa-industry"></i> Software Factory</a>
                             <a href="./case-studies/clareia.html" class="btn" data-track="Current: Clareia - Case Study"><i class="fas fa-book-open"></i> Case Study</a>
                             <a href="https://clareia.clareia.workers.dev" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - Live"><i class="fas fa-external-link-alt"></i> Live Site</a>
                             <a href="https://github.com/jvitorbarros15/clareia" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: Clareia - GitHub"><i class="fab fa-github"></i> View Code</a>
+                        </div>
+                    </div>
+
+                    <div class="current-project-card" data-track="Current: kaizen-loop">
+                        <div class="current-project-top">
+                            <div>
+                                <h3>kaizen-loop</h3>
+                                <p class="current-project-subtitle">Self-improvement loop for coding agents</p>
+                            </div>
+                            <span class="current-status status-research">Stage 1 of 3</span>
+                        </div>
+                        <p>Records every Claude Code session, redacts secrets, and scores each task from tests, retries, re-reads and cost plus a blind judge. Next: rewrite an agent's skills from recorded failures and ship a change only when it beats a benchmark with a hidden half.</p>
+                        <div class="technologies current-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Claude Code plugins</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="./blueprint.html#kaizen" class="btn" data-track="Current: kaizen-loop - Architecture"><i class="fas fa-drafting-compass"></i> Architecture</a>
+                            <a href="https://github.com/jvitorbarros15/kaizen-loop" class="btn" target="_blank" rel="noopener noreferrer" data-track="Current: kaizen-loop - GitHub"><i class="fab fa-github"></i> View Code</a>
                         </div>
                     </div>
 
