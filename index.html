@@ -688,8 +688,8 @@
                                 <li>Built a Google Scholar integration (ScraperAPI discovery; DOI and trigram title matching gated on PSU affiliation and email domain; 120-day refresh) run across <strong>11,000+ faculty</strong>, auto-matching <strong>40%</strong> and cutting scrape volume <strong>34%</strong>.</li>
                                 <li>Built a committee REST API with OpenAPI/Swagger docs, consumed by a four-endpoint importer with per-endpoint failure isolation and idempotent upserts, cutting manual departmental processing <strong>60%</strong>.</li>
                                 <li>Built a Python (Pandas) validation pipeline: <strong>17.7K</strong> faculty records to <strong>9.8K</strong> verified, cutting manual processing over <strong>90%</strong>.</li>
-                                <li>Helped design an AI-assisted PDF accessibility remediation pipeline (Rails, Sidekiq, AWS S3, Adobe PDF Services extraction and editing) in reviews with DevOps and leadership, for a platform supporting <strong>3M+ document uploads</strong>.</li>
-                                <li>Led the 2 other interns in our cohort: broke manager requests into scoped tickets, assigned work with deadlines, ran daily standups, and reported team progress to managers.</li>
+                                <li>Helped design an AI-assisted PDF accessibility pipeline (Sidekiq, AWS S3, Adobe PDF Services) for a <strong>3M+ upload</strong> platform.</li>
+                                <li>Led the 2 other interns in our cohort: scoped manager requests into tickets, assigned work, ran standups, and reported progress.</li>
                             </ul>
                         </article>
                         <article class="rv-entry">
@@ -728,6 +728,18 @@
                                 <li>Built a dual-capture ingestion pipeline that reconciles the open-data API against the annual expense file; a second implementation recomputes every total before release, holding about <strong>180 deputy-months</strong> for review instead of showing R$ 0.</li>
                                 <li>Cut first load from <strong>174 MB to 6.4 MB</strong> (613 to 28 requests) by precomputing aggregates, made ranking re-sorts <strong>9x faster</strong> (1.2 s to 0.13 s), and gated every deploy on a PII scan and Playwright checks.</li>
                                 <li>Built a read-only Go and PostgreSQL REST API (OpenAPI 3.1); k6 load tests exposed an endpoint re-aggregating 123K rows per request, and pre-aggregating at load time cut its p95 <strong>~190 ms to ~15 ms</strong> and raised zero-drop throughput <strong>168 to 850+ req/s</strong>.</li>
+                                <li>Built a multi-agent factory that takes a GitHub issue to a merged pull request: a local model triages risk; Claude Sonnet writes the spec; Haiku, Codex, Gemini and local models build; a different vendor's model reviews; Opus and Fable audit security-critical changes, which wait for my approval. <strong>17 PRs</strong> merged in its first 3 days.</li>
+                            </ul>
+                        </article>
+                        <article class="rv-entry">
+                            <header class="rv-entry-head">
+                                <h4><a href="https://github.com/jvitorbarros15/kaizen-loop" target="_blank" rel="noopener noreferrer">kaizen-loop, Self-Improvement Loop for Coding Agents</a></h4>
+                                <span class="rv-date">Nov 2026 – Present</span>
+                            </header>
+                            <p class="rv-org">Python, SQLite, Claude Code plugins</p>
+                            <ul class="rv-bullets">
+                                <li>Built an open-source Claude Code plugin that records every coding-agent session and reports where tokens are wasted and which mistakes keep repeating, so the agent's skills are fixed from evidence; <strong>571 tests</strong>.</li>
+                                <li>Scores each task 0–10 from tests, retries, cost and a blind LLM judge that never sees the model or repo; redacts secrets before disk.</li>
                             </ul>
                         </article>
                         <article class="rv-entry">
@@ -750,26 +762,15 @@
                                 <li>Shipped a live LLM study tool: AssemblyAI transcription plus LangChain/OpenAI chains into summaries, flashcards and quizzes.</li>
                             </ul>
                         </article>
-                        <article class="rv-entry">
-                            <header class="rv-entry-head">
-                                <h4>AI-Assisted Development Workflow</h4>
-                                <span class="rv-date">2026 – Present</span>
-                            </header>
-                            <p class="rv-org">Claude Code, Codex, Ollama, opencode, OmniRoute</p>
-                            <ul class="rv-bullets">
-                                <li>Route tasks by risk and cost: Opus plans and reviews, Fable audits high-risk changes, Sonnet, Codex and Haiku implement, and local Ollama models (via opencode) and OmniRoute take mechanical edits; independent re-runs catch fabricated agent results.</li>
-                            </ul>
-                        </article>
                     </section>
 
                     <section class="rv-section">
                         <h3>Technical Skills</h3>
                         <dl class="rv-skills">
                             <dt>Languages</dt><dd>Python, TypeScript, JavaScript, Ruby, SQL, Go</dd>
-                            <dt>Backend &amp; Data</dt><dd>Ruby on Rails, Node.js, REST APIs, PostgreSQL, Supabase, Firebase, Pandas, Swagger/OpenAPI</dd>
-                            <dt>Frontend</dt><dd>React, Next.js</dd>
+                            <dt>Frameworks &amp; Data</dt><dd>Ruby on Rails, Node.js, React, Next.js, REST APIs, PostgreSQL, SQLite, Supabase, Firebase, Pandas, OpenAPI</dd>
                             <dt>Cloud &amp; Tools</dt><dd>Cloudflare Workers and R2, AWS S3, Docker, Linux, GitHub Actions, CircleCI, Playwright, RSpec, Git</dd>
-                            <dt>AI</dt><dd>OpenAI API, LangChain, Claude Code, Codex, Ollama</dd>
+                            <dt>AI</dt><dd>OpenAI API, LangChain, Claude Code, Codex, Gemini, Ollama</dd>
                         </dl>
                     </section>
 
