@@ -2,7 +2,7 @@
 
 Interactive software-engineering portfolio presented as a Windows 11 desktop, with draggable application windows, a searchable Start menu, a working terminal, and customizable wallpaper.
 
-[Live portfolio](https://joao-vitor-barros-da-silva-portfoli.vercel.app) · [Recruiter quick view](https://joao-vitor-barros-da-silva-portfolio.vercel.app/recruiter.html) · [GitHub profile](https://github.com/jvitorbarros15) · [LinkedIn](https://www.linkedin.com/in/joao-vitor-barros-da-silva)
+[Live portfolio](https://www.joaovitorbarros.dev) · [Recruiter quick view](https://www.joaovitorbarros.dev/recruiter.html) · [GitHub profile](https://github.com/jvitorbarros15) · [LinkedIn](https://www.linkedin.com/in/joao-vitor-barros-da-silva)
 
 ![Portfolio desktop](docs/preview.png)
 
